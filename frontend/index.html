@@ -1,0 +1,3093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="AgriTrace - Farm-to-market traceability and transparent price discovery platform">
+
+    <meta name="theme-color" content="#020807">
+
+    <title>AgriTrace | Farm-to-Market Intelligence</title>
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="assets/agritrace-icon.svg">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         FUTURISTIC ANIMATED BACKGROUND
+         ===================================================== -->
+
+    <div class="agrifx-background" aria-hidden="true">
+
+        <!-- Perspective grid -->
+        <div class="agrifx-grid"></div>
+
+        <!-- Glowing ambient lights -->
+        <div class="agrifx-orb orb-1"></div>
+        <div class="agrifx-orb orb-2"></div>
+        <div class="agrifx-orb orb-3"></div>
+
+
+        <!-- Moving vehicles -->
+
+        <div class="agrifx-vehicle vehicle-1">
+            🚚
+            <span>AGRITRACE</span>
+        </div>
+
+        <div class="agrifx-vehicle vehicle-2">
+            🚛
+            <span>SMART LOGISTICS</span>
+        </div>
+
+        <div class="agrifx-vehicle vehicle-3">
+            🚚
+            <span>COLD CHAIN</span>
+        </div>
+
+
+        <!-- Floating agricultural elements -->
+
+        <div class="agrifx-crop crop-1">🌿</div>
+        <div class="agrifx-crop crop-2">🌾</div>
+        <div class="agrifx-crop crop-3">🍃</div>
+        <div class="agrifx-crop crop-4">🌱</div>
+        <div class="agrifx-crop crop-5">🌿</div>
+        <div class="agrifx-crop crop-6">🍃</div>
+        <div class="agrifx-crop crop-7">🌾</div>
+        <div class="agrifx-crop crop-8">🌱</div>
+
+
+        <!-- Blockchain nodes -->
+
+        <div class="agrifx-node node-1"></div>
+        <div class="agrifx-node node-2"></div>
+        <div class="agrifx-node node-3"></div>
+        <div class="agrifx-node node-4"></div>
+
+
+        <!-- Data streams -->
+
+        <div class="data-stream stream-1"></div>
+        <div class="data-stream stream-2"></div>
+        <div class="data-stream stream-3"></div>
+
+
+        <!-- Scanner -->
+
+        <div class="agrifx-scanline"></div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="site-header">
+
+        <nav class="navbar">
+
+            <!-- Brand -->
+
+            <a href="#home" class="brand">
+
+                <div class="brand-icon">
+                    🌱
+                </div>
+
+                <div class="brand-text">
+
+                    <strong>AgriTrace 𓅰 𓅬 𓅭 𓅮 𓅯</strong>
+
+                    <span>SMART AGRICULTURE NETWORK</span>
+
+                </div>
+
+            </a>
+
+
+            <!-- Desktop navigation -->
+
+            <div class="nav-links">
+
+                <a href="#home" id="nav-home" class="active">Home</a>
+                <a href="#dashboard" id="nav-dashboard">Dashboard</a>
+                <a href="#records" id="nav-traceability">Traceability</a>
+                <a href="#prices" id="nav-price">Price Discovery</a>
+                <a href="#sensors" id="nav-iot">IoT Monitoring</a>
+                <a href="#farmer" id="nav-farmer">Farmer</a>
+                <a href="#seller" id="nav-seller">Seller</a>
+                <a href="#consumer" id="nav-consumer">Verify</a>
+
+            </div>
+
+
+            <!-- Network status + Feature Actions -->
+
+            <div class="nav-actions">
+
+                <div id="networkBadge" class="network-badge">
+                    <span class="status-dot"></span>
+                    <span>Hardhat Local</span>
+                </div>
+
+                <!-- Camera Scan Button -->
+                <button id="openCameraBtn" class="nav-feat-btn" type="button" title="Scan Produce">
+                    📷
+                </button>
+
+                <!-- QR Scanner Button -->
+                <button id="openQRScannerBtn" class="nav-feat-btn" type="button" title="Scan QR Code">
+                    🔲
+                </button>
+
+                <!-- Voice Assistant Button -->
+                <button id="voiceToggleBtn" class="nav-feat-btn voice-btn" type="button" title="Voice Assistant">
+                    🗣️
+                </button>
+
+                <!-- Alerts Button -->
+                <button class="nav-feat-btn alerts-btn" type="button" title="Alerts"
+                    onclick="document.getElementById('alertsPanel').classList.toggle('open')">
+                    🔔
+                    <span id="alertBadge" class="alert-badge" style="display:none">0</span>
+                </button>
+
+                <button id="connectWalletBtn" class="wallet-button" type="button">
+                    <span>✰</span>
+                    Connect Wallet ᝰ.ᐟ
+                </button>
+
+            </div>
+
+
+            <!-- Mobile menu button -->
+
+            <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Open navigation">
+
+                ☰
+
+            </button>
+
+        </nav>
+
+
+        <!-- Mobile navigation -->
+
+        <div id="mobileMenu" class="mobile-menu">
+            <a href="#home" id="m-nav-home">Home</a>
+            <a href="#dashboard" id="m-nav-dashboard">Dashboard</a>
+            <a href="#records" id="m-nav-traceability">Traceability</a>
+            <a href="#prices" id="m-nav-price">Price Discovery</a>
+            <a href="#sensors" id="m-nav-iot">IoT Monitoring</a>
+            <a href="#farmer" id="m-nav-farmer">Farmer</a>
+            <a href="#seller" id="m-nav-seller">Seller</a>
+            <a href="#consumer" id="m-nav-consumer">Verify</a>
+            <!-- Mobile Feature Buttons -->
+            <div class="mobile-feat-btns">
+                <button onclick="document.getElementById('openCameraBtn').click()" type="button">📷 Scan
+                    Produce</button>
+                <button onclick="document.getElementById('openQRScannerBtn').click()" type="button">🔲 Scan QR</button>
+                <button onclick="document.getElementById('voiceToggleBtn').click()" type="button">🗣️ Voice</button>
+            </div>
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HERO
+             ================================================= -->
+
+        <section id="home" class="hero-section">
+
+            <div class="hero-content">
+
+
+                <!-- Live indicator -->
+
+                <div class="hero-status">
+
+                    <span class="pulse-dot"></span>
+
+                    <span>
+                        LIVE AGRICULTURAL INTELLIGENCE
+                    </span>
+
+                    <span class="status-line"></span>
+
+                    <span id="footerNetwork">
+                        HARDHAT LOCAL • CHAIN 31337
+                    </span>
+
+                </div>
+
+
+                <!-- Main title -->
+
+                <h1>
+
+                    FROM
+
+                    <span class="gradient-text">
+                        FARM
+                    </span>
+
+                    TO
+
+                    <span class="gradient-text">
+                        MARKET
+                    </span>
+
+                    <br>
+
+                    WITH
+
+                    <span class="outline-text">
+                        COMPLETE
+                    </span>
+
+                    <span class="gradient-text">
+                        TRANSPARENCY
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    A next-generation agricultural traceability
+                    network connecting farmers, logistics,
+                    markets and consumers through
+
+                    <strong>
+                        IoT + Blockchain + Transparent Pricing.
+                    </strong>
+
+                </p>
+
+
+                <!-- Hero buttons -->
+
+                <div class="hero-actions">
+
+                    <a href="#records" class="primary-button">
+
+                        <span>◆</span>
+
+                        Explore Traceability
+
+                    </a>
+
+
+                    <a href="#dashboard" class="secondary-button">
+
+                        View Live Network
+
+                        <span>→</span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- Technology indicators -->
+
+                <div class="hero-tech">
+
+                    <div class="tech-item">
+
+                        <span class="tech-icon">
+                            ⛓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                BLOCKCHAIN
+                            </strong>
+
+                            <small>
+                                VERIFIED
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tech-item">
+
+                        <span class="tech-icon">
+                            ◉
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                IoT SENSORS
+                            </strong>
+
+                            <small>
+                                REAL-TIME
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="tech-item">
+
+                        <span class="tech-icon">
+                            ₹
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                PRICE DATA
+                            </strong>
+
+                            <small>
+                                TRANSPARENT
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hero futuristic visual -->
+
+            <div class="hero-network">
+
+                <div class="network-ring ring-1"></div>
+
+                <div class="network-ring ring-2"></div>
+
+                <div class="network-ring ring-3"></div>
+
+
+                <div class="network-core">
+
+                    <div class="core-symbol">
+                        🌱
+                    </div>
+
+                    <strong>
+                        AGRITRACE
+                    </strong>
+
+                    <span>
+                        TRUSTED SUPPLY CHAIN
+                    </span>
+
+                </div>
+
+
+                <div class="network-node node-top">
+                    FARM
+                </div>
+
+                <div class="network-node node-right">
+                    MARKET
+                </div>
+
+                <div class="network-node node-bottom">
+                    CONSUMER
+                </div>
+
+                <div class="network-node node-left">
+                    LOGISTICS
+                </div>
+
+            </div>
+
+
+            <!-- Scroll indicator -->
+
+            <div class="scroll-indicator">
+
+                <span>
+                    SCROLL TO EXPLORE
+                </span>
+
+                <div class="scroll-line"></div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             DASHBOARD
+             ================================================= -->
+
+        <section id="dashboard" class="section dashboard-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        SYSTEM OVERVIEW
+                    </span>
+
+                    <h2>
+                        AGRITRACE
+                        <span class="gradient-text">
+                            COMMAND CENTER
+                        </span>
+                    </h2>
+
+                </div>
+
+
+                <div class="live-badge">
+
+                    <span class="pulse-dot"></span>
+
+                    SYSTEM ONLINE
+
+                </div>
+
+            </div>
+
+
+            <!-- Metrics -->
+
+            <div class="metrics-grid">
+
+
+                <div class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span>
+                            ⛓
+                        </span>
+
+                        <small>
+                            BLOCKCHAIN
+                        </small>
+
+                    </div>
+
+                    <strong id="metricOnchain">
+                        CONNECTING...
+                    </strong>
+
+                    <p>
+                        Network status
+                    </p>
+
+                    <div class="metric-line"></div>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span>
+                            ◉
+                        </span>
+
+                        <small>
+                            DATABASE
+                        </small>
+
+                    </div>
+
+                    <strong id="metricDatabase">
+                        CONNECTING...
+                    </strong>
+
+                    <p>
+                        PostgreSQL status
+                    </p>
+
+                    <div class="metric-line"></div>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span>
+                            #
+                        </span>
+
+                        <small>
+                            RECORDS
+                        </small>
+
+                    </div>
+
+                    <strong id="recordCount">
+                        0
+                    </strong>
+
+                    <p>
+                        Registered produce lots
+                    </p>
+
+                    <div class="metric-line"></div>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        <small>
+                            VERIFIED
+                        </small>
+
+                    </div>
+
+                    <strong id="verifiedCount">
+                        0
+                    </strong>
+
+                    <p>
+                        Blockchain verified
+                    </p>
+
+                    <div class="metric-line"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Architecture -->
+
+            <div class="architecture-card">
+
+                <div class="architecture-title">
+
+                    <span class="section-label">
+                        DATA FLOW
+                    </span>
+
+                    <h3>
+                        FARM → LOGISTICS → MARKET → CONSUMER
+                    </h3>
+
+                </div>
+
+
+                <div class="architecture-flow">
+
+
+                    <div class="flow-node">
+
+                        <div class="flow-icon">
+                            🌾
+                        </div>
+
+                        <strong>
+                            FARM
+                        </strong>
+
+                        <small>
+                            PRODUCE
+                        </small>
+
+                    </div>
+
+
+                    <div class="flow-connection">
+                        <span>→</span>
+                    </div>
+
+
+                    <div class="flow-node">
+
+                        <div class="flow-icon">
+                            📡
+                        </div>
+
+                        <strong>
+                            IoT
+                        </strong>
+
+                        <small>
+                            SENSOR DATA
+                        </small>
+
+                    </div>
+
+
+                    <div class="flow-connection">
+                        <span>→</span>
+                    </div>
+
+
+                    <div class="flow-node">
+
+                        <div class="flow-icon">
+                            ⛓
+                        </div>
+
+                        <strong>
+                            BLOCKCHAIN
+                        </strong>
+
+                        <small>
+                            VERIFICATION
+                        </small>
+
+                    </div>
+
+
+                    <div class="flow-connection">
+                        <span>→</span>
+                    </div>
+
+
+                    <div class="flow-node">
+
+                        <div class="flow-icon">
+                            🚚
+                        </div>
+
+                        <strong>
+                            LOGISTICS
+                        </strong>
+
+                        <small>
+                            TRACKING
+                        </small>
+
+                    </div>
+
+
+                    <div class="flow-connection">
+                        <span>→</span>
+                    </div>
+
+
+                    <div class="flow-node">
+
+                        <div class="flow-icon">
+                            🛒
+                        </div>
+
+                        <strong>
+                            MARKET
+                        </strong>
+
+                        <small>
+                            PRICE DATA
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TRACEABILITY
+             ================================================= -->
+
+        <section id="records" class="section records-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        BLOCKCHAIN TRACEABILITY
+                    </span>
+
+                    <h2>
+                        REGISTER
+                        <span class="gradient-text">
+                            PRODUCE
+                        </span>
+                    </h2>
+
+                    <p>
+                        Create a farm-to-market record and
+                        anchor its metadata to the blockchain.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="two-column-layout">
+
+
+                <!-- Record form -->
+
+                <div class="glass-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-number">
+                                01
+                            </span>
+
+                            <h3>
+                                New Produce Record
+                            </h3>
+
+                        </div>
+
+                        <span class="card-status">
+                            ON-CHAIN
+                        </span>
+
+                    </div>
+
+
+                    <form id="recordForm" class="data-form">
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="lotId">
+                                    LOT ID
+                                </label>
+
+                                <input id="lotId" name="lotId" type="text" placeholder="Example: LOT011" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="cropName">
+                                    CROP NAME
+                                </label>
+
+                                <input id="cropName" name="cropName" type="text" placeholder="Example: TOMATO" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="origin">
+                                    FARM / ORIGIN
+                                </label>
+
+                                <input id="origin" name="origin" type="text" placeholder="Farm location" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="harvestDate">
+                                    HARVEST DATE
+                                </label>
+
+                                <input id="harvestDate" name="harvestDate" type="date" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="qualityGrade">
+                                    QUALITY GRADE
+                                </label>
+
+                                <select id="qualityGrade" name="qualityGrade">
+
+                                    <option value="">
+                                        Select grade
+                                    </option>
+
+                                    <option value="A">
+                                        Grade A
+                                    </option>
+
+                                    <option value="B">
+                                        Grade B
+                                    </option>
+
+                                    <option value="C">
+                                        Grade C
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="storageTemperature">
+                                    STORAGE TEMPERATURE °C
+                                </label>
+
+                                <input id="storageTemperature" name="storageTemperature" type="number" step="0.1"
+                                    placeholder="7.2">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="storageHumidity">
+                                    STORAGE HUMIDITY %
+                                </label>
+
+                                <input id="storageHumidity" name="storageHumidity" type="number" step="0.1"
+                                    placeholder="78">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="farmerPrice">
+                                    FARMER PRICE ₹
+                                </label>
+
+                                <input id="farmerPrice" name="farmerPrice" type="number" min="0" step="0.01"
+                                    placeholder="55" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="consumerPrice">
+                                    CONSUMER PRICE ₹
+                                </label>
+
+                                <input id="consumerPrice" name="consumerPrice" type="number" min="0" step="0.01"
+                                    placeholder="66" required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button type="submit" class="primary-button">
+
+                                CREATE & VERIFY
+
+                                <span>
+                                    →
+                                </span>
+
+                            </button>
+
+                            <div id="recordFormStatus" class="form-status"></div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+
+                <!-- Records information -->
+
+                <div class="glass-card information-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-number">
+                                02
+                            </span>
+
+                            <h3>
+                                Traceability Engine
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature-list">
+
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+                                🌱
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Farm Origin
+                                </strong>
+
+                                <p>
+                                    Record the origin and
+                                    harvest information.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+                                🔐
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Immutable Metadata
+                                </strong>
+
+                                <p>
+                                    Generate a cryptographic
+                                    metadata fingerprint.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+                                ⛓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Blockchain Verification
+                                </strong>
+
+                                <p>
+                                    Verify the produce record
+                                    on the blockchain.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+                                📱
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Future QR Traceability
+                                </strong>
+
+                                <p>
+                                    Connect consumers directly
+                                    to verified product history.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Records table -->
+
+            <div class="glass-card records-table-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="card-number">
+                            LIVE
+                        </span>
+
+                        <h3>
+                            Produce Registry
+                        </h3>
+
+                    </div>
+
+
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input id="recordSearchInput" type="text" placeholder="🔍 Filter lot, crop, origin..."
+                            style="background: rgba(2, 7, 6, 0.6); border: 1px solid rgba(57, 255, 136, 0.2); border-radius: 9px; padding: 7px 14px; color: var(--white); font-size: 9px; outline: none; width: 200px;">
+                        <button id="refreshRecordsBtn" type="button" class="small-button">
+                            ↻ Refresh
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div id="recordsState" class="records-state">
+
+                    Loading records...
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    LOT ID
+                                </th>
+
+                                <th>
+                                    CROP
+                                </th>
+
+                                <th>
+                                    ORIGIN
+                                </th>
+
+                                <th>
+                                    HARVEST
+                                </th>
+
+                                <th>
+                                    PRICE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    AUTHENTICITY
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="recordsBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- Traceability & Authenticity Detail Modal -->
+                <div id="traceModal"
+                    style="display: none; margin-top: 24px; padding: 22px; background: rgba(7, 20, 17, 0.95); border: 1px solid rgba(78, 255, 158, 0.25); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(78, 255, 158, 0.15); padding-bottom: 12px;">
+                        <div>
+                            <span class="card-number" style="font-size: 8px; color: var(--green);">AUTHENTICITY
+                                VERIFICATION</span>
+                            <h3 id="traceModalTitle" style="margin: 4px 0 0 0; font-size: 15px; color: var(--white);">
+                                Batch Lifecycle & Provenance</h3>
+                        </div>
+                        <button id="closeTraceModalBtn" type="button" class="small-button"
+                            style="border-color: rgba(255,255,255,0.2); color: var(--muted); cursor: pointer;">✕
+                            Close</button>
+                    </div>
+                    <div id="traceModalContent">
+                        <!-- Populated dynamically by app.js -->
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================
+             PRICE DISCOVERY
+             ================================================= -->
+
+        <section id="prices" class="section price-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        TRANSPARENT PRICE DISCOVERY
+                    </span>
+
+                    <h2>
+                        FOLLOW THE
+                        <span class="gradient-text">
+                            VALUE CHAIN
+                        </span>
+                    </h2>
+
+                    <p>
+                        Compare farmer, trader, market and
+                        consumer prices from one transparent record.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="two-column-layout">
+
+
+                <!-- Price form -->
+
+                <div class="glass-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-number">
+                                03
+                            </span>
+
+                            <h3>
+                                Record Market Prices
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <form id="priceForm" class="data-form">
+
+
+                        <div class="form-group">
+
+                            <label for="priceLotId">
+                                LOT ID
+                            </label>
+
+                            <input id="priceLotId" type="text" placeholder="Example: LOT010" required>
+
+                        </div>
+
+
+                        <div class="price-input-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="priceFarmer">
+                                    FARMER ₹
+                                </label>
+
+                                <input id="priceFarmer" type="number" min="0" step="0.01" placeholder="55" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="priceTrader">
+                                    TRADER ₹
+                                </label>
+
+                                <input id="priceTrader" type="number" min="0" step="0.01" placeholder="58" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="priceMarket">
+                                    MARKET ₹
+                                </label>
+
+                                <input id="priceMarket" type="number" min="0" step="0.01" placeholder="62" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="priceConsumer">
+                                    CONSUMER ₹
+                                </label>
+
+                                <input id="priceConsumer" type="number" min="0" step="0.01" placeholder="66" required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button type="submit" class="primary-button">
+
+                                RECORD ON BLOCKCHAIN
+
+                                <span>
+                                    →
+                                </span>
+
+                            </button>
+
+                            <div id="operatorPriceStatus" class="form-status"></div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+
+                <!-- Price visualization -->
+
+                <div class="glass-card price-visual-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-number">
+                                LIVE
+                            </span>
+
+                            <h3>
+                                Price Distribution
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="price-bars">
+
+
+                        <div class="price-row">
+
+                            <div class="price-label">
+
+                                <span>
+                                    Farmer
+                                </span>
+
+                                <strong>
+                                    ₹<span id="farmerPriceValue">
+                                        0
+                                    </span>
+                                </strong>
+
+                            </div>
+
+                            <div class="price-bar">
+
+                                <div id="priceFarmerBar" class="price-fill farmer-bar" style="width:0%"></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="price-row">
+
+                            <div class="price-label">
+
+                                <span>
+                                    Consumer
+                                </span>
+
+                                <strong>
+                                    ₹<span id="consumerPriceValue">
+                                        0
+                                    </span>
+                                </strong>
+
+                            </div>
+
+                            <div class="price-bar">
+
+                                <div id="priceConsumerBar" class="price-fill consumer-bar" style="width:0%"></div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="capture-panel">
+
+                        <span>
+                            FARMER VALUE CAPTURE
+                        </span>
+
+                        <strong>
+                            <span id="capturePct">
+                                0
+                            </span>%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="price-explanation">
+
+                        <span>
+                            ⓘ
+                        </span>
+
+                        <p>
+                            Transparent price recording helps
+                            visualize how value changes across
+                            the agricultural supply chain.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             IoT SENSOR MONITORING
+             ================================================= -->
+
+        <section id="sensors" class="section sensor-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        IoT COLD-CHAIN MONITORING
+                    </span>
+
+                    <h2>
+                        REAL-TIME
+                        <span class="gradient-text">
+                            SENSOR INTELLIGENCE
+                        </span>
+                    </h2>
+
+                    <p>
+                        Monitor temperature, humidity and
+                        spoilage risk throughout transportation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="two-column-layout">
+
+
+                <!-- Sensor form -->
+
+                <div class="glass-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-number">
+                                04
+                            </span>
+
+                            <h3>
+                                Record Sensor Reading
+                            </h3>
+
+                        </div>
+
+                        <span class="card-status">
+                            IoT READY
+                        </span>
+
+                    </div>
+
+
+                    <form id="sensorForm" class="data-form">
+
+
+                        <div class="form-group">
+
+                            <label for="sensorLotId">
+                                LOT ID
+                            </label>
+
+                            <input id="sensorLotId" type="text" placeholder="Example: LOT010" required>
+
+                        </div>
+
+
+                        <div class="sensor-input-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="temperatureInput">
+                                    TEMPERATURE °C
+                                </label>
+
+                                <input id="temperatureInput" type="number" step="0.1" placeholder="7.2" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="humidityInput">
+                                    HUMIDITY %
+                                </label>
+
+                                <input id="humidityInput" type="number" step="0.1" placeholder="78" required>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="spoilageRiskInput">
+                                    SPOILAGE RISK %
+                                </label>
+
+                                <input id="spoilageRiskInput" type="number" min="0" max="100" step="0.1"
+                                    placeholder="12" required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button type="submit" class="primary-button">
+
+                                WRITE SENSOR DATA
+
+                                <span>
+                                    →
+                                </span>
+
+                            </button>
+
+                            <div id="operatorSensorStatus" class="form-status"></div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+
+                <!-- Sensor dashboard -->
+
+                <div class="glass-card sensor-dashboard">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-number">
+                                LIVE
+                            </span>
+
+                            <h3>
+                                Cold Chain Status
+                            </h3>
+
+                        </div>
+
+                        <span class="live-badge">
+                            ● LIVE
+                        </span>
+
+                    </div>
+
+
+                    <!-- Temperature -->
+
+                    <div class="sensor-item">
+
+                        <div class="sensor-header">
+
+                            <div>
+
+                                <span class="sensor-icon">
+                                    🌡
+                                </span>
+
+                                <strong>
+                                    Temperature
+                                </strong>
+
+                            </div>
+
+                            <strong>
+                                <span id="tempValue">
+                                    --
+                                </span> °C
+                            </strong>
+
+                        </div>
+
+
+                        <div class="sensor-meter">
+
+                            <div id="tempMeter" class="sensor-meter-fill" style="width:0%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Humidity -->
+
+                    <div class="sensor-item">
+
+                        <div class="sensor-header">
+
+                            <div>
+
+                                <span class="sensor-icon">
+                                    💧
+                                </span>
+
+                                <strong>
+                                    Humidity
+                                </strong>
+
+                            </div>
+
+                            <strong>
+                                <span id="humidityValue">
+                                    --
+                                </span> %
+                            </strong>
+
+                        </div>
+
+
+                        <div class="sensor-meter">
+
+                            <div id="humidityMeter" class="sensor-meter-fill" style="width:0%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Spoilage -->
+
+                    <div class="sensor-item">
+
+                        <div class="sensor-header">
+
+                            <div>
+
+                                <span class="sensor-icon">
+                                    ⚠
+                                </span>
+
+                                <strong>
+                                    Spoilage Risk
+                                </strong>
+
+                            </div>
+
+                            <strong>
+                                <span id="riskValue">
+                                    --
+                                </span> %
+                            </strong>
+
+                        </div>
+
+
+                        <div class="sensor-meter">
+
+                            <div id="riskMeter" class="sensor-meter-fill risk-fill" style="width:0%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FEATURES
+             ================================================= -->
+
+        <section id="features" class="section features-section">
+
+            <div class="section-header centered">
+
+                <span class="section-label">
+                    AGRITRACE TECHNOLOGY STACK
+                </span>
+
+                <h2>
+
+                    ONE PLATFORM.
+
+                    <span class="gradient-text">
+                        COMPLETE VISIBILITY.
+                    </span>
+
+                </h2>
+
+                <p>
+                    A connected ecosystem for transparent
+                    agricultural supply chains.
+                </p>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+
+                <article class="feature-card">
+
+                    <div class="feature-big-icon">
+                        ⛓
+                    </div>
+
+                    <span>
+                        01
+                    </span>
+
+                    <h3>
+                        Blockchain Traceability
+                    </h3>
+
+                    <p>
+                        Tamper-resistant produce records,
+                        verification and transaction history.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-big-icon">
+                        📡
+                    </div>
+
+                    <span>
+                        02
+                    </span>
+
+                    <h3>
+                        IoT Cold Chain
+                    </h3>
+
+                    <p>
+                        Capture temperature, humidity and
+                        spoilage risk during transportation.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-big-icon">
+                        ₹💵
+                    </div>
+
+                    <span>
+                        03
+                    </span>
+
+                    <h3>
+                        Price Discovery
+                    </h3>
+
+                    <p>
+                        Compare farmer, trader, market and
+                        consumer prices transparently.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-big-icon">
+                        𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃
+                    </div>
+
+                    <span>
+                        04
+                    </span>
+
+                    <h3>
+                        QR Traceability
+                    </h3>
+
+                    <p>
+                        Future-ready product identity connecting
+                        consumers to the complete journey.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-big-icon">
+                        🚜
+                    </div>
+
+                    <span>
+                        05
+                    </span>
+
+                    <h3>
+                        Smart Logistics
+                    </h3>
+
+                    <p>
+                        Connect transportation events with
+                        real-time supply-chain intelligence.
+                    </p>
+
+                </article>
+
+
+                <article class="feature-card">
+
+                    <div class="feature-big-icon">
+                        ⚛🇦🇮
+                    </div>
+
+                    <span>
+                        06
+                    </span>
+
+                    <h3>
+                        AI Quality Intelligence
+                    </h3>
+
+                    <p>
+                        Future integration for automated
+                        crop-quality inspection and analysis.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CTA
+             ================================================= -->
+
+        <section id="solutions" class="cta-section">
+
+            <div class="cta-grid"></div>
+
+            <div class="cta-content">
+
+                <span class="section-label">
+                    THE FUTURE OF AGRICULTURE
+                </span>
+
+                <h2>
+
+                    EVERY CROP.
+
+                    <br>
+
+                    EVERY JOURNEY.
+
+                    <br>
+
+                    <span class="gradient-text">
+                        EVERY TRANSACTION.
+                    </span>
+
+                </h2>
+
+                <p>
+                    AgriTrace transforms agricultural supply
+                    chains into a connected, transparent and
+                    verifiable digital ecosystem.
+                </p>
+
+
+                <a href="#records" class="primary-button">
+
+                    START TRACEABILITY
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FARMER DASHBOARD
+             ================================================= -->
+
+        <section id="farmer" class="section farmer-section">
+
+            <div class="section-header">
+                <div>
+                    <span class="section-label">FARMER PORTAL</span>
+                    <h2>FARMER <span class="gradient-text">DASHBOARD</span></h2>
+                    <p>Manage your produce, track earnings, view offers and generate QR codes for each batch.</p>
+                </div>
+                <div class="live-badge"><span class="pulse-dot"></span>LIVE</div>
+            </div>
+
+            <!-- Farmer profile + earnings -->
+            <div class="two-column-layout">
+
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div><span class="card-number">F1</span>
+                            <h3>Farmer Profile</h3>
+                        </div>
+                        <span class="card-status">ACTIVE</span>
+                    </div>
+                    <div id="farmerInfo">Loading...</div>
+                    <div style="margin-top:20px;">
+                        <div id="farmerEarnings"></div>
+                    </div>
+                </div>
+
+                <!-- Smart Alerts -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div><span class="card-number">🔔</span>
+                            <h3>Smart Alerts</h3>
+                        </div>
+                        <span class="live-badge">● LIVE</span>
+                    </div>
+                    <div id="smartAlertsList" class="alerts-list"></div>
+                </div>
+
+            </div>
+
+            <!-- Produce List -->
+            <div class="glass-card" style="margin-top:24px;">
+                <div class="card-header">
+                    <div><span class="card-number">F2</span>
+                        <h3>My Produce Batches</h3>
+                    </div>
+                    <button class="small-button" onclick="renderFarmerDashboard()">↻ Refresh</button>
+                </div>
+                <div id="farmerProduceList" class="produce-list"></div>
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SELLER MARKETPLACE
+             ================================================= -->
+
+        <section id="seller" class="section seller-section">
+
+            <div class="section-header">
+                <div>
+                    <span class="section-label">LIVE MARKETPLACE</span>
+                    <h2>SELLER <span class="gradient-text">MARKETPLACE</span></h2>
+                    <p>Browse verified produce listings, make offers and track purchased batches through the supply
+                        chain.</p>
+                </div>
+            </div>
+
+            <!-- Search & Filter -->
+            <div class="marketplace-controls">
+                <input id="sellerSearchInput" type="text" placeholder="🔍 Search produce, origin, grade, farmer..."
+                    class="marketplace-search" />
+                <div class="seller-filters">
+                    <button class="seller-filter-btn active" data-filter="" type="button">All</button>
+                    <button class="seller-filter-btn" data-filter="mango" type="button">🥭 Mango</button>
+                    <button class="seller-filter-btn" data-filter="tomato" type="button">🍅 Tomato</button>
+                    <button class="seller-filter-btn" data-filter="banana" type="button">🍌 Banana</button>
+                    <button class="seller-filter-btn" data-filter="onion" type="button">🧅 Onion</button>
+                    <button class="seller-filter-btn" data-filter="A+" type="button">⭐ Grade A+</button>
+                    <button class="seller-filter-btn" data-filter="verified" type="button">✓ Verified Only</button>
+                </div>
+            </div>
+
+            <!-- Listings Grid -->
+            <div id="sellerListingGrid" class="seller-listing-grid"></div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CONSUMER VERIFICATION
+             ================================================= -->
+
+        <section id="consumer" class="section consumer-section">
+
+            <div class="section-header centered">
+                <span class="section-label">CONSUMER TRACEABILITY</span>
+                <h2>VERIFY YOUR <span class="gradient-text">PRODUCE</span></h2>
+                <p>Scan a QR code or enter a Lot ID to see the complete farm-to-market journey of your produce.</p>
+            </div>
+
+            <div class="two-column-layout">
+
+                <!-- Lookup card -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div><span class="card-number">📱</span>
+                            <h3>Scan or Lookup</h3>
+                        </div>
+                        <span class="card-status">LIVE</span>
+                    </div>
+                    <div class="consumer-lookup">
+                        <div class="consumer-qr-icon">📷</div>
+                        <p style="color:var(--muted);font-size:12px;margin-bottom:16px;">Point your camera at a produce
+                            QR or enter the Lot ID manually</p>
+                        <div class="consumer-input-row">
+                            <input id="consumerLotInput" type="text" placeholder="Enter Lot ID (e.g. DEMO-AGR-0001)"
+                                class="consumer-lot-input" />
+                            <button id="consumerScanBtn" class="primary-button" type="button">VERIFY
+                                <span>→</span></button>
+                        </div>
+                        <!-- Demo quick scans -->
+                        <div class="consumer-demo-row">
+                            <span style="color:var(--muted);font-size:10px;">DEMO RECORDS:</span>
+                            <button class="consumer-demo-scan small-button" data-lot-id="DEMO-AGR-0001" type="button">🥭
+                                Alphonso Mango</button>
+                            <button class="consumer-demo-scan small-button" data-lot-id="DEMO-AGR-0002" type="button">🍅
+                                Roma Tomato</button>
+                            <button class="consumer-demo-scan small-button" data-lot-id="FARM-LOT-001" type="button">🥭
+                                FARM-LOT-001</button>
+                            <button class="consumer-demo-scan small-button" data-lot-id="FARM-LOT-005" type="button">🍌
+                                Banana</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info card -->
+                <div class="glass-card information-card">
+                    <div class="card-header">
+                        <div><span class="card-number">ℹ️</span>
+                            <h3>What You'll See</h3>
+                        </div>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🌾</div>
+                            <div><strong>Farm Origin</strong>
+                                <p>Where and when the produce was harvested.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👨‍🌾</div>
+                            <div><strong>Farmer Details</strong>
+                                <p>Verified farmer identity and location.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌡️</div>
+                            <div><strong>Cold Chain</strong>
+                                <p>Temperature and humidity throughout transport.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💰</div>
+                            <div><strong>Price Transparency</strong>
+                                <p>Compare farmer price vs consumer price.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⛓</div>
+                            <div><strong>Blockchain Proof</strong>
+                                <p>Immutable on-chain record with transaction hash.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Result -->
+            <div id="consumerTraceResult" class="glass-card" style="display:none;margin-top:24px;"></div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-main">
+
+
+            <div class="footer-brand">
+
+                <div class="brand">
+
+                    <div class="brand-icon">
+                        🌱
+                    </div>
+
+                    <div class="brand-text">
+
+                        <strong>
+                            AgriTrace
+                        </strong>
+
+                        <span>
+                            FARM-TO-MARKET INTELLIGENCE
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <p>
+                    Building a transparent and trusted
+                    agricultural supply chain through
+                    blockchain and IoT technology.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    PLATFORM
+                </h4>
+
+                <a href="#dashboard">
+                    Dashboard
+                </a>
+
+                <a href="#records">
+                    Traceability
+                </a>
+
+                <a href="#prices">
+                    Price Discovery
+                </a>
+
+                <a href="#sensors">
+                    IoT Monitoring
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    TECHNOLOGY
+                </h4>
+
+                <span>
+                    Ethereum / Hardhat
+                </span>
+
+                <span>
+                    PostgreSQL
+                </span>
+
+                <span>
+                    Node.js API
+                </span>
+
+                <span>
+                    IoT Sensors
+                </span>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    NETWORK
+                </h4>
+
+                <span>
+                    Chain ID: 31337
+                </span>
+
+                <span>
+                    Hardhat Local
+                </span>
+
+                <span>
+                    Smart Contract
+                </span>
+
+                <span id="contractLabel">
+                    Configured
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Language Switcher -->
+        <div class="footer-lang">
+            <span class="section-label">LANGUAGE / மொழி / भाषा</span>
+            <div id="langSwitcher" class="lang-switcher"></div>
+        </div>
+
+        <div class="footer-bottom">
+            <span id="footerRights">© 2026 AgriTrace. All rights reserved.</span>
+            <span>BUILT FOR TRANSPARENT AGRICULTURE</span>
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         VOICE ASSISTANT PANEL
+         ===================================================== -->
+
+    <div id="voicePanel" class="voice-panel">
+        <div class="voice-panel-header">
+            <div>
+                <span style="font-size:22px;">🤖</span>
+                <div>
+                    <strong>AgriTrace Voice Assistant</strong>
+                    <small>Ask anything about produce & prices</small>
+                </div>
+            </div>
+            <div class="voice-header-actions">
+                <button id="voiceMuteBtn" type="button" class="voice-tool-btn" title="Toggle Mute (🔊 / 🔇)">
+                    <span id="voiceMuteIcon">🔊</span>
+                </button>
+                <button id="voiceCloseBtn" type="button" class="voice-close-btn" title="Close Panel">✕</button>
+            </div>
+        </div>
+        <div class="voice-audio-bar">
+            <div class="voice-audio-meta">
+                <span class="voice-audio-label">Voice Volume</span>
+                <span id="voiceVolVal" class="voice-audio-pct">100%</span>
+            </div>
+            <div class="voice-slider-wrap">
+                <span class="vol-icon-min" title="Zero volume">🔈</span>
+                <input id="voiceVolumeSlider" type="range" min="0" max="100" value="100" class="voice-vol-slider"
+                    aria-label="Voice volume control" />
+                <span class="vol-icon-max" title="Full volume">🔊</span>
+            </div>
+        </div>
+        <div id="voiceLog" class="voice-log">
+            <div class="voice-bubble voice-bubble-assistant">
+                <span class="voice-bubble-icon">🤖</span>
+                <span>Hello! I'm your AgriTrace assistant. Click the mic or ask me a quick question below.</span>
+            </div>
+        </div>
+        <div class="voice-quick-actions">
+            <button class="voice-quick-btn" data-cmd="price of tomato" type="button">🍅 Tomato Price</button>
+            <button class="voice-quick-btn" data-cmd="price of mango" type="button">🥭 Mango Price</button>
+            <button class="voice-quick-btn" data-cmd="go to farmer dashboard" type="button">👨‍🌾 Farmer</button>
+            <button class="voice-quick-btn" data-cmd="show alerts" type="button">🔔 Alerts</button>
+            <button class="voice-quick-btn" data-cmd="go to seller marketplace" type="button">🏪 Seller</button>
+            <button class="voice-quick-btn" data-cmd="help" type="button">❓ Help</button>
+        </div>
+        <div class="voice-input-row">
+            <button id="voiceMicBtn" class="voice-mic-btn" type="button" title="Hold to speak">
+                <span>🎤</span>
+            </button>
+            <span class="voice-hint">Click mic to speak</span>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         ALERTS PANEL
+         ===================================================== -->
+
+    <div id="alertsPanel" class="alerts-panel">
+        <div class="alerts-panel-header">
+            <strong>🔔 Smart Alerts</strong>
+            <button type="button" onclick="document.getElementById('alertsPanel').classList.remove('open')"
+                class="voice-close-btn">✕</button>
+        </div>
+        <div id="smartAlertsListSidebar"></div>
+    </div>
+
+
+
+    <!-- =====================================================
+         CAMERA MODAL
+         ===================================================== -->
+
+    <div id="cameraModal" class="feat-modal">
+        <div class="feat-modal-box">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">📷</span>
+                    <h3>Camera Produce Scanner</h3>
+                </div>
+                <button id="closeCameraBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+            <div id="cameraFeed" class="camera-feed">
+                <video id="cameraVideo" autoplay playsinline muted
+                    style="width:100%;height:100%;object-fit:cover;border-radius:12px;"></video>
+            </div>
+            <div id="recognitionLoader" class="recognition-loader" style="display:none;">
+                <div class="scan-spinner"></div>
+                <span>AI Analyzing produce…</span>
+            </div>
+            <div id="cameraProduceResult" style="display:none;"></div>
+            <div id="produceSelectorGrid" class="produce-selector-grid" style="display:none;"></div>
+            <div class="camera-actions">
+                <button id="captureProduceBtn" class="primary-button" type="button">📷 Identify Produce</button>
+                <button type="button" class="small-button" onclick="showProduceSelector()">🌾 Manual Select</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         QR SCANNER MODAL
+         ===================================================== -->
+
+    <div id="qrScannerModal" class="feat-modal">
+        <div class="feat-modal-box feat-modal-wide">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">🔲</span>
+                    <h3>QR Traceability Scanner</h3>
+                </div>
+                <button id="closeQRScannerBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+            <div class="qr-scanner-layout">
+                <div>
+                    <div id="qrCameraFeed" class="camera-feed qr-camera-feed">
+                        <video id="qrScanVideo" autoplay playsinline muted
+                            style="width:100%;height:100%;object-fit:cover;border-radius:12px;"></video>
+                    </div>
+                    <div class="qr-manual-row">
+                        <input id="qrManualInput" type="text" placeholder="Or type Lot ID manually..."
+                            class="qr-manual-input" />
+                        <button id="qrLookupBtn" class="small-button" type="button">🔍 Lookup</button>
+                    </div>
+                    <!-- Demo quick scan -->
+                    <div class="qr-demo-row">
+                        <span style="font-size:10px;color:var(--muted);">DEMO LOTS:</span>
+                        <button class="qr-demo-btn small-button" data-lot-id="DEMO-AGR-0001" type="button">🥭
+                            DEMO-AGR-0001</button>
+                        <button class="qr-demo-btn small-button" data-lot-id="DEMO-AGR-0002" type="button">🍅
+                            DEMO-AGR-0002</button>
+                        <button class="qr-demo-btn small-button" data-lot-id="FARM-LOT-001" type="button">🥭
+                            FARM-LOT-001</button>
+                        <button class="qr-demo-btn small-button" data-lot-id="FARM-LOT-005" type="button">🍌
+                            FARM-LOT-005</button>
+                    </div>
+                </div>
+                <div id="qrScanResult" style="display:none;overflow-y:auto;max-height:70vh;"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         BATCH QR MODAL
+         ===================================================== -->
+
+    <div id="batchQRModal" class="feat-modal">
+        <div class="feat-modal-box feat-modal-sm">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">🔲</span>
+                    <h3>Batch QR Code</h3>
+                </div>
+                <button id="closeBatchQRBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+            <div style="text-align:center;padding:20px;">
+                <div class="section-label" style="margin-bottom:8px;">LOT ID</div>
+                <div id="batchQRLotId" style="color:var(--green);font-size:16px;font-weight:700;margin-bottom:16px;">
+                </div>
+                <div id="batchQRCode" style="display:flex;justify-content:center;margin-bottom:16px;"></div>
+                <p style="font-size:11px;color:var(--muted);">Scan this QR code to instantly access the full
+                    traceability record of this batch.</p>
+                <button class="primary-button" style="margin-top:16px;" onclick="window.print()">🖨️ Print QR</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         OFFERS MODAL
+         ===================================================== -->
+
+    <div id="offersModal" class="feat-modal">
+        <div class="feat-modal-box">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">💰</span>
+                    <h3 id="offersModalTitle">Seller Offers</h3>
+                </div>
+                <button id="closeOffersModalBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+            <div id="offersModalContent" class="offers-list"></div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div id="toast" class="toast" role="status" aria-live="polite">
+
+        <div class="toast-icon">
+            ✓
+        </div>
+
+        <div>
+
+            <strong id="toastTitle">
+                AgriTrace
+            </strong>
+
+            <p id="toastMessage">
+                System ready.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ETHERS
+         ===================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+
+
+    <!-- =====================================================
+         AGRITRACE BLOCKCHAIN
+         ===================================================== -->
+
+    <script src="js/blockchain.js"></script>
+
+
+    <!-- =====================================================
+         WALLET
+         ===================================================== -->
+
+    <script src="js/wallet.js"></script>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION
+         ===================================================== -->
+
+    <script src="js/app.js"></script>
+
+
+    <!-- =====================================================
+         AGRITRACE FEATURES (Multi-lang, Voice, Camera, QR, Marketplace)
+         ===================================================== -->
+
+    <script src="js/features.js"></script>
+
+
+
+    <!-- =====================================================
+         SMALL UI ENHANCEMENTS
+         ===================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                /* -----------------------------------------
+                   Mobile menu
+                   ----------------------------------------- */
+
+                const mobileButton =
+                    document.getElementById("mobileMenuBtn");
+
+                const mobileMenu =
+                    document.getElementById("mobileMenu");
+
+
+                if (mobileButton && mobileMenu) {
+
+                    mobileButton.addEventListener(
+                        "click",
+                        () => {
+
+                            mobileMenu.classList.toggle(
+                                "open"
+                            );
+
+                        }
+                    );
+
+
+                    mobileMenu
+                        .querySelectorAll("a")
+                        .forEach(link => {
+
+                            link.addEventListener(
+                                "click",
+                                () => {
+
+                                    mobileMenu.classList.remove(
+                                        "open"
+                                    );
+
+                                }
+                            );
+
+                        });
+
+                }
+
+
+
+                /* -----------------------------------------
+                   Navigation active state
+                   ----------------------------------------- */
+
+                const sections =
+                    document.querySelectorAll(
+                        "main section[id]"
+                    );
+
+                const navLinks =
+                    document.querySelectorAll(
+                        ".nav-links a"
+                    );
+
+
+                window.addEventListener(
+                    "scroll",
+                    () => {
+
+                        let current = "home";
+
+
+                        sections.forEach(section => {
+
+                            const top =
+                                section.offsetTop - 180;
+
+
+                            if (
+                                window.scrollY >= top
+                            ) {
+
+                                current =
+                                    section.getAttribute(
+                                        "id"
+                                    );
+
+                            }
+
+                        });
+
+
+                        navLinks.forEach(link => {
+
+                            link.classList.remove(
+                                "active"
+                            );
+
+
+                            const href =
+                                link.getAttribute(
+                                    "href"
+                                );
+
+
+                            if (
+                                href === `#${current}`
+                            ) {
+
+                                link.classList.add(
+                                    "active"
+                                );
+
+                            }
+
+                        });
+
+                    }
+                );
+
+
+
+                /* -----------------------------------------
+                   Smooth scrolling
+                   ----------------------------------------- */
+
+                document
+                    .querySelectorAll(
+                        'a[href^="#"]'
+                    )
+                    .forEach(link => {
+
+                        link.addEventListener(
+                            "click",
+                            event => {
+
+                                const targetId =
+                                    link
+                                        .getAttribute(
+                                            "href"
+                                        )
+                                        .substring(1);
+
+
+                                const target =
+                                    document.getElementById(
+                                        targetId
+                                    );
+
+
+                                if (target) {
+
+                                    event.preventDefault();
+
+
+                                    target.scrollIntoView({
+                                        behavior:
+                                            "smooth",
+                                        block:
+                                            "start"
+                                    });
+
+                                }
+
+                            }
+                        );
+
+                    });
+
+
+
+                /* -----------------------------------------
+                   Price visualization helper
+                   ----------------------------------------- */
+
+                const farmer =
+                    document.getElementById(
+                        "priceFarmer"
+                    );
+
+                const consumer =
+                    document.getElementById(
+                        "priceConsumer"
+                    );
+
+
+                function updatePriceVisual() {
+
+                    if (!farmer || !consumer) {
+                        return;
+                    }
+
+
+                    const farmerValue =
+                        Number(
+                            farmer.value
+                        ) || 0;
+
+
+                    const consumerValue =
+                        Number(
+                            consumer.value
+                        ) || 0;
+
+
+                    const farmerValueText =
+                        document.getElementById(
+                            "farmerPriceValue"
+                        );
+
+
+                    const consumerValueText =
+                        document.getElementById(
+                            "consumerPriceValue"
+                        );
+
+
+                    const farmerBar =
+                        document.getElementById(
+                            "priceFarmerBar"
+                        );
+
+
+                    const consumerBar =
+                        document.getElementById(
+                            "priceConsumerBar"
+                        );
+
+
+                    const capture =
+                        document.getElementById(
+                            "capturePct"
+                        );
+
+
+                    if (farmerValueText) {
+
+                        farmerValueText.textContent =
+                            farmerValue.toFixed(2);
+
+                    }
+
+
+                    if (consumerValueText) {
+
+                        consumerValueText.textContent =
+                            consumerValue.toFixed(2);
+
+                    }
+
+
+                    if (consumerValue > 0) {
+
+                        const farmerPercent =
+                            Math.min(
+                                100,
+                                (
+                                    farmerValue /
+                                    consumerValue
+                                ) * 100
+                            );
+
+
+                        if (farmerBar) {
+
+                            farmerBar.style.width =
+                                `${farmerPercent}%`;
+
+                        }
+
+
+                        if (consumerBar) {
+
+                            consumerBar.style.width =
+                                "100%";
+
+                        }
+
+
+                        if (capture) {
+
+                            capture.textContent =
+                                farmerPercent.toFixed(1);
+
+                        }
+
+                    } else {
+
+                        if (farmerBar) {
+
+                            farmerBar.style.width =
+                                "0%";
+
+                        }
+
+
+                        if (consumerBar) {
+
+                            consumerBar.style.width =
+                                "0%";
+
+                        }
+
+
+                        if (capture) {
+
+                            capture.textContent =
+                                "0";
+
+                        }
+
+                    }
+
+                }
+
+
+                if (farmer) {
+
+                    farmer.addEventListener(
+                        "input",
+                        updatePriceVisual
+                    );
+
+                }
+
+
+                if (consumer) {
+
+                    consumer.addEventListener(
+                        "input",
+                        updatePriceVisual
+                    );
+
+                }
+
+
+                updatePriceVisual();
+
+
+
+                /* -----------------------------------------
+                   Sensor visual helper
+                   ----------------------------------------- */
+
+                const temperatureInput =
+                    document.getElementById(
+                        "temperatureInput"
+                    );
+
+                const humidityInput =
+                    document.getElementById(
+                        "humidityInput"
+                    );
+
+                const riskInput =
+                    document.getElementById(
+                        "spoilageRiskInput"
+                    );
+
+
+                function updateSensorVisual() {
+
+                    const temperature =
+                        Number(
+                            temperatureInput?.value
+                        ) || 0;
+
+
+                    const humidity =
+                        Number(
+                            humidityInput?.value
+                        ) || 0;
+
+
+                    const risk =
+                        Number(
+                            riskInput?.value
+                        ) || 0;
+
+
+                    const tempValue =
+                        document.getElementById(
+                            "tempValue"
+                        );
+
+
+                    const humidityValue =
+                        document.getElementById(
+                            "humidityValue"
+                        );
+
+
+                    const riskValue =
+                        document.getElementById(
+                            "riskValue"
+                        );
+
+
+                    const tempMeter =
+                        document.getElementById(
+                            "tempMeter"
+                        );
+
+
+                    const humidityMeter =
+                        document.getElementById(
+                            "humidityMeter"
+                        );
+
+
+                    const riskMeter =
+                        document.getElementById(
+                            "riskMeter"
+                        );
+
+
+                    if (tempValue) {
+
+                        tempValue.textContent =
+                            temperature.toFixed(1);
+
+                    }
+
+
+                    if (humidityValue) {
+
+                        humidityValue.textContent =
+                            humidity.toFixed(1);
+
+                    }
+
+
+                    if (riskValue) {
+
+                        riskValue.textContent =
+                            risk.toFixed(1);
+
+                    }
+
+
+                    if (tempMeter) {
+
+                        const tempPercent =
+                            Math.min(
+                                100,
+                                Math.max(
+                                    0,
+                                    (
+                                        temperature /
+                                        40
+                                    ) * 100
+                                )
+                            );
+
+
+                        tempMeter.style.width =
+                            `${tempPercent}%`;
+
+                    }
+
+
+                    if (humidityMeter) {
+
+                        humidityMeter.style.width =
+                            `${Math.min(
+                                100,
+                                Math.max(
+                                    0,
+                                    humidity
+                                )
+                            )}%`;
+
+                    }
+
+
+                    if (riskMeter) {
+
+                        riskMeter.style.width =
+                            `${Math.min(
+                                100,
+                                Math.max(
+                                    0,
+                                    risk
+                                )
+                            )}%`;
+
+                    }
+
+                }
+
+
+                [
+                    temperatureInput,
+                    humidityInput,
+                    riskInput
+                ]
+                    .forEach(input => {
+
+                        if (input) {
+
+                            input.addEventListener(
+                                "input",
+                                updateSensorVisual
+                            );
+
+                        }
+
+                    });
+
+
+                updateSensorVisual();
+
+
+
+                /* -----------------------------------------
+                   Intersection reveal
+                   ----------------------------------------- */
+
+                const revealElements =
+                    document.querySelectorAll(
+                        ".glass-card, .feature-card, .metric-card"
+                    );
+
+
+                if (
+                    "IntersectionObserver"
+                    in window
+                ) {
+
+                    const observer =
+                        new IntersectionObserver(
+                            entries => {
+
+                                entries.forEach(
+                                    entry => {
+
+                                        if (
+                                            entry.isIntersecting
+                                        ) {
+
+                                            entry.target.classList.add(
+                                                "visible"
+                                            );
+
+                                            observer.unobserve(
+                                                entry.target
+                                            );
+
+                                        }
+
+                                    }
+                                );
+
+                            },
+                            {
+                                threshold: 0.12
+                            }
+                        );
+
+
+                    revealElements.forEach(
+                        element => {
+
+                            element.classList.add(
+                                "reveal"
+                            );
+
+                            observer.observe(
+                                element
+                            );
+
+                        }
+                    );
+
+                }
+
+            }
+
+        );
+
+    </script>
+
+</body>
+
+</html>

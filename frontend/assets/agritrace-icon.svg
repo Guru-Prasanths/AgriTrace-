@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#39ff88"/>
+      <stop offset="100%" stop-color="#20e7ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="16" fill="#03100d"/>
+
+  <!-- Blockchain nodes -->
+  <circle cx="14" cy="18" r="4" fill="#39ff88"/>
+  <circle cx="50" cy="18" r="4" fill="#20e7ff"/>
+  <circle cx="14" cy="46" r="4" fill="#20e7ff"/>
+  <circle cx="50" cy="46" r="4" fill="#39ff88"/>
+
+  <path d="M18 18 L46 18 M14 22 L14 42 M50 22 L50 42 M18 46 L46 46"
+        stroke="url(#g)"
+        stroke-width="2"
+        opacity=".8"/>
+
+  <!-- Agriculture leaf -->
+  <path d="M32 43
+           C20 38 21 24 39 17
+           C42 29 40 39 32 43Z"
+        fill="url(#g)"/>
+
+  <path d="M32 42 C33 33 36 25 39 18"
+        stroke="#03100d"
+        stroke-width="2"
+        fill="none"/>
+
+  <!-- Center blockchain point -->
+  <circle cx="32" cy="44" r="4" fill="#f5fff9"/>
+</svg>
