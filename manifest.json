@@ -1,0 +1,19 @@
+{
+  "name": "AgriTrace | Smart Agriculture Network",
+  "short_name": "AgriTrace",
+  "description": "Farm-to-market agricultural traceability, price discovery, IoT cold-chain monitoring & AI assistant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020706",
+  "theme_color": "#03140f",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/agritrace-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

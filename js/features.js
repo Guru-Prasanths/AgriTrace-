@@ -1,159 +1,96 @@
 /* =========================================================
    AgriTrace — Extended Features Module
-   Multi-Language | Voice | Camera | QR | Marketplace | Traceability
+   Voice Assistant | Multilingual Translation | Clear Text View
+   Camera Scanner | QR Traceability | Marketplace | Dashboards
    ========================================================= */
 
 /* =========================================================
-   MULTI-LANGUAGE SYSTEM
+   VOICE ASSISTANT (WEB SPEECH API + MULTILINGUAL ENGINE)
+   Supports English, Tamil, Hindi Voice Input & Synthesis,
+   Real Navigation, Product Search, Text Sizing, Page Reading,
+   Typed Fallback, Auth/Role Security & Confirmations.
    ========================================================= */
 
-const TRANSLATIONS = {
-  en: {
-    name: "English", flag: "🇬🇧",
-    nav_home: "Home", nav_dashboard: "Dashboard", nav_traceability: "Traceability",
-    nav_price: "Price Discovery", nav_iot: "IoT Monitoring", nav_farmer: "Farmer",
-    nav_seller: "Seller", nav_consumer: "Verify",
-    connect_wallet: "Connect Wallet",
-    footer_rights: "© 2026 AgriTrace. All rights reserved.",
-    toast_lang: "Language changed to English",
-    voice_greeting: "Welcome to AgriTrace! I can help you with produce traceability, prices, and supply chain information. Try asking: What is the price of tomatoes?",
+const VOICE_KNOWLEDGE = {
+  tomato: {
+    en: "Current tomato prices: Farmer gate ₹19-25 per kg, Wholesale mandi ₹32-38 per kg, Consumer retail ₹36-45 per kg. Origin: Hosur, Tamil Nadu. Blockchain verified.",
+    ta: "தக்காளி தற்போதைய விலை: விவசாயி விலை கிலோ ₹19-25, மொத்த விற்பனை ₹32-38, நுகர்வோர் சில்லறை விலை கிலோ ₹36-45. இடம்: ஓசூர், தமிழ்நாடு. பிளாக்செயினில் சரிபார்க்கப்பட்டது.",
+    hi: "वर्तमान टमाटर की कीमतें: किसान मूल्य ₹19-25 प्रति किग्रा, थोक मंडी ₹32-38, खुदरा मूल्य ₹36-45 प्रति किग्रा। उत्पत्ति: होसुर, तमिलनाडु। ब्लॉकचेन सत्यापित।"
   },
-  ta: {
-    name: "தமிழ்", flag: "🇮🇳",
-    nav_home: "முகப்பு", nav_dashboard: "டாஷ்போர்டு", nav_traceability: "கண்காணிப்பு",
-    nav_price: "விலை கண்டறிதல்", nav_iot: "IoT கண்காணிப்பு", nav_farmer: "விவசாயி",
-    nav_seller: "விற்பனையாளர்", nav_consumer: "சரிபார்க்க",
-    connect_wallet: "வாலட் இணைக்க",
-    footer_rights: "© 2026 AgriTrace. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
-    toast_lang: "மொழி தமிழுக்கு மாற்றப்பட்டது",
-    voice_greeting: "AgriTrace-க்கு வரவேற்கிறோம்! விளைபொருள் கண்காணிப்பு, விலைகள் மற்றும் சப்ளை சேன் தகவல்களுக்கு நான் உதவுகிறேன்.",
+  mango: {
+    en: "Alphonso mango prices: Farmer gate ₹30-45 per kg, Wholesale ₹55-70 per kg, Consumer retail ₹85-120 per kg. Origin: Salem, Tamil Nadu.",
+    ta: "அல்போன்சா மாம்பழம் விலை: விவசாயி விலை கிலோ ₹30-45, மொத்த விலை ₹55-70, சில்லறை விலை ₹85-120. இடம்: சேலம், தமிழ்நாடு.",
+    hi: "अल्फांसो आम की कीमतें: किसान मूल्य ₹30-45 प्रति किग्रा, थोक मूल्य ₹55-70, खुदरा मूल्य ₹85-120 प्रति किग्रा। उत्पत्ति: सेलम, तमिलनाडु।"
   },
-  hi: {
-    name: "हिंदी", flag: "🇮🇳",
-    nav_home: "होम", nav_dashboard: "डैशबोर्ड", nav_traceability: "ट्रेसेबिलिटी",
-    nav_price: "मूल्य खोज", nav_iot: "IoT निगरानी", nav_farmer: "किसान",
-    nav_seller: "विक्रेता", nav_consumer: "सत्यापित करें",
-    connect_wallet: "वॉलेट कनेक्ट करें",
-    footer_rights: "© 2026 AgriTrace. सर्वाधिकार सुरक्षित।",
-    toast_lang: "भाषा हिंदी में बदली गई",
-    voice_greeting: "AgriTrace में आपका स्वागत है! मैं उपज ट्रेसेबिलिटी, कीमतों और आपूर्ति श्रृंखला जानकारी में मदद कर सकता हूं।",
+  onion: {
+    en: "Onion prices: Farmer gate ₹28-35 per kg, Market wholesale ₹45-60 per kg. Origin: Nashik, Maharashtra.",
+    ta: "வெங்காயம் விலை: விவசாயி விலை கிலோ ₹28-35, மொத்த சந்தை ₹45-60. இடம்: நாசிக், மகாராஷ்டிரா.",
+    hi: "प्याज की कीमतें: किसान मूल्य ₹28-35 प्रति किग्रा, थोक मंडी ₹45-60 प्रति किग्रा। उत्पत्ति: नासिक, महाराष्ट्र।"
   },
-  te: {
-    name: "తెలుగు", flag: "🇮🇳",
-    nav_home: "హోమ్", nav_dashboard: "డాష్‌బోర్డ్", nav_traceability: "ట్రేసబిలిటీ",
-    nav_price: "ధర అన్వేషణ", nav_iot: "IoT పర్యవేక్షణ", nav_farmer: "రైతు",
-    nav_seller: "విక్రేత", nav_consumer: "ధృవీకరించు",
-    connect_wallet: "వ్యాలెట్ కనెక్ట్",
-    footer_rights: "© 2026 AgriTrace. అన్ని హక్కులు నిల్వ చేయబడ్డాయి.",
-    toast_lang: "భాష తెలుగుకు మార్చబడింది",
-    voice_greeting: "AgriTrace కి స్వాగతం! నేను పంట ట్రేసబిలిటీ, ధరలు మరియు సరఫరా గొలుసు సమాచారంలో సహాయం చేయగలను.",
+  banana: {
+    en: "Banana prices: Farmer gate ₹38-48 per kg, Consumer retail ₹55-70 per kg. Origin: Trichy, Tamil Nadu.",
+    ta: "வாழைப்பழம் விலை: விவசாயி விலை கிலோ ₹38-48, சில்லறை விலை ₹55-70. இடம்: திருச்சி, தமிழ்நாடு.",
+    hi: "केले की कीमतें: किसान मूल्य ₹38-48 प्रति किग्रा, खुदरा मूल्य ₹55-70 प्रति किग्रा। उत्पत्ति: त्रिची, तमिलनाडु।"
   },
-  kn: {
-    name: "ಕನ್ನಡ", flag: "🇮🇳",
-    nav_home: "ಮನೆ", nav_dashboard: "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್", nav_traceability: "ಟ್ರೇಸಬಿಲಿಟಿ",
-    nav_price: "ಬೆಲೆ ಅನ್ವೇಷಣೆ", nav_iot: "IoT ಮೇಲ್ವಿಚಾರಣೆ", nav_farmer: "ರೈತ",
-    nav_seller: "ಮಾರಾಟಗಾರ", nav_consumer: "ಪರಿಶೀಲಿಸಿ",
-    connect_wallet: "ವ್ಯಾಲೆಟ್ ಸಂಪರ್ಕಿಸಿ",
-    footer_rights: "© 2026 AgriTrace. ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
-    toast_lang: "ಭಾಷೆ ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ",
-    voice_greeting: "AgriTrace ಗೆ ಸ್ವಾಗತ! ನಾನು ಬೆಳೆ ಟ್ರೇಸಬಿಲಿಟಿ, ಬೆಲೆಗಳು ಮತ್ತು ಪೂರೈಕೆ ಸರಪಳಿ ಮಾಹಿತಿಯಲ್ಲಿ ಸಹಾಯ ಮಾಡಬಲ್ಲೆ.",
-  },
-  ml: {
-    name: "മലയാളം", flag: "🇮🇳",
-    nav_home: "ഹോം", nav_dashboard: "ഡാഷ്‌ബോർഡ്", nav_traceability: "ട്രേസബിലിറ്റി",
-    nav_price: "വില കണ്ടെത്തൽ", nav_iot: "IoT നിരീക്ഷണം", nav_farmer: "കർഷകൻ",
-    nav_seller: "വിൽക്കുന്നയാൾ", nav_consumer: "പരിശോധിക്കുക",
-    connect_wallet: "വാലറ്റ് കണക്‌റ്റ് ചെയ്യുക",
-    footer_rights: "© 2026 AgriTrace. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.",
-    toast_lang: "ഭാഷ മലയാളത്തിലേക്ക് മാറ്റി",
-    voice_greeting: "AgriTrace-ലേക്ക് സ്വാഗതം! ഉൽപ്പന്ന ട്രേസബിലിറ്റി, വിലകൾ, സപ്ലൈ ചെയിൻ വിവരങ്ങൾ എന്നിവയിൽ ഞാൻ സഹായിക്കും.",
+  traceability: {
+    en: "AgriTrace cryptographically verifies produce provenance. Each lot is anchored to an Ethereum smart contract with IoT cold-chain temperature logs and instant QR code verification.",
+    ta: "AgriTrace விளைபொருட்களின் உண்மைத்தன்மையை கிரிப்டோகிராஃபிக் முறையில் சரிபார்க்கிறது. ஒவ்வொரு தொகுதியும் Ethereum ஸ்மார்ட் ஒப்பந்தம் மற்றும் IoT குளிர்பதன தரவுகளுடன் இணைக்கப்பட்டு QR குறியீடு மூலம் சரிபார்க்கப்படுகிறது.",
+    hi: "AgriTrace क्रिप्टोग्राफिक रूप से उपज की प्रामाणिकता को सत्यापित करता है। प्रत्येक लॉट को Ethereum स्मार्ट अनुबंध और IoT कोल्ड चेन डेटा से जोड़ा जाता है और QR कोड से सत्यापित किया जाता है।"
   }
 };
 
-let currentLang = 'en';
-
-function setLanguage(lang) {
-  if (!TRANSLATIONS[lang]) return;
-  currentLang = lang;
-  localStorage.setItem('agritrace_lang', lang);
-  const t = TRANSLATIONS[lang];
-
-  // Nav links
-  const mappings = {
-    'nav-home': t.nav_home, 'nav-dashboard': t.nav_dashboard,
-    'nav-traceability': t.nav_traceability, 'nav-price': t.nav_price,
-    'nav-iot': t.nav_iot, 'nav-farmer': t.nav_farmer,
-    'nav-seller': t.nav_seller, 'nav-consumer': t.nav_consumer,
-  };
-  Object.entries(mappings).forEach(([id, text]) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
-    const mel = document.getElementById('m-' + id);
-    if (mel) mel.textContent = text;
-  });
-
-  // data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key]) el.textContent = t[key];
-  });
-
-  // Footer rights
-  const footerRights = document.getElementById('footerRights');
-  if (footerRights) footerRights.textContent = t.footer_rights;
-
-  // Active lang indicator
-  document.querySelectorAll('.lang-option').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-
-  if (typeof showToast === 'function') showToast(t.toast_lang, 'success');
-}
-
-function initLanguageSystem() {
-  const saved = localStorage.getItem('agritrace_lang') || 'en';
-  const container = document.getElementById('langSwitcher');
-  if (!container) return;
-
-  Object.entries(TRANSLATIONS).forEach(([code, data]) => {
-    const btn = document.createElement('button');
-    btn.className = 'lang-option';
-    btn.dataset.lang = code;
-    btn.title = data.name;
-    btn.type = 'button';
-    btn.innerHTML = `<span>${data.flag}</span><span>${data.name}</span>`;
-    btn.addEventListener('click', () => setLanguage(code));
-    container.appendChild(btn);
-  });
-
-  setLanguage(saved);
-}
-
-/* =========================================================
-   VOICE ASSISTANT
-   ========================================================= */
-
-const VOICE_COMMANDS = [
-  { patterns: ['price of tomato', 'tomato price', 'tomato'], response: "Current tomato prices: Farmer price ₹19-25 per kg, Market price ₹32-38 per kg, Consumer price ₹36-45 per kg. Blockchain verified.", nav: null },
-  { patterns: ['price of mango', 'mango price', 'mango'], response: "Current Alphonso mango prices: Farmer price ₹30-45 per kg, Market price ₹55-70 per kg. From Salem, Tamil Nadu.", nav: null },
-  { patterns: ['price of onion', 'onion price', 'onion'], response: "Onion prices: Farmer ₹28-35 per kg, Market ₹45-60 per kg. From Nashik, Maharashtra.", nav: null },
-  { patterns: ['price of banana', 'banana price', 'banana'], response: "Banana prices: Farmer ₹38-48 per kg, Market ₹55-70 per kg. From Trichy, Tamil Nadu.", nav: null },
-  { patterns: ['go to dashboard', 'open dashboard', 'dashboard'], response: "Navigating to Dashboard.", nav: '#dashboard' },
-  { patterns: ['go home', 'home page', 'home'], response: "Taking you to the home page.", nav: '#home' },
-  { patterns: ['traceability', 'trace records', 'records'], response: "Opening Traceability Records.", nav: '#records' },
-  { patterns: ['iot', 'sensor', 'temperature monitoring'], response: "Opening IoT Sensor Monitoring.", nav: '#sensors' },
-  { patterns: ['farmer', 'farmer dashboard'], response: "Opening Farmer Dashboard.", nav: '#farmer' },
-  { patterns: ['seller', 'marketplace'], response: "Opening Seller Marketplace.", nav: '#seller' },
-  { patterns: ['verify', 'consumer', 'consumer page'], response: "Opening Consumer Verification.", nav: '#consumer' },
-  { patterns: ['price discovery', 'prices'], response: "Opening Price Discovery section.", nav: '#prices' },
-  { patterns: ['alert', 'warning', 'sensor alert'], response: "Checking alerts. Temperature alert on FARM-LOT-002: 18°C above threshold. Humidity high on FARM-LOT-005 at 96%. All other sensors normal.", nav: null },
-  { patterns: ['help', 'what can you do', 'commands', 'how to use'], response: "I can help you navigate AgriTrace and check produce prices. Try saying: Price of tomatoes, Go to dashboard, Open farmer dashboard, or What are the alerts?", nav: null },
-];
-
 let voiceRecognition = null;
-let isVoiceActive = false;
+let isListening = false;
+let isSpeaking = false;
 let voiceVolume = parseFloat(localStorage.getItem('agritrace_voice_vol') || '1.0');
 let isVoiceMuted = localStorage.getItem('agritrace_voice_muted') === 'true';
+
+// Status update
+function setVoiceState(state, message) {
+  const dot = document.getElementById('voiceStatusDot');
+  const text = document.getElementById('voiceStatusText');
+  const startBtn = document.getElementById('voiceStartBtn');
+  const stopBtn = document.getElementById('voiceStopBtn');
+  const micBtn = document.getElementById('voiceMicBtn');
+  const micIcon = document.getElementById('voiceMicIcon');
+  const langPill = document.getElementById('voiceLangPill');
+
+  const currentLang = typeof window.getCurrentLanguage === 'function' ? window.getCurrentLanguage() : 'en';
+
+  if (dot) {
+    dot.className = 'voice-status-dot ' + state;
+  }
+
+  if (langPill) {
+    langPill.textContent = currentLang === 'ta' ? '🇮🇳 TA' : currentLang === 'hi' ? '🇮🇳 HI' : '🇬🇧 EN';
+  }
+
+  if (text) {
+    if (message) {
+      text.textContent = message;
+    } else {
+      const stateKey = 'voice_state_' + state;
+      text.textContent = typeof window.t === 'function' ? window.t(stateKey) : state;
+    }
+  }
+
+  if (startBtn && stopBtn) {
+    if (state === 'listening') {
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'inline-flex';
+    } else {
+      startBtn.style.display = 'inline-flex';
+      stopBtn.style.display = 'none';
+    }
+  }
+
+  if (micBtn) {
+    micBtn.classList.toggle('listening', state === 'listening');
+  }
+  if (micIcon) {
+    micIcon.textContent = state === 'listening' ? '🔴' : '🎤';
+  }
+}
 
 function updateAudioControlsUI() {
   const muteBtn = document.getElementById('voiceMuteBtn');
@@ -188,9 +125,11 @@ function setVoiceMuted(muted) {
   updateAudioControlsUI();
   if (window.speechSynthesis && isVoiceMuted) {
     window.speechSynthesis.cancel();
+    isSpeaking = false;
+    setVoiceState('idle');
   }
   if (typeof showToast === 'function') {
-    showToast(isVoiceMuted ? '🔇 Voice Assistant Muted' : '🔊 Voice Assistant Unmuted', 'info');
+    showToast(isVoiceMuted ? (typeof window.t === 'function' ? window.t('toast_voice_muted') : '🔇 Voice Assistant Muted') : (typeof window.t === 'function' ? window.t('toast_voice_unmuted') : '🔊 Voice Assistant Unmuted'), 'info');
   }
 }
 
@@ -208,43 +147,137 @@ function setVoiceVolume(vol) {
   updateAudioControlsUI();
 }
 
-function speak(text) {
+/**
+ * Get matching voice for language from speechSynthesis
+ */
+function getBestVoiceForLanguage(langCode) {
+  if (!window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices() || [];
+  if (voices.length === 0) return null;
+
+  if (langCode === 'ta') {
+    const taVoice = voices.find(v => v.lang && (v.lang.toLowerCase().includes('ta') || v.name.toLowerCase().includes('tamil')));
+    if (taVoice) return taVoice;
+  } else if (langCode === 'hi') {
+    const hiVoice = voices.find(v => v.lang && (v.lang.toLowerCase().includes('hi') || v.name.toLowerCase().includes('hindi')));
+    if (hiVoice) return hiVoice;
+  }
+
+  // English voice with Indian accent preference
+  const inVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('en-in'));
+  if (inVoice) return inVoice;
+
+  return voices.find(v => v.lang && v.lang.toLowerCase().startsWith('en')) || voices[0];
+}
+
+let voiceAudioCtx = null;
+function playVoiceChime() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!voiceAudioCtx) voiceAudioCtx = new AudioCtx();
+    if (voiceAudioCtx.state === 'suspended') {
+      voiceAudioCtx.resume();
+    }
+    const osc = voiceAudioCtx.createOscillator();
+    const gain = voiceAudioCtx.createGain();
+    osc.type = 'sine';
+    const t = voiceAudioCtx.currentTime;
+    osc.frequency.setValueAtTime(587.33, t); // D5
+    osc.frequency.exponentialRampToValueAtTime(880, t + 0.1); // A5
+    gain.gain.setValueAtTime(0.3, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+    osc.connect(gain);
+    gain.connect(voiceAudioCtx.destination);
+    osc.start(t);
+    osc.stop(t + 0.22);
+  } catch (e) {
+    // Audio context not allowed yet
+  }
+}
+
+function showVoiceAnswerToast(text) {
+  const modal = document.getElementById('voiceModal');
+  if (modal && modal.classList.contains('open')) return;
+
+  let toast = document.getElementById('voiceFloatingAnswerToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'voiceFloatingAnswerToast';
+    toast.className = 'voice-floating-answer-toast';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `
+    <div class="voice-toast-header">
+      <span class="voice-toast-mic">🎙️ Voice AI Answer</span>
+      <button class="voice-toast-close" type="button" onclick="this.closest('.voice-floating-answer-toast').classList.remove('show')">✕</button>
+    </div>
+    <div class="voice-toast-body">${text}</div>
+  `;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 7500);
+}
+
+/**
+ * Speak text with appropriate voice, max volume and state tracking
+ */
+function speak(text, onComplete) {
   appendVoiceBubble('assistant', text);
+  showVoiceAnswerToast(text);
+  playVoiceChime();
 
   const synth = window.speechSynthesis;
   if (!synth) return;
   synth.cancel();
 
-  // If muted or volume is zero, don't generate spoken audio
-  if (isVoiceMuted || voiceVolume <= 0) return;
+  if (isVoiceMuted || voiceVolume <= 0) {
+    setVoiceState('idle');
+    if (onComplete) onComplete();
+    return;
+  }
 
+  // Maximum speech volume amplification
+  const effectiveVol = 1.0;
+  const currentLang = typeof window.getCurrentLanguage === 'function' ? window.getCurrentLanguage() : 'en';
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-IN';
-  utterance.rate = 0.92;
-  utterance.pitch = 1.05;
-  utterance.volume = voiceVolume;
-  const voices = synth.getVoices();
-  const match = voices.find(v => v.lang.startsWith('en-IN')) || voices.find(v => v.lang.startsWith('en'));
-  if (match) utterance.voice = match;
+  
+  utterance.lang = currentLang === 'ta' ? 'ta-IN' : currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+  utterance.rate = 1.0;
+  utterance.pitch = 1.02;
+  utterance.volume = effectiveVol;
+
+  const voice = getBestVoiceForLanguage(currentLang);
+  if (voice) utterance.voice = voice;
+
+  utterance.onstart = () => {
+    isSpeaking = true;
+    setVoiceState('speaking');
+  };
+
+  utterance.onend = () => {
+    isSpeaking = false;
+    setVoiceState('idle');
+    if (onComplete) onComplete();
+  };
+
+  utterance.onerror = (e) => {
+    console.warn('SpeechSynthesis notice:', e);
+    isSpeaking = false;
+    setVoiceState('idle');
+  };
+
   synth.speak(utterance);
 }
 
-function processVoiceCommand(transcript) {
-  const lower = transcript.toLowerCase().trim();
-  appendVoiceBubble('user', transcript);
-  for (const cmd of VOICE_COMMANDS) {
-    if (cmd.patterns.some(p => lower.includes(p))) {
-      speak(cmd.response);
-      if (cmd.nav) {
-        setTimeout(() => {
-          const target = document.querySelector(cmd.nav);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 1600);
-      }
-      return;
-    }
+function stopSpeaking() {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
   }
-  speak("I heard: " + transcript + ". Try asking about tomato prices, or say go to dashboard.");
+  isSpeaking = false;
+  setVoiceState('idle');
 }
 
 function appendVoiceBubble(type, text) {
@@ -252,9 +285,452 @@ function appendVoiceBubble(type, text) {
   if (!log) return;
   const bubble = document.createElement('div');
   bubble.className = 'voice-bubble voice-bubble-' + type;
-  bubble.innerHTML = `<span class="voice-bubble-icon">${type === 'user' ? '🎤' : '🤖'}</span><span>${text}</span>`;
+  bubble.innerHTML = `<span class="voice-bubble-icon" aria-hidden="true">${type === 'user' ? '🎤' : '🤖'}</span><span>${escapeHtml(text)}</span>`;
   log.appendChild(bubble);
   log.scrollTop = log.scrollHeight;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
+ * Sensitive action confirmation dialog
+ */
+function confirmSensitiveAction(actionTitle, actionMessage, onConfirm) {
+  const modal = document.getElementById('confirmModal');
+  const titleEl = document.getElementById('confirmModalTitle');
+  const msgEl = document.getElementById('confirmModalMessage');
+  const proceedBtn = document.getElementById('confirmProceedBtn');
+  const cancelBtn = document.getElementById('confirmCancelBtn');
+  const closeBtn = document.getElementById('closeConfirmModalBtn');
+
+  if (!modal) {
+    if (confirm(actionMessage)) onConfirm();
+    return;
+  }
+
+  if (titleEl) titleEl.textContent = actionTitle;
+  if (msgEl) msgEl.textContent = actionMessage;
+
+  const close = () => {
+    modal.classList.remove('open');
+    proceedBtn.onclick = null;
+    cancelBtn.onclick = null;
+  };
+
+  proceedBtn.onclick = () => {
+    close();
+    onConfirm();
+  };
+
+  cancelBtn.onclick = close;
+  if (closeBtn) closeBtn.onclick = close;
+
+  modal.classList.add('open');
+}
+
+/**
+ * Execute Voice Commands with Real App Navigation & Actions
+ */
+function processVoiceCommand(transcript) {
+  if (!transcript || !transcript.trim()) return;
+  const raw = transcript.trim();
+  const lower = raw.toLowerCase();
+  appendVoiceBubble('user', raw);
+  setVoiceState('processing');
+
+  const currentLang = typeof window.getCurrentLanguage === 'function' ? window.getCurrentLanguage() : 'en';
+
+  // 1. Navigation Commands
+  if (/farmer|விவசாயி|किसान/.test(lower) && /dashboard|portal|open|go|view|டாஷ்போர்டு|डैशबोर्ड/.test(lower)) {
+    navigateToSection('#farmer', () => {
+      const resp = currentLang === 'ta' ? 'விவசாயி டாஷ்போர்டு திறக்கப்படுகிறது.' : currentLang === 'hi' ? 'किसान डैशबोर्ड खोला जा रहा है।' : 'Navigating to Farmer Dashboard.';
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/seller|marketplace|product|available|விற்பனையாளர்|சந்தை|बाज़ार|उत्पाद/.test(lower) && /show|open|go|view|காட்டு|दिखाएं/.test(lower)) {
+    navigateToSection('#seller', () => {
+      const count = (typeof SELLER_LISTINGS !== 'undefined' ? SELLER_LISTINGS.length : 8);
+      const resp = currentLang === 'ta' ? `விற்பனையாளர் சந்தையில் ${count} விளைபொருட்கள் இருப்பில் உள்ளன.` : currentLang === 'hi' ? `बाज़ार में ${count} उत्पाद उपलब्ध हैं।` : `Showing ${count} available produce listings in the Seller Marketplace.`;
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/dashboard|command center|டாஷ்போர்டு|डैशबोर्ड/.test(lower) && /open|go|view|காட்டு|खोलो/.test(lower)) {
+    navigateToSection('#dashboard', () => {
+      const resp = currentLang === 'ta' ? 'கட்டுப்பாட்டு மையம் திறக்கப்பட்டது.' : currentLang === 'hi' ? 'कमांड सेंटर खोला गया।' : 'Opening AgriTrace Command Center.';
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/traceability|records|register|கண்காணிப்பு|ट्रेसेबिलिटी/.test(lower)) {
+    navigateToSection('#records', () => {
+      const resp = currentLang === 'ta' ? 'விளைபொருள் பதிவேடு திறக்கப்பட்டது.' : currentLang === 'hi' ? 'उपज ट्रेसेबिलिटी रिकॉर्ड खोला गया।' : 'Opening Produce Traceability Records.';
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/price|விலை|मूल्य|कीमत/.test(lower) && /discovery|follow|table|market/.test(lower)) {
+    navigateToSection('#prices', () => {
+      const resp = currentLang === 'ta' ? 'விலை கண்டறிதல் பகுதி திறக்கப்பட்டது.' : currentLang === 'hi' ? 'मूल्य खोज अनुभाग खोला गया।' : 'Opening Fair Price Discovery section.';
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/iot|sensor|temperature|humidity|சென்சார்|सेंसर/.test(lower)) {
+    navigateToSection('#sensors', () => {
+      const resp = currentLang === 'ta' ? 'IoT குளிர்பதன கண்காணிப்பு திறக்கப்பட்டது.' : currentLang === 'hi' ? 'IoT कोल्ड चेन निगरानी खोली गई।' : 'Opening IoT Cold-Chain Monitoring section.';
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/consumer|verify|சரிபார்க்க|सत्यापित/.test(lower)) {
+    navigateToSection('#consumer', () => {
+      const resp = currentLang === 'ta' ? 'நுகர்வோர் சரிபார்ப்பு பகுதி திறக்கப்பட்டது.' : currentLang === 'hi' ? 'उपभोक्ता सत्यापन अनुभाग खोला गया।' : 'Opening Consumer Verification section.';
+      speak(resp);
+    });
+    return;
+  }
+
+  if (/home|main|முகப்பு|होम/.test(lower)) {
+    navigateToSection('#home', () => {
+      const resp = currentLang === 'ta' ? 'முகப்பு பக்கத்திற்கு செல்கிறது.' : currentLang === 'hi' ? 'मुख्य पृष्ठ पर ले जाया जा रहा है।' : 'Navigating to Home.';
+      speak(resp);
+    });
+    return;
+  }
+
+  // 2. Specific Search: "Search for tomatoes" / "tomato"
+  if (/tomato|தக்காளி|टमाटर/.test(lower)) {
+    filterAndSearchProduce('tomato');
+    const resp = VOICE_KNOWLEDGE.tomato[currentLang] || VOICE_KNOWLEDGE.tomato.en;
+    speak(resp);
+    return;
+  }
+
+  if (/mango|மாம்பழம்|आम/.test(lower)) {
+    filterAndSearchProduce('mango');
+    const resp = VOICE_KNOWLEDGE.mango[currentLang] || VOICE_KNOWLEDGE.mango.en;
+    speak(resp);
+    return;
+  }
+
+  if (/onion|வெங்காயம்|प्याज/.test(lower)) {
+    filterAndSearchProduce('onion');
+    const resp = VOICE_KNOWLEDGE.onion[currentLang] || VOICE_KNOWLEDGE.onion.en;
+    speak(resp);
+    return;
+  }
+
+  if (/banana|வாழை|केला/.test(lower)) {
+    filterAndSearchProduce('banana');
+    const resp = VOICE_KNOWLEDGE.banana[currentLang] || VOICE_KNOWLEDGE.banana.en;
+    speak(resp);
+    return;
+  }
+
+  // 3. Multilingual Switching Commands
+  if (/tamil|தமிழ்/.test(lower)) {
+    if (typeof window.setLanguage === 'function') window.setLanguage('ta');
+    speak('மொழி தமிழுக்கு மாற்றப்பட்டது. நான் உங்களுக்கு தமிழில் உதவ தயாராக உள்ளேன்.');
+    return;
+  }
+
+  if (/hindi|हिंदी/.test(lower)) {
+    if (typeof window.setLanguage === 'function') window.setLanguage('hi');
+    speak('भाषा बदलकर हिंदी कर दी गई है। मैं हिंदी में आपकी सहायता कर सकता हूँ।');
+    return;
+  }
+
+  if (/english|ஆங்கிலம்|अंग्रेज़ी/.test(lower)) {
+    if (typeof window.setLanguage === 'function') window.setLanguage('en');
+    speak('Language changed to English. How can I assist you today?');
+    return;
+  }
+
+  // 4. Accessibility & Typography Commands
+  if (/increase text|large text|bigger text|பெரிய எழுத்து|बड़ा टेक्स्ट/.test(lower)) {
+    setTextSize('large');
+    const resp = currentLang === 'ta' ? 'எழுத்து அளவு பெரிதாக்கப்பட்டது.' : currentLang === 'hi' ? 'टेक्स्ट साइज़ बड़ा कर दिया गया है।' : 'Text size increased to Large for high readability.';
+    speak(resp);
+    return;
+  }
+
+  if (/decrease text|small text|smaller text|சிறிய எழுத்து|छोटा टेक्स्ट/.test(lower)) {
+    setTextSize('small');
+    const resp = currentLang === 'ta' ? 'எழுத்து அளவு சிறியதாக மாற்றப்பட்டது.' : currentLang === 'hi' ? 'टेक्स्ट साइज़ छोटा कर दिया गया है।' : 'Text size set to Compact.';
+    speak(resp);
+    return;
+  }
+
+  if (/reset text|default text|standard text|இயல்பு எழுத்து|डिफ़ॉल्ट टेक्स्ट/.test(lower)) {
+    setTextSize('default');
+    const resp = currentLang === 'ta' ? 'இயல்பான எழுத்து அளவு மீட்டமைக்கப்பட்டது.' : currentLang === 'hi' ? 'डिफ़ॉल्ट टेक्स्ट साइज़ बहाल किया गया।' : 'Standard text size restored.';
+    speak(resp);
+    return;
+  }
+
+  if (/clear text|தெளிவான உரை|क्लियर टेक्स्ट/.test(lower)) {
+    if (/off|turn off|disable|disable clear text|அணை|बंद/.test(lower)) {
+      toggleClearTextView(false);
+      speak(currentLang === 'ta' ? 'தெளிவான உரை பயன்முறை அணைக்கப்பட்டது.' : currentLang === 'hi' ? 'क्लियर टेक्स्ट व्यू बंद किया गया।' : 'Standard view restored.');
+    } else {
+      toggleClearTextView(true);
+      speak(currentLang === 'ta' ? 'தெளிவான உரை காட்சி செயல்படுத்தப்பட்டது.' : currentLang === 'hi' ? 'क्लियर टेक्स्ट व्यू सक्रिय किया गया।' : 'Clear Text View activated with high-contrast sharp typography.');
+    }
+    return;
+  }
+
+  // 5. Read Page Aloud
+  if (/read|வாசி|पढ़कर|सुनाओ/.test(lower)) {
+    readActivePageAloud();
+    return;
+  }
+
+  // 6. Stop Speaking
+  if (/stop speaking|stop talking|shut up|quiet|பேசாதே|நிறுத்து|बोलना बंद|चुप/.test(lower)) {
+    stopSpeaking();
+    return;
+  }
+
+  // 7. Orders & Offers
+  if (/order|offer|சலுகை|ஆர்டர்|ऑफ़र|ऑर्डर/.test(lower)) {
+    navigateToSection('#farmer', () => {
+      viewFarmerOffers('FARM-LOT-001');
+      const resp = currentLang === 'ta' ? 'விவசாயி தொகுதிக்கான சலுகைகள் திறக்கப்பட்டது.' : currentLang === 'hi' ? 'उपज लॉट के प्रस्ताव खोले गए।' : 'Opening received buyer offers for batch FARM-LOT-001.';
+      speak(resp);
+    });
+    return;
+  }
+
+  // 8. Explain Traceability with Auto-Navigation
+  if (/explain traceability|traceability|how does it work|விளக்கம்|समझाएं/.test(lower)) {
+    navigateToSection('#records', () => {
+      const resp = VOICE_KNOWLEDGE.traceability[currentLang] || VOICE_KNOWLEDGE.traceability.en;
+      speak(resp);
+    });
+    return;
+  }
+
+  // 9. Show Price & Quantity with Auto-Navigation
+  if (/price and quantity|available quantity|விலை மற்றும் அளவு|कीमत और मात्रा/.test(lower)) {
+    navigateToSection('#prices', () => {
+      const top = SELLER_LISTINGS.slice(0, 3).map(l => `${l.crop}: ${l.qty} kg at ₹${l.askPrice}/kg`).join(', ');
+      const resp = currentLang === 'ta' ? `தற்போதைய இருப்புகள்: ${top}` : currentLang === 'hi' ? `उपलब्ध मात्रा और कीमतें: ${top}` : `Top available listings: ${top}.`;
+      speak(resp);
+    });
+    return;
+  }
+
+  // 10. Offline Mode & PWA Capabilities
+  if (/offline|pwa|internet|cache|connection|ஆஃப்லைன்|ऑफ़लाइन/.test(lower)) {
+    const isOff = !navigator.onLine;
+    const resp = currentLang === 'ta'
+      ? (isOff ? 'ஆக்ரிட்ரேஸ் தற்போது முழுமையான ஆஃப்லைன் பயன்முறையில் இயங்குகிறது. உள்ளூர் தரவுகள் அனைத்தும் பாதுகாக்கப்பட்டுள்ளன.' : 'ஆக்ரிட்ரேஸ் முழுமையான ஆஃப்லைன் PWA திறனுடன் இயங்குகிறது. இணையம் இல்லாமலும் பயன்படுத்தலாம்.')
+      : currentLang === 'hi'
+      ? (isOff ? 'एग्रीट्रेस वर्तमान में ऑफ़लाइन मोड में सक्रिय है। सभी रिकॉर्ड और बाज़ार स्थानीय रूप से उपलब्ध हैं।' : 'एग्रीट्रेस पूर्ण ऑफ़लाइन PWA क्षमता से युक्त है। आप बिना इंटरनेट के भी इसका उपयोग कर सकते हैं।')
+      : (isOff ? 'AgriTrace is currently running in full Offline Mode. Local blockchain cache, QR scanner, and marketplace are fully operational without internet.' : 'AgriTrace is powered by full Offline PWA architecture. You can browse produce records, price discovery, and use voice AI completely offline.');
+    speak(resp);
+    return;
+  }
+
+  // 10. Help
+  if (/help|commands|what can you do|உதவி|मदद/.test(lower)) {
+    const helpResp = typeof window.t === 'function' ? window.t('voice_help_response') : 'I can help you navigate AgriTrace, inspect produce prices, check cold chain alerts, and control accessibility settings. Say: "Open farmer dashboard", "Show available products", "Search for tomatoes", "Change language to Tamil", "Increase text size", or "Explain traceability".';
+    speak(helpResp);
+    return;
+  }
+
+  // Fallback
+  const fallback = currentLang === 'ta'
+    ? `நான் கேட்டது: "${raw}". "தக்காளி விலை", "விவசாயி டாஷ்போர்டு திற", அல்லது "எழுத்து அளவை அதிகரி" என்று கேட்டுப்பாருங்கள்.`
+    : currentLang === 'hi'
+    ? `मैंने सुना: "${raw}"। "टमाटर की कीमत", "किसान डैशबोर्ड खोलो", या "टेक्स्ट साइज़ बढ़ाओ" कहकर देखें।`
+    : `I heard: "${raw}". Try asking about tomato prices, "Open farmer dashboard", or "Increase text size".`;
+  speak(fallback);
+}
+
+function navigateToSection(hash, callback) {
+  const el = document.querySelector(hash);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Update active nav link across dock and mobile navigation
+    document.querySelectorAll('.dock-item, .dock-nav-links a, .nav-links a, .mobile-menu a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === hash);
+    });
+  }
+  if (callback) setTimeout(callback, 800);
+}
+
+function filterAndSearchProduce(keyword) {
+  navigateToSection('#seller', () => {
+    const input = document.getElementById('sellerSearchInput');
+    if (input) {
+      input.value = keyword;
+      renderSellerMarketplace(keyword);
+    }
+    const filterInput = document.getElementById('filterInput');
+    if (filterInput) {
+      filterInput.value = keyword;
+      if (typeof renderRecordTable === 'function') renderRecordTable();
+    }
+  });
+}
+
+/**
+ * Read the current visible section of the application aloud
+ */
+function readActivePageAloud() {
+  const sections = ['#home', '#dashboard', '#records', '#prices', '#sensors', '#farmer', '#seller', '#consumer'];
+  let activeSec = '#home';
+
+  for (const s of sections) {
+    const el = document.querySelector(s);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 200 && rect.bottom >= 200) {
+        activeSec = s;
+        break;
+      }
+    }
+  }
+
+  const currentLang = typeof window.getCurrentLanguage === 'function' ? window.getCurrentLanguage() : 'en';
+  let summary = '';
+
+  if (activeSec === '#farmer') {
+    summary = currentLang === 'ta'
+      ? 'விவசாயி போர்ட்டலில் உள்ளீர்கள். விவசாயி ராஜன் கிருஷ்ணமூர்த்தி, சேலம். மொத்தம் 3 விளைபொருள் தொகுதிகள் செயலில் உள்ளன. இன்று வருவாய் 4,200 ரூபாய்.'
+      : currentLang === 'hi'
+      ? 'आप किसान डैशबोर्ड पर हैं। किसान राजन कृष्णमूर्ति, सेलम। 3 सक्रिय फसल लॉट उपलब्ध हैं। आज की आय ₹4,200 है।'
+      : 'You are on the Farmer Dashboard. Farmer Rajan Krishnamurthy, Salem. 3 active produce lots with ₹4,200 earnings today.';
+  } else if (activeSec === '#seller') {
+    summary = currentLang === 'ta'
+      ? 'விற்பனையாளர் சந்தையில் உள்ளீர்கள். அல்போன்சா மாம்பழம், ரோமா தக்காளி, வெங்காயம் மற்றும் வாழைப்பழம் நேரலை சலுகைகளுக்கு கிடைக்கின்றன.'
+      : currentLang === 'hi'
+      ? 'आप विक्रेता बाज़ार में हैं। अल्फांसो आम, टमाटर, प्याज और केले लाइव प्रस्तावों के लिए उपलब्ध हैं।'
+      : 'You are on the Seller Marketplace. Alphonso mangoes, Roma tomatoes, onions, and bananas are available for offers.';
+  } else if (activeSec === '#records') {
+    summary = currentLang === 'ta'
+      ? 'பிளாக்செயின் கண்காணிப்பு பதிவேட்டில் உள்ளீர்கள். புதிய பயிர் தொகுதியை பதிவு செய்து சரிபார்க்கலாம்.'
+      : currentLang === 'hi'
+      ? 'आप ब्लॉकचेन ट्रेसेबिलिटी रिकॉर्ड पर हैं। यहां नए लॉट पंजीकृत और सत्यापित किए जाते हैं।'
+      : 'You are on the Blockchain Produce Registry. Verified records are anchored to Ethereum.';
+  } else if (activeSec === '#prices') {
+    summary = currentLang === 'ta'
+      ? 'மதிப்பு சங்கிலி விலை கண்டறிதல் பகுதியில் உள்ளீர்கள். பண்ணை முதல் சில்லறை வரை வெளிப்படையான விலை நிர்ணயம் கண்காணிக்கப்படுகிறது.'
+      : currentLang === 'hi'
+      ? 'आप मूल्य खोज अनुभाग में हैं। खेत से उपभोक्ता तक पारदर्शी कीमतों की निगरानी की जाती है।'
+      : 'You are on the Fair Price Discovery section, eliminating middleman markups from farm to market.';
+  } else {
+    summary = currentLang === 'ta'
+      ? 'AgriTrace ஸ்மார்ட் விவசாய நெட்வொர்க் முகப்பு பக்கத்தில் உள்ளீர்கள். பண்ணை முதல் சந்தை வரை முழு வெளிப்படைத்தன்மையுடன் கூடிய தளம்.'
+      : currentLang === 'hi'
+      ? 'आप AgriTrace स्मार्ट कृषि नेटवर्क के मुख्य पृष्ठ पर हैं। खेत से बाजार तक पूर्ण पारदर्शिता।'
+      : 'Welcome to AgriTrace. A next-generation agricultural traceability network connecting farmers to retail markets with transparency.';
+  }
+
+  speak(summary);
+}
+
+function startListening() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    const msg = typeof window.t === 'function' ? window.t('voice_speech_unsupported') : 'Speech recognition is not supported in this browser. Please use the text input below.';
+    setVoiceState('error', 'Microphone not supported');
+    appendVoiceBubble('assistant', msg);
+    const input = document.getElementById('voiceTextInput');
+    if (input) input.focus();
+    return;
+  }
+
+  if (voiceRecognition && isListening) {
+    voiceRecognition.stop();
+    return;
+  }
+
+  const currentLang = typeof window.getCurrentLanguage === 'function' ? window.getCurrentLanguage() : 'en';
+
+  try {
+    voiceRecognition = new SR();
+    voiceRecognition.continuous = false;
+    voiceRecognition.interimResults = false;
+    voiceRecognition.lang = currentLang === 'ta' ? 'ta-IN' : currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+
+    voiceRecognition.onstart = () => {
+      isListening = true;
+      setVoiceState('listening');
+    };
+
+    voiceRecognition.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      isListening = false;
+      setVoiceState('idle');
+      processVoiceCommand(transcript);
+    };
+
+    voiceRecognition.onerror = (e) => {
+      console.warn('SpeechRecognition notice:', e.error);
+      isListening = false;
+      setVoiceState('error');
+      
+      let errMsg = 'Could not recognize speech. Please try again or type below.';
+      if (e.error === 'not-allowed' || e.error === 'permission-denied') {
+        errMsg = 'Microphone permission was denied. You can type commands in the text box below!';
+      } else if (e.error === 'no-speech') {
+        errMsg = 'No speech was detected. Please click Start Listening and speak clearly.';
+      }
+      appendVoiceBubble('assistant', errMsg);
+      const textInput = document.getElementById('voiceTextInput');
+      if (textInput) textInput.focus();
+    };
+
+    voiceRecognition.onend = () => {
+      isListening = false;
+      if (!isSpeaking) setVoiceState('idle');
+    };
+
+    voiceRecognition.start();
+  } catch (err) {
+    console.warn('SpeechRecognition start notice:', err);
+    isListening = false;
+    setVoiceState('error');
+  }
+}
+
+function stopListening() {
+  if (voiceRecognition) {
+    try {
+      voiceRecognition.stop();
+    } catch (e) {}
+  }
+  isListening = false;
+  setVoiceState('idle');
+}
+
+/**
+ * Update Voice Assistant when platform language changes
+ */
+function updateVoiceAssistantLanguage(langCode) {
+  const langPill = document.getElementById('voiceLangPill');
+  if (langPill) {
+    langPill.textContent = langCode === 'ta' ? '🇮🇳 TA' : langCode === 'hi' ? '🇮🇳 HI' : '🇬🇧 EN';
+  }
+  setVoiceState('idle');
 }
 
 function initVoiceAssistant() {
@@ -262,13 +738,18 @@ function initVoiceAssistant() {
   const closeBtn = document.getElementById('voiceCloseBtn');
   const panel = document.getElementById('voicePanel');
   const micBtn = document.getElementById('voiceMicBtn');
+  const startBtn = document.getElementById('voiceStartBtn');
+  const stopBtn = document.getElementById('voiceStopBtn');
+  const stopSpeakingBtn = document.getElementById('voiceStopSpeakingBtn');
   const muteBtn = document.getElementById('voiceMuteBtn');
   const volSlider = document.getElementById('voiceVolumeSlider');
+  const inputForm = document.getElementById('voiceInputForm');
+  const textInput = document.getElementById('voiceTextInput');
 
-  if (!toggleBtn || !panel) return;
+  if (!panel) return;
 
-  // Initialize Audio Controls UI
   updateAudioControlsUI();
+  setVoiceState('idle');
 
   if (muteBtn) {
     muteBtn.addEventListener('click', (e) => {
@@ -284,55 +765,168 @@ function initVoiceAssistant() {
     });
   }
 
-  toggleBtn.addEventListener('click', () => {
+  const handleVoiceToggle = () => {
     panel.classList.toggle('open');
     if (panel.classList.contains('open')) {
-      const t = TRANSLATIONS[currentLang];
-      setTimeout(() => speak(t.voice_greeting || TRANSLATIONS.en.voice_greeting), 400);
-    }
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', () => { panel.classList.remove('open'); });
-
-  document.querySelectorAll('.voice-quick-btn').forEach(btn => {
-    btn.addEventListener('click', () => { const cmd = btn.dataset.cmd; if (cmd) processVoiceCommand(cmd); });
-  });
-
-  if (micBtn) {
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SR) {
-      voiceRecognition = new SR();
-      voiceRecognition.continuous = false;
-      voiceRecognition.interimResults = false;
-      voiceRecognition.lang = 'en-IN';
-
-      voiceRecognition.onresult = (e) => {
-        const t = e.results[0][0].transcript;
-        processVoiceCommand(t);
-        micBtn.classList.remove('listening');
-        isVoiceActive = false;
-        micBtn.innerHTML = '<span>🎤</span>';
-      };
-      voiceRecognition.onend = () => { micBtn.classList.remove('listening'); isVoiceActive = false; micBtn.innerHTML = '<span>🎤</span>'; };
-      voiceRecognition.onerror = () => { micBtn.classList.remove('listening'); isVoiceActive = false; micBtn.innerHTML = '<span>🎤</span>'; };
-
-      micBtn.addEventListener('click', () => {
-        if (isVoiceActive) {
-          voiceRecognition.stop();
-        } else {
-          voiceRecognition.start();
-          micBtn.classList.add('listening');
-          micBtn.innerHTML = '<span>🔴</span>';
-          isVoiceActive = true;
-          appendVoiceBubble('assistant', '🎤 Listening… speak now.');
-        }
-      });
+      setVoiceState('idle');
+      const greeting = typeof window.t === 'function' ? window.t('voice_greeting') : 'Welcome to AgriTrace!';
+      setTimeout(() => speak(greeting), 400);
     } else {
-      micBtn.innerHTML = '<span>🎤</span>';
-      micBtn.style.opacity = '0.5';
-      micBtn.title = 'Speech not supported in this browser';
+      stopSpeaking();
+      stopListening();
+    }
+  };
+
+  if (toggleBtn) toggleBtn.addEventListener('click', handleVoiceToggle);
+
+  const floatVoiceBtn = document.getElementById('floatVoiceBtn');
+  if (floatVoiceBtn) floatVoiceBtn.addEventListener('click', handleVoiceToggle);
+
+  const mVoiceBtn = document.getElementById('m-voiceToggleBtn');
+  if (mVoiceBtn) mVoiceBtn.addEventListener('click', handleVoiceToggle);
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      panel.classList.remove('open');
+      stopSpeaking();
+      stopListening();
+    });
+  }
+
+  if (startBtn) startBtn.addEventListener('click', startListening);
+  if (stopBtn) stopBtn.addEventListener('click', stopListening);
+  if (stopSpeakingBtn) stopSpeakingBtn.addEventListener('click', stopSpeaking);
+  if (micBtn) {
+    micBtn.addEventListener('click', () => {
+      if (isListening) stopListening();
+      else startListening();
+    });
+  }
+
+  // Quick Action Buttons
+  document.querySelectorAll('.voice-quick-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.dataset.cmd;
+      if (cmd) processVoiceCommand(cmd);
+    });
+  });
+
+  // Typed Fallback Form Submission
+  if (inputForm) {
+    inputForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!textInput) return;
+      const val = textInput.value.trim();
+      if (val) {
+        textInput.value = '';
+        processVoiceCommand(val);
+      }
+    });
+  }
+}
+
+/* =========================================================
+   CLEAR TEXT VIEW (HIGH READABILITY & ACCESSIBILITY SYSTEM)
+   Repaired root cause: Prevents broken span color inheritance,
+   eliminates moving visual clutter, applies accessible fonts.
+   ========================================================= */
+
+function toggleClearTextView(forceState) {
+  const isCurrentlyActive = document.body.classList.contains('clear-text-view');
+  const nextState = forceState !== undefined ? forceState : !isCurrentlyActive;
+
+  if (nextState) {
+    document.body.classList.add('clear-text-view');
+    localStorage.setItem('agritrace_clear_text', 'true');
+    updateClearTextButtons(true);
+    if (typeof showToast === 'function') {
+      showToast(typeof window.t === 'function' ? window.t('toast_clear_text_on') : '👓 Clear Text View Activated: High-contrast, sharp typography for all pages.', 'success');
+    }
+  } else {
+    document.body.classList.remove('clear-text-view');
+    localStorage.setItem('agritrace_clear_text', 'false');
+    updateClearTextButtons(false);
+    if (typeof showToast === 'function') {
+      showToast(typeof window.t === 'function' ? window.t('toast_clear_text_off') : '👓 Standard View Restored.', 'success');
     }
   }
+
+  // Notify any active components
+  window.dispatchEvent(new CustomEvent('agritrace:clearTextChanged', { detail: { active: nextState } }));
+}
+
+function updateClearTextButtons(active) {
+  const ids = ['clearTextViewBtn', 'floatClearTextBtn', 'm-clearTextViewBtn'];
+  ids.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.classList.toggle('active', active);
+      const label = btn.querySelector('.tv-label, .tv-text');
+      if (label) {
+        label.textContent = active ? (typeof window.t === 'function' ? window.t('clear_text_on') : 'Clear Text: ON') : (typeof window.t === 'function' ? window.t('clear_text_btn') : 'Clear Text');
+      }
+    }
+  });
+}
+
+/**
+ * Text Size Accessibility Control System
+ * Supports: 'small', 'default', 'large'
+ */
+function setTextSize(size) {
+  const validSizes = ['small', 'default', 'large'];
+  const targetSize = validSizes.includes(size) ? size : 'default';
+
+  document.documentElement.setAttribute('data-text-size', targetSize);
+  document.body.classList.remove('text-size-small', 'text-size-default', 'text-size-large');
+  document.body.classList.add('text-size-' + targetSize);
+  localStorage.setItem('agritrace_text_size', targetSize);
+
+  // Update button active state
+  const fontDec = document.getElementById('fontDecBtn');
+  const fontReset = document.getElementById('fontResetBtn');
+  const fontInc = document.getElementById('fontIncBtn');
+
+  if (fontDec) fontDec.classList.toggle('active', targetSize === 'small');
+  if (fontReset) fontReset.classList.toggle('active', targetSize === 'default');
+  if (fontInc) fontInc.classList.toggle('active', targetSize === 'large');
+
+  if (typeof showToast === 'function') {
+    const toastKey = 'toast_text_size_' + targetSize;
+    showToast(typeof window.t === 'function' ? window.t(toastKey) : `Text Size: ${targetSize}`, 'success');
+  }
+}
+
+function initClearTextView() {
+  // Restore saved Clear Text View
+  const savedClearText = localStorage.getItem('agritrace_clear_text') === 'true';
+  if (savedClearText) {
+    document.body.classList.add('clear-text-view');
+    updateClearTextButtons(true);
+  }
+
+  // Restore saved Text Size
+  const savedTextSize = localStorage.getItem('agritrace_text_size') || 'default';
+  setTextSize(savedTextSize);
+
+  // Bind Buttons
+  const clearBtn = document.getElementById('clearTextViewBtn');
+  if (clearBtn) clearBtn.addEventListener('click', () => toggleClearTextView());
+
+  const floatBtn = document.getElementById('floatClearTextBtn');
+  if (floatBtn) floatBtn.addEventListener('click', () => toggleClearTextView());
+
+  const mClearBtn = document.getElementById('m-clearTextViewBtn');
+  if (mClearBtn) mClearBtn.addEventListener('click', () => toggleClearTextView());
+
+  // Font Size Stepper Buttons
+  const fontDec = document.getElementById('fontDecBtn');
+  const fontReset = document.getElementById('fontResetBtn');
+  const fontInc = document.getElementById('fontIncBtn');
+
+  if (fontDec) fontDec.addEventListener('click', () => setTextSize('small'));
+  if (fontReset) fontReset.addEventListener('click', () => setTextSize('default'));
+  if (fontInc) fontInc.addEventListener('click', () => setTextSize('large'));
 }
 
 /* =========================================================
@@ -346,21 +940,20 @@ const PRODUCE_DATABASE = {
   banana:   { emoji: '🍌', name: 'Banana',    grade: 'A',  tempRange: '13-15', humidity: '85', shelfLife: '5-7 days',   priceRange: '₹30-60/kg',  region: 'Trichy, Tamil Nadu' },
   mango:    { emoji: '🥭', name: 'Mango',     grade: 'A+', tempRange: '8-12',  humidity: '85', shelfLife: '10-14 days', priceRange: '₹60-120/kg', region: 'Salem, Tamil Nadu' },
   chilli:   { emoji: '🌶️', name: 'Chilli',    grade: 'A+', tempRange: '7-10',  humidity: '80', shelfLife: '14-21 days', priceRange: '₹40-80/kg',  region: 'Guntur, Andhra Pradesh' },
-  brinjal:  { emoji: '🍆', name: 'Brinjal',   grade: 'B',  tempRange: '10-15', humidity: '85', shelfLife: '7-10 days',  priceRange: '₹25-45/kg',  region: 'Coimbatore, Tamil Nadu' },
   capsicum: { emoji: '🫑', name: 'Capsicum',  grade: 'A',  tempRange: '7-10',  humidity: '90', shelfLife: '14-21 days', priceRange: '₹35-70/kg',  region: 'Ooty, Tamil Nadu' },
-  carrot:   { emoji: '🥕', name: 'Carrot',    grade: 'A',  tempRange: '0-5',   humidity: '95', shelfLife: '30-60 days', priceRange: '₹20-40/kg',  region: 'Ooty, Tamil Nadu' },
   grapes:   { emoji: '🍇', name: 'Grapes',    grade: 'A+', tempRange: '0-2',   humidity: '90', shelfLife: '14-21 days', priceRange: '₹80-150/kg', region: 'Nashik, Maharashtra' },
 };
 
 let cameraStream = null;
-let scannedProduceType = null;
 
 function displayProduceResult(key) {
   const produce = PRODUCE_DATABASE[key];
   if (!produce) return;
-  scannedProduceType = key;
   const resultEl = document.getElementById('cameraProduceResult');
   if (!resultEl) return;
+
+  const btnConfirm = typeof window.t === 'function' ? window.t('camera_btn_confirm') : '✓ Confirm & Link to Batch';
+  const btnChange = typeof window.t === 'function' ? window.t('camera_btn_change') : '↺ Change Produce';
 
   resultEl.innerHTML = `
     <div class="produce-result-card">
@@ -376,8 +969,8 @@ function displayProduceResult(key) {
           <span>📍 ${produce.region}</span>
         </div>
         <div class="produce-result-actions">
-          <button class="small-button" onclick="confirmProduceAndLink('${key}')">✓ Confirm &amp; Link to Batch</button>
-          <button class="small-button" onclick="showProduceSelector()">↺ Change Produce</button>
+          <button class="small-button" onclick="confirmProduceAndLink('${key}')">${btnConfirm}</button>
+          <button class="small-button" onclick="showProduceSelector()">${btnChange}</button>
         </div>
       </div>
     </div>
@@ -396,7 +989,10 @@ function confirmProduceAndLink(key) {
   if (humidityEl) humidityEl.value = parseFloat(produce.humidity);
   const gradeEl = document.getElementById('qualityGrade');
   if (gradeEl) gradeEl.value = produce.grade.replace('+', '');
-  if (typeof showToast === 'function') showToast(`${produce.emoji} ${produce.name} linked to batch! Form auto-filled.`, 'success');
+  
+  if (typeof showToast === 'function') {
+    showToast(`${produce.emoji} ${produce.name} linked to batch! Form auto-filled.`, 'success');
+  }
   closeCameraModal();
   setTimeout(() => {
     const formEl = document.getElementById('records');
@@ -433,7 +1029,7 @@ function initCameraScanner() {
       if (video) { video.srcObject = cameraStream; video.play(); }
     } catch (err) {
       const feed = document.getElementById('cameraFeed');
-      if (feed) feed.innerHTML = `<div class="camera-demo-mode"><div class="camera-demo-icon">📷</div><p>Camera unavailable in this environment</p><p style="color:var(--green);margin-top:8px;font-size:11px;">DEMO MODE — Click "Identify Produce" to simulate AI recognition</p></div>`;
+      if (feed) feed.innerHTML = `<div class="camera-demo-mode"><div class="camera-demo-icon">📷</div><p>Camera unavailable in this environment</p><p style="color:var(--green);margin-top:8px;font-size:13px;">DEMO MODE — Click "Identify Produce" to simulate AI recognition</p></div>`;
     }
   });
 
@@ -449,11 +1045,13 @@ function initCameraScanner() {
         const keys = Object.keys(PRODUCE_DATABASE);
         const key = keys[Math.floor(Math.random() * keys.length)];
         if (loadingEl) loadingEl.style.display = 'none';
-        captureBtn.textContent = '📷 Identify Produce';
+        captureBtn.textContent = typeof window.t === 'function' ? window.t('camera_btn_identify') : '📷 Identify Produce';
         captureBtn.disabled = false;
         displayProduceResult(key);
-        if (typeof speak === 'function') speak(`I detected ${PRODUCE_DATABASE[key].name}, Grade ${PRODUCE_DATABASE[key].grade}. Price range ${PRODUCE_DATABASE[key].priceRange}.`);
-      }, 2200);
+        if (typeof speak === 'function') {
+          speak(`I detected ${PRODUCE_DATABASE[key].name}, Grade ${PRODUCE_DATABASE[key].grade}. Price range ${PRODUCE_DATABASE[key].priceRange}.`);
+        }
+      }, 2000);
     });
   }
 }
@@ -465,80 +1063,126 @@ function closeCameraModal() {
 }
 
 /* =========================================================
-   QR CODE SYSTEM
+   QR CODE & TRACEABILITY DISPLAY
    ========================================================= */
 
-function generateQRCode(data, container) {
+function generateQRCode(text, container) {
   if (!container) return;
-  const encoded = encodeURIComponent(data);
+  container.innerHTML = '';
+  const canvas = document.createElement('canvas');
   const size = 180;
-  container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}&color=39FF88&bgcolor=020807&format=png&margin=12" alt="QR Code" style="border-radius:12px;border:2px solid rgba(57,255,136,0.4);" width="${size}" height="${size}" loading="lazy" />`;
-}
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
 
-let qrCameraStream = null;
+  ctx.fillStyle = '#05130d';
+  ctx.fillRect(0, 0, size, size);
 
-function initQRScanner() {
-  const openBtn = document.getElementById('openQRScannerBtn');
-  const closeBtn = document.getElementById('closeQRScannerBtn');
-  const modal = document.getElementById('qrScannerModal');
-  const manualInput = document.getElementById('qrManualInput');
-  const lookupBtn = document.getElementById('qrLookupBtn');
+  const hash = Array.from(text).reduce((acc, c) => (acc * 31 + c.charCodeAt(0)) & 0xffffffff, 7);
+  const grid = 21;
+  const cell = size / grid;
 
-  if (!openBtn || !modal) return;
-
-  openBtn.addEventListener('click', () => {
-    modal.classList.add('open');
-    const resultEl = document.getElementById('qrScanResult');
-    if (resultEl) { resultEl.style.display = 'none'; resultEl.innerHTML = ''; }
-    initQRCameraScanner();
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', () => { modal.classList.remove('open'); stopQRCamera(); });
-
-  if (lookupBtn && manualInput) {
-    lookupBtn.addEventListener('click', () => { const id = manualInput.value.trim(); if (id) lookupAndShowQRRecord(id); });
-    manualInput.addEventListener('keydown', e => { if (e.key === 'Enter') lookupBtn.click(); });
+  for (let r = 0; r < grid; r++) {
+    for (let c = 0; c < grid; c++) {
+      const isCorner =
+        (r < 7 && c < 7) ||
+        (r < 7 && c >= grid - 7) ||
+        (r >= grid - 7 && c < 7);
+      let filled = false;
+      if (isCorner) {
+        const lr = r < 7 ? r : r - (grid - 7);
+        const lc = c < 7 ? c : c - (grid - 7);
+        filled = (lr === 0 || lr === 6 || lc === 0 || lc === 6) || (lr >= 2 && lr <= 4 && lc >= 2 && lc <= 4);
+      } else {
+        const bit = ((hash ^ (r * 19 + c * 37)) & 0x7fffffff) % 3 === 0;
+        filled = bit;
+      }
+      if (filled) {
+        ctx.fillStyle = '#39ff88';
+        ctx.fillRect(c * cell, r * cell, cell - 0.5, cell - 0.5);
+      }
+    }
   }
-
-  document.querySelectorAll('.qr-demo-btn').forEach(btn => {
-    btn.addEventListener('click', () => { const id = btn.dataset.lotId; if (id) lookupAndShowQRRecord(id); });
-  });
+  container.appendChild(canvas);
 }
 
-function initQRCameraScanner() {
-  const video = document.getElementById('qrScanVideo');
-  if (!video) return;
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(stream => { qrCameraStream = stream; video.srcObject = stream; video.play(); })
-    .catch(() => {
-      const feedEl = document.getElementById('qrCameraFeed');
-      if (feedEl) feedEl.innerHTML = `<div class="camera-demo-mode"><div class="camera-demo-icon">🔲</div><p>Camera unavailable</p><p style="color:var(--green);font-size:11px;margin-top:8px;">Use manual lookup or demo buttons below</p></div>`;
-    });
+function displayTraceabilityProfile(record, container) {
+  if (!container) return;
+  const harvestDate = record.harvest_date ? new Date(record.harvest_date).toLocaleDateString('en-IN') : 'N/A';
+  const isVerified = !!record.blockchain_verified;
+  const qrData = `https://agritrace.io/verify/${record.lot_id}`;
+  const farmerCapture = record.farmer_price && record.consumer_price ? Math.round((record.farmer_price / record.consumer_price) * 100) : '--';
+
+  const tOrigin = typeof window.t === 'function' ? window.t('label_origin') : 'Origin';
+  const tHarvest = typeof window.t === 'function' ? window.t('label_harvest_date') : 'Harvest Date';
+  const tGrade = typeof window.t === 'function' ? window.t('label_quality_grade') : 'Quality Grade';
+  const tTemp = typeof window.t === 'function' ? window.t('label_temp') : 'Storage Temp';
+  const tHumidity = typeof window.t === 'function' ? window.t('label_humidity') : 'Humidity';
+  const tFarmerPrice = typeof window.t === 'function' ? window.t('label_farmer_price') : 'Farmer Price';
+  const tConsumerPrice = typeof window.t === 'function' ? window.t('label_consumer_price') : 'Consumer Price';
+
+  const tStep1 = typeof window.t === 'function' ? window.t('consumer_journey_harvest') : 'Harvested at Farm';
+  const tStep2 = typeof window.t === 'function' ? window.t('consumer_journey_registered') : 'Registered on AgriTrace';
+  const tStep3 = typeof window.t === 'function' ? window.t('consumer_journey_blockchain') : 'Blockchain Verified';
+  const tStep4 = typeof window.t === 'function' ? window.t('consumer_journey_coldchain') : 'Cold Chain Monitored';
+  const tStep5 = typeof window.t === 'function' ? window.t('consumer_journey_delivered') : 'Delivered to Market';
+
+  container.innerHTML = `
+    <div class="trace-profile">
+      <div class="trace-header">
+        <div>
+          <div class="trace-lot-id">${record.lot_id}</div>
+          <div class="trace-crop-name">${record.crop_name || 'Produce'}</div>
+        </div>
+        <div class="trace-badge ${isVerified ? 'trace-badge-verified' : 'trace-badge-unverified'}">
+          ${isVerified ? '✓ BLOCKCHAIN VERIFIED' : '⚠ UNVERIFIED'}
+        </div>
+      </div>
+      <div class="trace-grid">
+        <div class="trace-item"><span class="trace-icon">🌾</span><div><div class="trace-label">${tOrigin}</div><div class="trace-value">${record.origin || 'N/A'}</div></div></div>
+        <div class="trace-item"><span class="trace-icon">📅</span><div><div class="trace-label">${tHarvest}</div><div class="trace-value">${harvestDate}</div></div></div>
+        <div class="trace-item"><span class="trace-icon">⭐</span><div><div class="trace-label">${tGrade}</div><div class="trace-value">Grade ${record.quality_grade || 'N/A'}</div></div></div>
+        <div class="trace-item"><span class="trace-icon">🌡️</span><div><div class="trace-label">${tTemp}</div><div class="trace-value">${record.storage_temperature_c || '--'}°C</div></div></div>
+        <div class="trace-item"><span class="trace-icon">💧</span><div><div class="trace-label">${tHumidity}</div><div class="trace-value">${record.storage_humidity_pct || '--'}%</div></div></div>
+        <div class="trace-item"><span class="trace-icon">💰</span><div><div class="trace-label">${tFarmerPrice}</div><div class="trace-value">₹${record.farmer_price || '--'}/kg</div></div></div>
+        <div class="trace-item"><span class="trace-icon">🛒</span><div><div class="trace-label">${tConsumerPrice}</div><div class="trace-value">₹${record.consumer_price || '--'}/kg</div></div></div>
+        <div class="trace-item"><span class="trace-icon">📊</span><div><div class="trace-label">Farmer Share</div><div class="trace-value">${farmerCapture}%</div></div></div>
+      </div>
+      <div class="trace-blockchain">
+        <div class="trace-bc-title">⛓ BLOCKCHAIN RECORD</div>
+        <div class="trace-hash"><span>Metadata Hash:</span><code>${(record.metadata_hash || 'N/A').substring(0, 34)}…</code></div>
+        ${record.blockchain_tx_hash ? `<div class="trace-hash"><span>TX Hash:</span><code>${record.blockchain_tx_hash.substring(0, 34)}…</code></div>` : ''}
+      </div>
+      <div class="trace-bottom">
+        <div>
+          <div class="trace-label" style="margin-bottom:10px;">QR CODE</div>
+          <div id="traceQRCode"></div>
+        </div>
+        <div class="trace-journey">
+          <div class="trace-label" style="margin-bottom:12px;">SUPPLY CHAIN JOURNEY</div>
+          <div class="journey-step done"><span>🌾</span> ${tStep1} — ${record.origin || 'Farm'}</div>
+          <div class="journey-step done"><span>📋</span> ${tStep2}</div>
+          <div class="journey-step ${isVerified ? 'done' : 'pending'}"><span>⛓</span> ${tStep3}</div>
+          <div class="journey-step ${record.storage_temperature_c ? 'done' : 'pending'}"><span>🚚</span> ${tStep4}</div>
+          <div class="journey-step pending"><span>🛒</span> ${tStep5}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const qrContainer = document.getElementById('traceQRCode');
+    if (qrContainer) generateQRCode(qrData, qrContainer);
+  }, 80);
 }
 
-function stopQRCamera() {
-  if (qrCameraStream) { qrCameraStream.getTracks().forEach(t => t.stop()); qrCameraStream = null; }
-}
-
-async function lookupAndShowQRRecord(lotId) {
-  const resultEl = document.getElementById('qrScanResult');
+function lookupAndShowQRRecord(lotId) {
+  const resultEl = document.getElementById('qrModalResult');
   if (!resultEl) return;
-  resultEl.style.display = 'block';
-  resultEl.innerHTML = `<div style="text-align:center;padding:30px;"><div class="scan-spinner"></div><p style="margin-top:14px;color:var(--muted);">Looking up ${lotId}…</p></div>`;
+  const allRec = typeof allRecords !== 'undefined' ? allRecords : [];
+  const demos = typeof DEMO_FALLBACK_RECORDS !== 'undefined' ? DEMO_FALLBACK_RECORDS : [];
+  let record = [...allRec, ...demos].find(r => r.lot_id && r.lot_id.toLowerCase() === lotId.toLowerCase());
 
-  let record = null;
-
-  // Check allRecords (from app.js)
-  if (typeof allRecords !== 'undefined') {
-    record = allRecords.find(r => r.lot_id && r.lot_id.toLowerCase() === lotId.toLowerCase());
-  }
-
-  // Check demo fallback
-  if (!record && typeof DEMO_FALLBACK_RECORDS !== 'undefined') {
-    record = DEMO_FALLBACK_RECORDS.find(r => r.lot_id && r.lot_id.toLowerCase() === lotId.toLowerCase());
-  }
-
-  // Check seller listings
   if (!record) {
     const listing = SELLER_LISTINGS.find(l => l.lotId.toLowerCase() === lotId.toLowerCase());
     if (listing) {
@@ -553,84 +1197,39 @@ async function lookupAndShowQRRecord(lotId) {
     }
   }
 
-  // Try API
-  if (!record) {
-    try {
-      const res = await fetch(`http://127.0.0.1:4000/api/records?lot=${encodeURIComponent(lotId)}&limit=1`, { signal: AbortSignal.timeout(5000) });
-      if (res.ok) { const data = await res.json(); record = Array.isArray(data) ? data[0] : data; }
-    } catch (_) {}
+  if (record) {
+    displayTraceabilityProfile(record, resultEl);
   }
-
-  if (!record) {
-    resultEl.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);"><div style="font-size:38px;margin-bottom:12px;">🔍</div><p>No record found for <strong style="color:var(--green)">${lotId}</strong></p><p style="font-size:11px;margin-top:10px;">Try: DEMO-AGR-0001 &nbsp;|&nbsp; FARM-LOT-001 &nbsp;|&nbsp; FARM-LOT-005</p></div>`;
-    return;
-  }
-
-  displayTraceabilityProfile(record, resultEl);
 }
 
-function displayTraceabilityProfile(record, container) {
-  if (!container) return;
-  const harvestDate = record.harvest_date ? new Date(record.harvest_date).toLocaleDateString('en-IN') : 'N/A';
-  const isVerified = !!record.blockchain_verified;
-  const qrData = `https://agritrace.io/verify/${record.lot_id}`;
-  const farmerCapture = record.farmer_price && record.consumer_price ? Math.round((record.farmer_price / record.consumer_price) * 100) : '--';
+function initQRScanner() {
+  const openBtn = document.getElementById('openQRScannerBtn');
+  const closeBtn = document.getElementById('closeQRScannerBtn');
+  const modal = document.getElementById('qrScannerModal');
+  const lookupBtn = document.getElementById('qrLookupBtn');
+  const input = document.getElementById('qrLotInput');
 
-  container.innerHTML = `
-    <div class="trace-profile">
-      <div class="trace-header">
-        <div>
-          <div class="trace-lot-id">${record.lot_id}</div>
-          <div class="trace-crop-name">${record.crop_name || 'Produce'}</div>
-        </div>
-        <div class="trace-badge ${isVerified ? 'trace-badge-verified' : 'trace-badge-unverified'}">
-          ${isVerified ? '✓ BLOCKCHAIN VERIFIED' : '⚠ UNVERIFIED'}
-        </div>
-      </div>
-      <div class="trace-grid">
-        <div class="trace-item"><span class="trace-icon">🌾</span><div><div class="trace-label">Origin</div><div class="trace-value">${record.origin || 'N/A'}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">📅</span><div><div class="trace-label">Harvest Date</div><div class="trace-value">${harvestDate}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">⭐</span><div><div class="trace-label">Quality Grade</div><div class="trace-value">Grade ${record.quality_grade || 'N/A'}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">🌡️</span><div><div class="trace-label">Storage Temp</div><div class="trace-value">${record.storage_temperature_c || '--'}°C</div></div></div>
-        <div class="trace-item"><span class="trace-icon">💧</span><div><div class="trace-label">Humidity</div><div class="trace-value">${record.storage_humidity_pct || '--'}%</div></div></div>
-        <div class="trace-item"><span class="trace-icon">💰</span><div><div class="trace-label">Farmer Price</div><div class="trace-value">₹${record.farmer_price || '--'}/kg</div></div></div>
-        <div class="trace-item"><span class="trace-icon">🛒</span><div><div class="trace-label">Consumer Price</div><div class="trace-value">₹${record.consumer_price || '--'}/kg</div></div></div>
-        <div class="trace-item"><span class="trace-icon">📊</span><div><div class="trace-label">Farmer Capture</div><div class="trace-value">${farmerCapture}%</div></div></div>
-      </div>
-      <div class="trace-blockchain">
-        <div class="trace-bc-title">⛓ BLOCKCHAIN RECORD</div>
-        <div class="trace-hash"><span>Metadata Hash:</span><code>${(record.metadata_hash || 'N/A').substring(0, 34)}…</code></div>
-        ${record.blockchain_tx_hash ? `<div class="trace-hash"><span>TX Hash:</span><code>${record.blockchain_tx_hash.substring(0, 34)}…</code></div>` : ''}
-      </div>
-      <div class="trace-bottom">
-        <div>
-          <div class="trace-label" style="margin-bottom:10px;">QR CODE</div>
-          <div id="traceQRCode"></div>
-        </div>
-        <div class="trace-journey">
-          <div class="trace-label" style="margin-bottom:12px;">SUPPLY CHAIN JOURNEY</div>
-          <div class="journey-step done"><span>🌾</span> Harvested — ${record.origin || 'Farm'}</div>
-          <div class="journey-step done"><span>📋</span> Registered on AgriTrace</div>
-          <div class="journey-step ${isVerified ? 'done' : 'pending'}"><span>⛓</span> ${isVerified ? 'Blockchain Verified' : 'Pending Verification'}</div>
-          <div class="journey-step ${record.storage_temperature_c ? 'done' : 'pending'}"><span>🚚</span> Cold Chain Monitored</div>
-          <div class="journey-step pending"><span>🛒</span> Delivered to Market</div>
-        </div>
-      </div>
-    </div>
-  `;
+  if (openBtn && modal) {
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('open');
+      lookupAndShowQRRecord('DEMO-AGR-0001');
+    });
+  }
 
-  setTimeout(() => {
-    const qrContainer = document.getElementById('traceQRCode');
-    if (qrContainer) generateQRCode(qrData, qrContainer);
-  }, 80);
+  if (closeBtn && modal) {
+    closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+  }
 
-  if (typeof speak === 'function') {
-    speak(`Record found. ${record.crop_name} from ${record.origin}. Harvested ${harvestDate}. Farmer price ₹${record.farmer_price} per kg. ${isVerified ? 'Blockchain verified.' : 'Not yet blockchain verified.'}`);
+  if (lookupBtn && input) {
+    lookupBtn.addEventListener('click', () => {
+      const val = input.value.trim();
+      if (val) lookupAndShowQRRecord(val);
+    });
   }
 }
 
 /* =========================================================
-   FARMER DASHBOARD
+   FARMER DASHBOARD & OFFERS
    ========================================================= */
 
 const FARMER_DATA = {
@@ -663,18 +1262,27 @@ function renderFarmerDashboard() {
   const earningsEl = document.getElementById('farmerEarnings');
   if (earningsEl) {
     const e = FARMER_DATA.earnings;
+    const tToday = typeof window.t === 'function' ? window.t('farmer_earnings_today') : 'Today';
+    const tWeek = typeof window.t === 'function' ? window.t('farmer_earnings_week') : 'This Week';
+    const tMonth = typeof window.t === 'function' ? window.t('farmer_earnings_month') : 'This Month';
+    const tTotal = typeof window.t === 'function' ? window.t('farmer_earnings_total') : 'Total Earnings';
+
     earningsEl.innerHTML = `
       <div class="earnings-grid">
-        <div class="earning-card"><span>Today</span><strong>₹${e.today.toLocaleString('en-IN')}</strong></div>
-        <div class="earning-card"><span>This Week</span><strong>₹${e.week.toLocaleString('en-IN')}</strong></div>
-        <div class="earning-card"><span>This Month</span><strong>₹${e.month.toLocaleString('en-IN')}</strong></div>
-        <div class="earning-card earning-total"><span>Total Earnings</span><strong>₹${e.total.toLocaleString('en-IN')}</strong></div>
+        <div class="earning-card"><span>${tToday}</span><strong>₹${e.today.toLocaleString('en-IN')}</strong></div>
+        <div class="earning-card"><span>${tWeek}</span><strong>₹${e.week.toLocaleString('en-IN')}</strong></div>
+        <div class="earning-card"><span>${tMonth}</span><strong>₹${e.month.toLocaleString('en-IN')}</strong></div>
+        <div class="earning-card earning-total"><span>${tTotal}</span><strong>₹${e.total.toLocaleString('en-IN')}</strong></div>
       </div>
     `;
   }
 
   const listEl = document.getElementById('farmerProduceList');
   if (listEl) {
+    const btnOffers = typeof window.t === 'function' ? window.t('farmer_btn_offers') : 'View Offers';
+    const btnQR = typeof window.t === 'function' ? window.t('farmer_btn_qr') : 'QR Code';
+    const btnTrace = typeof window.t === 'function' ? window.t('farmer_btn_trace') : 'Trace';
+
     listEl.innerHTML = FARMER_DATA.produce.map(p => `
       <div class="produce-row produce-status-${p.status}">
         <div class="produce-row-left">
@@ -692,9 +1300,9 @@ function renderFarmerDashboard() {
           <span class="status-badge status-${p.status}">${p.status.toUpperCase()}</span>
         </div>
         <div class="produce-row-actions">
-          ${p.status !== 'sold' ? `<button class="small-button" onclick="viewFarmerOffers('${p.lotId}')">View Offers</button>` : `<span class="sold-label">✓ SOLD</span>`}
-          <button class="small-button" onclick="generateBatchQR('${p.lotId}')">QR Code</button>
-          <button class="small-button" onclick="lookupAndShowQRRecord('${p.lotId}'); document.getElementById('qrScannerModal').classList.add('open')">Trace</button>
+          ${p.status !== 'sold' ? `<button class="small-button" onclick="viewFarmerOffers('${p.lotId}')">${btnOffers}</button>` : `<span class="sold-label">✓ SOLD</span>`}
+          <button class="small-button" onclick="generateBatchQR('${p.lotId}')">${btnQR}</button>
+          <button class="small-button" onclick="lookupAndShowQRRecord('${p.lotId}'); document.getElementById('qrScannerModal').classList.add('open')">${btnTrace}</button>
         </div>
       </div>
     `).join('');
@@ -721,11 +1329,17 @@ function viewFarmerOffers(lotId) {
   if (!modal) return;
   const titleEl = document.getElementById('offersModalTitle');
   const contentEl = document.getElementById('offersModalContent');
-  if (titleEl) titleEl.textContent = `Offers for ${lotId}`;
+  if (titleEl) {
+    titleEl.textContent = `${typeof window.t === 'function' ? window.t('farmer_offers_title') : 'Offers for'} ${lotId}`;
+  }
 
   const offers = DEMO_OFFERS[lotId] || [
-    { seller: 'Demo Buyer', price: 50, qty: 100, time: 'Just now', status: 'new' }
+    { seller: 'Cooperative Mandi Buyer', price: 50, qty: 100, time: 'Just now', status: 'new' }
   ];
+
+  const tAccept = typeof window.t === 'function' ? window.t('farmer_accept_btn') : '✓ Accept';
+  const tCounter = typeof window.t === 'function' ? window.t('farmer_counter_btn') : '↺ Counter';
+  const tDecline = typeof window.t === 'function' ? window.t('farmer_decline_btn') : '✕ Decline';
 
   if (contentEl) contentEl.innerHTML = offers.map((o, i) => `
     <div class="offer-card offer-${o.status}">
@@ -737,9 +1351,9 @@ function viewFarmerOffers(lotId) {
         <div class="offer-price">₹${o.price}/kg</div>
       </div>
       <div class="offer-actions">
-        <button class="small-button accept-btn" onclick="acceptFarmerOffer(${i}, '${lotId}', ${o.price})">✓ Accept</button>
-        <button class="small-button counter-btn" onclick="counterFarmerOffer(${i}, ${o.price})">↺ Counter</button>
-        <button class="small-button reject-btn" onclick="this.closest('.offer-card').style.opacity='0.4'">✕ Decline</button>
+        <button class="small-button accept-btn" onclick="acceptFarmerOffer(${i}, '${lotId}', ${o.price})">${tAccept}</button>
+        <button class="small-button counter-btn" onclick="counterFarmerOffer(${i}, ${o.price})">${tCounter}</button>
+        <button class="small-button reject-btn" onclick="this.closest('.offer-card').style.opacity='0.4'">${tDecline}</button>
       </div>
     </div>
   `).join('');
@@ -748,16 +1362,30 @@ function viewFarmerOffers(lotId) {
 }
 
 function acceptFarmerOffer(idx, lotId, price) {
-  document.getElementById('offersModal').classList.remove('open');
-  if (typeof showToast === 'function') showToast(`✓ Offer of ₹${price}/kg accepted for ${lotId}! Transaction initiated.`, 'success');
-  if (typeof speak === 'function') speak(`Offer of ₹${price} per kg accepted for lot ${lotId}. Transaction is now pending.`);
+  confirmSensitiveAction(
+    'Accept Offer & Initiate Transaction',
+    `Are you sure you want to accept the offer of ₹${price}/kg for lot ${lotId}? This will create an on-chain settlement agreement.`,
+    () => {
+      const modal = document.getElementById('offersModal');
+      if (modal) modal.classList.remove('open');
+      if (typeof showToast === 'function') {
+        showToast(typeof window.t === 'function' ? window.t('toast_offer_accepted') : `✓ Offer of ₹${price}/kg accepted for ${lotId}!`, 'success');
+      }
+      if (typeof speak === 'function') {
+        speak(`Offer of ₹${price} per kg accepted for lot ${lotId}. Blockchain settlement initiated.`);
+      }
+    }
+  );
 }
 
 function counterFarmerOffer(idx, currentPrice) {
   const price = prompt(`Counter offer (current: ₹${currentPrice}/kg)\nEnter your counter price (₹/kg):`);
-  if (price && !isNaN(price)) {
-    document.getElementById('offersModal').classList.remove('open');
-    if (typeof showToast === 'function') showToast(`Counter offer of ₹${price}/kg sent successfully!`, 'success');
+  if (price && !isNaN(price) && parseFloat(price) > 0) {
+    const modal = document.getElementById('offersModal');
+    if (modal) modal.classList.remove('open');
+    if (typeof showToast === 'function') {
+      showToast(typeof window.t === 'function' ? window.t('toast_counter_sent') : `Counter offer of ₹${price}/kg sent successfully!`, 'success');
+    }
   }
 }
 
@@ -801,6 +1429,11 @@ function renderSellerMarketplace(filter) {
     return;
   }
 
+  const tAvailable = typeof window.t === 'function' ? window.t('seller_available') : 'available';
+  const tHarvested = typeof window.t === 'function' ? window.t('seller_harvested') : 'Harvested';
+  const tOffer = typeof window.t === 'function' ? window.t('seller_make_offer') : 'Make Offer';
+  const tTrace = typeof window.t === 'function' ? window.t('seller_view_trace') : 'View Trace';
+
   listEl.innerHTML = filtered.map(l => {
     const harvestDate = new Date(l.harvest).toLocaleDateString('en-IN');
     return `
@@ -812,17 +1445,17 @@ function renderSellerMarketplace(filter) {
         <div class="listing-crop-name">${l.crop}</div>
         <div class="listing-grade">Grade ${l.grade}</div>
         <div class="listing-details">
-          <div class="listing-detail"><span>📦</span>${l.qty} kg available</div>
+          <div class="listing-detail"><span>📦</span>${l.qty} kg ${tAvailable}</div>
           <div class="listing-detail"><span>📍</span>${l.origin}</div>
           <div class="listing-detail"><span>👨‍🌾</span>${l.farmer}</div>
-          <div class="listing-detail"><span>📅</span>Harvested ${harvestDate}</div>
+          <div class="listing-detail"><span>📅</span>${tHarvested} ${harvestDate}</div>
           <div class="listing-detail"><span>🌡️</span>${l.temp}°C &nbsp; 💧 ${l.humidity}%</div>
         </div>
         <div class="listing-footer">
           <div class="listing-ask-price">₹${l.askPrice}<span>/kg</span></div>
           <div class="listing-actions">
-            <button class="small-button offer-btn" onclick="makeSellerOffer('${l.lotId}', ${l.askPrice}, '${l.crop}')">Make Offer</button>
-            <button class="small-button" onclick="openQRForLot('${l.lotId}')">View Trace</button>
+            <button class="small-button offer-btn" onclick="makeSellerOffer('${l.lotId}', ${l.askPrice}, '${l.crop}')">${tOffer}</button>
+            <button class="small-button" onclick="openQRForLot('${l.lotId}')">${tTrace}</button>
           </div>
         </div>
       </div>
@@ -839,10 +1472,18 @@ function openQRForLot(lotId) {
 function makeSellerOffer(lotId, askPrice, cropName) {
   const offerPrice = prompt(`Make an offer for ${cropName} (${lotId})\nFarmer asking: ₹${askPrice}/kg\n\nYour offer price (₹/kg):`);
   if (offerPrice && !isNaN(offerPrice) && parseFloat(offerPrice) > 0) {
-    const pct = Math.round(((askPrice - parseFloat(offerPrice)) / askPrice) * 100);
-    const below = pct > 0 ? ` (${pct}% below asking)` : pct < 0 ? ` (${Math.abs(pct)}% above asking)` : '';
-    if (typeof showToast === 'function') showToast(`✓ Offer of ₹${offerPrice}/kg submitted for ${lotId}${below}`, 'success');
-    if (typeof speak === 'function') speak(`Offer of ₹${offerPrice} per kg submitted for ${cropName}. The farmer will be notified.`);
+    confirmSensitiveAction(
+      'Submit Purchase Offer',
+      `Confirm submitting an offer of ₹${offerPrice}/kg for lot ${lotId} (${cropName})?`,
+      () => {
+        if (typeof showToast === 'function') {
+          showToast(`✓ Offer of ₹${offerPrice}/kg submitted for ${lotId}`, 'success');
+        }
+        if (typeof speak === 'function') {
+          speak(`Offer of ₹${offerPrice} per kg submitted for ${cropName}.`);
+        }
+      }
+    );
   }
 }
 
@@ -880,7 +1521,7 @@ function initConsumerVerification() {
       }
       if (resultEl) {
         resultEl.style.display = 'block';
-        resultEl.innerHTML = `<div style="text-align:center;padding:30px;"><div class="scan-spinner"></div><p style="margin-top:14px;color:var(--muted);">Verifying ${lotId}…</p></div>`;
+        resultEl.innerHTML = `<div style="text-align:center;padding:30px;"><div class="scan-spinner"></div><p style="margin-top:14px;color:var(--muted);">Verifying ${escapeHtml(lotId)}…</p></div>`;
       }
 
       let record = null;
@@ -890,14 +1531,16 @@ function initConsumerVerification() {
 
       if (!record) {
         const listing = SELLER_LISTINGS.find(l => l.lotId.toLowerCase() === lotId.toLowerCase());
-        if (listing) record = {
-          lot_id: listing.lotId, crop_name: listing.crop, origin: listing.origin,
-          harvest_date: listing.harvest, quality_grade: listing.grade,
-          storage_temperature_c: listing.temp, storage_humidity_pct: listing.humidity,
-          farmer_price: listing.askPrice, consumer_price: Math.round(listing.askPrice * 1.42),
-          blockchain_verified: listing.verified, metadata_hash: '0xdemo' + listing.lotId,
-          blockchain_tx_hash: listing.verified ? '0xtx' + listing.lotId : null,
-        };
+        if (listing) {
+          record = {
+            lot_id: listing.lotId, crop_name: listing.crop, origin: listing.origin,
+            harvest_date: listing.harvest, quality_grade: listing.grade,
+            storage_temperature_c: listing.temp, storage_humidity_pct: listing.humidity,
+            farmer_price: listing.askPrice, consumer_price: Math.round(listing.askPrice * 1.42),
+            blockchain_verified: listing.verified, metadata_hash: '0xdemo' + listing.lotId,
+            blockchain_tx_hash: listing.verified ? '0xtx' + listing.lotId : null,
+          };
+        }
       }
 
       setTimeout(() => {
@@ -905,10 +1548,10 @@ function initConsumerVerification() {
           if (record) {
             displayTraceabilityProfile(record, resultEl);
           } else {
-            resultEl.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);"><div style="font-size:40px;margin-bottom:12px;">🔍</div><p>No record found for <strong style="color:var(--green)">${lotId}</strong></p><p style="font-size:11px;margin-top:10px;">Try: DEMO-AGR-0001 &nbsp;|&nbsp; DEMO-AGR-0002 &nbsp;|&nbsp; FARM-LOT-001</p></div>`;
+            resultEl.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);"><div style="font-size:40px;margin-bottom:12px;">🔍</div><p>No record found for <strong style="color:var(--green)">${escapeHtml(lotId)}</strong></p><p style="font-size:13px;margin-top:10px;">Try: DEMO-AGR-0001 &nbsp;|&nbsp; DEMO-AGR-0002 &nbsp;|&nbsp; FARM-LOT-001</p></div>`;
           }
         }
-      }, 800);
+      }, 700);
     };
 
     scanBtn.addEventListener('click', doLookup);
@@ -932,7 +1575,7 @@ const SMART_ALERTS = [
   { type: 'info',    icon: '💰', title: 'New Offer Received',   msg: 'Ramesh Traders offered ₹80/kg for FARM-LOT-001 (250 kg)',     time: '12 min ago' },
   { type: 'success', icon: '✓',  title: 'Delivery Confirmed',   msg: 'DEMO-AGR-0003 delivered to Chennai Koyambedu Market',         time: '1 hour ago' },
   { type: 'warning', icon: '💧', title: 'Humidity High',         msg: 'Lot FARM-LOT-005: 96% humidity — near upper threshold',      time: '2 hours ago' },
-  { type: 'info',    icon: '⛓', title: 'Blockchain Verified',   msg: 'FARM-LOT-006 successfully anchored on Ethereum Mainnet',      time: '3 hours ago' },
+  { type: 'info',    icon: '⛓', title: 'Blockchain Verified',   msg: 'FARM-LOT-006 successfully anchored on Ethereum',              time: '3 hours ago' },
 ];
 
 function renderAlerts() {
@@ -955,51 +1598,373 @@ function renderAlerts() {
 
   const badge = document.getElementById('alertBadge');
   const warnings = SMART_ALERTS.filter(a => a.type === 'warning').length;
-  if (badge) { badge.textContent = warnings; badge.style.display = warnings > 0 ? 'inline-flex' : 'none'; }
+  if (badge) {
+    badge.textContent = warnings;
+    badge.style.display = warnings > 0 ? 'inline-flex' : 'none';
+  }
 }
 
 /* =========================================================
-   MODAL MANAGEMENT
+   MODAL CLOSING & NAVIGATION
    ========================================================= */
 
 function initModalClose() {
   document.querySelectorAll('.feat-modal').forEach(modal => {
-    modal.addEventListener('click', e => { if (e.target === modal) { modal.classList.remove('open'); stopQRCamera(); } });
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        closeCameraModal();
+      }
+    });
   });
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.feat-modal.open').forEach(m => m.classList.remove('open'));
       closeCameraModal();
-      stopQRCamera();
     }
   });
 
   const closeBatchQR = document.getElementById('closeBatchQRBtn');
-  if (closeBatchQR) closeBatchQR.addEventListener('click', () => { const m = document.getElementById('batchQRModal'); if (m) m.classList.remove('open'); });
+  if (closeBatchQR) closeBatchQR.addEventListener('click', () => {
+    const m = document.getElementById('batchQRModal');
+    if (m) m.classList.remove('open');
+  });
 
   const closeOffers = document.getElementById('closeOffersModalBtn');
-  if (closeOffers) closeOffers.addEventListener('click', () => { const m = document.getElementById('offersModal'); if (m) m.classList.remove('open'); });
+  if (closeOffers) closeOffers.addEventListener('click', () => {
+    const m = document.getElementById('offersModal');
+    if (m) m.classList.remove('open');
+  });
+
+  const closeBuilder = document.getElementById('closeBuilderModalBtn');
+  if (closeBuilder) closeBuilder.addEventListener('click', () => {
+    const m = document.getElementById('builderModal');
+    if (m) m.classList.remove('open');
+  });
+
+  const closeHardhat = document.getElementById('closeHardhatModalBtn');
+  if (closeHardhat) closeHardhat.addEventListener('click', () => {
+    const m = document.getElementById('hardhatModal');
+    if (m) m.classList.remove('open');
+  });
+
+  const closeAllLang = document.getElementById('closeAllLangModalBtn');
+  if (closeAllLang) closeAllLang.addEventListener('click', () => {
+    const m = document.getElementById('allLangModal');
+    if (m) m.classList.remove('open');
+  });
 }
 
+function initBuilderProfile() {
+  const openModal = () => {
+    const modal = document.getElementById('builderModal');
+    if (modal) modal.classList.add('open');
+  };
+
+  const navBuilderBtn = document.getElementById('builderInfoBtn');
+  if (navBuilderBtn) navBuilderBtn.addEventListener('click', openModal);
+
+  const heroBuilderBadge = document.getElementById('heroBuilderBadge');
+  if (heroBuilderBadge) heroBuilderBadge.addEventListener('click', openModal);
+
+  const floatBuilderBtn = document.getElementById('floatBuilderBtn');
+  if (floatBuilderBtn) floatBuilderBtn.addEventListener('click', openModal);
+}
+
+function initHardhatLocalModal() {
+  const openModal = () => {
+    const modal = document.getElementById('hardhatModal');
+    if (modal) {
+      modal.classList.add('open');
+      const pts = typeof getAccountPoints === 'function' ? getAccountPoints() : 100000;
+      const ptsEl = document.getElementById('modalPointsVal');
+      if (ptsEl) ptsEl.textContent = pts.toLocaleString();
+    }
+  };
+
+  const navBtn = document.getElementById('hardhatAccountBtn');
+  if (navBtn) navBtn.addEventListener('click', openModal);
+
+  const floatBtn = document.getElementById('floatHardhatBtn');
+  if (floatBtn) floatBtn.addEventListener('click', openModal);
+
+  const copyKeyBtn = document.getElementById('copyPrivKeyBtn');
+  if (copyKeyBtn) {
+    copyKeyBtn.addEventListener('click', () => {
+      const key = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
+      navigator.clipboard.writeText(key).then(() => {
+        if (typeof showToast === 'function') showToast('Hardhat Local private key copied to clipboard!', 'success');
+      });
+    });
+  }
+
+  const faucetBtn = document.getElementById('hardhatFaucetBtn');
+  if (faucetBtn) {
+    faucetBtn.addEventListener('click', () => {
+      if (typeof claimPointsFaucet === 'function') {
+        const total = claimPointsFaucet(25000);
+        const ptsEl = document.getElementById('modalPointsVal');
+        if (ptsEl) ptsEl.textContent = total.toLocaleString();
+      }
+    });
+  }
+}
+
+function initAllLanguageModal() {
+  const modal = document.getElementById('allLangModal');
+  const openBtn = document.getElementById('allLangModalBtn');
+  const floatBtn = document.getElementById('floatTranslateBtn');
+  const mBtn = document.getElementById('m-allLangModalBtn');
+
+  const openModal = () => { if (modal) modal.classList.add('open'); };
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (floatBtn) floatBtn.addEventListener('click', openModal);
+  if (mBtn) mBtn.addEventListener('click', openModal);
+
+  const grid = document.getElementById('allLangGrid');
+  if (grid && typeof SUPPORTED_LANGUAGES !== 'undefined') {
+    grid.innerHTML = SUPPORTED_LANGUAGES.map(lang => `
+      <div class="all-lang-item" data-code="${lang.code}">
+        <span class="all-lang-flag">${lang.flag}</span>
+        <div class="all-lang-info">
+          <strong>${lang.native}</strong>
+          <small>${lang.name}</small>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('.all-lang-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (typeof window.setLanguage === 'function') {
+          window.setLanguage(item.dataset.code);
+        }
+        if (modal) modal.classList.remove('open');
+      });
+    });
+  }
+}
+
+// Global exports
+window.toggleClearTextView = toggleClearTextView;
+window.setTextSize = setTextSize;
+window.processVoiceCommand = processVoiceCommand;
+window.speak = speak;
+window.stopSpeaking = stopSpeaking;
+window.startListening = startListening;
+window.stopListening = stopListening;
+window.viewFarmerOffers = viewFarmerOffers;
+window.acceptFarmerOffer = acceptFarmerOffer;
+window.counterFarmerOffer = counterFarmerOffer;
+window.makeSellerOffer = makeSellerOffer;
+window.generateBatchQR = generateBatchQR;
+window.lookupAndShowQRRecord = lookupAndShowQRRecord;
+window.confirmProduceAndLink = confirmProduceAndLink;
+window.showProduceSelector = showProduceSelector;
+window.displayProduceResult = displayProduceResult;
+window.confirmSensitiveAction = confirmSensitiveAction;
+window.updateVoiceAssistantLanguage = updateVoiceAssistantLanguage;
+
 /* =========================================================
-   MAIN INIT
+   MAIN DOM INIT & EVENT BUS
    ========================================================= */
 
+/* ---------------------------------------------------------
+   LEFT MARGIN NAVIGATION DOCK (VERTICAL SIDEBAR)
+   --------------------------------------------------------- */
+function initSidebarDock() {
+  const dock = document.getElementById('siteSidebarDock');
+  if (!dock) return;
+
+  const collapseBtn = document.getElementById('dockCollapseBtn');
+  const navDockToggleBtn = document.getElementById('navDockToggleBtn');
+  const dockLinks = dock.querySelectorAll('.dock-item');
+
+  // Load saved preference
+  const savedCollapsed = localStorage.getItem('agritrace_sidebar_collapsed');
+  if (savedCollapsed === '1') {
+    dock.classList.add('collapsed');
+    document.body.classList.add('dock-collapsed');
+    document.body.classList.remove('dock-open');
+  } else {
+    dock.classList.remove('collapsed');
+    document.body.classList.remove('dock-collapsed');
+    document.body.classList.add('dock-open');
+  }
+
+  function toggleDock() {
+    const isNowCollapsed = dock.classList.toggle('collapsed');
+    if (isNowCollapsed) {
+      document.body.classList.add('dock-collapsed');
+      document.body.classList.remove('dock-open');
+      localStorage.setItem('agritrace_sidebar_collapsed', '1');
+    } else {
+      document.body.classList.remove('dock-collapsed');
+      document.body.classList.add('dock-open');
+      localStorage.setItem('agritrace_sidebar_collapsed', '0');
+    }
+  }
+
+  if (collapseBtn) {
+    collapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDock();
+    });
+  }
+
+  if (navDockToggleBtn) {
+    navDockToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDock();
+    });
+  }
+
+  // Smooth scroll and active state on click
+  dockLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        navigateToSection(href);
+      }
+    });
+  });
+
+  // IntersectionObserver for scroll spy
+  const sectionIds = ['home', 'dashboard', 'records', 'prices', 'sensors', 'farmer', 'seller', 'consumer'];
+  const sections = sectionIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && sections.length > 0) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const currentId = entry.target.id;
+          dockLinks.forEach(item => {
+            const itemNav = item.getAttribute('data-nav') || (item.getAttribute('href') || '').replace('#', '');
+            const isActive = itemNav === currentId;
+            item.classList.toggle('active', isActive);
+          });
+          // Also sync mobile menu links
+          document.querySelectorAll('.mobile-menu a').forEach(ma => {
+            const mHref = ma.getAttribute('href');
+            ma.classList.toggle('active', mHref === '#' + currentId);
+          });
+        }
+      });
+    }, {
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    });
+
+    sections.forEach(sec => observer.observe(sec));
+  }
+}
+
+/* ---------------------------------------------------------
+   OFFLINE RESILIENCE & PWA SERVICE WORKER MANAGER
+   --------------------------------------------------------- */
+function initOfflineResilience() {
+  const badge = document.getElementById('offlineStatusBadge');
+  const text = document.getElementById('offlineStatusText');
+
+  function updateStatus() {
+    const isOnline = navigator.onLine;
+    if (badge) {
+      badge.classList.toggle('online', isOnline);
+      badge.classList.toggle('offline', !isOnline);
+      badge.title = isOnline
+        ? 'AgriTrace PWA Online — Network active with local offline caching'
+        : 'AgriTrace PWA Offline Mode — Full local access to records, marketplace & speech assistant';
+    }
+    if (text) {
+      if (typeof window.t === 'function') {
+        text.textContent = isOnline ? window.t('status_online') : window.t('status_offline');
+      } else {
+        text.textContent = isOnline ? 'Online' : 'Offline';
+      }
+    }
+    document.body.classList.toggle('is-offline', !isOnline);
+  }
+
+  window.addEventListener('online', () => {
+    updateStatus();
+    if (typeof showToast === 'function') {
+      showToast('✓ Back Online — Syncing latest agricultural network data', 'success');
+    }
+  });
+
+  window.addEventListener('offline', () => {
+    updateStatus();
+    if (typeof showToast === 'function') {
+      showToast('⚡ Offline Mode Active — Complete local access to records, marketplace & voice AI', 'warning');
+    }
+  });
+
+  // Initial status check
+  updateStatus();
+
+  // Register PWA Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => {
+          console.log('[AgriTrace] Service Worker registered for offline resilience. Scope:', reg.scope);
+        })
+        .catch((err) => {
+          console.warn('[AgriTrace] Service Worker registration failed (falling back to cache):', err);
+        });
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  initLanguageSystem();
+  // 1. Accessibility & Clear Text & Text Sizing
+  initClearTextView();
+
+  // 2. Voice Assistant
   initVoiceAssistant();
+
+  // 3. Navigation Dock (Left Margin Vertical Sidebar)
+  initSidebarDock();
+
+  // 4. Offline Resilience & PWA Service Worker
+  initOfflineResilience();
+
+  // 5. Modals & Scanners
   initCameraScanner();
   initQRScanner();
+  initModalClose();
+  initBuilderProfile();
+  initHardhatLocalModal();
+  initAllLanguageModal();
+
+  // 6. Dashboards & Alerts
   renderFarmerDashboard();
   initSellerMarketplace();
   initConsumerVerification();
   renderAlerts();
-  initModalClose();
 
-  // Preload voices
+  // 7. Preload speech synthesis voices
   if (window.speechSynthesis) {
     window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
   }
+
+  // 8. Listen for language changes and re-render dynamic content
+  window.addEventListener('agritrace:languageChanged', () => {
+    renderFarmerDashboard();
+    renderSellerMarketplace();
+    renderAlerts();
+    updateClearTextButtons(document.body.classList.contains('clear-text-view'));
+    updateAudioControlsUI();
+    const textEl = document.getElementById('offlineStatusText');
+    if (textEl && typeof window.t === 'function') {
+      textEl.textContent = navigator.onLine ? window.t('status_online') : window.t('status_offline');
+    }
+  });
 });

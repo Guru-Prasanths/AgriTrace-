@@ -12,8 +12,54 @@
 window.walletState = {
   account: null,
   chainId: null,
-  connected: false
+  connected: false,
+  accountName: null,
+  isHardhatLocal: false
 };
+
+
+/* ---------------------------------------------------------
+   HARDHAT LOCAL PRESET ACCOUNT & POINTS
+   Account name: Hardhat Local
+   Alternate to Sepolia with 100,000 abundant test points
+   --------------------------------------------------------- */
+
+const HARDHAT_LOCAL_ACCOUNT = {
+  name: "Hardhat Local",
+  address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  privateKey: "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+  chainIdHex: "0x7a69",
+  chainIdDec: 31337,
+  rpcUrl: "http://127.0.0.1:8545",
+  defaultPoints: 100000,
+  balanceEth: "10,000 ETH"
+};
+
+/* Points Tracking */
+function getAccountPoints(account = window.walletState.account) {
+  const isHardhat = !account || (account && account.toLowerCase() === HARDHAT_LOCAL_ACCOUNT.address.toLowerCase()) || window.walletState.isHardhatLocal;
+  const key = `agritrace_pts_${(account || "hardhat").toLowerCase()}`;
+  const stored = localStorage.getItem(key);
+  if (stored !== null) return parseInt(stored, 10);
+  const initial = isHardhat ? HARDHAT_LOCAL_ACCOUNT.defaultPoints : 25000;
+  localStorage.setItem(key, initial);
+  return initial;
+}
+
+function updateAccountPoints(delta, account = window.walletState.account) {
+  const current = getAccountPoints(account);
+  const updated = Math.max(0, current + delta);
+  const key = `agritrace_pts_${(account || "hardhat").toLowerCase()}`;
+  localStorage.setItem(key, updated);
+  updateWalletUI();
+  return updated;
+}
+
+function claimPointsFaucet(amount = 25000) {
+  const total = updateAccountPoints(amount);
+  showWalletToast(`🎁 Added +${amount.toLocaleString()} points to your account! Total: ${total.toLocaleString()} PTS`, "success");
+  return total;
+}
 
 
 /* ---------------------------------------------------------
@@ -96,40 +142,54 @@ function updateWalletUI() {
   const btn       = document.getElementById("connectWalletBtn");
   const badge     = document.getElementById("networkBadge");
   const footer    = document.getElementById("footerNetwork");
+  const ptsEl     = document.getElementById("accountPointsDisplay");
+  const floatPts  = document.getElementById("floatHardhatBtn");
+  const modalPts  = document.getElementById("modalPointsDisplay");
 
-  const { account, chainId, connected } = window.walletState;
+  const { account, chainId, connected, isHardhatLocal } = window.walletState;
+  const isHardhatAcc = isHardhatLocal || (account && account.toLowerCase() === HARDHAT_LOCAL_ACCOUNT.address.toLowerCase());
+  const points = getAccountPoints(account);
+
+  /* -- Update points displays -- */
+  if (ptsEl) ptsEl.textContent = `${points.toLocaleString()} PTS`;
+  if (floatPts) floatPts.innerHTML = `⭐ ${points >= 1000 ? Math.floor(points / 1000) + "K" : points} PTS`;
+  if (modalPts) modalPts.textContent = `${points.toLocaleString()} AgriPoints`;
 
   /* -- Wallet button -- */
   if (btn) {
     if (connected && account) {
+      const label = isHardhatAcc ? "⭐ Hardhat Local" : shortAddress(account);
       btn.innerHTML =
-        `<span>\u2726</span> ${shortAddress(account)}`;
+        `<span>✦</span> ${label} <span class="wallet-pts-pill">${points >= 1000 ? Math.floor(points/1000) + 'K' : points}p</span>`;
       btn.classList.add("connected");
+      btn.title = `Connected: ${account} (${points.toLocaleString()} PTS)`;
     } else {
       btn.innerHTML =
-        `<span>\u2730</span> Connect Wallet`;
+        `<span>✧</span> Connect Wallet`;
       btn.classList.remove("connected");
+      btn.title = "Connect MetaMask or Hardhat Local Account";
     }
   }
 
   /* -- Network badge -- */
   if (badge) {
-    const name = connected ? chainName(chainId) : "Not Connected";
+    const name = connected ? chainName(chainId) : "Hardhat Local (Offline)";
     const ok   = connected && isAcceptableChain(chainId);
 
     badge.innerHTML = `
-      <span class="status-dot" style="background:${ok ? "var(--accent, #22c55e)" : "#ef4444"};"></span>
+      <span class="status-dot" style="background:${ok ? "var(--accent, #39ff88)" : "#39ff88"};"></span>
       <span>${name}</span>
     `;
+    badge.title = "Click to open Hardhat Local & Network Switcher";
   }
 
   /* -- Footer network label -- */
   if (footer) {
     if (connected && chainId) {
       const numId = chainNumericId(chainId);
-      footer.textContent = `${chainName(chainId).toUpperCase()} \u2022 CHAIN ${numId}`;
+      footer.textContent = `${chainName(chainId).toUpperCase()} • CHAIN ${numId} • ${points.toLocaleString()} PTS`;
     } else {
-      footer.textContent = "NOT CONNECTED";
+      footer.textContent = `HARDHAT LOCAL • CHAIN 31337 • ${points.toLocaleString()} PTS`;
     }
   }
 }
@@ -216,7 +276,10 @@ function disconnectWallet() {
 
 async function switchToSepolia() {
   const ethereum = getEthereumProvider();
-  if (!ethereum) return false;
+  if (!ethereum) {
+    showWalletToast("MetaMask was not detected. Please install MetaMask to switch networks.", "error");
+    return false;
+  }
 
   try {
     await ethereum.request({
@@ -224,7 +287,7 @@ async function switchToSepolia() {
       params: [{ chainId: "0xaa36a7" }]
     });
 
-    showWalletToast("Switched to Sepolia.", "success");
+    showWalletToast("Switched to Sepolia Testnet (Chain 11155111).", "success");
     return true;
 
   } catch (error) {
@@ -232,16 +295,140 @@ async function switchToSepolia() {
 
     if (error.code === 4902) {
       showWalletToast(
-        "Sepolia is not available in this wallet. Please enable the Sepolia test network in MetaMask.",
+        "Sepolia is not available in this wallet. Please enable Sepolia test network in MetaMask settings.",
         "error"
       );
     } else if (error.code === 4001) {
       showWalletToast("Network switch was rejected.", "error");
     } else {
-      showWalletToast("Unable to switch to Sepolia.", "error");
+      showWalletToast("Unable to switch to Sepolia: " + (error.message || error), "error");
     }
 
     return false;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   SWITCH TO HARDHAT LOCAL
+   Allows MetaMask to access Hardhat Local alternate to Sepolia
+   --------------------------------------------------------- */
+
+async function switchToHardhatLocal() {
+  const ethereum = getEthereumProvider();
+  if (!ethereum) {
+    // If no MetaMask in browser, activate preset Hardhat Local account directly
+    connectHardhatLocalAccount();
+    return true;
+  }
+
+  try {
+    await ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x7a69" }] // 31337
+    });
+
+    showWalletToast("Switched MetaMask to Hardhat Local network (Chain 31337).", "success");
+    return true;
+
+  } catch (error) {
+    console.warn("Hardhat local switch check:", error);
+
+    // 4902 error code indicates chain has not been added to MetaMask
+    if (error.code === 4902 || error?.data?.originalError?.code === 4902 || String(error?.message).includes("Unrecognized chain ID")) {
+      return await addHardhatLocalChain();
+    } else if (error.code === 4001) {
+      showWalletToast("Network switch to Hardhat Local was rejected.", "error");
+      return false;
+    } else {
+      // Fallback try adding chain directly
+      return await addHardhatLocalChain();
+    }
+  }
+}
+
+/* ---------------------------------------------------------
+   ADD HARDHAT LOCAL TO METAMASK
+   --------------------------------------------------------- */
+
+async function addHardhatLocalChain() {
+  const ethereum = getEthereumProvider();
+  if (!ethereum) return false;
+
+  try {
+    await ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: "0x7a69", // 31337
+          chainName: "Hardhat Local",
+          rpcUrls: ["http://127.0.0.1:8545"],
+          nativeCurrency: {
+            name: "Ether",
+            symbol: "ETH",
+            decimals: 18
+          },
+          blockExplorerUrls: null
+        }
+      ]
+    });
+
+    showWalletToast("Hardhat Local network added to MetaMask and selected!", "success");
+    return true;
+
+  } catch (addError) {
+    console.error("Failed to add Hardhat Local network:", addError);
+    if (addError.code === 4001) {
+      showWalletToast("Adding Hardhat Local network was rejected.", "error");
+    } else {
+      showWalletToast("Could not auto-add Hardhat Local: " + (addError.message || addError), "error");
+    }
+    return false;
+  }
+}
+
+/* ---------------------------------------------------------
+   CONNECT AS HARDHAT LOCAL ACCOUNT
+   Direct 1-Click Access with 100,000 Points & Full Permissions
+   --------------------------------------------------------- */
+
+function connectHardhatLocalAccount() {
+  window.walletState.account = HARDHAT_LOCAL_ACCOUNT.address;
+  window.walletState.chainId = HARDHAT_LOCAL_ACCOUNT.chainIdHex;
+  window.walletState.connected = true;
+  window.walletState.isHardhatLocal = true;
+  window.walletState.accountName = HARDHAT_LOCAL_ACCOUNT.name;
+
+  localStorage.setItem("agritrace_preferred_account", "hardhat_local");
+  updateWalletUI();
+
+  const pts = getAccountPoints(HARDHAT_LOCAL_ACCOUNT.address);
+  showWalletToast(`⭐ Connected as ${HARDHAT_LOCAL_ACCOUNT.name}! Available Balance: ${pts.toLocaleString()} Points (${HARDHAT_LOCAL_ACCOUNT.balanceEth})`, "success");
+
+  // Refresh operator status if available
+  if (typeof refreshOperatorStatus === "function") {
+    refreshOperatorStatus();
+  }
+
+  // Close modal if open
+  const modal = document.getElementById("hardhatModal");
+  if (modal) modal.classList.remove("open");
+
+  return HARDHAT_LOCAL_ACCOUNT.address;
+}
+
+/* Copy Hardhat Local Private Key to Clipboard */
+function copyHardhatPrivateKey() {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(HARDHAT_LOCAL_ACCOUNT.privateKey)
+      .then(() => {
+        showWalletToast("Copied Hardhat Local private key to clipboard! Import into MetaMask under Account -> Import Account.", "success");
+      })
+      .catch(() => {
+        prompt("Copy Hardhat Local Private Key:", HARDHAT_LOCAL_ACCOUNT.privateKey);
+      });
+  } else {
+    prompt("Copy Hardhat Local Private Key:", HARDHAT_LOCAL_ACCOUNT.privateKey);
   }
 }
 
@@ -312,6 +499,7 @@ function setupWalletListeners() {
     }
 
     window.walletState.account = accounts[0];
+    window.walletState.isHardhatLocal = accounts[0].toLowerCase() === HARDHAT_LOCAL_ACCOUNT.address.toLowerCase();
     updateWalletUI();
     showWalletToast(`Account changed: ${shortAddress(accounts[0])}`, "success");
   });
@@ -339,17 +527,45 @@ function setupWalletListeners() {
 document.addEventListener("DOMContentLoaded", () => {
   setupWalletListeners();
 
-  const connectBtn = document.getElementById("connectWalletBtn");
+  // Auto-connect if user previously selected Hardhat Local
+  if (localStorage.getItem("agritrace_preferred_account") === "hardhat_local") {
+    connectHardhatLocalAccount();
+  }
 
+  const connectBtn = document.getElementById("connectWalletBtn");
   if (connectBtn) {
     connectBtn.addEventListener("click", async () => {
       if (window.walletState.connected) {
-        /* Already connected — toggle disconnect */
-        disconnectWallet();
-        showWalletToast("Wallet disconnected.", "success");
+        /* If clicking connected wallet, open network & account modal for easy access */
+        const modal = document.getElementById("hardhatModal");
+        if (modal) {
+          modal.classList.add("open");
+        } else {
+          disconnectWallet();
+          showWalletToast("Wallet disconnected.", "success");
+        }
       } else {
         await connectWallet();
       }
+    });
+  }
+
+  // Network badge click also opens the Hardhat Local & Network Switcher
+  const networkBadge = document.getElementById("networkBadge");
+  if (networkBadge) {
+    networkBadge.style.cursor = "pointer";
+    networkBadge.addEventListener("click", () => {
+      const modal = document.getElementById("hardhatModal");
+      if (modal) modal.classList.toggle("open");
+    });
+  }
+
+  // Hardhat Local button in nav
+  const hardhatBtn = document.getElementById("hardhatAccountBtn");
+  if (hardhatBtn) {
+    hardhatBtn.addEventListener("click", () => {
+      const modal = document.getElementById("hardhatModal");
+      if (modal) modal.classList.toggle("open");
     });
   }
 });
@@ -364,6 +580,14 @@ window.wallet = {
   connectWallet,
   disconnectWallet,
   switchToSepolia,
+  switchToHardhatLocal,
+  addHardhatLocalChain,
+  connectHardhatLocalAccount,
+  copyHardhatPrivateKey,
+  getAccountPoints,
+  updateAccountPoints,
+  claimPointsFaucet,
+  HARDHAT_LOCAL_ACCOUNT,
   walletReady,
   shortAddress,
   getEthereumProvider,
