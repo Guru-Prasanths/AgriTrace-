@@ -3,20 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="AgriTrace - Farm-to-market traceability and transparent price discovery platform">
-
+    <meta name="description" content="AgriTrace - Farm-to-market traceability and transparent price discovery platform engineered and built by GURU PRASANTH">
+    <meta name="author" content="GURU PRASANTH">
+    <meta name="creator" content="GURU PRASANTH">
+    <meta name="developer" content="GURU PRASANTH">
+    <meta name="web-builder" content="GURU PRASANTH">
     <meta name="theme-color" content="#020807">
 
-    <title>AgriTrace | Farm-to-Market Intelligence</title>
+    <title>AgriTrace | Smart Agriculture Network</title>
 
     <!-- Main stylesheet -->
+        <!-- Google Fonts: Inter, Noto Sans Tamil, Noto Sans Devanagari, Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/svg+xml" href="assets/agritrace-icon.svg">
-
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AgriTrace">
 </head>
 
 
@@ -98,75 +105,83 @@
 
         <nav class="navbar">
 
-            <!-- Brand -->
+            <!-- Brand & Dock Toggle -->
+            <div class="brand-wrapper">
+                <a href="#home" class="brand">
+                    <div class="brand-icon">
+                        🌱
+                    </div>
+                    <div class="brand-text">
+                        <strong>AgriTrace</strong>
+                        <span>SMART AGRI NETWORK</span>
+                    </div>
+                </a>
 
-            <a href="#home" class="brand">
-
-                <div class="brand-icon">
-                    🌱
-                </div>
-
-                <div class="brand-text">
-
-                    <strong>AgriTrace 𓅰 𓅬 𓅭 𓅮 𓅯</strong>
-
-                    <span>SMART AGRICULTURE NETWORK</span>
-
-                </div>
-
-            </a>
-
-
-            <!-- Desktop navigation -->
-
-            <div class="nav-links">
-
-                <a href="#home" id="nav-home" class="active">Home</a>
-                <a href="#dashboard" id="nav-dashboard">Dashboard</a>
-                <a href="#records" id="nav-traceability">Traceability</a>
-                <a href="#prices" id="nav-price">Price Discovery</a>
-                <a href="#sensors" id="nav-iot">IoT Monitoring</a>
-                <a href="#farmer" id="nav-farmer">Farmer</a>
-                <a href="#seller" id="nav-seller">Seller</a>
-                <a href="#consumer" id="nav-consumer">Verify</a>
-
+                <button id="navDockToggleBtn" class="nav-dock-toggle-btn" type="button" title="Toggle Navigation Dock (Left Margin)" aria-label="Toggle navigation sidebar">
+                    <span class="nav-dock-toggle-icon">❮</span>
+                </button>
             </div>
+
+            <!-- Compact Inline Language Switcher -->
+            <div id="langSwitcher" class="nav-lang-switcher" title="Quick language switch — click to translate"></div>
 
 
             <!-- Network status + Feature Actions -->
 
             <div class="nav-actions">
 
-                <div id="networkBadge" class="network-badge">
+                <!-- Offline / Online Resilience Outlet -->
+                <div id="offlineStatusBadge" class="nav-outlet-btn offline-status-outlet online" title="AgriTrace PWA Offline Cache Active — Full access to records, marketplace & speech assistant without internet">
+                    <span class="offline-status-dot"></span>
+                    <span id="offlineStatusText" class="offline-status-text" data-i18n="status_online">Online</span>
+                </div>
+
+                <!-- Voice Assistant AI Feature Outlet -->
+                <button id="voiceToggleBtn" class="nav-outlet-btn voice-ai-outlet" type="button" title="AgriTrace Voice Assistant AI — Click to talk or type" aria-label="Open Voice Assistant AI">
+                    <span class="voice-ai-mic">🎙️</span>
+                    <span class="voice-ai-label" data-i18n="voice_assistant_ai">Voice AI</span>
+                    <span class="voice-ai-badge">AI</span>
+                </button>
+
+                <!-- All Language Translator Outlet -->
+                <button id="allLangModalBtn" class="nav-outlet-btn lang-trans-outlet" type="button" title="All-Language Translator (Translate entire platform)">
+                    <span class="lang-icon">🌐</span>
+                    <span class="lang-label" data-i18n="translate_btn">Translate</span>
+                </button>
+
+                <!-- Hardhat Local Account & Points Outlet -->
+                <button id="hardhatAccountBtn" class="nav-outlet-btn account-pts-outlet" type="button" title="Hardhat Local Account & Points Management">
+                    <span class="pts-icon">⭐</span>
+                    <span id="accountPointsDisplay">100,000 PTS</span>
+                </button>
+
+                <!-- Network Status Outlet -->
+                <div id="networkBadge" class="nav-outlet-btn network-outlet" title="Click to Switch Network / Account">
                     <span class="status-dot"></span>
                     <span>Hardhat Local</span>
                 </div>
 
-                <!-- Camera Scan Button -->
-                <button id="openCameraBtn" class="nav-feat-btn" type="button" title="Scan Produce">
+                <!-- Camera Scan Outlet -->
+                <button id="openCameraBtn" class="nav-outlet-btn icon-outlet" type="button" title="Scan Produce">
                     📷
                 </button>
 
-                <!-- QR Scanner Button -->
-                <button id="openQRScannerBtn" class="nav-feat-btn" type="button" title="Scan QR Code">
+                <!-- QR Scanner Outlet -->
+                <button id="openQRScannerBtn" class="nav-outlet-btn icon-outlet" type="button" title="Scan QR Code">
                     🔲
                 </button>
 
-                <!-- Voice Assistant Button -->
-                <button id="voiceToggleBtn" class="nav-feat-btn voice-btn" type="button" title="Voice Assistant">
-                    🗣️
-                </button>
-
-                <!-- Alerts Button -->
-                <button class="nav-feat-btn alerts-btn" type="button" title="Alerts"
+                <!-- Alerts Outlet -->
+                <button class="nav-outlet-btn icon-outlet alerts-btn" type="button" title="Alerts"
                     onclick="document.getElementById('alertsPanel').classList.toggle('open')">
                     🔔
                     <span id="alertBadge" class="alert-badge" style="display:none">0</span>
                 </button>
 
-                <button id="connectWalletBtn" class="wallet-button" type="button">
+                <!-- Connect Wallet Outlet -->
+                <button id="connectWalletBtn" class="nav-outlet-btn wallet-outlet" type="button">
                     <span>✰</span>
-                    Connect Wallet ᝰ.ᐟ
+                    <span class="wallet-btn-text" data-i18n="wallet_connect">Connect Wallet ᝰ.ᐟ</span>
                 </button>
 
             </div>
@@ -186,24 +201,93 @@
         <!-- Mobile navigation -->
 
         <div id="mobileMenu" class="mobile-menu">
-            <a href="#home" id="m-nav-home">Home</a>
-            <a href="#dashboard" id="m-nav-dashboard">Dashboard</a>
-            <a href="#records" id="m-nav-traceability">Traceability</a>
-            <a href="#prices" id="m-nav-price">Price Discovery</a>
-            <a href="#sensors" id="m-nav-iot">IoT Monitoring</a>
-            <a href="#farmer" id="m-nav-farmer">Farmer</a>
-            <a href="#seller" id="m-nav-seller">Seller</a>
-            <a href="#consumer" id="m-nav-consumer">Verify</a>
+            <a href="#home" id="m-nav-home" data-i18n="m_nav_home">🏠 Home</a>
+            <a href="#dashboard" id="m-nav-dashboard" data-i18n="m_nav_dashboard">📊 Dashboard</a>
+            <a href="#records" id="m-nav-traceability" data-i18n="m_nav_traceability">⛓ Traceability</a>
+            <a href="#prices" id="m-nav-price" data-i18n="m_nav_price">💰 Price Discovery</a>
+            <a href="#sensors" id="m-nav-iot" data-i18n="m_nav_iot">📡 IoT Monitoring</a>
+            <a href="#farmer" id="m-nav-farmer" data-i18n="m_nav_farmer">👨🌾 Farmer</a>
+            <a href="#seller" id="m-nav-seller" data-i18n="m_nav_seller">🛒 Seller</a>
+            <a href="#consumer" id="m-nav-consumer" data-i18n="m_nav_consumer">✓ Verify</a>
             <!-- Mobile Feature Buttons -->
             <div class="mobile-feat-btns">
-                <button onclick="document.getElementById('openCameraBtn').click()" type="button">📷 Scan
-                    Produce</button>
-                <button onclick="document.getElementById('openQRScannerBtn').click()" type="button">🔲 Scan QR</button>
-                <button onclick="document.getElementById('voiceToggleBtn').click()" type="button">🗣️ Voice</button>
+                <button id="m-voiceToggleBtn" onclick="document.getElementById('voiceToggleBtn').click()" type="button" class="m-voice-ai-btn">
+                    <span data-i18n="voice_assistant_ai">🎙️ Voice Assistant AI</span>
+                </button>
+                <button id="m-allLangModalBtn" type="button"><span data-i18n="m_all_lang">🌐 Translate Page — All 100+ Languages</span></button>
+                <button onclick="document.getElementById('hardhatAccountBtn').click()" type="button">⭐ Hardhat Local Account (100K PTS)</button>
+                <button onclick="document.getElementById('builderInfoBtn').click()" type="button">👨‍💻 Web Builder: GURU PRASANTH</button>
+                <button onclick="document.getElementById('openCameraBtn').click()" type="button">📷 AI Produce Scanner</button>
+                <button onclick="document.getElementById('openQRScannerBtn').click()" type="button">🔲 QR Traceability Scanner</button>
             </div>
         </div>
 
     </header>
+
+    <!-- =====================================================
+         LEFT MARGIN NAVIGATION DOCK (VERTICAL SIDEBAR)
+         ===================================================== -->
+    <aside class="site-sidebar-dock" id="siteSidebarDock" aria-label="Page Navigation">
+        <div class="dock-header">
+            <div class="dock-brand-mini">
+                <span class="dock-brand-icon">🌱</span>
+                <span class="dock-brand-name">Navigation</span>
+            </div>
+            <button id="dockCollapseBtn" class="dock-toggle-btn" type="button" title="Collapse / Expand Navigation" aria-label="Toggle navigation width">
+                <span class="dock-toggle-icon">❮</span>
+            </button>
+        </div>
+
+        <nav class="dock-nav-links" id="dockNavLinks">
+            <a href="#home" id="nav-home" class="dock-item active" data-nav="home" title="Home">
+                <span class="dock-icon">🏠</span>
+                <span class="dock-label" data-i18n="nav_home">Home</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#dashboard" id="nav-dashboard" class="dock-item" data-nav="dashboard" title="Dashboard">
+                <span class="dock-icon">📊</span>
+                <span class="dock-label" data-i18n="nav_dashboard">Dashboard</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#records" id="nav-traceability" class="dock-item" data-nav="records" title="Trace">
+                <span class="dock-icon">⛓️</span>
+                <span class="dock-label" data-i18n="nav_traceability">Trace</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#prices" id="nav-price" class="dock-item" data-nav="prices" title="Prices">
+                <span class="dock-icon">💰</span>
+                <span class="dock-label" data-i18n="nav_price">Prices</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#sensors" id="nav-iot" class="dock-item" data-nav="sensors" title="IoT">
+                <span class="dock-icon">📡</span>
+                <span class="dock-label" data-i18n="nav_iot">IoT</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#farmer" id="nav-farmer" class="dock-item" data-nav="farmer" title="Farmer">
+                <span class="dock-icon">👨‍🌾</span>
+                <span class="dock-label" data-i18n="nav_farmer">Farmer</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#seller" id="nav-seller" class="dock-item" data-nav="seller" title="Seller">
+                <span class="dock-icon">🏪</span>
+                <span class="dock-label" data-i18n="nav_seller">Seller</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+            <a href="#consumer" id="nav-consumer" class="dock-item" data-nav="consumer" title="Verify">
+                <span class="dock-icon">🔍</span>
+                <span class="dock-label" data-i18n="nav_consumer">Verify</span>
+                <span class="dock-glow-indicator"></span>
+            </a>
+        </nav>
+
+        <div class="dock-footer">
+            <button id="dockVoiceShortcutBtn" class="dock-shortcut-btn" type="button" title="AgriTrace Voice Assistant AI" onclick="document.getElementById('voiceToggleBtn').click()">
+                <span class="dock-icon">🎙️</span>
+                <span class="dock-label" data-i18n="voice_assistant_ai">Voice AI</span>
+            </button>
+        </div>
+    </aside>
 
 
 
@@ -229,15 +313,17 @@
 
                     <span class="pulse-dot"></span>
 
-                    <span>
-                        LIVE AGRICULTURAL INTELLIGENCE
-                    </span>
+                    <span data-i18n="hero_live_status">LIVE AGRICULTURAL INTELLIGENCE</span>
 
                     <span class="status-line"></span>
 
-                    <span id="footerNetwork">
-                        HARDHAT LOCAL • CHAIN 31337
-                    </span>
+                    <span id="footerNetwork" data-i18n="hero_network_chain">HARDHAT LOCAL • CHAIN 31337</span>
+
+                    <span class="status-line"></span>
+
+                    <div id="heroBuilderBadge" class="hero-builder-badge" title="Click to view Web Builder profile">
+                        <span data-i18n="lead_architect_badge">★ LEAD ARCHITECT & BUILDER: GURU PRASANTH</span>
+                    </div>
 
                 </div>
 
@@ -245,45 +331,18 @@
                 <!-- Main title -->
 
                 <h1>
-
-                    FROM
-
-                    <span class="gradient-text">
-                        FARM
-                    </span>
-
-                    TO
-
-                    <span class="gradient-text">
-                        MARKET
-                    </span>
-
+                    <span data-i18n="hero_h1_from">FROM</span>
+                    <span class="gradient-text" data-i18n="hero_h1_farm">FARM</span>
+                    <span data-i18n="hero_h1_to">TO</span>
+                    <span class="gradient-text" data-i18n="hero_h1_market">MARKET</span>
                     <br>
-
-                    WITH
-
-                    <span class="outline-text">
-                        COMPLETE
-                    </span>
-
-                    <span class="gradient-text">
-                        TRANSPARENCY
-                    </span>
-
+                    <span data-i18n="hero_h1_with">WITH</span>
+                    <span class="outline-text" data-i18n="hero_h1_complete">COMPLETE</span>
+                    <span class="gradient-text" data-i18n="hero_h1_transparency">TRANSPARENCY</span>
                 </h1>
 
 
-                <p class="hero-description">
-
-                    A next-generation agricultural traceability
-                    network connecting farmers, logistics,
-                    markets and consumers through
-
-                    <strong>
-                        IoT + Blockchain + Transparent Pricing.
-                    </strong>
-
-                </p>
+                <p class="hero-description" data-i18n="hero_desc">A next-generation agricultural traceability network connecting farmers, logistics, markets and consumers through IoT + Blockchain + Transparent Pricing.</p>
 
 
                 <!-- Hero buttons -->
@@ -294,14 +353,14 @@
 
                         <span>◆</span>
 
-                        Explore Traceability
+                        <span data-i18n="hero_btn_explore">Explore Traceability</span>
 
                     </a>
 
 
                     <a href="#dashboard" class="secondary-button">
 
-                        View Live Network
+                        <span data-i18n="hero_btn_dashboard">View Live Network</span>
 
                         <span>→</span>
 
@@ -799,7 +858,7 @@
                                     LOT ID
                                 </label>
 
-                                <input id="lotId" name="lotId" type="text" placeholder="Example: LOT011" required>
+                                <input id="lotId" name="lotId" type="text" placeholder="Example: LOT011" data-i18n-placeholder="placeholder_lot_id" required>
 
                             </div>
 
@@ -810,7 +869,7 @@
                                     CROP NAME
                                 </label>
 
-                                <input id="cropName" name="cropName" type="text" placeholder="Example: TOMATO" required>
+                                <input id="cropName" name="cropName" type="text" placeholder="Example: TOMATO" data-i18n-placeholder="placeholder_crop_name" required>
 
                             </div>
 
@@ -821,7 +880,7 @@
                                     FARM / ORIGIN
                                 </label>
 
-                                <input id="origin" name="origin" type="text" placeholder="Farm location" required>
+                                <input id="origin" name="origin" type="text" placeholder="Farm location" data-i18n-placeholder="placeholder_origin" required>
 
                             </div>
 
@@ -1077,10 +1136,10 @@
 
 
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                        <input id="recordSearchInput" type="text" placeholder="🔍 Filter lot, crop, origin..."
+                        <input id="recordSearchInput" type="text" placeholder="🔍 Filter lot, crop, origin..." data-i18n-placeholder="placeholder_search_records"
                             style="background: rgba(2, 7, 6, 0.6); border: 1px solid rgba(57, 255, 136, 0.2); border-radius: 9px; padding: 7px 14px; color: var(--white); font-size: 9px; outline: none; width: 200px;">
                         <button id="refreshRecordsBtn" type="button" class="small-button">
-                            ↻ Refresh
+                            <span data-i18n="btn_refresh">↻ Refresh</span>
                         </button>
                     </div>
 
@@ -2213,9 +2272,9 @@
                     Chain ID: 31337
                 </span>
 
-                <span>
-                    Hardhat Local
-                </span>
+                <a href="#home" id="quickHardhatLocalLink" style="color:var(--green);font-weight:700;">
+                    ⭐ Hardhat Local (100K PTS)
+                </a>
 
                 <span>
                     Smart Contract
@@ -2229,16 +2288,31 @@
 
         </div>
 
+        <!-- Web Builder: GURU PRASANTH Card -->
+        <div class="footer-builder-card">
+            <div class="builder-avatar">GP</div>
+            <div style="flex:1;">
+                <div class="builder-label">PLATFORM ARCHITECT & WEB BUILDER</div>
+                <h3 class="builder-name">GURU PRASANTH</h3>
+                <p class="builder-desc">Engineered and built AgriTrace — a next-generation decentralized agricultural traceability, IoT cold-chain telemetry, and fair price discovery dApp. Designed for maximum accessibility across all languages and ultra-clear readability.</p>
+            </div>
+            <button id="footerBuilderProfileBtn" class="primary-button" type="button" style="padding:10px 20px;font-size:13px;white-space:nowrap;">
+                👨‍💻 View Profile
+            </button>
+        </div>
 
         <!-- Language Switcher -->
         <div class="footer-lang">
-            <span class="section-label">LANGUAGE / மொழி / भाषा</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+                <span class="section-label">LANGUAGE / மொழி / भाषा / BROWSE ALL 100+ LANGUAGES</span>
+                <button onclick="document.getElementById('allLangModalBtn').click()" class="small-button" type="button">🌐 All Language Translator</button>
+            </div>
             <div id="langSwitcher" class="lang-switcher"></div>
         </div>
 
         <div class="footer-bottom">
-            <span id="footerRights">© 2026 AgriTrace. All rights reserved.</span>
-            <span>BUILT FOR TRANSPARENT AGRICULTURE</span>
+            <span id="footerRights">© 2026 AgriTrace. Engineered & Built by <strong>GURU PRASANTH</strong>. All rights reserved.</span>
+            <span>BUILT FOR TRANSPARENT AGRICULTURE • ARCHITECT: GURU PRASANTH</span>
         </div>
 
     </footer>
@@ -2249,57 +2323,114 @@
          VOICE ASSISTANT PANEL
          ===================================================== -->
 
-    <div id="voicePanel" class="voice-panel">
+    <div id="voicePanel" class="voice-panel" role="dialog" aria-modal="true" aria-labelledby="voiceAssistantTitle">
         <div class="voice-panel-header">
-            <div>
-                <span style="font-size:22px;">🤖</span>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:24px;" aria-hidden="true">🤖</span>
                 <div>
-                    <strong>AgriTrace Voice Assistant</strong>
-                    <small>Ask anything about produce & prices</small>
+                    <strong id="voiceAssistantTitle" data-i18n="voice_panel_title">AgriTrace Voice Assistant</strong>
+                    <small data-i18n="voice_panel_sub">Ask anything about produce, prices & navigation</small>
                 </div>
             </div>
             <div class="voice-header-actions">
-                <button id="voiceMuteBtn" type="button" class="voice-tool-btn" title="Toggle Mute (🔊 / 🔇)">
+                <button id="voiceMuteBtn" type="button" class="voice-tool-btn" data-i18n-title="voice_btn_mute" title="Toggle Mute (🔊 / 🔇)" aria-label="Toggle Mute">
                     <span id="voiceMuteIcon">🔊</span>
                 </button>
-                <button id="voiceCloseBtn" type="button" class="voice-close-btn" title="Close Panel">✕</button>
+                <button id="voiceCloseBtn" type="button" class="voice-close-btn" data-i18n-title="modal_close" title="Close Panel" aria-label="Close Voice Assistant">✕</button>
             </div>
         </div>
+
+        <!-- Status Bar -->
+        <div class="voice-status-bar" id="voiceStatusBar" role="status" aria-live="polite">
+            <div style="display:flex;align-items:center;">
+                <span class="voice-status-dot" id="voiceStatusDot"></span>
+                <span class="voice-status-text" id="voiceStatusText" data-i18n="voice_state_idle">Ready to listen</span>
+            </div>
+            <span class="voice-lang-pill" id="voiceLangPill">🇬🇧 EN</span>
+        </div>
+
+        <!-- Control Action Buttons -->
+        <div class="voice-controls-toolbar">
+            <button id="voiceStartBtn" type="button" class="voice-action-btn start-listen-btn">
+                <span>🎤</span> <span data-i18n="voice_btn_start">Start Listening</span>
+            </button>
+            <button id="voiceStopBtn" type="button" class="voice-action-btn stop-listen-btn" style="display:none;">
+                <span>⏹️</span> <span data-i18n="voice_btn_stop">Stop Listening</span>
+            </button>
+            <button id="voiceStopSpeakingBtn" type="button" class="voice-action-btn stop-speaking-btn" title="Stop Speaking">
+                <span>🔇</span> <span data-i18n="voice_btn_stop_speaking">Stop Speaking</span>
+            </button>
+        </div>
+
+        <!-- Audio Volume Bar -->
         <div class="voice-audio-bar">
             <div class="voice-audio-meta">
-                <span class="voice-audio-label">Voice Volume</span>
+                <span class="voice-audio-label" data-i18n="voice_volume_label">Voice Volume</span>
                 <span id="voiceVolVal" class="voice-audio-pct">100%</span>
             </div>
             <div class="voice-slider-wrap">
-                <span class="vol-icon-min" title="Zero volume">🔈</span>
+                <span class="vol-icon-min" title="Zero volume" aria-hidden="true">🔈</span>
                 <input id="voiceVolumeSlider" type="range" min="0" max="100" value="100" class="voice-vol-slider"
                     aria-label="Voice volume control" />
-                <span class="vol-icon-max" title="Full volume">🔊</span>
+                <span class="vol-icon-max" title="Full volume" aria-hidden="true">🔊</span>
             </div>
         </div>
-        <div id="voiceLog" class="voice-log">
+
+        <!-- Speech Conversation Log -->
+        <div id="voiceLog" class="voice-log" role="log" aria-live="polite">
             <div class="voice-bubble voice-bubble-assistant">
-                <span class="voice-bubble-icon">🤖</span>
-                <span>Hello! I'm your AgriTrace assistant. Click the mic or ask me a quick question below.</span>
+                <span class="voice-bubble-icon" aria-hidden="true">🤖</span>
+                <span data-i18n="voice_greeting">Welcome to AgriTrace! I can help you with produce traceability, prices, and navigation. Try asking: What is the price of tomatoes?</span>
             </div>
         </div>
-        <div class="voice-quick-actions">
+
+        <!-- Quick Action Suggestions -->
+        <div class="voice-quick-actions" aria-label="Suggested Voice Commands">
             <button class="voice-quick-btn" data-cmd="price of tomato" type="button">🍅 Tomato Price</button>
             <button class="voice-quick-btn" data-cmd="price of mango" type="button">🥭 Mango Price</button>
             <button class="voice-quick-btn" data-cmd="go to farmer dashboard" type="button">👨‍🌾 Farmer</button>
-            <button class="voice-quick-btn" data-cmd="show alerts" type="button">🔔 Alerts</button>
-            <button class="voice-quick-btn" data-cmd="go to seller marketplace" type="button">🏪 Seller</button>
+            <button class="voice-quick-btn" data-cmd="show available products" type="button">🏪 Marketplace</button>
+            <button class="voice-quick-btn" data-cmd="change language to Tamil" type="button">🇮🇳 தமிழ்</button>
+            <button class="voice-quick-btn" data-cmd="change language to Hindi" type="button">🇮🇳 हिंदी</button>
+            <button class="voice-quick-btn" data-cmd="increase text size" type="button">🔍 Text Size</button>
+            <button class="voice-quick-btn" data-cmd="explain traceability" type="button">⛓ Traceability</button>
             <button class="voice-quick-btn" data-cmd="help" type="button">❓ Help</button>
         </div>
-        <div class="voice-input-row">
-            <button id="voiceMicBtn" class="voice-mic-btn" type="button" title="Hold to speak">
-                <span>🎤</span>
+
+        <!-- Speech input mic + typed fallback form -->
+        <form id="voiceInputForm" class="voice-input-container" onsubmit="return false;">
+            <button id="voiceMicBtn" class="voice-mic-btn" type="button" title="Click to speak" aria-label="Microphone input">
+                <span id="voiceMicIcon">🎤</span>
             </button>
-            <span class="voice-hint">Click mic to speak</span>
-        </div>
+            <input id="voiceTextInput" type="text" class="voice-text-input" 
+                data-i18n-placeholder="voice_input_placeholder"
+                placeholder="Type command or question (e.g. Tomato prices, Open dashboard)..." 
+                aria-label="Voice command text input" />
+            <button id="voiceSendBtn" type="submit" class="voice-send-btn" data-i18n-title="voice_btn_send" title="Send Command" aria-label="Send">
+                <span>➤</span>
+            </button>
+        </form>
     </div>
 
-
+    <!-- Confirmation Modal for Sensitive Actions -->
+    <div id="confirmModal" class="feat-modal" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+        <div class="feat-modal-box feat-modal-sm">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">⚠️</span>
+                    <h3 id="confirmModalTitle">Confirm Action</h3>
+                </div>
+                <button id="closeConfirmModalBtn" type="button" class="small-button">✕</button>
+            </div>
+            <div id="confirmModalMessage" class="confirm-modal-msg" style="padding:16px 0;font-size:16px;line-height:1.6;color:#e2e8f0;">
+                Are you sure you want to proceed with this sensitive action?
+            </div>
+            <div class="confirm-modal-actions" style="display:flex;gap:12px;justify-content:flex-end;">
+                <button id="confirmCancelBtn" type="button" class="secondary-button" style="padding:10px 18px;">Cancel</button>
+                <button id="confirmProceedBtn" type="button" class="primary-button" style="padding:10px 20px;">Confirm &amp; Proceed</button>
+            </div>
+        </div>
+    </div>
 
     <!-- =====================================================
          ALERTS PANEL
@@ -2439,6 +2570,207 @@
 
 
     <!-- =====================================================
+         HARDHAT LOCAL ACCOUNT & NETWORK MODAL
+         ===================================================== -->
+
+    <div id="hardhatModal" class="feat-modal">
+        <div class="feat-modal-box feat-modal-wide">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">⭐</span>
+                    <h3>Hardhat Local Account & Network Management</h3>
+                    <small style="color:var(--muted);display:block;margin-top:2px;">
+                        Access Hardhat Local as a seamless high-points alternate to Sepolia
+                    </small>
+                </div>
+                <button id="closeHardhatModalBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+
+            <div style="padding: 20px;">
+                <!-- Account Summary Card -->
+                <div class="hardhat-account-card">
+                    <div class="account-header-row">
+                        <div>
+                            <div class="account-badge-lg">
+                                <span>⭐ Account Name:</span>
+                                <strong>Hardhat Local</strong>
+                            </div>
+                            <small style="display:block;color:#a7f3d0;margin-top:6px;">
+                                System Operator • Contract Deployer • Full Platform Access
+                            </small>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="section-label" style="margin-bottom:2px;">AVAILABLE POINTS</div>
+                            <div id="modalPointsDisplay" class="points-pill-giant">100,000 AgriPoints</div>
+                            <small style="color:#facc15;font-weight:700;">+ 10,000 ETH Test Balance</small>
+                        </div>
+                    </div>
+
+                    <!-- Direct Connect Action -->
+                    <button id="btnConnectHardhatPreset" class="primary-button" type="button" style="width:100%;padding:14px;font-size:15px;margin-bottom:12px;">
+                        🚀 1-Click Connect Hardhat Local Account (Immediate Access)
+                    </button>
+                    <p style="font-size:11px;color:var(--muted);text-align:center;">
+                        Instantly activates the Hardhat Local account with 100,000 points and operator privileges without requiring MetaMask installation.
+                    </p>
+                </div>
+
+                <!-- Network Switching (MetaMask) -->
+                <div class="section-label" style="margin-bottom:10px;">METAMASK NETWORK SELECTOR</div>
+                <div class="network-switch-grid">
+                    <button id="btnSwitchToHardhat" class="net-card-btn active" type="button">
+                        <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                            <span style="font-size:20px;">⚡</span>
+                            <strong>Hardhat Local Network</strong>
+                        </div>
+                        <span style="font-size:12px;color:var(--muted);">Chain ID: 31337 • RPC: 127.0.0.1:8545</span>
+                        <span style="font-size:11px;color:var(--green);font-weight:600;">✓ Abundant Points & 0-Cost Instant Blocks</span>
+                    </button>
+
+                    <button id="btnSwitchToSepolia" class="net-card-btn" type="button">
+                        <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                            <span style="font-size:20px;">🌐</span>
+                            <strong>Sepolia Public Testnet</strong>
+                        </div>
+                        <span style="font-size:12px;color:var(--muted);">Chain ID: 11155111 • Public Ethereum Testnet</span>
+                        <span style="font-size:11px;color:#93c5fd;font-weight:600;">External blockchain verification</span>
+                    </button>
+                </div>
+
+                <!-- Import into MetaMask Details -->
+                <div class="section-label" style="margin-bottom:8px;">IMPORT ACCOUNT DETAILS (METAMASK)</div>
+                <div class="key-box-row">
+                    <div>
+                        <strong style="color:#38bdf8;display:block;">Account Address:</strong>
+                        <span>0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266</span>
+                    </div>
+                </div>
+                <div class="key-box-row">
+                    <div style="min-width:0;flex:1;">
+                        <strong style="color:#facc15;display:block;">Private Key (Preloaded with 100K Points & 10,000 ETH):</strong>
+                        <span style="font-size:11px;">0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80</span>
+                    </div>
+                    <button id="btnCopyHardhatKey" class="small-button" type="button" style="flex-shrink:0;">
+                        📋 Copy Key
+                    </button>
+                </div>
+
+                <!-- Free Faucet Box -->
+                <div class="faucet-action-box">
+                    <div>
+                        <strong style="color:#ffffff;display:block;">Need More Access Points?</strong>
+                        <small style="color:var(--muted);">Add +25,000 bonus AgriPoints to your connected account anytime for unlimited testing.</small>
+                    </div>
+                    <button id="btnClaimPointsFaucet" class="primary-button" type="button" style="padding:10px 18px;font-size:13px;white-space:nowrap;">
+                        🎁 Claim +25,000 Points
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         ALL-LANGUAGE UNIVERSAL TRANSLATOR MODAL
+         ===================================================== -->
+
+    <div id="allLangModal" class="feat-modal">
+        <div class="feat-modal-box feat-modal-wide">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">🌐</span>
+                    <h3>All-Language Universal Translator</h3>
+                    <small style="color:var(--muted);display:block;margin-top:2px;">
+                        Dynamically translate all pages, tables, forms, and charts into any world language
+                    </small>
+                </div>
+                <button id="closeAllLangModalBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+
+            <div style="padding: 20px;">
+                <div class="all-lang-search-box">
+                    <input id="langSearchInput" type="text" placeholder="🔍 Search language (e.g. Tamil, Hindi, Spanish, French, German, Arabic, Telugu, Chinese, Japanese)..." />
+                </div>
+
+                <div class="section-label" style="margin-bottom:12px;">SELECT LANGUAGE FOR FULL-PLATFORM TRANSLATION</div>
+                <div id="allLangGrid" class="all-lang-grid">
+                    <!-- Populated dynamically with all world languages -->
+                </div>
+
+                <div style="margin-top:20px;text-align:center;">
+                    <p style="font-size:12px;color:var(--muted);">
+                        Powered by AgriTrace Multi-Language Architecture + Google Cloud Neural Translation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
+         WEB BUILDER: GURU PRASANTH PROFILE MODAL
+         ===================================================== -->
+
+    <div id="builderModal" class="feat-modal">
+        <div class="feat-modal-box">
+            <div class="feat-modal-header">
+                <div>
+                    <span class="card-number">👨‍💻</span>
+                    <h3>Platform Architect & Web Builder</h3>
+                </div>
+                <button id="closeBuilderModalBtn" type="button" class="small-button">✕ Close</button>
+            </div>
+
+            <div style="padding: 24px;">
+                <div style="display:flex;align-items:center;gap:20px;margin-bottom:20px;">
+                    <div class="builder-avatar" style="width:72px;height:72px;font-size:26px;">GP</div>
+                    <div>
+                        <div class="builder-label">LEAD DEVELOPER & ARCHITECT</div>
+                        <h2 style="color:#ffffff;font-size:24px;font-weight:800;margin:0 0 4px 0;">GURU PRASANTH</h2>
+                        <span style="display:inline-block;padding:3px 10px;background:rgba(57,255,136,0.15);border:1px solid var(--green);border-radius:999px;color:var(--green);font-size:11px;font-weight:700;">
+                            Decentralized Web3 & IoT Architect
+                        </span>
+                    </div>
+                </div>
+
+                <p style="color:#e2e8f0;font-size:14px;line-height:1.7;margin-bottom:20px;">
+                    <strong>GURU PRASANTH</strong> designed, engineered, and deployed <strong>AgriTrace</strong> to revolutionize agricultural supply chains. The platform establishes an immutable, cryptographic record of agricultural produce from the farm field through cold-chain logistics to consumer retail, eliminating deceptive price gouging and ensuring food safety.
+                </p>
+
+                <div class="section-label" style="margin-bottom:10px;">CORE ARCHITECTURAL MODULES ENGINEERED</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
+                    <div style="background:rgba(6,22,17,0.7);border:1px solid var(--border);border-radius:12px;padding:12px 16px;">
+                        <strong style="color:var(--green);">✦ Smart Contract Architecture (Solidity 0.8.24)</strong>
+                        <p style="font-size:12px;color:var(--muted);margin-top:2px;">Immutable produce registry, operator role verification, cryptographic lot anchoring, and on-chain verification deployed on Hardhat Local & Sepolia.</p>
+                    </div>
+                    <div style="background:rgba(6,22,17,0.7);border:1px solid var(--border);border-radius:12px;padding:12px 16px;">
+                        <strong style="color:#38bdf8;">✦ Hardhat Local & Sepolia Dual Bridge</strong>
+                        <p style="font-size:12px;color:var(--muted);margin-top:2px;">Integrated high-points Hardhat Local account (100,000 PTS) enabling instant friction-free testing alternate to Sepolia testnet.</p>
+                    </div>
+                    <div style="background:rgba(6,22,17,0.7);border:1px solid var(--border);border-radius:12px;padding:12px 16px;">
+                        <strong style="color:#facc15;">✦ Universal Multi-Language & Clear Text View</strong>
+                        <p style="font-size:12px;color:var(--muted);margin-top:2px;">All-language dynamic translation engine and high-contrast WCAG AAA clear text mode for maximum accessibility across all devices.</p>
+                    </div>
+                    <div style="background:rgba(6,22,17,0.7);border:1px solid var(--border);border-radius:12px;padding:12px 16px;">
+                        <strong style="color:#a78bfa;">✦ IoT Cold-Chain Monitoring & Computer Vision</strong>
+                        <p style="font-size:12px;color:var(--muted);margin-top:2px;">Real-time temperature, humidity, and spoilage risk monitoring paired with AI produce camera detection and QR traceability scanner.</p>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:12px;justify-content:flex-end;">
+                    <button class="primary-button" type="button" onclick="document.getElementById('builderModal').classList.remove('open')">
+                        Close Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =====================================================
          TOAST
          ===================================================== -->
 
@@ -2475,6 +2807,7 @@
          AGRITRACE BLOCKCHAIN
          ===================================================== -->
 
+    <script src="js/i18n.js"></script>
     <script src="js/blockchain.js"></script>
 
 
@@ -2497,6 +2830,27 @@
          ===================================================== -->
 
     <script src="js/features.js"></script>
+
+
+    <!-- =====================================================
+         GOOGLE TRANSLATE (ALL-LANGUAGE TRANSLATOR ENGINE)
+         ===================================================== -->
+
+    <div id="google_translate_element" style="display:none;"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            try {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false
+                }, 'google_translate_element');
+            } catch (e) {
+                console.warn("Google Translate init notice:", e);
+            }
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
 
@@ -3087,6 +3441,35 @@
         );
 
     </script>
+
+
+    <!-- =====================================================
+         FLOATING ACCESSIBILITY TOOLBAR
+         Clear Text View • Font Sizing • All Language • Hardhat Local • Web Builder
+         ===================================================== -->
+    <div id="accessibilityToolbar" class="floating-access-bar" role="toolbar" aria-label="Accessibility & Readability Controls">
+        <button id="floatVoiceBtn" class="float-btn float-voice-btn" type="button" title="AgriTrace Voice Assistant AI — Click to talk or type" onclick="document.getElementById('voiceToggleBtn').click()">
+            🎙️ <span class="tv-text" data-i18n="voice_assistant_ai">Voice AI</span>
+        </button>
+
+        <div class="font-size-controls" title="Adjust Text Size">
+            <button id="fontDecBtn" class="float-btn-sm" type="button" title="Small Text (A-)" data-size="small">A-</button>
+            <button id="fontResetBtn" class="float-btn-sm active" type="button" title="Default Text Size (A)" data-size="default">A</button>
+            <button id="fontIncBtn" class="float-btn-sm" type="button" title="Large Text (A+)" data-size="large">A+</button>
+        </div>
+
+        <button id="floatTranslateBtn" class="float-btn" type="button" title="All-Language Universal Translator">
+            🌐 <span data-i18n="toolbar_translate">Translate</span>
+        </button>
+
+        <button id="floatHardhatBtn" class="float-btn float-pts-btn" type="button" title="Hardhat Local Account & Points (100K PTS)">
+            ⭐ <span data-i18n="toolbar_hardhat">100K PTS</span>
+        </button>
+
+        <button id="floatBuilderBtn" class="float-btn" type="button" title="Web Builder: GURU PRASANTH" style="color:var(--green);border-color:rgba(57,255,136,0.4);">
+            👨‍💻 GURU PRASANTH
+        </button>
+    </div>
 
 </body>
 

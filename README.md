@@ -1,25 +1,32 @@
 # AgriTrace
 
-**Farm-to-Market Traceability and Transparent Price Discovery System**
+**Farm-to-Market Traceability and Transparent Price Discovery System**  
+**Lead Architect & Web Builder: GURU PRASANTH**
 
-AgriTrace is a development/testnet full-stack blockchain dApp for agricultural supply-chain transparency. It separates trust-sensitive data from application data:
+🌐 **Live Deployment (GitHub Pages):** [https://guru-prasanths.github.io/AgriTrace-/](https://guru-prasanths.github.io/AgriTrace-/)  
+📦 **Repository:** [https://github.com/Guru-Prasanths/AgriTrace-](https://github.com/Guru-Prasanths/AgriTrace-)
 
-- **On-chain:** lot ID, crop, origin, harvest timestamp, metadata hash, verification status, price snapshots, and selected sensor observations.
-- **Off-chain:** richer metadata, application IDs, operational sensor streams, analytics, and large documents/files.
+AgriTrace is a full-stack decentralized agricultural intelligence dApp engineered by **GURU PRASANTH** to revolutionize farm-to-consumer supply chains. It links immutable blockchain anchors on Ethereum (Hardhat Local & Sepolia) with high-speed PostgreSQL telemetry, real-time IoT cold-chain monitoring, computer vision camera produce scanning, QR verification, global all-language translation, high-readability Clear Text mode, and offline PWA resilience.
 
-> This project is a testnet implementation. It is not presented as production-secure or production-ready.
+- **On-chain:** lot ID, crop, origin, harvest timestamp, metadata hash, verification status, price snapshots, and cold-chain IoT sensor anchors.
+- **Off-chain:** richer metadata, application IDs, operational sensor streams, analytics, and documents.
+- **Web Builder:** **GURU PRASANTH** (Architect, Solidity Smart Contracts & Frontend Engineering).
 
-## 1. Features
+## 1. Features & Capabilities
 
-- MetaMask connection with Sepolia network detection/switching
-- Real Solidity smart contract for agricultural lot anchors
-- On-chain produce verification
-- On-chain price history
-- On-chain cold-chain/sensor anchors
-- PostgreSQL REST API for off-chain records
-- Hash linkage between richer off-chain metadata and immutable blockchain records
-- Responsive Web3-style frontend built with HTML5/CSS3/Vanilla JS
-- User-friendly wallet/API/transaction error handling
+- **Platform Architect:** Designed and engineered end-to-end by **GURU PRASANTH**.
+- **Offline PWA Resilience:** Progressive Web App with service worker shell pre-caching, offline record fallback, and live network status synchronization.
+- **Amplified Voice Assistant AI:** High-audibility speech synthesis with Web Audio hardware chime, on-screen text toast HUD, and hands-free section navigation.
+- **Pinned Left-Margin Navigation Dock:** Sleek vertical navigation dock with collapsible icon/expanded modes, dynamic active-section indicators, and high contrast.
+- **Straight Header Action Outlets:** Unified 34px outlet buttons with compact straight baseline alignment for Voice AI, Translate, Points, Network, Camera, QR, Alerts, and Wallet.
+- **Hardhat Local Account & Network:** Preconfigured high-points test account (`Hardhat Local`) with 100,000 AgriPoints and 10,000 ETH test balance, enabling seamless friction-free testing alternate to Sepolia testnet.
+- **All-Language Universal Translator:** Real-time dynamic translation engine supporting English, Tamil, Hindi, and 100+ languages with full persistent state.
+- **Clear Text View (High Readability Mode):** Dedicated WCAG AAA high-contrast typography mode with sharp borders, pure-contrast backgrounds, and accessibility font size steppers (A- / A / A+) for crystal-clear readability across all devices.
+- **MetaMask Dual-Network Support:** One-click network switching between Hardhat Local (31337) and Sepolia (11155111).
+- **Computer Vision Produce Scanner:** Camera-based AI produce recognition with automatic quality grading and fresh shelf-life telemetry.
+- **QR Traceability Engine:** Instant cryptographic QR code generation and live camera QR barcode scanner for farm-to-table consumer verification.
+- **IoT Cold-Chain Telemetry:** Continuous temperature, humidity, and spoilage risk monitoring with smart multi-tiered alerts.
+- **Transparent Price Discovery:** Blockchain-anchored price tracking from farmer gate to consumer market to eliminate deceptive intermediaries.
 
 ## 2. Architecture
 
