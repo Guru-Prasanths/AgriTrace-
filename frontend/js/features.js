@@ -595,7 +595,7 @@ function filterAndSearchProduce(keyword) {
  * Read the current visible section of the application aloud
  */
 function readActivePageAloud() {
-  const sections = ['#home', '#dashboard', '#records', '#prices', '#sensors', '#farmer', '#seller', '#consumer'];
+  const sections = ['#home', '#dashboard', '#records', '#prices', '#sensors', '#kaggle', '#farmer', '#seller', '#consumer'];
   let activeSec = '#home';
 
   for (const s of sections) {
@@ -636,6 +636,8 @@ function readActivePageAloud() {
       : currentLang === 'hi'
       ? 'आप मूल्य खोज अनुभाग में हैं। खेत से उपभोक्ता तक पारदर्शी कीमतों की निगरानी की जाती है।'
       : 'You are on the Fair Price Discovery section, eliminating middleman markups from farm to market.';
+  } else if (activeSec === '#kaggle') {
+    summary = 'You are on the Kaggle Datasets section. Browse curated open agricultural datasets for prices, crop production, and fruits and vegetables.';
   } else {
     summary = currentLang === 'ta'
       ? 'AgriTrace ஸ்மார்ட் விவசாய நெட்வொர்க் முகப்பு பக்கத்தில் உள்ளீர்கள். பண்ணை முதல் சந்தை வரை முழு வெளிப்படைத்தன்மையுடன் கூடிய தளம்.'
@@ -1364,7 +1366,7 @@ function viewFarmerOffers(lotId) {
 function acceptFarmerOffer(idx, lotId, price) {
   confirmSensitiveAction(
     'Accept Offer & Initiate Transaction',
-    `Are you sure you want to accept the offer of ₹${price}/kg for lot ${lotId}? This will create an on-chain settlement agreement.`,
+    `Are you sure you want to accept the offer of ₹${price}/kg for lot ${lotId}? This will create an on-chain settlement agreement and award completion points.`,
     () => {
       const modal = document.getElementById('offersModal');
       if (modal) modal.classList.remove('open');
@@ -1373,6 +1375,33 @@ function acceptFarmerOffer(idx, lotId, price) {
       }
       if (typeof speak === 'function') {
         speak(`Offer of ₹${price} per kg accepted for lot ${lotId}. Blockchain settlement initiated.`);
+      }
+
+      // Sync with database orders & award product completion points
+      const token = localStorage.getItem('agritrace_jwt_token');
+      if (token) {
+        const apiBase = (typeof API_BASE !== 'undefined' ? API_BASE : (window.API_BASE || 'http://127.0.0.1:4001/api'));
+        fetch(`${apiBase}/orders`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({
+            produceRecordId: lotId,
+            cropName: lotId,
+            quantity: 100,
+            unitPrice: price,
+            notes: `Accepted offer for ${lotId} at ₹${price}/kg`
+          })
+        }).then(r => r.json()).then(ordData => {
+          if (ordData && ordData.order) {
+            return fetch(`${apiBase}/orders/${ordData.order.id}/status`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+              body: JSON.stringify({ status: 'completed' })
+            });
+          }
+        }).then(() => {
+          if (typeof renderFarmerPortal === 'function') renderFarmerPortal();
+        }).catch(err => console.warn('Order completion notice:', err));
       }
     }
   );
@@ -1481,6 +1510,25 @@ function makeSellerOffer(lotId, askPrice, cropName) {
         }
         if (typeof speak === 'function') {
           speak(`Offer of ₹${offerPrice} per kg submitted for ${cropName}.`);
+        }
+
+        // Create purchase order in database
+        const token = localStorage.getItem('agritrace_jwt_token');
+        if (token) {
+          const apiBase = (typeof API_BASE !== 'undefined' ? API_BASE : (window.API_BASE || 'http://127.0.0.1:4001/api'));
+          fetch(`${apiBase}/orders`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({
+              produceRecordId: lotId,
+              cropName: cropName,
+              quantity: 100,
+              unitPrice: parseFloat(offerPrice),
+              notes: `Seller offer of ₹${offerPrice}/kg for ${lotId}`
+            })
+          }).then(r => r.json()).then(() => {
+            if (typeof renderSellerPortal === 'function') renderSellerPortal();
+          }).catch(e => console.warn('Order offer notice:', e));
         }
       }
     );
@@ -1771,56 +1819,267 @@ window.updateVoiceAssistantLanguage = updateVoiceAssistantLanguage;
    ========================================================= */
 
 /* ---------------------------------------------------------
-   LEFT MARGIN NAVIGATION DOCK (VERTICAL SIDEBAR)
+   HERO TITLE CYCLIC PRODUCE ANIMATION
+   Cyclic transition between:
+   - "FROM FARM TO MARKET / WITH COMPLETE TRANSPARENCY"
+   - Different fruits and different vegetables one by one!
    --------------------------------------------------------- */
-function initSidebarDock() {
-  const dock = document.getElementById('siteSidebarDock');
-  if (!dock) return;
+function initHeroProduceCycler() {
+  const line1El = document.getElementById('heroLine1');
+  const line2El = document.getElementById('heroLine2');
+  const titleEl = document.getElementById('heroProduceTitle');
+  if (!line1El || !line2El || !titleEl) return;
 
-  const collapseBtn = document.getElementById('dockCollapseBtn');
-  const navDockToggleBtn = document.getElementById('navDockToggleBtn');
-  const dockLinks = dock.querySelectorAll('.dock-item');
+  const PRODUCE_SETS = {
+    en: [
+      {
+        line1: 'FROM <span class="gradient-text hero-text-glow">FARM</span> TO <span class="gradient-text hero-text-glow">MARKET</span>',
+        line2: 'WITH <span class="gradient-text hero-text-glow">COMPLETE</span> <span class="gradient-text hero-text-glow">TRANSPARENCY</span>'
+      },
+      {
+        line1: 'CRISP ORGANIC <span class="gradient-text hero-text-glow">APPLES</span> <span class="hero-produce-badge">🍎</span>',
+        line2: 'FRESH GARDEN <span class="gradient-text hero-text-glow">CARROTS</span> <span class="hero-produce-badge">🥕</span>'
+      },
+      {
+        line1: 'GOLDEN RIPE <span class="gradient-text hero-text-glow">MANGOES</span> <span class="hero-produce-badge">🥭</span>',
+        line2: 'VIBRANT CRISP <span class="gradient-text hero-text-glow">BELL PEPPERS</span> <span class="hero-produce-badge">🫑</span>'
+      },
+      {
+        line1: 'SWEET RED <span class="gradient-text hero-text-glow">STRAWBERRIES</span> <span class="hero-produce-badge">🍓</span>',
+        line2: 'TENDER GREEN <span class="gradient-text hero-text-glow">BROCCOLI</span> <span class="hero-produce-badge">🥦</span>'
+      },
+      {
+        line1: 'FARM FRESH <span class="gradient-text hero-text-glow">TOMATOES</span> <span class="hero-produce-badge">🍅</span>',
+        line2: 'ORGANIC BABY <span class="gradient-text hero-text-glow">SPINACH</span> <span class="hero-produce-badge">🥬</span>'
+      },
+      {
+        line1: 'SUN-RIPENED <span class="gradient-text hero-text-glow">ORANGES</span> <span class="hero-produce-badge">🍊</span>',
+        line2: 'COOL CRISP <span class="gradient-text hero-text-glow">CUCUMBERS</span> <span class="hero-produce-badge">🥒</span>'
+      },
+      {
+        line1: 'GOLDEN SWEET <span class="gradient-text hero-text-glow">CORN</span> <span class="hero-produce-badge">🌽</span>',
+        line2: 'EARTHY HARVEST <span class="gradient-text hero-text-glow">POTATOES</span> <span class="hero-produce-badge">🥔</span>'
+      },
+      {
+        line1: 'LUSH GREEN <span class="gradient-text hero-text-glow">WATERMELONS</span> <span class="hero-produce-badge">🍉</span>',
+        line2: 'PLUMP PURPLE <span class="gradient-text hero-text-glow">EGGPLANTS</span> <span class="hero-produce-badge">🍆</span>'
+      }
+    ],
+    ta: [
+      {
+        line1: 'பண்ணையிலிருந்து <span class="gradient-text hero-text-glow">சந்தைக்கு</span>',
+        line2: 'முழுமையான <span class="gradient-text hero-text-glow">வெளிப்படைத்தன்மையுடன்</span>'
+      },
+      {
+        line1: 'சுவையான ஆர்கானிக் <span class="gradient-text hero-text-glow">ஆப்பிள்கள்</span> <span class="hero-produce-badge">🍎</span>',
+        line2: 'புதிய தோட்டத்து <span class="gradient-text hero-text-glow">கேரட்டுகள்</span> <span class="hero-produce-badge">🥕</span>'
+      },
+      {
+        line1: 'தித்திக்கும் பழுத்த <span class="gradient-text hero-text-glow">மாம்பழங்கள்</span> <span class="hero-produce-badge">🥭</span>',
+        line2: 'வண்ணக் குடைமிளகாய் <span class="gradient-text hero-text-glow">பெப்பர்ஸ்</span> <span class="hero-produce-badge">🫑</span>'
+      },
+      {
+        line1: 'இனிப்பு செந்தேனி <span class="gradient-text hero-text-glow">ஸ்ட்ராபெர்ரி</span> <span class="hero-produce-badge">🍓</span>',
+        line2: 'பச்சை பசுமையான <span class="gradient-text hero-text-glow">ப்ரோக்கோலி</span> <span class="hero-produce-badge">🥦</span>'
+      },
+      {
+        line1: 'பண்ணை பசுமை <span class="gradient-text hero-text-glow">தக்காளி</span> <span class="hero-produce-badge">🍅</span>',
+        line2: 'ஆர்கானிக் சுவை <span class="gradient-text hero-text-glow">பசலைக்கீரை</span> <span class="hero-produce-badge">🥬</span>'
+      },
+      {
+        line1: 'இனிப்பு பொன் <span class="gradient-text hero-text-glow">சோளம்</span> <span class="hero-produce-badge">🌽</span>',
+        line2: 'மண்மணம் கமழும் <span class="gradient-text hero-text-glow">உருளைக்கிழங்கு</span> <span class="hero-produce-badge">🥔</span>'
+      }
+    ],
+    hi: [
+      {
+        line1: 'खेत से <span class="gradient-text hero-text-glow">बाजार तक</span>',
+        line2: 'पूर्ण <span class="gradient-text hero-text-glow">पारदर्शिता के साथ</span>'
+      },
+      {
+        line1: 'स्वादिष्ट जैविक <span class="gradient-text hero-text-glow">सेब</span> <span class="hero-produce-badge">🍎</span>',
+        line2: 'ताजा बागवानी <span class="gradient-text hero-text-glow">गाजर</span> <span class="hero-produce-badge">🥕</span>'
+      },
+      {
+        line1: 'मीठे पके हुए <span class="gradient-text hero-text-glow">आम</span> <span class="hero-produce-badge">🥭</span>',
+        line2: 'रंगीन शिमला <span class="gradient-text hero-text-glow">मिर्च</span> <span class="hero-produce-badge">🫑</span>'
+      },
+      {
+        line1: 'रसीली लाल <span class="gradient-text hero-text-glow">स्ट्रॉबेरी</span> <span class="hero-produce-badge">🍓</span>',
+        line2: 'ताजा हरी <span class="gradient-text hero-text-glow">ब्रोकोली</span> <span class="hero-produce-badge">🥦</span>'
+      },
+      {
+        line1: 'खेत के ताजे <span class="gradient-text hero-text-glow">टमाटर</span> <span class="hero-produce-badge">🍅</span>',
+        line2: 'पौष्टिक जैविक <span class="gradient-text hero-text-glow">पालक</span> <span class="hero-produce-badge">🥬</span>'
+      },
+      {
+        line1: 'मीठा सुनहरा <span class="gradient-text hero-text-glow">भुट्टा</span> <span class="hero-produce-badge">🌽</span>',
+        line2: 'स्वादिष्ट ताजा <span class="gradient-text hero-text-glow">आलू</span> <span class="hero-produce-badge">🥔</span>'
+      }
+    ]
+  };
 
-  // Load saved preference
-  const savedCollapsed = localStorage.getItem('agritrace_sidebar_collapsed');
-  if (savedCollapsed === '1') {
-    dock.classList.add('collapsed');
-    document.body.classList.add('dock-collapsed');
-    document.body.classList.remove('dock-open');
-  } else {
-    dock.classList.remove('collapsed');
-    document.body.classList.remove('dock-collapsed');
-    document.body.classList.add('dock-open');
+  let currentIndex = 0;
+  let cycleTimer = null;
+  const CYCLE_INTERVAL = 3200; // 3.2 seconds display per item
+  let isPaused = false;
+
+  function getCurrentItems() {
+    const lang = (typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'en') || 'en';
+    return PRODUCE_SETS[lang] || PRODUCE_SETS.en;
   }
 
-  function toggleDock() {
-    const isNowCollapsed = dock.classList.toggle('collapsed');
-    if (isNowCollapsed) {
-      document.body.classList.add('dock-collapsed');
-      document.body.classList.remove('dock-open');
-      localStorage.setItem('agritrace_sidebar_collapsed', '1');
-    } else {
-      document.body.classList.remove('dock-collapsed');
-      document.body.classList.add('dock-open');
-      localStorage.setItem('agritrace_sidebar_collapsed', '0');
+  function renderStep(nextIdx) {
+    const items = getCurrentItems();
+    currentIndex = ((nextIdx % items.length) + items.length) % items.length;
+    const target = items[currentIndex];
+
+    // Out animation
+    line1El.classList.add('is-changing-out');
+    line2El.classList.add('is-changing-out');
+
+    setTimeout(() => {
+      // Set new content
+      line1El.innerHTML = target.line1;
+      line2El.innerHTML = target.line2;
+
+      // Position for entrance
+      line1El.classList.remove('is-changing-out');
+      line2El.classList.remove('is-changing-out');
+      line1El.classList.add('is-changing-in');
+      line2El.classList.add('is-changing-in');
+
+      // Trigger reflow
+      void line1El.offsetWidth;
+
+      // Remove in classes to animate in smoothly
+      line1El.classList.remove('is-changing-in');
+      line2El.classList.remove('is-changing-in');
+    }, 420);
+  }
+
+  function startCycle() {
+    stopCycle();
+    cycleTimer = setInterval(() => {
+      if (!isPaused && document.visibilityState !== 'hidden') {
+        renderStep(currentIndex + 1);
+      }
+    }, CYCLE_INTERVAL);
+  }
+
+  function stopCycle() {
+    if (cycleTimer) {
+      clearInterval(cycleTimer);
+      cycleTimer = null;
     }
   }
 
-  if (collapseBtn) {
-    collapseBtn.addEventListener('click', (e) => {
+  // Hover to pause so user can inspect any produce
+  titleEl.addEventListener('mouseenter', () => { isPaused = true; });
+  titleEl.addEventListener('mouseleave', () => { isPaused = false; });
+
+  // Handle visibility state change (e.g. background tab)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      stopCycle();
+    } else {
+      startCycle();
+    }
+  });
+
+  // Re-sync on language change
+  window.addEventListener('agritrace:languageChanged', () => {
+    currentIndex = 0;
+    const items = getCurrentItems();
+    line1El.innerHTML = items[0].line1;
+    line2El.innerHTML = items[0].line2;
+    startCycle();
+  });
+
+  startCycle();
+
+  // Expose for external control or testing
+  window.heroProduceCycler = {
+    next: () => renderStep(currentIndex + 1),
+    prev: () => renderStep(currentIndex - 1),
+    pause: () => { isPaused = true; },
+    resume: () => { isPaused = false; },
+    stop: stopCycle,
+    start: startCycle,
+    getCurrentIndex: () => currentIndex,
+    getItems: getCurrentItems
+  };
+}
+
+/* ---------------------------------------------------------
+   NAVIGATION MENU
+   - Shown by default across the top from left margin to right margin
+   - Accessible without requiring the user to touch/click any button
+   - Optional minimize button (✕) to collapse into floating "< Navigation" button
+   - Click "< Navigation" to expand again
+   - Internally scrollable rows with mouse-wheel support
+   --------------------------------------------------------- */
+function initFloatingPopNav() {
+  const toggleBtn = document.getElementById('floatingNavToggleBtn');
+  const panel = document.getElementById('floatingNavPanel');
+  if (!toggleBtn || !panel) return;
+
+  const closeBtn = document.getElementById('floatingNavCloseBtn');
+  const dockLinks = panel.querySelectorAll('.dock-item');
+  const scrollRows = panel.querySelectorAll('.floating-nav-scroll-row');
+
+  function openMenu() {
+    panel.classList.remove('is-closed');
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    toggleBtn.classList.remove('is-visible');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    panel.classList.remove('is-open');
+    panel.classList.add('is-closed');
+    panel.setAttribute('aria-hidden', 'true');
+    toggleBtn.classList.add('is-visible');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleMenu() {
+    if (panel.classList.contains('is-closed')) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  }
+
+  // Ensure default state: OPEN on load without touching anything
+  openMenu();
+
+  // Toggle button click (when minimized)
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openMenu();
+  });
+
+  // Close/Minimize button click
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      toggleDock();
+      closeMenu();
+      toggleBtn.focus();
     });
   }
 
-  if (navDockToggleBtn) {
-    navDockToggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleDock();
-    });
-  }
+  // Close on Escape key press (optional accessibility shortcut)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.classList.contains('is-closed')) {
+      e.preventDefault();
+      closeMenu();
+      toggleBtn.focus();
+    }
+  });
 
-  // Smooth scroll and active state on click
+  // Navigation item selection: smoothly navigate to section without hiding the navigation bar
   dockLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
@@ -1831,8 +2090,18 @@ function initSidebarDock() {
     });
   });
 
-  // IntersectionObserver for scroll spy
-  const sectionIds = ['home', 'dashboard', 'records', 'prices', 'sensors', 'farmer', 'seller', 'consumer'];
+  // Enable mouse-wheel horizontal scrolling on scroll rows
+  scrollRows.forEach(row => {
+    row.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        row.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+  });
+
+  // IntersectionObserver for scroll spy active states
+  const sectionIds = ['home', 'dashboard', 'records', 'prices', 'sensors', 'farmer', 'seller', 'consumer', 'kaggle'];
   const sections = sectionIds
     .map(id => document.getElementById(id))
     .filter(Boolean);
@@ -1847,11 +2116,6 @@ function initSidebarDock() {
             const isActive = itemNav === currentId;
             item.classList.toggle('active', isActive);
           });
-          // Also sync mobile menu links
-          document.querySelectorAll('.mobile-menu a').forEach(ma => {
-            const mHref = ma.getAttribute('href');
-            ma.classList.toggle('active', mHref === '#' + currentId);
-          });
         }
       });
     }, {
@@ -1861,6 +2125,14 @@ function initSidebarDock() {
 
     sections.forEach(sec => observer.observe(sec));
   }
+
+  // Expose global methods for testing/accessibility
+  window.floatingNav = {
+    open: openMenu,
+    close: closeMenu,
+    toggle: toggleMenu,
+    isOpen: () => panel.classList.contains('is-open')
+  };
 }
 
 /* ---------------------------------------------------------
@@ -1927,8 +2199,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Voice Assistant
   initVoiceAssistant();
 
-  // 3. Navigation Dock (Left Margin Vertical Sidebar)
-  initSidebarDock();
+  // 3. Floating Pop-up Navigation Menu
+  initFloatingPopNav();
+
+  // 3b. Hero Title Cyclic Produce Animation
+  initHeroProduceCycler();
 
   // 4. Offline Resilience & PWA Service Worker
   initOfflineResilience();
@@ -1968,3 +2243,82 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
+/* =========================================================
+   KAGGLE DATASETS — SEARCH & CATEGORY FILTER
+   ========================================================= */
+
+/** Active category filter for the Kaggle section */
+let _kaggleActiveFilter = 'all';
+
+/**
+ * Called on every keystroke in the search input.
+ * Hides cards that don't match the current keyword + active category filter.
+ */
+function filterKaggleDatasets() {
+  const input = document.getElementById('kaggleSearchInput');
+  const keyword = input ? input.value.trim().toLowerCase() : '';
+  _applyKaggleFilters(keyword, _kaggleActiveFilter);
+}
+
+/**
+ * Called when a category tab is clicked.
+ * @param {string} filterValue - 'all' | 'agricultural-prices' | 'crop-production' | 'fruits-vegetables'
+ * @param {HTMLElement} clickedBtn - the clicked button element
+ */
+function setKaggleFilter(filterValue, clickedBtn) {
+  _kaggleActiveFilter = filterValue;
+
+  // Update tab aria / active class
+  const tabs = document.querySelectorAll('.kaggle-filter-tab');
+  tabs.forEach(btn => {
+    const isActive = btn.dataset.filter === filterValue;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  const keyword = (document.getElementById('kaggleSearchInput') || {}).value || '';
+  _applyKaggleFilters(keyword.trim().toLowerCase(), filterValue);
+}
+
+/**
+ * Internal: applies both keyword and category filters to the card grid.
+ */
+function _applyKaggleFilters(keyword, category) {
+  const cards = document.querySelectorAll('.kaggle-card');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const cardCategory = (card.dataset.category || '').toLowerCase();
+    const cardTitle    = (card.dataset.title    || '').toLowerCase();
+    const cardDesc     = (card.querySelector('.kaggle-card-desc') || {}).textContent || '';
+
+    const matchesCategory = category === 'all' || cardCategory === category;
+    const matchesKeyword  = !keyword
+      || cardTitle.includes(keyword)
+      || cardDesc.toLowerCase().includes(keyword)
+      || cardCategory.includes(keyword);
+
+    const visible = matchesCategory && matchesKeyword;
+    card.style.display = visible ? '' : 'none';
+    if (visible) visibleCount++;
+  });
+
+  // Show/hide no-results message
+  const noResults = document.getElementById('kaggleNoResults');
+  if (noResults) {
+    noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+  }
+
+  // Update count badge
+  const countBadge = document.getElementById('kaggleCountBadge');
+  if (countBadge) {
+    if (visibleCount === cards.length) {
+      countBadge.textContent = `${cards.length} Datasets`;
+    } else {
+      countBadge.textContent = `${visibleCount} of ${cards.length} Datasets`;
+    }
+  }
+}
+

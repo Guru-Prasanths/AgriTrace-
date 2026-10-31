@@ -7,5 +7,7 @@ cache/
 artifacts/
 blockchain/deployments/*.json
 npm-debug.log*
+backend/data/*.json
+!backend/data/.gitkeep
 .DS_Store
 Thumbs.db

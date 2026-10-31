@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const path = require("path");
 
 const { port, frontendOrigin } = require("./config/env");
 
@@ -9,6 +10,11 @@ const healthRoutes = require("./routes/healthRoutes");
 const priceRoutes = require("./routes/priceRoutes");
 const sensorRoutes = require("./routes/sensorRoutes");
 const traceabilityRoutes = require("./routes/traceabilityRoutes");
+const authRoutes = require("./routes/authRoutes");
+const rewardRoutes = require("./routes/rewardRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const { initRewardScheduler } = require("./services/rewardScheduler");
 
 /* =========================================================
    APP
@@ -20,7 +26,12 @@ const app = express();
    SECURITY
    ========================================================= */
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false
+  })
+);
 
 /* =========================================================
    CORS
@@ -30,16 +41,13 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: [
-      "http://127.0.0.1:5501",
-      "http://localhost:5501",
-      "http://127.0.0.1:5500",
-      "http://localhost:5500",
-      "http://127.0.0.1:3000",
-      "http://localhost:3000",
-      "http://127.0.0.1:8080",
-      "http://localhost:8080"
-    ],
+    origin: (origin, callback) => {
+      // Allow file:// (origin is null or 'null'), localhost, and 127.0.0.1
+      if (!origin || origin === "null" || origin === "file://" || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+      callback(null, true);
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Device-Id"],
     credentials: false
@@ -57,10 +65,18 @@ app.use(
 );
 
 /* =========================================================
-   ROOT API
+   STATIC FRONTEND HOSTING
+   Allows opening http://localhost:4001 directly in the browser
+   as well as Live Server on port 5500.
    ========================================================= */
 
-app.get("/", (req, res) => {
+app.use(express.static(path.join(__dirname, "../frontend")));
+
+/* =========================================================
+   ROOT & API INFO
+   ========================================================= */
+
+app.get("/api", (req, res) => {
   res.json({
     name: "AgriTrace API",
     version: "1.0.0",
@@ -72,7 +88,29 @@ app.get("/", (req, res) => {
       prices: "/api/prices",
       environment: "/api/environment",
       sensors: "/api/sensors",
-      traceability: "/api/traceability/:batchId"
+      traceability: "/api/traceability/:batchId",
+      auth: {
+        register: "POST /api/auth/register",
+        login: "POST /api/auth/login",
+        profile: "GET /api/auth/profile",
+        verifyEmail: "POST /api/auth/verify-email"
+      },
+      rewards: {
+        dashboard: "GET /api/rewards/dashboard",
+        transactions: "GET /api/rewards/transactions"
+      },
+      orders: {
+        list: "GET /api/orders",
+        create: "POST /api/orders",
+        detail: "GET /api/orders/:id",
+        updateStatus: "PATCH /api/orders/:id/status"
+      },
+      admin: {
+        config: "GET/PUT /api/admin/rewards/config",
+        triggerDaily: "POST /api/admin/rewards/trigger-daily",
+        logs: "GET /api/admin/rewards/logs",
+        auditLogs: "GET /api/admin/audit-logs"
+      }
     }
   });
 });
@@ -88,6 +126,15 @@ app.use("/api/prices", priceRoutes);
 app.use("/api/environment", sensorRoutes);
 app.use("/api/sensors", sensorRoutes); // Alias for sensors endpoint
 app.use("/api/traceability", traceabilityRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/rewards", rewardRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/admin", adminRoutes);
+
+// Initialize background 24h daily reward scheduler
+if (process.env.NODE_ENV !== "test") {
+  initRewardScheduler();
+}
 
 /* =========================================================
    404 HANDLER

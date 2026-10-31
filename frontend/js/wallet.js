@@ -76,13 +76,79 @@ const ALLOWED_CHAIN_IDS = ["0x7a69", "0xaa36a7"];
 
 
 /* ---------------------------------------------------------
-   PROVIDER DETECTION
+   PROVIDER DETECTION (EIP-6963 + Multi-Injected Provider Support)
    --------------------------------------------------------- */
+
+let announcedProviders = [];
+if (typeof window !== "undefined") {
+  window.addEventListener("eip6963:announceProvider", (event) => {
+    if (event.detail && event.detail.provider) {
+      announcedProviders.push(event.detail);
+    }
+  });
+  window.dispatchEvent(new Event("eip6963:requestProvider"));
+}
 
 function getEthereumProvider() {
   if (typeof window === "undefined") return null;
-  if (!window.ethereum) return null;
-  return window.ethereum;
+
+  // 1. EIP-6963 announced providers (modern MetaMask & side-panel extensions)
+  if (announcedProviders.length > 0) {
+    const metaMaskObj = announcedProviders.find(p =>
+      p.info?.rdns === "io.metamask" ||
+      p.info?.name?.toLowerCase().includes("metamask")
+    );
+    if (metaMaskObj?.provider) return metaMaskObj.provider;
+    return announcedProviders[0].provider;
+  }
+
+  // 2. Multi-provider array (when other wallets like Phantom or Coinbase are installed alongside MetaMask)
+  if (window.ethereum?.providers && Array.isArray(window.ethereum.providers)) {
+    const mm = window.ethereum.providers.find(p => p.isMetaMask);
+    if (mm) return mm;
+    return window.ethereum.providers[0];
+  }
+
+  // 3. Direct window.ethereum (standard MetaMask)
+  if (window.ethereum) {
+    return window.ethereum;
+  }
+
+  // 4. Web3 currentProvider fallback
+  if (window.web3?.currentProvider) {
+    return window.web3.currentProvider;
+  }
+
+  return null;
+}
+
+/**
+ * Asynchronously wait for provider injection (Chrome MV3 extensions inject after DOM load)
+ */
+async function waitForEthereumProvider(timeoutMs = 600) {
+  const existing = getEthereumProvider();
+  if (existing) return existing;
+
+  return new Promise((resolve) => {
+    let resolved = false;
+
+    const onProvider = () => {
+      if (!resolved) {
+        resolved = true;
+        resolve(getEthereumProvider());
+      }
+    };
+
+    window.addEventListener("ethereum#initialized", onProvider, { once: true });
+    window.addEventListener("eip6963:announceProvider", onProvider, { once: true });
+
+    setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        resolve(getEthereumProvider());
+      }
+    }, timeoutMs);
+  });
 }
 
 
@@ -164,10 +230,10 @@ function updateWalletUI() {
       btn.classList.add("connected");
       btn.title = `Connected: ${account} (${points.toLocaleString()} PTS)`;
     } else {
-      btn.innerHTML =
-        `<span>✧</span> Connect Wallet`;
+      const connectText = (typeof t === 'function') ? t('wallet_connect') : 'Connect Wallet';
+      btn.innerHTML = `<span class="wallet-btn-text" data-i18n="wallet_connect">${connectText}</span>`;
       btn.classList.remove("connected");
-      btn.title = "Connect MetaMask or Hardhat Local Account";
+      btn.title = "Connect MetaMask or AgriTrace Points Account";
     }
   }
 
@@ -200,23 +266,51 @@ function updateWalletUI() {
    --------------------------------------------------------- */
 
 async function connectWallet() {
-  const ethereum = getEthereumProvider();
+  let ethereum = getEthereumProvider();
+
+  // If not immediately available, wait briefly for async injection from extension
+  if (!ethereum) {
+    ethereum = await waitForEthereumProvider(600);
+  }
 
   if (!ethereum) {
-    showWalletToast(
-      "MetaMask was not detected. Please open this application in a browser where MetaMask is installed.",
-      "error"
-    );
+    const isFileUrl = typeof window !== "undefined" && window.location.protocol === "file:";
+    if (isFileUrl) {
+      const goToLocal = confirm(
+        "🦊 MetaMask Connection Notice:\n\n" +
+        "Google Chrome blocks wallet extensions (MetaMask) on 'file:///' URLs for security.\n\n" +
+        "Please open AgriTrace using an HTTP server:\n" +
+        "• Option 1: http://localhost:5500 (Live Server)\n" +
+        "• Option 2: http://localhost:4001 (AgriTrace Backend)\n\n" +
+        "Click OK to open http://localhost:4001 now!"
+      );
+      if (goToLocal) {
+        window.location.href = "http://localhost:4001";
+        return null;
+      }
+    } else {
+      showWalletToast(
+        "MetaMask was not detected in this browser tab. Please ensure MetaMask extension is installed and active.",
+        "error"
+      );
+    }
+
+    // Automatically open the AgriTrace Points & Network modal for 1-click connection
+    const modal = document.getElementById("hardhatModal");
+    if (modal) modal.classList.add("open");
+
     return null;
   }
 
   try {
+    showWalletToast("🦊 Opening MetaMask... Please check your side panel / extension popup to approve.", "info");
+
     const accounts = await ethereum.request({
       method: "eth_requestAccounts"
     });
 
     if (!accounts || accounts.length === 0) {
-      showWalletToast("No wallet account was selected.", "error");
+      showWalletToast("No wallet account was selected in MetaMask.", "error");
       return null;
     }
 
@@ -227,17 +321,18 @@ async function connectWallet() {
     window.walletState.account   = accounts[0];
     window.walletState.chainId   = chainId;
     window.walletState.connected = true;
+    window.walletState.isHardhatLocal = false;
 
     updateWalletUI();
 
     if (!isAcceptableChain(chainId)) {
       showWalletToast(
-        "Please switch your wallet to Sepolia or Hardhat Local.",
-        "error"
+        "Please switch your wallet to Sepolia or Hardhat Local in MetaMask.",
+        "warning"
       );
     } else {
       showWalletToast(
-        `Wallet connected on ${chainName(chainId)}.`,
+        `🦊 MetaMask connected: ${shortAddress(accounts[0])} on ${chainName(chainId)}!`,
         "success"
       );
     }
@@ -248,9 +343,11 @@ async function connectWallet() {
     console.error("Wallet connection error:", error);
 
     if (error.code === 4001) {
-      showWalletToast("Wallet connection was cancelled.", "error");
+      showWalletToast("MetaMask connection request was cancelled.", "error");
+    } else if (error.code === -32002) {
+      showWalletToast("🦊 MetaMask is already open in your side panel or toolbar waiting for approval! Click the MetaMask icon to finish connecting.", "warning");
     } else {
-      showWalletToast("Unable to connect to MetaMask.", "error");
+      showWalletToast("Unable to connect to MetaMask: " + (error.message || ""), "error");
     }
 
     return null;
@@ -526,6 +623,12 @@ function setupWalletListeners() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupWalletListeners();
+
+  // Show notice if running under file:/// where browser extensions are restricted
+  if (typeof window !== "undefined" && window.location.protocol === "file:") {
+    const fileNotice = document.getElementById("fileUrlMetaMaskNotice");
+    if (fileNotice) fileNotice.style.display = "block";
+  }
 
   // Auto-connect if user previously selected Hardhat Local
   if (localStorage.getItem("agritrace_preferred_account") === "hardhat_local") {

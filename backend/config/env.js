@@ -13,8 +13,11 @@ for (const key of required) {
 }
 
 module.exports = {
-  port: Number(process.env.PORT || 4000),
+  port: Number(process.env.PORT || 4001),
   databaseUrl: process.env.DATABASE_URL,
   frontendOrigin: process.env.FRONTEND_ORIGIN || "http://localhost:5500",
   nodeEnv: process.env.NODE_ENV || "development",
+  jwtSecret: process.env.JWT_SECRET || "agritrace-super-secure-jwt-secret-key-2026",
+  googleClientId: process.env.GOOGLE_CLIENT_ID || "",
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
 };
