@@ -19,7 +19,7 @@ const TRANSLATIONS = {
     lead_architect_badge: '★ LEAD ARCHITECT & BUILDER: GURU PRASANTH',
     network_hardhat: 'Hardhat Local',
     network_sepolia: 'Sepolia Testnet',
-    wallet_connect: 'Connect Wallet ᝰ.ᐟ',
+    wallet_connect: 'Connect Wallet',
     wallet_connected: 'Connected',
     clear_text_btn: 'Clear Text',
     clear_text_on: 'Clear Text: ON',
@@ -32,6 +32,8 @@ const TRANSLATIONS = {
     alerts_title: 'Smart Alerts',
 
     // Navigation Links
+    nav_sections_label: 'SECTIONS',
+    nav_actions_label: 'ACTIONS & UTILITIES',
     nav_home: 'Home',
     nav_dashboard: 'Dashboard',
     nav_traceability: 'Trace',
@@ -40,6 +42,7 @@ const TRANSLATIONS = {
     nav_farmer: 'Farmer',
     nav_seller: 'Seller',
     nav_consumer: 'Verify',
+    nav_kaggle: 'Kaggle',
 
     // Mobile Menu
     m_nav_home: '🏠 Home',
@@ -50,9 +53,10 @@ const TRANSLATIONS = {
     m_nav_farmer: '👨‍🌾 Farmer',
     m_nav_seller: '🛒 Seller',
     m_nav_consumer: '✓ Verify',
+    m_nav_kaggle: '📊 Kaggle Datasets',
     m_clear_text: '👓 Clear Text View (High Readability)',
     m_all_lang: '🌐 Translate Page — All 100+ Languages',
-    m_hardhat: '⭐ Hardhat Local Account (100K PTS)',
+    m_hardhat: '⭐ AgriTrace Points (100K PTS)',
     m_builder: '👨‍💻 Web Builder: GURU PRASANTH',
     m_camera: '📷 AI Produce Scanner',
     m_qr: '🔲 QR Traceability Scanner',
@@ -248,7 +252,7 @@ const TRANSLATIONS = {
     toolbar_text_default: 'Default',
     toolbar_text_large: 'Large',
     toolbar_translate: 'Translate',
-    toolbar_hardhat: '100K PTS',
+    toolbar_hardhat: 'AgriTrace Points',
     toolbar_builder: 'GURU PRASANTH',
 
     // Voice Assistant UI
@@ -284,8 +288,8 @@ const TRANSLATIONS = {
     qr_modal_title: 'QR Traceability Scanner',
     qr_modal_desc: 'Scan batch QR code or enter Lot ID to verify on Ethereum blockchain',
     offers_modal_title: 'Farmer Batch Offers',
-    hardhat_modal_title: 'Hardhat Local Environment',
-    hardhat_modal_desc: 'Pre-configured developer accounts with 10,000 ETH and 100,000 PTS test credit',
+    hardhat_modal_title: 'AgriTrace Points & Network Management',
+    hardhat_modal_desc: 'Access AgriTrace Points with 10,000 ETH and 100,000 PTS test credit',
     hardhat_faucet_btn: '🎁 Claim 25,000 PTS Test Credit',
     builder_modal_title: 'Lead Architect & Web Builder',
     builder_modal_role: 'Full-Stack Web3 & Distributed Systems Architect',
@@ -360,7 +364,7 @@ const TRANSLATIONS = {
     lead_architect_badge: '★ தலைமை கட்டிடக்கலைஞர் & உருவாக்கியவர்: குரு பிரசாந்த்',
     network_hardhat: 'ஹார்ட்ஹேட் லோக்கல்',
     network_sepolia: 'செபோலியா டெஸ்ட்நெட்',
-    wallet_connect: 'வாலட் இணைக்க ᝰ.ᐟ',
+    wallet_connect: 'வாலட் இணைக்க',
     wallet_connected: 'இணைக்கப்பட்டது',
     clear_text_btn: 'தெளிவான உரை',
     clear_text_on: 'தெளிவான உரை: ஆன்',
@@ -373,6 +377,8 @@ const TRANSLATIONS = {
     alerts_title: 'ஸ்மார்ட் எச்சரிக்கைகள்',
 
     // Navigation Links
+    nav_sections_label: 'பிரிவுகள்',
+    nav_actions_label: 'செயல்கள் மற்றும் வசதிகள்',
     nav_home: 'முகப்பு',
     nav_dashboard: 'டாஷ்போர்டு',
     nav_traceability: 'கண்காணிப்பு',
@@ -381,6 +387,7 @@ const TRANSLATIONS = {
     nav_farmer: 'விவசாயி',
     nav_seller: 'விற்பனையாளர்',
     nav_consumer: 'சரிபார்க்க',
+    nav_kaggle: 'காகில் தரவுகள்',
 
     // Mobile Menu
     m_nav_home: '🏠 முகப்பு',
@@ -391,9 +398,10 @@ const TRANSLATIONS = {
     m_nav_farmer: '👨‍🌾 விவசாயி',
     m_nav_seller: '🛒 விற்பனையாளர்',
     m_nav_consumer: '✓ சரிபார்க்க',
+    m_nav_kaggle: '📊 காகில் தரவுத்தொகுப்புகள்',
     m_clear_text: '👓 தெளிவான உரை காட்சி (அதிக வாசிப்புத்திறன்)',
     m_all_lang: '🌐 பக்கத்தை மொழிபெயர் — 100+ மொழிகள்',
-    m_hardhat: '⭐ ஹார்ட்ஹேட் கணக்கு (100K புள்ளிகள்)',
+    m_hardhat: '⭐ AgriTrace Points (100K புள்ளிகள்)',
     m_builder: '👨‍💻 உருவாக்கியவர்: குரு பிரசாந்த்',
     m_camera: '📷 AI பயிர் ஸ்கேனர்',
     m_qr: '🔲 QR கண்காணிப்பு ஸ்கேனர்',
@@ -589,7 +597,7 @@ const TRANSLATIONS = {
     toolbar_text_default: 'இயல்பு',
     toolbar_text_large: 'பெரிய',
     toolbar_translate: 'மொழிபெயர்',
-    toolbar_hardhat: '100K புள்ளிகள்',
+    toolbar_hardhat: 'AgriTrace Points',
     toolbar_builder: 'குரு பிரசாந்த்',
 
     // Voice Assistant UI
@@ -701,7 +709,7 @@ const TRANSLATIONS = {
     lead_architect_badge: '★ मुख्य वास्तुकार एवं निर्माता: गुरु प्रशांत',
     network_hardhat: 'हार्डहैट लोकल',
     network_sepolia: 'सेपोलिया टेस्टनेट',
-    wallet_connect: 'वॉलेट कनेक्ट करें ᝰ.ᐟ',
+    wallet_connect: 'वॉलेट कनेक्ट करें',
     wallet_connected: 'कनेक्टेड',
     clear_text_btn: 'स्पष्ट टेक्स्ट',
     clear_text_on: 'स्पष्ट टेक्स्ट: चालू',
@@ -714,6 +722,8 @@ const TRANSLATIONS = {
     alerts_title: 'स्मार्ट अलर्ट',
 
     // Navigation Links
+    nav_sections_label: 'अनुभाग',
+    nav_actions_label: 'क्रियाएं और उपयोगिताएं',
     nav_home: 'होम',
     nav_dashboard: 'डैशबोर्ड',
     nav_traceability: 'ट्रेसेबिलिटी',
@@ -722,6 +732,7 @@ const TRANSLATIONS = {
     nav_farmer: 'किसान',
     nav_seller: 'विक्रेता',
     nav_consumer: 'सत्यापित करें',
+    nav_kaggle: 'कागल डेटा',
 
     // Mobile Menu
     m_nav_home: '🏠 होम',
@@ -732,9 +743,10 @@ const TRANSLATIONS = {
     m_nav_farmer: '👨‍🌾 किसान',
     m_nav_seller: '🛒 विक्रेता',
     m_nav_consumer: '✓ सत्यापित करें',
+    m_nav_kaggle: '📊 कागल डेटासेट',
     m_clear_text: '👓 क्लियर टेक्स्ट व्यू (उच्च पठनीयता)',
     m_all_lang: '🌐 पृष्ठ अनुवाद करें — 100+ भाषाएं',
-    m_hardhat: '⭐ हार्डहैट खाता (100K अंक)',
+    m_hardhat: '⭐ AgriTrace Points (100K अंक)',
     m_builder: '👨‍💻 वेब निर्माता: गुरु प्रशांत',
     m_camera: '📷 AI फसल स्कैनर',
     m_qr: '🔲 QR ट्रेसेबिलिटी स्कैनर',
@@ -930,7 +942,7 @@ const TRANSLATIONS = {
     toolbar_text_default: 'डिफ़ॉल्ट',
     toolbar_text_large: 'बड़ा',
     toolbar_translate: 'अनुवाद',
-    toolbar_hardhat: '100K अंक',
+    toolbar_hardhat: 'AgriTrace Points',
     toolbar_builder: 'गुरु प्रशांत',
 
     // Voice Assistant UI

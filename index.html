@@ -19,6 +19,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth_rewards.css">
+    <!-- Official Google Identity Services (Sign in with Google OAuth 2.0 / OpenID Connect) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="icon" type="image/svg+xml" href="assets/agritrace-icon.svg">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -98,196 +101,150 @@
 
 
     <!-- =====================================================
-         HEADER
+         FLOATING POP-UP NAVIGATION MENU
+         Compact, auto-hiding floating pop-up navigation menu
+         Closed state: Only small "<" arrow button visible
+         Open state: Floating pop-up panel with all navigation
          ===================================================== -->
 
-    <header class="site-header">
+    <!-- Floating "<" Arrow Toggle Button with "Navigation" Label -->
+    <button id="floatingNavToggleBtn" class="floating-nav-toggle-btn" type="button" aria-label="Open navigation menu" aria-expanded="true" aria-controls="floatingNavPanel" title="Open navigation menu">
+        <span class="floating-nav-arrow" aria-hidden="true">❮</span>
+        <span class="floating-nav-toggle-text">Navigation</span>
+    </button>
 
-        <nav class="navbar">
+    <!-- Navigation Menu Panel - Shown by default without touching button -->
+    <div id="floatingNavPanel" class="floating-nav-panel is-open" role="region" aria-label="Main Navigation Menu" aria-hidden="false">
+        <!-- Floating Navigation Header: Brand & Utilities -->
+        <div class="floating-nav-header">
+            <a href="#home" class="floating-nav-brand" aria-label="AgriTrace Home">
+                <span class="brand-icon">🌱</span>
+                <div class="brand-text">
+                    <strong>AgriTrace</strong>
+                    <span>SMART AGRI NETWORK</span>
+                </div>
+            </a>
 
-            <!-- Brand & Dock Toggle -->
-            <div class="brand-wrapper">
-                <a href="#home" class="brand">
-                    <div class="brand-icon">
-                        🌱
-                    </div>
-                    <div class="brand-text">
-                        <strong>AgriTrace</strong>
-                        <span>SMART AGRI NETWORK</span>
-                    </div>
-                </a>
-
-                <button id="navDockToggleBtn" class="nav-dock-toggle-btn" type="button" title="Toggle Navigation Dock (Left Margin)" aria-label="Toggle navigation sidebar">
-                    <span class="nav-dock-toggle-icon">❮</span>
-                </button>
-            </div>
-
-            <!-- Compact Inline Language Switcher -->
-            <div id="langSwitcher" class="nav-lang-switcher" title="Quick language switch — click to translate"></div>
-
-
-            <!-- Network status + Feature Actions -->
-
-            <div class="nav-actions">
+            <div class="floating-nav-header-actions">
+                <!-- Compact Inline Language Switcher -->
+                <div id="langSwitcher" class="nav-lang-switcher" title="Quick language switch"></div>
 
                 <!-- Offline / Online Resilience Outlet -->
-                <div id="offlineStatusBadge" class="nav-outlet-btn offline-status-outlet online" title="AgriTrace PWA Offline Cache Active — Full access to records, marketplace & speech assistant without internet">
+                <div id="offlineStatusBadge" class="nav-outlet-btn offline-status-outlet online" title="AgriTrace PWA Offline Cache Active — Full access without internet">
                     <span class="offline-status-dot"></span>
                     <span id="offlineStatusText" class="offline-status-text" data-i18n="status_online">Online</span>
                 </div>
 
-                <!-- Voice Assistant AI Feature Outlet -->
-                <button id="voiceToggleBtn" class="nav-outlet-btn voice-ai-outlet" type="button" title="AgriTrace Voice Assistant AI — Click to talk or type" aria-label="Open Voice Assistant AI">
-                    <span class="voice-ai-mic">🎙️</span>
-                    <span class="voice-ai-label" data-i18n="voice_assistant_ai">Voice AI</span>
-                    <span class="voice-ai-badge">AI</span>
+                <!-- Minimize / Close Button -->
+                <button id="floatingNavCloseBtn" class="floating-nav-close-btn" type="button" aria-label="Minimize navigation menu" title="Minimize navigation menu">
+                    <span aria-hidden="true">✕</span>
                 </button>
+            </div>
+        </div>
 
-                <!-- All Language Translator Outlet -->
-                <button id="allLangModalBtn" class="nav-outlet-btn lang-trans-outlet" type="button" title="All-Language Translator (Translate entire platform)">
-                    <span class="lang-icon">🌐</span>
-                    <span class="lang-label" data-i18n="translate_btn">Translate</span>
-                </button>
-
-                <!-- Hardhat Local Account & Points Outlet -->
-                <button id="hardhatAccountBtn" class="nav-outlet-btn account-pts-outlet" type="button" title="Hardhat Local Account & Points Management">
-                    <span class="pts-icon">⭐</span>
-                    <span id="accountPointsDisplay">100,000 PTS</span>
-                </button>
-
-                <!-- Network Status Outlet -->
-                <div id="networkBadge" class="nav-outlet-btn network-outlet" title="Click to Switch Network / Account">
-                    <span class="status-dot"></span>
-                    <span>Hardhat Local</span>
+        <!-- Floating Navigation Content Body -->
+        <div class="floating-nav-body">
+            <!-- Row 1: Section Destinations -->
+            <div class="floating-nav-group">
+                <div class="floating-nav-group-header">
+                    <span class="floating-nav-group-label" data-i18n="nav_sections_label">SECTIONS</span>
                 </div>
-
-                <!-- Camera Scan Outlet -->
-                <button id="openCameraBtn" class="nav-outlet-btn icon-outlet" type="button" title="Scan Produce">
-                    📷
-                </button>
-
-                <!-- QR Scanner Outlet -->
-                <button id="openQRScannerBtn" class="nav-outlet-btn icon-outlet" type="button" title="Scan QR Code">
-                    🔲
-                </button>
-
-                <!-- Alerts Outlet -->
-                <button class="nav-outlet-btn icon-outlet alerts-btn" type="button" title="Alerts"
-                    onclick="document.getElementById('alertsPanel').classList.toggle('open')">
-                    🔔
-                    <span id="alertBadge" class="alert-badge" style="display:none">0</span>
-                </button>
-
-                <!-- Connect Wallet Outlet -->
-                <button id="connectWalletBtn" class="nav-outlet-btn wallet-outlet" type="button">
-                    <span>✰</span>
-                    <span class="wallet-btn-text" data-i18n="wallet_connect">Connect Wallet ᝰ.ᐟ</span>
-                </button>
-
+                <nav class="floating-nav-scroll-row floating-nav-destinations" aria-label="Page Sections">
+                    <a href="#home" id="nav-home" class="floating-nav-btn dock-item active" data-nav="home" title="Home">
+                        <span class="nav-btn-icon">🏠</span>
+                        <span class="nav-btn-label" data-i18n="nav_home">Home</span>
+                    </a>
+                    <a href="#dashboard" id="nav-dashboard" class="floating-nav-btn dock-item" data-nav="dashboard" title="Dashboard">
+                        <span class="nav-btn-icon">📊</span>
+                        <span class="nav-btn-label" data-i18n="nav_dashboard">Dashboard</span>
+                    </a>
+                    <a href="#records" id="nav-records" class="floating-nav-btn dock-item" data-nav="records" title="Traceability">
+                        <span class="nav-btn-icon">📦</span>
+                        <span class="nav-btn-label" data-i18n="nav_traceability">Traceability</span>
+                    </a>
+                    <a href="#prices" id="nav-prices" class="floating-nav-btn dock-item" data-nav="prices" title="Prices">
+                        <span class="nav-btn-icon">💰</span>
+                        <span class="nav-btn-label" data-i18n="nav_price">Prices</span>
+                    </a>
+                    <a href="#sensors" id="nav-sensors" class="floating-nav-btn dock-item" data-nav="sensors" title="IoT Sensors">
+                        <span class="nav-btn-icon">📡</span>
+                        <span class="nav-btn-label" data-i18n="nav_iot">IoT Sensors</span>
+                    </a>
+                    <a href="#farmer" id="nav-farmer" class="floating-nav-btn dock-item" data-nav="farmer" title="Farmer Portal">
+                        <span class="nav-btn-icon">🚜</span>
+                        <span class="nav-btn-label" data-i18n="nav_farmer">Farmer</span>
+                    </a>
+                    <a href="#seller" id="nav-seller" class="floating-nav-btn dock-item" data-nav="seller" title="Seller Portal">
+                        <span class="nav-btn-icon">🏪</span>
+                        <span class="nav-btn-label" data-i18n="nav_seller">Seller</span>
+                    </a>
+                    <a href="#consumer" id="nav-consumer" class="floating-nav-btn dock-item" data-nav="consumer" title="Verify Produce">
+                        <span class="nav-btn-icon">🛡️</span>
+                        <span class="nav-btn-label" data-i18n="nav_consumer">Verify</span>
+                    </a>
+                    <a href="#kaggle" id="nav-kaggle" class="floating-nav-btn dock-item" data-nav="kaggle" title="Kaggle Agricultural Datasets">
+                        <span class="nav-btn-icon">📁</span>
+                        <span class="nav-btn-label" data-i18n="nav_kaggle">Kaggle</span>
+                    </a>
+                </nav>
             </div>
 
+            <!-- Row 2: Actions & Utilities -->
+            <div class="floating-nav-group">
+                <div class="floating-nav-group-header">
+                    <span class="floating-nav-group-label" data-i18n="nav_actions_label">ACTIONS & UTILITIES</span>
+                </div>
+                <div class="floating-nav-scroll-row floating-nav-actions" role="toolbar" aria-label="Actions and Tools">
+                    <!-- AgriTrace Points Outlet -->
+                    <button id="hardhatAccountBtn" class="floating-nav-btn nav-outlet-btn account-pts-outlet" type="button" title="AgriTrace Points">
+                        <span class="pts-icon">⭐</span>
+                        <span id="accountPointsDisplay">100,000 PTS</span>
+                    </button>
 
-            <!-- Mobile menu button -->
+                    <!-- Network Status Outlet -->
+                    <div id="networkBadge" class="floating-nav-btn nav-outlet-btn network-outlet" title="Click to Switch Network / Account" style="cursor:pointer;">
+                        <span class="status-dot"></span>
+                        <span>Hardhat Local</span>
+                    </div>
 
-            <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Open navigation">
+                    <!-- Camera Scan Outlet -->
+                    <button id="openCameraBtn" class="floating-nav-btn nav-outlet-btn icon-outlet" type="button" title="Scan Produce">
+                        📸
+                    </button>
 
-                ☰
+                    <!-- QR Scanner Outlet -->
+                    <button id="openQRScannerBtn" class="floating-nav-btn nav-outlet-btn icon-outlet" type="button" title="Scan QR Code">
+                        ⛶
+                    </button>
 
-            </button>
+                    <!-- Alerts Outlet -->
+                    <button class="floating-nav-btn nav-outlet-btn icon-outlet alerts-btn" type="button" title="Alerts"
+                        onclick="document.getElementById('alertsPanel').classList.toggle('open')">
+                        🔔
+                        <span id="alertBadge" class="alert-badge" style="display:none">0</span>
+                    </button>
 
-        </nav>
+                    <!-- Connect Wallet Outlet -->
+                    <button id="connectWalletBtn" class="floating-nav-btn nav-outlet-btn wallet-outlet" type="button">
+                        <span class="wallet-btn-text" data-i18n="wallet_connect">Connect Wallet</span>
+                    </button>
 
+                    <!-- User Role & Authoritative Rewards Status Badge -->
+                    <div id="userAuthBadge" class="floating-nav-btn nav-outlet-btn" style="display:none; cursor:pointer;" title="Click to view portal & rewards">
+                        <span id="userAuthRoleIcon"></span>
+                        <span id="userAuthName">Farmer</span>
+                        <span id="userAuthPointsBadge" style="background:var(--green); color:#000; padding:2px 7px; border-radius:10px; font-size:11px; font-weight:700; margin-left:4px;">0 PTS</span>
+                    </div>
 
-        <!-- Mobile navigation -->
-
-        <div id="mobileMenu" class="mobile-menu">
-            <a href="#home" id="m-nav-home" data-i18n="m_nav_home">🏠 Home</a>
-            <a href="#dashboard" id="m-nav-dashboard" data-i18n="m_nav_dashboard">📊 Dashboard</a>
-            <a href="#records" id="m-nav-traceability" data-i18n="m_nav_traceability">⛓ Traceability</a>
-            <a href="#prices" id="m-nav-price" data-i18n="m_nav_price">💰 Price Discovery</a>
-            <a href="#sensors" id="m-nav-iot" data-i18n="m_nav_iot">📡 IoT Monitoring</a>
-            <a href="#farmer" id="m-nav-farmer" data-i18n="m_nav_farmer">👨🌾 Farmer</a>
-            <a href="#seller" id="m-nav-seller" data-i18n="m_nav_seller">🛒 Seller</a>
-            <a href="#consumer" id="m-nav-consumer" data-i18n="m_nav_consumer">✓ Verify</a>
-            <!-- Mobile Feature Buttons -->
-            <div class="mobile-feat-btns">
-                <button id="m-voiceToggleBtn" onclick="document.getElementById('voiceToggleBtn').click()" type="button" class="m-voice-ai-btn">
-                    <span data-i18n="voice_assistant_ai">🎙️ Voice Assistant AI</span>
-                </button>
-                <button id="m-allLangModalBtn" type="button"><span data-i18n="m_all_lang">🌐 Translate Page — All 100+ Languages</span></button>
-                <button onclick="document.getElementById('hardhatAccountBtn').click()" type="button">⭐ Hardhat Local Account (100K PTS)</button>
-                <button onclick="document.getElementById('builderInfoBtn').click()" type="button">👨‍💻 Web Builder: GURU PRASANTH</button>
-                <button onclick="document.getElementById('openCameraBtn').click()" type="button">📷 AI Produce Scanner</button>
-                <button onclick="document.getElementById('openQRScannerBtn').click()" type="button">🔲 QR Traceability Scanner</button>
+                    <!-- Admin Rewards Config Outlet -->
+                    <button id="adminRewardsConfigBtn" class="floating-nav-btn nav-outlet-btn" type="button" title="Admin Reward Points Configuration" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.35); color:#fbbf24; font-weight:600;">
+                        <span>🛎️</span>
+                        <span>Rewards Admin</span>
+                    </button>
+                </div>
             </div>
         </div>
-
-    </header>
-
-    <!-- =====================================================
-         LEFT MARGIN NAVIGATION DOCK (VERTICAL SIDEBAR)
-         ===================================================== -->
-    <aside class="site-sidebar-dock" id="siteSidebarDock" aria-label="Page Navigation">
-        <div class="dock-header">
-            <div class="dock-brand-mini">
-                <span class="dock-brand-icon">🌱</span>
-                <span class="dock-brand-name">Navigation</span>
-            </div>
-            <button id="dockCollapseBtn" class="dock-toggle-btn" type="button" title="Collapse / Expand Navigation" aria-label="Toggle navigation width">
-                <span class="dock-toggle-icon">❮</span>
-            </button>
-        </div>
-
-        <nav class="dock-nav-links" id="dockNavLinks">
-            <a href="#home" id="nav-home" class="dock-item active" data-nav="home" title="Home">
-                <span class="dock-icon">🏠</span>
-                <span class="dock-label" data-i18n="nav_home">Home</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#dashboard" id="nav-dashboard" class="dock-item" data-nav="dashboard" title="Dashboard">
-                <span class="dock-icon">📊</span>
-                <span class="dock-label" data-i18n="nav_dashboard">Dashboard</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#records" id="nav-traceability" class="dock-item" data-nav="records" title="Trace">
-                <span class="dock-icon">⛓️</span>
-                <span class="dock-label" data-i18n="nav_traceability">Trace</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#prices" id="nav-price" class="dock-item" data-nav="prices" title="Prices">
-                <span class="dock-icon">💰</span>
-                <span class="dock-label" data-i18n="nav_price">Prices</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#sensors" id="nav-iot" class="dock-item" data-nav="sensors" title="IoT">
-                <span class="dock-icon">📡</span>
-                <span class="dock-label" data-i18n="nav_iot">IoT</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#farmer" id="nav-farmer" class="dock-item" data-nav="farmer" title="Farmer">
-                <span class="dock-icon">👨‍🌾</span>
-                <span class="dock-label" data-i18n="nav_farmer">Farmer</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#seller" id="nav-seller" class="dock-item" data-nav="seller" title="Seller">
-                <span class="dock-icon">🏪</span>
-                <span class="dock-label" data-i18n="nav_seller">Seller</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-            <a href="#consumer" id="nav-consumer" class="dock-item" data-nav="consumer" title="Verify">
-                <span class="dock-icon">🔍</span>
-                <span class="dock-label" data-i18n="nav_consumer">Verify</span>
-                <span class="dock-glow-indicator"></span>
-            </a>
-        </nav>
-
-        <div class="dock-footer">
-            <button id="dockVoiceShortcutBtn" class="dock-shortcut-btn" type="button" title="AgriTrace Voice Assistant AI" onclick="document.getElementById('voiceToggleBtn').click()">
-                <span class="dock-icon">🎙️</span>
-                <span class="dock-label" data-i18n="voice_assistant_ai">Voice AI</span>
-            </button>
-        </div>
-    </aside>
+    </div>
 
 
 
@@ -328,24 +285,25 @@
                 </div>
 
 
-                <!-- Main title -->
-
-                <h1>
-                    <span data-i18n="hero_h1_from">FROM</span>
-                    <span class="gradient-text" data-i18n="hero_h1_farm">FARM</span>
-                    <span data-i18n="hero_h1_to">TO</span>
-                    <span class="gradient-text" data-i18n="hero_h1_market">MARKET</span>
-                    <br>
-                    <span data-i18n="hero_h1_with">WITH</span>
-                    <span class="outline-text" data-i18n="hero_h1_complete">COMPLETE</span>
-                    <span class="gradient-text" data-i18n="hero_h1_transparency">TRANSPARENCY</span>
+                <!-- Main title with Moving Animations and Cyclic Produce Transitions -->
+                <h1 class="hero-title hero-title-animated" id="heroProduceTitle" aria-live="polite">
+                    <span class="hero-title-line hero-line-1" id="heroLine1">
+                        <span class="hero-word-wrap" data-i18n="hero_h1_from">FROM </span>
+                        <span class="hero-word-wrap gradient-text hero-text-glow" data-i18n="hero_h1_farm">FARM</span>
+                        <span class="hero-word-wrap" data-i18n="hero_h1_to">TO</span>
+                        <span class="hero-word-wrap gradient-text hero-text-glow" data-i18n="hero_h1_market">MARKET</span>
+                    </span>
+                    <span class="hero-title-line hero-line-2" id="heroLine2">
+                        <span class="hero-word-wrap" data-i18n="hero_h1_with">WITH</span>
+                        <span class="hero-word-wrap gradient-text hero-text-glow" data-i18n="hero_h1_complete">COMPLETE</span>
+                        <span class="hero-word-wrap gradient-text hero-text-glow" data-i18n="hero_h1_transparency">TRANSPARENCY</span>
+                    </span>
                 </h1>
-
 
                 <p class="hero-description" data-i18n="hero_desc">A next-generation agricultural traceability network connecting farmers, logistics, markets and consumers through IoT + Blockchain + Transparent Pricing.</p>
 
 
-                <!-- Hero buttons -->
+                <!-- Hero buttons -->0
 
                 <div class="hero-actions">
 
@@ -460,10 +418,6 @@
                     <strong>
                         AGRITRACE
                     </strong>
-
-                    <span>
-                        TRUSTED SUPPLY CHAIN
-                    </span>
 
                 </div>
 
@@ -1162,7 +1116,7 @@
                             <tr>
 
                                 <th>
-                                    LOT ID
+                                    LOT  ID
                                 </th>
 
                                 <th>
@@ -1756,6 +1710,194 @@
 
 
         <!-- =================================================
+             KAGGLE DATASETS
+             ================================================= -->
+
+        <section id="kaggle" class="section kaggle-section">
+
+            <div class="section-header">
+                <div>
+                    <span class="section-label">EXTERNAL AGRICULTURAL DATA RESOURCES</span>
+                    <h2>KAGGLE <span class="gradient-text">DATASETS</span> <span id="kaggleCountBadge" class="kaggle-count-badge">105 Datasets</span></h2>
+                    <p>Curated collection of open agricultural datasets from Kaggle. These are external resources — dataset availability, dates, and licenses may vary. Prices shown are historical reference data, not real-time market feeds.</p>
+                </div>
+                <div class="live-badge">
+                    <span class="pulse-dot"></span>
+                    EXTERNAL LINKS
+                </div>
+            </div>
+
+
+            <!-- Kaggle Disclaimer Banner -->
+            <div class="kaggle-disclaimer">
+                <span class="kaggle-disclaimer-icon">ℹ️</span>
+                <p><strong>External Resources Notice:</strong> The datasets below are hosted on Kaggle and are not connected to AgriTrace's live database, blockchain, or IoT systems. Clicking "View on Kaggle" will open an external website in a new tab. Always review the dataset's license before use.</p>
+            </div>
+
+
+            <!-- Search & Filter Controls -->
+            <div class="kaggle-controls">
+                <div class="kaggle-search-wrap">
+                    <span class="kaggle-search-icon">🔍</span>
+                    <input
+                        id="kaggleSearchInput"
+                        type="text"
+                        class="kaggle-search-input"
+                        placeholder="Search datasets..."
+                        oninput="filterKaggleDatasets()"
+                        autocomplete="off"
+                    >
+                </div>
+                <div class="kaggle-filter-tabs" id="kaggleFilterTabs" role="tablist" aria-label="Dataset category filters">
+                    <button class="kaggle-filter-tab active" data-filter="all" onclick="setKaggleFilter('all', this)" role="tab" aria-selected="true">All</button>
+                    <button class="kaggle-filter-tab" data-filter="agricultural-prices" onclick="setKaggleFilter('agricultural-prices', this)" role="tab" aria-selected="false">🌾 Agricultural Prices</button>
+                    <button class="kaggle-filter-tab" data-filter="crop-production" onclick="setKaggleFilter('crop-production', this)" role="tab" aria-selected="false">🌱 Crop Production</button>
+                    <button class="kaggle-filter-tab" data-filter="fruits-vegetables" onclick="setKaggleFilter('fruits-vegetables', this)" role="tab" aria-selected="false">🍎 Fruits & Vegetables</button>
+                    <button class="kaggle-filter-tab" data-filter="iot-smart-farming" onclick="setKaggleFilter('iot-smart-farming', this)" role="tab" aria-selected="false">📡 IoT & Smart Farming</button>
+                </div>
+            </div>
+
+
+            <!-- Dataset Cards Grid -->
+            <div class="kaggle-grid" id="kaggleGrid">
+
+                <!-- Card 1: Agricultural Commodity Prices -->
+                <article class="kaggle-card" data-category="agricultural-prices" data-title="Agricultural Commodity Prices" aria-label="Dataset: Agricultural Commodity Prices">
+                    <div class="kaggle-card-header">
+                        <div class="kaggle-card-icon">💹</div>
+                        <span class="kaggle-category-badge agricultural-prices">Agricultural Prices</span>
+                    </div>
+                    <div class="kaggle-card-body">
+                        <h3 class="kaggle-card-title">Agricultural Commodity Prices</h3>
+                        <p class="kaggle-card-desc">Historical price data for key agricultural commodities. Useful for tracking market trends, seasonal fluctuations, and price analysis across different crop categories.</p>
+                        <div class="kaggle-card-meta">
+                            <span class="kaggle-meta-tag">📅 Historical</span>
+                            <span class="kaggle-meta-tag">📈 Price Trends</span>
+                            <span class="kaggle-meta-tag">🌾 Commodities</span>
+                        </div>
+                    </div>
+                    <div class="kaggle-card-footer">
+                        <div class="kaggle-source-note">Kaggle · External Dataset</div>
+                        <a
+                            id="kaggle-link-1"
+                            href="https://www.kaggle.com/code/arvindkhoda/price-of-agricultural-commodities-data/input"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="kaggle-view-btn"
+                            aria-label="View Agricultural Commodity Prices on Kaggle (opens in new tab)"
+                        >
+                            View on Kaggle
+                            <span class="kaggle-ext-icon">↗</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card 2: Daily Market Prices of Commodities in India -->
+                <article class="kaggle-card" data-category="agricultural-prices" data-title="Daily Market Prices of Commodities in India" aria-label="Dataset: Daily Market Prices of Commodities in India">
+                    <div class="kaggle-card-header">
+                        <div class="kaggle-card-icon">📉</div>
+                        <span class="kaggle-category-badge agricultural-prices">Agricultural Prices</span>
+                    </div>
+                    <div class="kaggle-card-body">
+                        <h3 class="kaggle-card-title">Daily Market Prices of Commodities in India</h3>
+                        <p class="kaggle-card-desc">Day-wise commodity price records across Indian markets. Covers a wide range of agricultural produce and enables time-series analysis of price movements at state and national levels.</p>
+                        <div class="kaggle-card-meta">
+                            <span class="kaggle-meta-tag">🇮🇳 India Markets</span>
+                            <span class="kaggle-meta-tag">📅 Daily Records</span>
+                            <span class="kaggle-meta-tag">📊 Time Series</span>
+                        </div>
+                    </div>
+                    <div class="kaggle-card-footer">
+                        <div class="kaggle-source-note">Kaggle · External Dataset</div>
+                        <a
+                            id="kaggle-link-2"
+                            href="https://www.kaggle.com/code/khandelwalmanas/daily-prices-of-commodity-india-starter-notebook/input"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="kaggle-view-btn"
+                            aria-label="View Daily Market Prices of Commodities in India on Kaggle (opens in new tab)"
+                        >
+                            View on Kaggle
+                            <span class="kaggle-ext-icon">↗</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card 3: Crop Production in India -->
+                <article class="kaggle-card" data-category="crop-production" data-title="Crop Production in India" aria-label="Dataset: Crop Production in India">
+                    <div class="kaggle-card-header">
+                        <div class="kaggle-card-icon">🌾</div>
+                        <span class="kaggle-category-badge crop-production">Crop Production</span>
+                    </div>
+                    <div class="kaggle-card-body">
+                        <h3 class="kaggle-card-title">Crop Production in India</h3>
+                        <p class="kaggle-card-desc">Comprehensive crop production statistics across Indian states and districts. Includes area under cultivation, production volume, and yield data — ideal for agricultural planning and ML models.</p>
+                        <div class="kaggle-card-meta">
+                            <span class="kaggle-meta-tag">🗺️ State-wise</span>
+                            <span class="kaggle-meta-tag">🌿 Yield Data</span>
+                            <span class="kaggle-meta-tag">📐 Area & Volume</span>
+                        </div>
+                    </div>
+                    <div class="kaggle-card-footer">
+                        <div class="kaggle-source-note">Kaggle · External Dataset</div>
+                        <a
+                            id="kaggle-link-3"
+                            href="https://www.kaggle.com/abhinand05/crop-production-in-india/activity"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="kaggle-view-btn"
+                            aria-label="View Crop Production in India on Kaggle (opens in new tab)"
+                        >
+                            View on Kaggle
+                            <span class="kaggle-ext-icon">↗</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card 4: Fruits-360 Dataset -->
+                <article class="kaggle-card" data-category="fruits-vegetables" data-title="Fruits-360 Dataset" aria-label="Dataset: Fruits-360 Dataset">
+                    <div class="kaggle-card-header">
+                        <div class="kaggle-card-icon">🍎</div>
+                        <span class="kaggle-category-badge fruits-vegetables">Fruits & Vegetables</span>
+                    </div>
+                    <div class="kaggle-card-body">
+                        <h3 class="kaggle-card-title">Fruits-360 Dataset</h3>
+                        <p class="kaggle-card-desc">A large image dataset of fruits and vegetables with 360-degree captures. Contains 90,000+ images across 131 classes — widely used for computer vision, produce classification, and quality grading models.</p>
+                        <div class="kaggle-card-meta">
+                            <span class="kaggle-meta-tag">🖼️ 90K+ Images</span>
+                            <span class="kaggle-meta-tag">🤖 CV / ML</span>
+                            <span class="kaggle-meta-tag">🍇 131 Classes</span>
+                        </div>
+                    </div>
+                    <div class="kaggle-card-footer">
+                        <div class="kaggle-source-note">Kaggle · External Dataset</div>
+                        <a
+                            id="kaggle-link-4"
+                            href="https://www.kaggle.com/moltean/fruits"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="kaggle-view-btn"
+                            aria-label="View Fruits-360 Dataset on Kaggle (opens in new tab)"
+                        >
+                            View on Kaggle
+                            <span class="kaggle-ext-icon">↗</span>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- No results message -->
+            <div class="kaggle-no-results" id="kaggleNoResults" style="display:none;">
+                <span>🔍</span>
+                <p>No datasets match your search or filter. Try a different keyword or select "All".</p>
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
              FEATURES
              ================================================= -->
 
@@ -2234,6 +2376,9 @@
                     IoT Monitoring
                 </a>
 
+                <a href="#kaggle">
+                    Kaggle Datasets
+                </a>
             </div>
 
 
@@ -2273,7 +2418,7 @@
                 </span>
 
                 <a href="#home" id="quickHardhatLocalLink" style="color:var(--green);font-weight:700;">
-                    ⭐ Hardhat Local (100K PTS)
+                    ⭐ AgriTrace Points (100K PTS)
                 </a>
 
                 <span>
@@ -2578,9 +2723,9 @@
             <div class="feat-modal-header">
                 <div>
                     <span class="card-number">⭐</span>
-                    <h3>Hardhat Local Account & Network Management</h3>
+                    <h3>AgriTrace Points & Network Management</h3>
                     <small style="color:var(--muted);display:block;margin-top:2px;">
-                        Access Hardhat Local as a seamless high-points alternate to Sepolia
+                        Manage your AgriTrace Points, local testing rewards and network switching
                     </small>
                 </div>
                 <button id="closeHardhatModalBtn" type="button" class="small-button">✕ Close</button>
@@ -2593,7 +2738,7 @@
                         <div>
                             <div class="account-badge-lg">
                                 <span>⭐ Account Name:</span>
-                                <strong>Hardhat Local</strong>
+                                <strong>AgriTrace Points Account</strong>
                             </div>
                             <small style="display:block;color:#a7f3d0;margin-top:6px;">
                                 System Operator • Contract Deployer • Full Platform Access
@@ -2608,11 +2753,26 @@
 
                     <!-- Direct Connect Action -->
                     <button id="btnConnectHardhatPreset" class="primary-button" type="button" style="width:100%;padding:14px;font-size:15px;margin-bottom:12px;">
-                        🚀 1-Click Connect Hardhat Local Account (Immediate Access)
+                        🚀 1-Click Connect AgriTrace Points (Immediate Access)
                     </button>
                     <p style="font-size:11px;color:var(--muted);text-align:center;">
-                        Instantly activates the Hardhat Local account with 100,000 points and operator privileges without requiring MetaMask installation.
+                        Instantly activates the AgriTrace Points account with 100,000 points and operator privileges without requiring MetaMask installation.
                     </p>
+                </div>
+
+                <!-- Notice when viewing via direct file:/// protocol -->
+                <div id="fileUrlMetaMaskNotice" style="display:none;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:12px 16px;margin-bottom:16px;">
+                    <strong style="color:#fbbf24;font-size:13px;display:flex;align-items:center;gap:6px;">
+                        <span>💡</span> <span>Why MetaMask says "Not Detected" on this page:</span>
+                    </strong>
+                    <p style="font-size:12px;color:#e2e8f0;margin:6px 0 8px 0;line-height:1.5;">
+                        You are opening the website directly via <code>file:///</code>. Chrome and Chromium browsers disable MetaMask on <code>file:///</code> URLs by default for security.
+                    </p>
+                    <div style="font-size:12px;color:#cbd5e1;display:flex;flex-direction:column;gap:5px;line-height:1.4;">
+                        <div>• <strong style="color:#39ff88;">Option 1 (Instant):</strong> Click <strong>"1-Click Connect AgriTrace Points"</strong> above for instant 100K PTS Web3 access!</div>
+                        <div>• <strong style="color:#38bdf8;">Option 2 (Localhost Server):</strong> Open <a href="http://localhost:5500" target="_blank" style="color:#38bdf8;text-decoration:underline;font-weight:700;">http://localhost:5500</a> (VS Code Live Server) or <a href="http://localhost:4001" target="_blank" style="color:#38bdf8;text-decoration:underline;font-weight:700;">http://localhost:4001</a> (AgriTrace Backend). MetaMask connects automatically in the side panel!</div>
+                        <div>• <strong style="color:#facc15;">Option 3 (File URLs in Chrome):</strong> Go to <code>chrome://extensions/</code> → MetaMask <strong>Details</strong> → toggle ON <strong>"Allow access to file URLs"</strong>.</div>
+                    </div>
                 </div>
 
                 <!-- Network Switching (MetaMask) -->
@@ -2746,8 +2906,8 @@
                         <p style="font-size:12px;color:var(--muted);margin-top:2px;">Immutable produce registry, operator role verification, cryptographic lot anchoring, and on-chain verification deployed on Hardhat Local & Sepolia.</p>
                     </div>
                     <div style="background:rgba(6,22,17,0.7);border:1px solid var(--border);border-radius:12px;padding:12px 16px;">
-                        <strong style="color:#38bdf8;">✦ Hardhat Local & Sepolia Dual Bridge</strong>
-                        <p style="font-size:12px;color:var(--muted);margin-top:2px;">Integrated high-points Hardhat Local account (100,000 PTS) enabling instant friction-free testing alternate to Sepolia testnet.</p>
+                        <strong style="color:#38bdf8;">✦ AgriTrace Points & Dual Testnet Bridge</strong>
+                        <p style="font-size:12px;color:var(--muted);margin-top:2px;">Integrated high-points AgriTrace Points account (100,000 PTS) enabling instant friction-free testing alternate to Sepolia testnet.</p>
                     </div>
                     <div style="background:rgba(6,22,17,0.7);border:1px solid var(--border);border-radius:12px;padding:12px 16px;">
                         <strong style="color:#facc15;">✦ Universal Multi-Language & Clear Text View</strong>
@@ -2829,7 +2989,9 @@
          AGRITRACE FEATURES (Multi-lang, Voice, Camera, QR, Marketplace)
          ===================================================== -->
 
+    <script src="js/kaggleData.js"></script>
     <script src="js/features.js"></script>
+    <script src="js/auth_rewards.js"></script>
 
 
     <!-- =====================================================
@@ -3448,7 +3610,7 @@
          Clear Text View • Font Sizing • All Language • Hardhat Local • Web Builder
          ===================================================== -->
     <div id="accessibilityToolbar" class="floating-access-bar" role="toolbar" aria-label="Accessibility & Readability Controls">
-        <button id="floatVoiceBtn" class="float-btn float-voice-btn" type="button" title="AgriTrace Voice Assistant AI — Click to talk or type" onclick="document.getElementById('voiceToggleBtn').click()">
+        <button id="floatVoiceBtn" class="float-btn float-voice-btn" type="button" title="AgriTrace Voice Assistant AI — Click to talk or type">
             🎙️ <span class="tv-text" data-i18n="voice_assistant_ai">Voice AI</span>
         </button>
 
@@ -3462,8 +3624,8 @@
             🌐 <span data-i18n="toolbar_translate">Translate</span>
         </button>
 
-        <button id="floatHardhatBtn" class="float-btn float-pts-btn" type="button" title="Hardhat Local Account & Points (100K PTS)">
-            ⭐ <span data-i18n="toolbar_hardhat">100K PTS</span>
+        <button id="floatHardhatBtn" class="float-btn float-pts-btn" type="button" title="AgriTrace Points">
+            ⭐ <span data-i18n="toolbar_hardhat">AgriTrace Points</span>
         </button>
 
         <button id="floatBuilderBtn" class="float-btn" type="button" title="Web Builder: GURU PRASANTH" style="color:var(--green);border-color:rgba(57,255,136,0.4);">

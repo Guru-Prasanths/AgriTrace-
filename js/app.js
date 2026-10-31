@@ -3,7 +3,20 @@
    Express Backend + PostgreSQL + Ethereum Smart Contract
    ========================================================= */
 
-const API_BASE = "http://127.0.0.1:4000/api";
+const BACKEND_PORT = 4001;
+const API_BASE = (() => {
+  if (typeof window !== "undefined") {
+    if (window.AGRITRACE_API_BASE) return window.AGRITRACE_API_BASE;
+    if (window.location.protocol.startsWith("http") && window.location.port === String(BACKEND_PORT)) {
+      return `${window.location.origin}/api`;
+    }
+  }
+  return `http://127.0.0.1:${BACKEND_PORT}/api`;
+})();
+if (typeof window !== "undefined") {
+  window.API_BASE = API_BASE;
+  window.AGRITRACE_BACKEND_PORT = BACKEND_PORT;
+}
 const API_TIMEOUT = 8000;
 
 // State
@@ -115,6 +128,12 @@ function userFriendlyError(error) {
   }
 
   if (/not installed/i.test(message)) {
+    if (typeof window !== "undefined" && window.location.protocol === "file:") {
+      return translate(
+        "err_metamask_file_protocol",
+        "MetaMask is disabled on local file URLs (file:///). Please open AgriTrace at http://localhost:5500 or http://localhost:4001."
+      );
+    }
     return translate("err_metamask_not_installed", "MetaMask is not installed. Please open this application in a browser where MetaMask is installed.");
   }
 
@@ -127,7 +146,7 @@ function userFriendlyError(error) {
   }
 
   if (/failed to fetch|network error|ECONNREFUSED|fetch failed|timeout/i.test(message)) {
-    return translate("err_backend_offline", "Cannot connect to the AgriTrace backend on port 4000. Make sure Express is running.");
+    return translate("err_backend_offline", "Cannot connect to the AgriTrace backend on port 4001. Make sure Express is running.");
   }
 
   if (/insufficient funds/i.test(message)) {
@@ -193,7 +212,7 @@ async function api(path, options = {}) {
   } catch (error) {
     if (error.name === "AbortError") {
       throw new Error(
-        "Backend request timed out. Make sure Express is running on port 4000."
+        "Backend request timed out. Make sure Express is running on port 4001."
       );
     }
     throw error;
@@ -1058,6 +1077,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       await refreshOperatorStatus();
       await checkHealth();
     });
+  }
+
+  // 10. Check if opened via file:/// and show helpful banner for MetaMask
+  if (typeof window !== "undefined" && window.location.protocol === "file:") {
+    const banner = document.createElement("div");
+    banner.id = "fileProtocolNotice";
+    banner.style.cssText = "background:linear-gradient(90deg, #1e293b, #0f172a);border-bottom:2px solid #38bdf8;color:#e2e8f0;padding:10px 16px;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:999999;position:relative;box-shadow:0 4px 15px rgba(0,0,0,0.5);";
+    banner.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:18px;">🦊</span>
+        <span>
+          <strong>MetaMask Connection Note:</strong> Chrome disables wallet extensions on <code>file:///</code> URLs. Open via HTTP to connect MetaMask side panel:
+        </span>
+        <div style="display:inline-flex;gap:8px;margin-left:4px;">
+          <a href="http://localhost:5500" target="_blank" style="background:#38bdf8;color:#0f172a;padding:4px 12px;border-radius:6px;font-weight:700;text-decoration:none;font-size:12px;">Open Port 5500 (Live Server)</a>
+          <a href="http://localhost:4001" target="_blank" style="background:#39ff88;color:#0f172a;padding:4px 12px;border-radius:6px;font-weight:700;text-decoration:none;font-size:12px;">Open Port 4001 (AgriTrace Backend)</a>
+        </div>
+      </div>
+      <button onclick="this.parentElement.remove()" style="background:transparent;border:none;color:#94a3b8;font-size:20px;cursor:pointer;padding:0 6px;" title="Dismiss">&times;</button>
+    `;
+    document.body.prepend(banner);
   }
 
   console.log("AgriTrace frontend initialized successfully.");
