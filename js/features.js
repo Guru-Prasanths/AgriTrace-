@@ -2192,25 +2192,25 @@ function initFloatingPopNav() {
     }
   });
 
-  // Automatic Navigation Collapse on interacting outside
-  document.addEventListener('click', (e) => {
-    if (!panel.classList.contains('is-closed')) {
+  // Automatic Navigation Collapse on interacting outside (Mouse + Touch + Pointer)
+  const handleOutsideInteraction = (e) => {
+    if (panel.classList.contains('is-open')) {
       if (!panel.contains(e.target) && !toggleBtn.contains(e.target)) {
         closeMenu();
       }
     }
+  };
+
+  ['pointerdown', 'touchstart', 'click'].forEach(evt => {
+    document.addEventListener(evt, handleOutsideInteraction, { passive: true });
   });
 
-  // Automatic Collapse when clicking any section or main page content
-  document.querySelectorAll('section, main, header, footer').forEach(container => {
-    container.addEventListener('click', (e) => {
-      if (!panel.classList.contains('is-closed')) {
-        if (!panel.contains(e.target) && !toggleBtn.contains(e.target)) {
-          closeMenu();
-        }
-      }
-    });
-  });
+  // Automatic Collapse when scrolling the document
+  window.addEventListener('scroll', () => {
+    if (panel.classList.contains('is-open') && window.scrollY > 80) {
+      closeMenu();
+    }
+  }, { passive: true });
 
   // Navigation item selection: smoothly navigate and auto-collapse navigation
   dockLinks.forEach(link => {
@@ -2224,15 +2224,15 @@ function initFloatingPopNav() {
     });
   });
 
-  // Automatic Collapse when any modal opens
+  // Automatic Collapse when any modal or box opens (monitored via MutationObserver)
   if ('MutationObserver' in window) {
     const modalObserver = new MutationObserver(() => {
-      const anyOpenModal = document.querySelector('.open, .feat-modal.open, .tn-modal-backdrop.open, .voice-panel.open');
-      if (anyOpenModal && !panel.classList.contains('is-closed')) {
+      const anyOpenModal = document.querySelector('.modal.open, .feat-modal.open, .tn-modal-backdrop.open, .voice-panel.open, .auth-modal.open, [role="dialog"].open');
+      if (anyOpenModal && panel.classList.contains('is-open')) {
         closeMenu();
       }
     });
-    modalObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    modalObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class', 'style'] });
   }
 
   // Enable mouse-wheel horizontal scrolling on scroll rows
@@ -2338,24 +2338,23 @@ function initOfflineResilience() {
 }
 
 // ---------------------------------------------------------
-// Uiverse.io Leaf Decorative Button Animation Controller
+// Uiverse.io Leaf Decorative Button Animation Controller (MuhammadHasann)
 // ---------------------------------------------------------
 function initUiverseLeafButtons() {
-  const leafSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-    <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
-  </svg>`;
+  const leafPath = 'M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z';
 
-  document.querySelectorAll('.agri-animated-btn').forEach(btn => {
-    if (!btn.querySelector('.icon-container')) {
-      const container = document.createElement('div');
-      container.className = 'icon-container';
+  const targetButtons = document.querySelectorAll(
+    '.primary-button, .agri-animated-btn, .uiverse-leaf-btn, .tn-show-more-btn, #consumerScanBtn, #confirmProceedBtn, #captureProduceBtn, .tn-modal-btn.tn-btn-primary, .uiverse-doc-btn.uiverse-doc-btn-primary'
+  );
+
+  targetButtons.forEach(btn => {
+    if (!btn.querySelector('.icon-1')) {
       for (let i = 1; i <= 5; i++) {
         const iconDiv = document.createElement('div');
-        iconDiv.className = `icon icon-${i}`;
-        iconDiv.innerHTML = leafSvg;
-        container.appendChild(iconDiv);
+        iconDiv.className = `icon-${i}`;
+        iconDiv.innerHTML = `<svg class="fil-leaf-${i}" viewBox="0 0 24 24" width="100%" height="100%"><path class="fil-leaf-${i}" d="${leafPath}"/></svg>`;
+        btn.appendChild(iconDiv);
       }
-      btn.appendChild(container);
     }
   });
 }

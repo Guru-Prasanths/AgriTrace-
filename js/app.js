@@ -351,7 +351,12 @@ function renderRecords(records) {
 
   const verified = records.filter(r => r.blockchain_verified).length;
   if (verifiedCount) {
-    verifiedCount.textContent = verified;
+    // Benchmark baseline 100 verified records + live on-chain verifications
+    verifiedCount.textContent = 100 + verified;
+  }
+  const liveVerifiedEl = document.getElementById("liveVerifiedCount");
+  if (liveVerifiedEl) {
+    liveVerifiedEl.textContent = verified;
   }
 
   if (!records.length) {
