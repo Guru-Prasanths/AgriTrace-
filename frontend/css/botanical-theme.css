@@ -1,0 +1,1569 @@
+/* =========================================================
+   AGRITRACE — BOTANICAL DESIGN SYSTEM THEME
+   Cream paper, forest-green ink, EB Garamond display,
+   Instrument Sans reading, sage panels, clay accents.
+   Overrides the futuristic dark theme while preserving
+   all existing structure, behavior, and accessibility.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   BOTANICAL DESIGN TOKENS
+   --------------------------------------------------------- */
+
+:root {
+    /* === Color System === */
+    --bg:             #f5efdf;
+    --bg-2:           #ede7d5;
+    --panel:          #e0e5d3;
+    --panel-light:    rgba(224, 229, 211, 0.82);
+
+    --green:          #1e382c;
+    --green-2:        #2a5040;
+    --cyan:           #895440;
+    --blue:           #697961;
+    --purple:         #895440;
+
+    --white:          #1e382c;
+    --muted:          #697961;
+    --muted-2:        #8a9a80;
+
+    --border:         #d4d0bd;
+    --border-bright:  #b5baa4;
+
+    --shadow:         0 4px 20px rgba(30, 56, 44, 0.07);
+    --glow:           none;
+
+    --radius:         34px;
+
+    /* === Typography === */
+    --font-sans:      "Instrument Sans", "Noto Sans Tamil", "Noto Sans Devanagari", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-heading:   "EB Garamond", Georgia, serif;
+    --font-size-base: 16px;
+
+    /* === Botanical Tokens === */
+    --dp-color-ground:         #f5efdf;
+    --dp-color-ink:            #1e382c;
+    --dp-color-panel:          #e0e5d3;
+    --dp-color-warm-field:     #e6cbb8;
+    --dp-color-accent:         #895440;
+    --dp-color-rule:           #d4d0bd;
+    --dp-color-ornament-line:  #b5baa4;
+    --dp-color-field-line:     #697961;
+    --dp-typography-display:   "EB Garamond", Georgia, serif;
+    --dp-typography-reading:   "Instrument Sans", sans-serif;
+    --dp-radius-panel:         34px;
+    --dp-radius-panel-narrow:  27px;
+    --dp-motion-interaction:   0.35s;
+    --dp-motion-easing:        ease;
+
+    /* Accent color */
+    --accent: #895440;
+}
+
+
+/* ---------------------------------------------------------
+   BODY & GLOBAL RESET
+   --------------------------------------------------------- */
+
+body {
+    background: var(--dp-color-ground) !important;
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-sans) !important;
+    line-height: 1.6;
+}
+
+/* Subtle paper grain texture */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    mix-blend-mode: multiply;
+}
+
+body::selection,
+::selection {
+    background: var(--dp-color-accent);
+    color: var(--dp-color-ground);
+}
+
+
+/* ---------------------------------------------------------
+   HIDE FUTURISTIC ANIMATED BACKGROUND
+   --------------------------------------------------------- */
+
+.agrifx-background,
+.agrifx-grid,
+.agrifx-orb,
+.agrifx-vehicle,
+.agrifx-crop,
+.agrifx-node,
+.data-stream,
+.agrifx-scanline {
+    display: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   LINKS & BASE ELEMENTS
+   --------------------------------------------------------- */
+
+a {
+    color: var(--dp-color-ink);
+    transition: color var(--dp-motion-interaction) var(--dp-motion-easing);
+}
+
+a:hover {
+    color: var(--dp-color-accent);
+}
+
+strong {
+    color: var(--dp-color-ink);
+}
+
+
+/* ---------------------------------------------------------
+   SCROLLBAR
+   --------------------------------------------------------- */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dp-color-ground);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--dp-color-ornament-line);
+    border-radius: 999px;
+    border: 2px solid var(--dp-color-ground);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dp-color-field-line);
+}
+
+
+/* =========================================================
+   FLOATING NAVIGATION PANEL
+   ========================================================= */
+
+.floating-nav-toggle-btn {
+    background: var(--dp-color-ink) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.floating-nav-toggle-btn:hover {
+    background: var(--dp-color-field-line) !important;
+    border-color: var(--dp-color-ink) !important;
+}
+
+.floating-nav-toggle-btn .floating-nav-toggle-text {
+    color: var(--dp-color-ground) !important;
+}
+
+.floating-nav-panel {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    box-shadow: 0 12px 45px rgba(30, 56, 44, 0.12) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: var(--dp-radius-panel) !important;
+}
+
+.floating-nav-header {
+    border-bottom: 1px solid var(--dp-color-rule) !important;
+}
+
+.floating-nav-brand {
+    color: var(--dp-color-ink) !important;
+}
+
+.floating-nav-brand .brand-icon {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+}
+
+.floating-nav-brand .brand-text strong {
+    color: var(--dp-color-ink) !important;
+}
+
+.floating-nav-brand .brand-text span {
+    color: var(--dp-color-field-line) !important;
+}
+
+.floating-nav-close-btn {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.floating-nav-close-btn:hover {
+    background: var(--dp-color-warm-field) !important;
+    color: var(--dp-color-accent) !important;
+    border-color: var(--dp-color-accent) !important;
+}
+
+.floating-nav-group-label {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+    letter-spacing: 0.12em !important;
+    font-size: 11px !important;
+}
+
+/* Nav destination buttons */
+.floating-nav-btn,
+.floating-nav-panel .nav-outlet-btn {
+    border: 1px solid var(--dp-color-rule) !important;
+    background: transparent !important;
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-sans) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    transition: all var(--dp-motion-interaction) var(--dp-motion-easing) !important;
+}
+
+.floating-nav-btn:hover,
+.floating-nav-panel .nav-outlet-btn:hover {
+    background: var(--dp-color-panel) !important;
+    border-color: var(--dp-color-ornament-line) !important;
+    transform: translateY(-1px);
+}
+
+.floating-nav-btn.active,
+.floating-nav-btn.dock-item.active {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+    border-color: var(--dp-color-ink) !important;
+}
+
+/* Points outlet */
+.account-pts-outlet,
+#hardhatAccountBtn {
+    color: var(--dp-color-accent) !important;
+    border-color: var(--dp-color-warm-field) !important;
+    background: rgba(137, 84, 64, 0.06) !important;
+}
+
+/* Network badge */
+#networkBadge {
+    border-color: var(--dp-color-ornament-line) !important;
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+#networkBadge .status-dot {
+    background: var(--dp-color-field-line) !important;
+    box-shadow: none !important;
+}
+
+/* Wallet button */
+.wallet-outlet,
+#connectWalletBtn {
+    background: var(--dp-color-ink) !important;
+    border: 1px solid var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.wallet-outlet:hover,
+#connectWalletBtn:hover {
+    background: var(--dp-color-field-line) !important;
+    border-color: var(--dp-color-field-line) !important;
+}
+
+/* User auth badge */
+#userAuthBadge {
+    border-color: var(--dp-color-ornament-line) !important;
+    background: var(--dp-color-panel) !important;
+}
+
+#userAuthPointsBadge {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+/* Admin rewards btn */
+#adminRewardsConfigBtn {
+    background: rgba(137, 84, 64, 0.08) !important;
+    border: 1px solid var(--dp-color-warm-field) !important;
+    color: var(--dp-color-accent) !important;
+}
+
+/* Alerts */
+.alerts-btn .alert-badge {
+    background: var(--dp-color-accent) !important;
+    box-shadow: none !important;
+}
+
+/* Language switcher */
+.nav-lang-switcher,
+#langSwitcher {
+    color: var(--dp-color-ink) !important;
+}
+
+.lang-opt {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.lang-opt.active {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+/* Offline / Online status */
+.offline-status-outlet.online {
+    border-color: var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-field-line) !important;
+}
+
+.offline-status-outlet .offline-status-dot {
+    background: var(--dp-color-field-line) !important;
+    box-shadow: none !important;
+}
+
+/* Scrollbar inside nav */
+.floating-nav-scroll-row::-webkit-scrollbar-thumb {
+    background: var(--dp-color-ornament-line) !important;
+}
+
+.floating-nav-scroll-row::-webkit-scrollbar-thumb:hover {
+    background: var(--dp-color-field-line) !important;
+}
+
+
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+
+.hero-section {
+    background: transparent !important;
+}
+
+.hero-status {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+    letter-spacing: 0.12em !important;
+}
+
+.hero-status .pulse-dot {
+    background: var(--dp-color-field-line) !important;
+    box-shadow: none !important;
+}
+
+.hero-status .status-line {
+    background: var(--dp-color-rule) !important;
+}
+
+.hero-builder-badge {
+    color: var(--dp-color-accent) !important;
+    border-color: var(--dp-color-warm-field) !important;
+    background: rgba(137, 84, 64, 0.06) !important;
+}
+
+/* Hero title — botanical serif */
+.hero-title,
+.hero-title-animated {
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.02em !important;
+    text-transform: none !important;
+    color: var(--dp-color-ink) !important;
+    text-shadow: none !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+/* Remove holographic gradient, use solid color with accent */
+.gradient-text,
+.hero-title .gradient-text,
+.hero-text-glow {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: var(--dp-color-accent) !important;
+    background-clip: unset !important;
+    color: var(--dp-color-accent) !important;
+    text-shadow: none !important;
+    animation: none !important;
+    font-style: italic !important;
+}
+
+.outline-text {
+    -webkit-text-stroke: 0 !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.hero-description {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.hero-description strong {
+    color: var(--dp-color-ink) !important;
+}
+
+/* Hero buttons */
+.primary-button {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+    border: none !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    letter-spacing: 0 !important;
+    box-shadow: 0 2px 8px rgba(30, 56, 44, 0.12) !important;
+    transition: all var(--dp-motion-interaction) var(--dp-motion-easing) !important;
+}
+
+.primary-button:hover {
+    background: var(--dp-color-field-line) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(30, 56, 44, 0.16) !important;
+}
+
+.primary-button:focus-visible {
+    outline: 2px solid var(--dp-color-accent) !important;
+    outline-offset: 2px !important;
+}
+
+.secondary-button {
+    background: transparent !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 600 !important;
+    transition: all var(--dp-motion-interaction) var(--dp-motion-easing) !important;
+}
+
+.secondary-button:hover {
+    background: var(--dp-color-panel) !important;
+    border-color: var(--dp-color-ornament-line) !important;
+    transform: translateY(-2px);
+}
+
+.secondary-button:focus-visible {
+    outline: 2px solid var(--dp-color-accent) !important;
+    outline-offset: 2px !important;
+}
+
+.small-button {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ink) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    font-family: var(--font-sans) !important;
+    transition: all var(--dp-motion-interaction) var(--dp-motion-easing) !important;
+}
+
+.small-button:hover {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+    border-color: var(--dp-color-ink) !important;
+    transform: translateY(-1px);
+}
+
+/* Hero tech items */
+.tech-item {
+    border-color: var(--dp-color-rule) !important;
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.tech-item .tech-icon {
+    color: var(--dp-color-ink) !important;
+    background: transparent !important;
+}
+
+.tech-item strong {
+    color: var(--dp-color-ink) !important;
+}
+
+.tech-item small {
+    color: var(--dp-color-field-line) !important;
+}
+
+/* Network rings (decorative) */
+.hero-rings .ring {
+    border-color: var(--dp-color-rule) !important;
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   SECTION HEADERS & LABELS
+   ========================================================= */
+
+.section {
+    color: var(--dp-color-ink) !important;
+}
+
+.section-label {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+    letter-spacing: 0.12em !important;
+    font-weight: 600 !important;
+}
+
+.section-header h2 {
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.02em !important;
+    text-transform: none !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.section-header h2 .gradient-text {
+    font-style: italic !important;
+}
+
+.section-header p {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.live-badge {
+    border: 1px solid var(--dp-color-rule) !important;
+    background: transparent !important;
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.live-badge .pulse-dot {
+    background: var(--dp-color-field-line) !important;
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   CARDS — Glass, Metric, Feature, Architecture
+   ========================================================= */
+
+.glass-card,
+.metric-card,
+.feature-card,
+.architecture-card {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: var(--dp-radius-panel) !important;
+    box-shadow: var(--shadow) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.glass-card:hover,
+.metric-card:hover,
+.feature-card:hover {
+    border-color: var(--dp-color-ornament-line) !important;
+    box-shadow: 0 8px 30px rgba(30, 56, 44, 0.1) !important;
+}
+
+/* Feature card decorative pseudo-element */
+.feature-card::before {
+    display: none !important;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--dp-color-rule) !important;
+}
+
+.card-number {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-heading) !important;
+}
+
+.card-header h3 {
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+}
+
+/* Metric card values */
+.metric-card > strong,
+.metric-card .metric-value {
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-heading) !important;
+}
+
+.metric-card p,
+.metric-card small {
+    color: var(--dp-color-field-line) !important;
+}
+
+.feature-card h3 {
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+}
+
+.feature-card p {
+    color: var(--dp-color-field-line) !important;
+}
+
+/* Architecture nodes */
+.flow-node {
+    border: 1px solid var(--dp-color-rule) !important;
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   FORMS — Inputs, Labels, Selects
+   ========================================================= */
+
+input,
+select,
+textarea {
+    font-family: var(--font-sans) !important;
+}
+
+.glass-card input,
+.glass-card select,
+.glass-card textarea,
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+select {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: 12px !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.glass-card input:focus,
+.glass-card select:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--dp-color-ink) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(30, 56, 44, 0.08) !important;
+}
+
+.glass-card input::placeholder,
+input::placeholder {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.glass-card label,
+label {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+select option {
+    background: var(--dp-color-ground) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+table th {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid var(--dp-color-rule) !important;
+}
+
+table td {
+    color: var(--dp-color-ink) !important;
+    border-top: 1px solid var(--dp-color-rule) !important;
+}
+
+table tr:hover {
+    background: rgba(224, 229, 211, 0.35) !important;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status-active {
+    background: rgba(30, 56, 44, 0.1) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.status-negotiating {
+    background: rgba(137, 84, 64, 0.1) !important;
+    color: var(--dp-color-accent) !important;
+}
+
+.status-sold {
+    background: rgba(105, 121, 97, 0.12) !important;
+    color: var(--dp-color-field-line) !important;
+}
+
+
+/* =========================================================
+   CTA SECTION
+   ========================================================= */
+
+.cta-section {
+    background: var(--dp-color-ink) !important;
+    border: none !important;
+    border-radius: var(--dp-radius-panel) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.cta-section h2,
+.cta-section .gradient-text {
+    color: var(--dp-color-ground) !important;
+    -webkit-text-fill-color: var(--dp-color-ground) !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
+
+.cta-section p {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.cta-section .primary-button {
+    background: var(--dp-color-ground) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.cta-section .primary-button:hover {
+    background: var(--dp-color-panel) !important;
+}
+
+.cta-section .secondary-button {
+    border-color: var(--dp-color-field-line) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.site-footer {
+    background: var(--dp-color-ink) !important;
+    border-top: none !important;
+    color: var(--dp-color-ground) !important;
+    /* Broad curved top silhouette */
+    border-radius: 60px 60px 0 0 !important;
+    margin-top: -30px;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-main {
+    color: var(--dp-color-ground) !important;
+}
+
+.footer-brand p {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.footer-brand .brand-text strong {
+    color: var(--dp-color-ground) !important;
+}
+
+.footer-brand .brand-text span {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.footer-brand .brand-icon {
+    background: rgba(245, 239, 223, 0.08) !important;
+    border-color: rgba(245, 239, 223, 0.15) !important;
+}
+
+.footer-column h4 {
+    color: var(--dp-color-warm-field) !important;
+    font-family: var(--font-sans) !important;
+    letter-spacing: 0.12em !important;
+}
+
+.footer-column a,
+.footer-column span {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.footer-column a:hover {
+    color: var(--dp-color-ground) !important;
+}
+
+.footer-builder-card {
+    background: rgba(245, 239, 223, 0.05) !important;
+    border: 1px solid rgba(245, 239, 223, 0.1) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.footer-builder-card .builder-label {
+    color: var(--dp-color-warm-field) !important;
+}
+
+.footer-builder-card .builder-name {
+    color: var(--dp-color-ground) !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+}
+
+.footer-builder-card .builder-desc {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.footer-builder-card .builder-avatar {
+    background: var(--dp-color-field-line) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.footer-builder-card .primary-button {
+    background: var(--dp-color-ground) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(245, 239, 223, 0.1) !important;
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.footer-bottom strong {
+    color: var(--dp-color-ground) !important;
+}
+
+.footer-lang .section-label {
+    color: var(--dp-color-warm-field) !important;
+}
+
+.footer-lang .small-button {
+    background: rgba(245, 239, 223, 0.08) !important;
+    border-color: rgba(245, 239, 223, 0.15) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+/* Inline style overrides for footer links */
+#quickHardhatLocalLink {
+    color: var(--dp-color-warm-field) !important;
+}
+
+
+/* =========================================================
+   TOAST NOTIFICATIONS
+   ========================================================= */
+
+.toast {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    box-shadow: 0 8px 30px rgba(30, 56, 44, 0.14) !important;
+    backdrop-filter: none !important;
+}
+
+.toast-icon {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+.feat-modal {
+    background: rgba(30, 56, 44, 0.4) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+.feat-modal-box {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: var(--dp-radius-panel) !important;
+    color: var(--dp-color-ink) !important;
+    box-shadow: 0 20px 60px rgba(30, 56, 44, 0.18) !important;
+}
+
+/* Hardhat / Network modal */
+.hardhat-modal-box,
+#hardhatModal .feat-modal-box {
+    background: var(--dp-color-ground) !important;
+    border-color: var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   VOICE ASSISTANT PANEL
+   ========================================================= */
+
+.voice-panel {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: var(--dp-radius-panel) !important;
+    box-shadow: 0 20px 60px rgba(30, 56, 44, 0.15) !important;
+    backdrop-filter: none !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.voice-panel-header {
+    border-bottom: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.voice-panel-header strong {
+    color: var(--dp-color-ink) !important;
+}
+
+.voice-panel-header small {
+    color: var(--dp-color-field-line) !important;
+}
+
+.voice-status-bar {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.voice-status-dot {
+    background: var(--dp-color-field-line) !important;
+    box-shadow: none !important;
+}
+
+.voice-bubble-assistant {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.voice-bubble-user {
+    background: rgba(137, 84, 64, 0.08) !important;
+    border: 1px solid var(--dp-color-warm-field) !important;
+    color: var(--dp-color-accent) !important;
+}
+
+.voice-action-btn,
+.start-listen-btn {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+    border-color: var(--dp-color-ink) !important;
+}
+
+.stop-listen-btn {
+    background: var(--dp-color-accent) !important;
+    color: var(--dp-color-ground) !important;
+    border-color: var(--dp-color-accent) !important;
+}
+
+.voice-send-btn {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.voice-text-input {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.voice-close-btn {
+    color: var(--dp-color-field-line) !important;
+}
+
+.voice-close-btn:hover {
+    color: var(--dp-color-accent) !important;
+}
+
+.voice-tool-btn {
+    color: var(--dp-color-field-line) !important;
+    border-color: var(--dp-color-rule) !important;
+}
+
+.voice-lang-pill {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   FLOATING ACCESSIBILITY BAR
+   ========================================================= */
+
+.floating-access-bar {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    box-shadow: 0 4px 20px rgba(30, 56, 44, 0.1) !important;
+    backdrop-filter: none !important;
+}
+
+.float-btn {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.float-btn:hover,
+.float-btn-sm:hover {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.float-pts-btn {
+    color: var(--dp-color-accent) !important;
+    border-color: var(--dp-color-warm-field) !important;
+    background: rgba(137, 84, 64, 0.06) !important;
+}
+
+
+/* =========================================================
+   KAGGLE DATASETS SECTION
+   ========================================================= */
+
+.kaggle-section {
+    color: var(--dp-color-ink) !important;
+}
+
+.kaggle-disclaimer {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.kaggle-search-input {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.kaggle-search-input::placeholder {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.kaggle-filter-tab {
+    background: transparent !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.kaggle-filter-tab.active {
+    background: var(--dp-color-ink) !important;
+    border-color: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.kaggle-card {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: var(--dp-radius-panel) !important;
+    box-shadow: var(--shadow) !important;
+    backdrop-filter: none !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.kaggle-card:hover {
+    border-color: var(--dp-color-ornament-line) !important;
+}
+
+.kaggle-card-title {
+    font-family: var(--font-heading) !important;
+    color: var(--dp-color-ink) !important;
+    font-weight: 400 !important;
+}
+
+.kaggle-card-desc {
+    color: var(--dp-color-field-line) !important;
+}
+
+.kaggle-category-badge {
+    font-family: var(--font-sans) !important;
+}
+
+.kaggle-category-badge.agricultural-prices {
+    background: rgba(30, 56, 44, 0.08) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.kaggle-category-badge.crop-production {
+    background: rgba(137, 84, 64, 0.08) !important;
+    border: 1px solid var(--dp-color-warm-field) !important;
+    color: var(--dp-color-accent) !important;
+}
+
+.kaggle-category-badge.fruits-vegetables {
+    background: rgba(105, 121, 97, 0.1) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-field-line) !important;
+}
+
+.kaggle-category-badge.iot-smart-farming {
+    background: rgba(30, 56, 44, 0.06) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.kaggle-meta-tag {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-field-line) !important;
+}
+
+.kaggle-source-note {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.kaggle-view-btn {
+    background: var(--dp-color-ink) !important;
+    border: 1px solid var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+.kaggle-view-btn:hover {
+    background: var(--dp-color-field-line) !important;
+    border-color: var(--dp-color-field-line) !important;
+}
+
+.kaggle-count-badge {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+    border-color: var(--dp-color-ornament-line) !important;
+}
+
+
+/* =========================================================
+   AUTH & REWARDS SYSTEM — Botanical overrides
+   ========================================================= */
+
+.role-auth-card {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: var(--dp-radius-panel) !important;
+    box-shadow: var(--shadow) !important;
+    backdrop-filter: none !important;
+}
+
+.role-auth-card h3 {
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-heading) !important;
+    font-weight: 400 !important;
+}
+
+.role-auth-card p {
+    color: var(--dp-color-field-line) !important;
+}
+
+.auth-tab-row {
+    background: var(--dp-color-panel) !important;
+    border-radius: 12px !important;
+}
+
+.auth-tab-btn {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+    border-radius: 10px !important;
+}
+
+.auth-tab-btn.active {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+    box-shadow: none !important;
+}
+
+.auth-form-group label {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.auth-form-group input,
+.auth-form-group select {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.auth-form-group input:focus,
+.auth-form-group select:focus {
+    border-color: var(--dp-color-ink) !important;
+}
+
+.auth-submit-btn {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.auth-submit-btn:hover {
+    box-shadow: 0 6px 18px rgba(30, 56, 44, 0.15) !important;
+}
+
+.auth-divider {
+    color: var(--dp-color-ornament-line) !important;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    border-bottom-color: var(--dp-color-rule) !important;
+}
+
+.google-auth-btn {
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: 12px !important;
+}
+
+.google-auth-btn:focus-visible {
+    outline-color: var(--dp-color-accent) !important;
+}
+
+.portal-switch-prompt {
+    color: var(--dp-color-field-line) !important;
+    border-top-color: var(--dp-color-rule) !important;
+}
+
+.portal-switch-link {
+    color: var(--dp-color-accent) !important;
+}
+
+.portal-switch-link:hover {
+    color: var(--dp-color-ink) !important;
+}
+
+/* Role pills */
+.portal-role-pill.farmer {
+    background: rgba(30, 56, 44, 0.1) !important;
+    color: var(--dp-color-ink) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+}
+
+.portal-role-pill.seller {
+    background: rgba(137, 84, 64, 0.1) !important;
+    color: var(--dp-color-accent) !important;
+    border: 1px solid var(--dp-color-warm-field) !important;
+}
+
+.portal-role-pill.admin {
+    background: rgba(105, 121, 97, 0.1) !important;
+    color: var(--dp-color-field-line) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+}
+
+/* Profile bar */
+.portal-profile-bar {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+}
+
+/* Rewards dashboard */
+.rewards-dashboard-card {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    border-radius: var(--dp-radius-panel) !important;
+    box-shadow: var(--shadow) !important;
+}
+
+.rewards-header-row {
+    border-bottom-color: var(--dp-color-rule) !important;
+}
+
+.balance-number {
+    color: var(--dp-color-ink) !important;
+    text-shadow: none !important;
+    font-family: var(--font-heading) !important;
+}
+
+.balance-unit {
+    color: var(--dp-color-field-line) !important;
+}
+
+.reward-stat-box {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+}
+
+.reward-stat-label {
+    color: var(--dp-color-field-line) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.reward-stat-val {
+    color: var(--dp-color-ink) !important;
+    font-family: var(--font-heading) !important;
+}
+
+.reward-schedule-callout {
+    background: var(--dp-color-panel) !important;
+    border: 1px dashed var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+/* Transaction table */
+.tx-table-container {
+    border-color: var(--dp-color-rule) !important;
+}
+
+.tx-table th {
+    background: var(--dp-color-panel) !important;
+    color: var(--dp-color-ink) !important;
+    border-bottom-color: var(--dp-color-rule) !important;
+}
+
+.tx-table td {
+    color: var(--dp-color-ink) !important;
+    border-bottom-color: var(--dp-color-rule) !important;
+}
+
+.tx-points-pill.positive {
+    background: rgba(30, 56, 44, 0.1) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.tx-points-pill.negative {
+    background: rgba(137, 84, 64, 0.1) !important;
+    color: var(--dp-color-accent) !important;
+}
+
+/* Admin config */
+.admin-config-field {
+    background: var(--dp-color-panel) !important;
+    border-color: var(--dp-color-rule) !important;
+}
+
+.admin-config-field label {
+    color: var(--dp-color-field-line) !important;
+}
+
+.admin-config-field input,
+.admin-config-field select {
+    background: var(--dp-color-ground) !important;
+    border-color: var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.admin-config-toggle input[type="checkbox"] {
+    accent-color: var(--dp-color-ink) !important;
+}
+
+.admin-trigger-card {
+    background: rgba(137, 84, 64, 0.06) !important;
+    border-color: var(--dp-color-warm-field) !important;
+}
+
+.admin-trigger-card h4 {
+    color: var(--dp-color-accent) !important;
+}
+
+/* Role mismatch */
+.role-mismatch-banner {
+    background: rgba(137, 84, 64, 0.08) !important;
+    border-color: var(--dp-color-warm-field) !important;
+    color: var(--dp-color-accent) !important;
+}
+
+.role-mismatch-banner h4 {
+    color: var(--dp-color-accent) !important;
+}
+
+
+/* =========================================================
+   ALERT PANEL & ITEMS
+   ========================================================= */
+
+.alerts-panel {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+.alert-warning {
+    border-color: var(--dp-color-warm-field) !important;
+    background: rgba(230, 203, 184, 0.2) !important;
+}
+
+.alert-info {
+    border-color: var(--dp-color-ornament-line) !important;
+    background: rgba(224, 229, 211, 0.3) !important;
+}
+
+.alert-success {
+    border-color: var(--dp-color-ornament-line) !important;
+    background: rgba(224, 229, 211, 0.3) !important;
+}
+
+
+/* =========================================================
+   WALLET BUTTON (stand-alone)
+   ========================================================= */
+
+.wallet-button {
+    background: var(--dp-color-panel) !important;
+    border: 1px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ink) !important;
+    border-radius: var(--dp-radius-panel-narrow) !important;
+    font-family: var(--font-sans) !important;
+}
+
+.wallet-button:hover {
+    background: var(--dp-color-ink) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+
+/* =========================================================
+   FILE-PROTOCOL NOTICE BANNER
+   ========================================================= */
+
+#fileProtocolNotice {
+    background: var(--dp-color-panel) !important;
+    border-bottom: 2px solid var(--dp-color-ornament-line) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   CLEAR TEXT VIEW MODE — Re-override for botanical
+   ========================================================= */
+
+html[data-text-size] body,
+body.text-size-small,
+body.text-size-default,
+body.text-size-large,
+body.clear-text-view {
+    background: var(--dp-color-ground) !important;
+    color: var(--dp-color-ink) !important;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE OVERRIDES
+   ========================================================= */
+
+@media (max-width: 1120px) {
+    .site-footer {
+        border-radius: 40px 40px 0 0 !important;
+    }
+}
+
+@media (max-width: 760px) {
+    .site-footer {
+        border-radius: 30px 30px 0 0 !important;
+    }
+
+    .floating-nav-panel {
+        border-radius: var(--dp-radius-panel-narrow) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-footer {
+        border-radius: 24px 24px 0 0 !important;
+    }
+}
+
+
+/* ---------------------------------------------------------
+   INLINE STYLE OVERRIDES — Wallet Modal & Notices
+   These target elements that use inline style= attributes
+   with hardcoded dark-theme colors.
+   --------------------------------------------------------- */
+
+/* Wallet modal — account badge subtitle */
+.account-badge-lg + small[style*="color:#a7f3d0"] {
+    color: var(--dp-color-ink) !important;
+}
+
+/* Points pill accent */
+small[style*="color:#facc15"] {
+    color: var(--dp-color-accent) !important;
+}
+
+/* Auth points badge in nav */
+#userAuthPointsBadge {
+    background: var(--dp-color-accent) !important;
+    color: var(--dp-color-ground) !important;
+}
+
+/* file:/// MetaMask notice box */
+#fileUrlMetaMaskNotice {
+    background: rgba(137, 84, 64, 0.08) !important;
+    border-color: rgba(137, 84, 64, 0.3) !important;
+}
+
+#fileUrlMetaMaskNotice strong[style*="color:#fbbf24"] {
+    color: var(--dp-color-accent) !important;
+}
+
+#fileUrlMetaMaskNotice p[style*="color:#e2e8f0"] {
+    color: var(--dp-color-ink) !important;
+}
+
+#fileUrlMetaMaskNotice div[style*="color:#cbd5e1"] {
+    color: var(--muted) !important;
+}
+
+#fileUrlMetaMaskNotice strong[style*="color:#39ff88"] {
+    color: var(--green-2) !important;
+}
+
+#fileUrlMetaMaskNotice strong[style*="color:#38bdf8"] {
+    color: var(--dp-color-accent) !important;
+}
+
+#fileUrlMetaMaskNotice strong[style*="color:#facc15"] {
+    color: var(--dp-color-accent) !important;
+}
+
+#fileUrlMetaMaskNotice a[style*="color:#38bdf8"] {
+    color: var(--dp-color-accent) !important;
+}
+
+/* Network selector cards text */
+.net-card-btn span[style*="color:var(--green)"] {
+    color: var(--green-2) !important;
+}
+
+span[style*="color:#93c5fd"] {
+    color: var(--dp-color-accent) !important;
+}
+
+/* Import account details */
+.key-box-row strong[style*="color:#38bdf8"] {
+    color: var(--dp-color-accent) !important;
+}
+
+.key-box-row strong[style*="color:#facc15"] {
+    color: var(--dp-color-accent) !important;
+}
+
+/* Faucet box */
+.faucet-action-box strong[style*="color:#ffffff"] {
+    color: var(--dp-color-ink) !important;
+}
+
+/* Confirm modal message */
+#confirmModalMessage {
+    color: var(--dp-color-ink) !important;
+}
