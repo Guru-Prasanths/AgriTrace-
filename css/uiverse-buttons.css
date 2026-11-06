@@ -458,3 +458,304 @@
   color: #1a3023;
   transform: translateY(-1.5px);
 }
+
+
+/* =========================================================
+   4. FROM UIVERSE.IO BY FAIZUDDINQ
+   Applied to navigation portal icons and tooltips
+   ========================================================= */
+ul.example-2 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.floating-nav-faizuddinq-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  align-items: center !important;
+  overflow-x: auto !important;
+  padding: 10px 4px 14px !important;
+  scrollbar-width: thin;
+}
+
+.example-2 .icon-content {
+  margin: 0 4px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.example-2 .icon-content .tooltip {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+  transition: all 0.3s ease;
+  background-color: #1e382c;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.example-2 .icon-content:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  bottom: -38px;
+}
+
+.example-2 .icon-content a,
+.example-2 .icon-content button {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  color: #1e382c;
+  background-color: #ffffff;
+  border: 1.5px solid rgba(212, 208, 189, 0.7);
+  box-shadow: 0 2px 8px rgba(30, 56, 44, 0.08);
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.example-2 .icon-content a:hover,
+.example-2 .icon-content button:hover {
+  box-shadow: 3px 2px 25px 0px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+  color: white;
+}
+
+.example-2 .icon-content a .nav-btn-icon,
+.example-2 .icon-content button .nav-btn-icon {
+  position: relative;
+  z-index: 2;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.example-2 .icon-content:hover .nav-btn-icon {
+  transform: scale(1.15);
+}
+
+.example-2 .icon-content a .filled,
+.example-2 .icon-content button .filled {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #1e382c;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
+}
+
+.example-2 .icon-content a:hover .filled,
+.example-2 .icon-content button:hover .filled,
+.example-2 .icon-content a.active .filled {
+  height: 100%;
+}
+
+.example-2 .icon-content a.active {
+  box-shadow: 0 4px 16px rgba(30, 56, 44, 0.22);
+  border-color: #1e382c;
+}
+
+/* Category Color Accents */
+.example-2 .icon-content a[data-social="home"] .filled,
+.example-2 .icon-content a[data-social="home"] ~ .tooltip {
+  background-color: #1e382c;
+}
+.example-2 .icon-content a[data-social="dashboard"] .filled,
+.example-2 .icon-content a[data-social="dashboard"] ~ .tooltip {
+  background-color: #0284c7;
+}
+.example-2 .icon-content a[data-social="records"] .filled,
+.example-2 .icon-content a[data-social="records"] ~ .tooltip {
+  background-color: #16a34a;
+}
+.example-2 .icon-content a[data-social="prices"] .filled,
+.example-2 .icon-content a[data-social="prices"] ~ .tooltip {
+  background-color: #d97706;
+}
+.example-2 .icon-content a[data-social="sensors"] .filled,
+.example-2 .icon-content a[data-social="sensors"] ~ .tooltip {
+  background-color: #7c3aed;
+}
+.example-2 .icon-content a[data-social="farmer"] .filled,
+.example-2 .icon-content a[data-social="farmer"] ~ .tooltip {
+  background-color: #059669;
+}
+.example-2 .icon-content a[data-social="seller"] .filled,
+.example-2 .icon-content a[data-social="seller"] ~ .tooltip {
+  background-color: #ea580c;
+}
+.example-2 .icon-content a[data-social="consumer"] .filled,
+.example-2 .icon-content a[data-social="consumer"] ~ .tooltip {
+  background-color: #2563eb;
+}
+.example-2 .icon-content a[data-social="datasets"] .filled,
+.example-2 .icon-content a[data-social="datasets"] ~ .tooltip {
+  background-color: #0d9488;
+}
+
+/* Actions */
+.example-2 .icon-content a[data-social="network"] .filled,
+.example-2 .icon-content a[data-social="network"] ~ .tooltip {
+  background-color: #475569;
+}
+.example-2 .icon-content a[data-social="camera"] .filled,
+.example-2 .icon-content a[data-social="camera"] ~ .tooltip {
+  background-color: #0891b2;
+}
+.example-2 .icon-content a[data-social="qr"] .filled,
+.example-2 .icon-content a[data-social="qr"] ~ .tooltip {
+  background-color: #0284c7;
+}
+.example-2 .icon-content a[data-social="alerts"] .filled,
+.example-2 .icon-content a[data-social="alerts"] ~ .tooltip {
+  background-color: #e11d48;
+}
+.example-2 .icon-content a[data-social="wallet"] .filled,
+.example-2 .icon-content a[data-social="wallet"] ~ .tooltip {
+  background-color: #1e382c;
+}
+.example-2 .icon-content a[data-social="user"] .filled,
+.example-2 .icon-content a[data-social="user"] ~ .tooltip {
+  background-color: #059669;
+}
+
+/* =========================================================
+   5. RETRO HALFTONE DOT ANIMATED BUTTON ("AI assist")
+   ========================================================= */
+.ai-assist-retro-btn,
+button.button.ai-assist-retro-btn {
+  --stone-50: #fafaf9;
+  --stone-800: #292524;
+  --yellow-400: #facc15;
+
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  font-family: "Rubik", system-ui, -apple-system, sans-serif;
+  font-weight: bold;
+  line-height: 1;
+  padding: 1px;
+  border: none;
+  transform: translate(-2px, -2px);
+  outline: 2px solid transparent;
+  outline-offset: 5px;
+  border-radius: 9999px;
+  background-color: var(--stone-800);
+  color: var(--stone-800);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+  text-align: center;
+  box-shadow:
+    0.5px 0.5px 0 0 var(--stone-800),
+    1px 1px 0 0 var(--stone-800),
+    1.5px 1.5px 0 0 var(--stone-800),
+    2px 2px 0 0 var(--stone-800),
+    2.5px 2.5px 0 0 var(--stone-800),
+    3px 3px 0 0 var(--stone-800),
+    0 0 0 2px var(--stone-50),
+    0.5px 0.5px 0 2px var(--stone-50),
+    1px 1px 0 2px var(--stone-50),
+    1.5px 1.5px 0 2px var(--stone-50),
+    2px 2px 0 2px var(--stone-50),
+    2.5px 2.5px 0 2px var(--stone-50),
+    3px 3px 0 2px var(--stone-50),
+    3.5px 3.5px 0 2px var(--stone-50),
+    4px 4px 0 2px var(--stone-50);
+}
+
+.ai-assist-retro-btn:hover {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 2px var(--stone-50);
+}
+
+.ai-assist-retro-btn:active,
+.ai-assist-retro-btn:focus-visible {
+  outline-color: var(--yellow-400);
+}
+
+.ai-assist-retro-btn:focus-visible {
+  outline-style: dashed;
+}
+
+.ai-assist-retro-btn > div {
+  position: relative;
+  pointer-events: none;
+  background-color: var(--yellow-400);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.ai-assist-retro-btn > div::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  opacity: 0.5;
+  background-image: radial-gradient(
+      rgba(255, 255, 255, 0.8) 20%,
+      transparent 20%
+    ),
+    radial-gradient(rgb(255, 255, 255) 20%, transparent 20%);
+  background-position:
+    0 0,
+    4px 4px;
+  background-size: 8px 8px;
+  mix-blend-mode: hard-light;
+  animation: dots 0.5s infinite linear;
+}
+
+.ai-assist-retro-btn > div > span {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.15rem;
+  gap: 0.35rem;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #292524;
+  filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.35));
+}
+
+.ai-assist-retro-btn > div > span:active {
+  transform: translateY(2px);
+}
+
+@keyframes dots {
+  0% {
+    background-position:
+      0 0,
+      4px 4px;
+  }
+  100% {
+    background-position:
+      8px 0,
+      12px 4px;
+  }
+}

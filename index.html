@@ -17,7 +17,7 @@
     <!-- Google Fonts: Inter, Noto Sans Tamil, Noto Sans Devanagari, Mukta Malar, EB Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Malar:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Instrument+Sans:wght@400;500;600;700&family=Mukta+Malar:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&family=Rubik:wght@500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/auth_rewards.css">
     <!-- Botanical Design System Theme Override -->
@@ -154,104 +154,139 @@
 
         <!-- Floating Navigation Content Body -->
         <div class="floating-nav-body">
-            <!-- Row 1: Section Destinations -->
+            <!-- Row 1: Section Destinations (Faizuddinq Design) -->
             <div class="floating-nav-group">
                 <div class="floating-nav-group-header">
                     <span class="floating-nav-group-label" data-i18n="nav_sections_label">SECTIONS</span>
                 </div>
-                <nav class="floating-nav-scroll-row floating-nav-destinations" aria-label="Page Sections">
-                    <a href="#home" id="nav-home" class="floating-nav-btn dock-item active" data-nav="home" title="Home">
-                        <span class="nav-btn-icon">🏠</span>
-                        <span class="nav-btn-label" data-i18n="nav_home">Home</span>
-                    </a>
-                    <a href="#dashboard" id="nav-dashboard" class="floating-nav-btn dock-item" data-nav="dashboard" title="Dashboard">
-                        <span class="nav-btn-icon">📊</span>
-                        <span class="nav-btn-label" data-i18n="nav_dashboard">Dashboard</span>
-                    </a>
-                    <a href="#records" id="nav-records" class="floating-nav-btn dock-item" data-nav="records" title="Traceability">
-                        <span class="nav-btn-icon">📦</span>
-                        <span class="nav-btn-label" data-i18n="nav_traceability">Traceability</span>
-                    </a>
-                    <a href="#prices" id="nav-prices" class="floating-nav-btn dock-item" data-nav="prices" title="Prices">
-                        <span class="nav-btn-icon">💰</span>
-                        <span class="nav-btn-label" data-i18n="nav_price">Prices</span>
-                    </a>
-                    <a href="#sensors" id="nav-sensors" class="floating-nav-btn dock-item" data-nav="sensors" title="IoT Sensors">
-                        <span class="nav-btn-icon">📡</span>
-                        <span class="nav-btn-label" data-i18n="nav_iot">IoT Sensors</span>
-                    </a>
-                    <a href="#farmer" id="nav-farmer" class="floating-nav-btn dock-item" data-nav="farmer" title="Farmer Portal">
-                        <span class="nav-btn-icon">🚜</span>
-                        <span class="nav-btn-label" data-i18n="nav_farmer">Farmer</span>
-                    </a>
-                    <a href="#seller" id="nav-seller" class="floating-nav-btn dock-item" data-nav="seller" title="Seller Portal">
-                        <span class="nav-btn-icon">🏪</span>
-                        <span class="nav-btn-label" data-i18n="nav_seller">Seller</span>
-                    </a>
-                    <a href="#consumer" id="nav-consumer" class="floating-nav-btn dock-item" data-nav="consumer" title="Verify Produce">
-                        <span class="nav-btn-icon">🛡️</span>
-                        <span class="nav-btn-label" data-i18n="nav_consumer">Verify</span>
-                    </a>
-                    <a href="#datasets" id="nav-datasets" class="floating-nav-btn dock-item" data-nav="datasets" title="Tamil Nadu Agricultural Datasets">
-                        <span class="nav-btn-icon">📁</span>
-                        <span class="nav-btn-label" data-i18n="nav_datasets">TN Datasets</span>
-                    </a>
-                </nav>
+                <ul class="example-2 floating-nav-faizuddinq-row" aria-label="Page Sections">
+                    <li class="icon-content">
+                        <a href="#home" id="nav-home" class="dock-item active" data-social="home" data-nav="home" title="Home" aria-label="Home">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">🏠</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_home">Home</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#dashboard" id="nav-dashboard" class="dock-item" data-social="dashboard" data-nav="dashboard" title="Dashboard" aria-label="Dashboard">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">📊</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_dashboard">Dashboard</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#records" id="nav-records" class="dock-item" data-social="records" data-nav="records" title="Traceability" aria-label="Traceability">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">📦</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_traceability">Traceability</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#prices" id="nav-prices" class="dock-item" data-social="prices" data-nav="prices" title="Prices" aria-label="Prices">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">💰</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_price">Prices</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#sensors" id="nav-sensors" class="dock-item" data-social="sensors" data-nav="sensors" title="IoT Sensors" aria-label="IoT Sensors">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">📡</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_iot">IoT Sensors</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#farmer" id="nav-farmer" class="dock-item" data-social="farmer" data-nav="farmer" title="Farmer Portal" aria-label="Farmer Portal">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">🚜</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_farmer">Farmer</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#seller" id="nav-seller" class="dock-item" data-social="seller" data-nav="seller" title="Seller Portal" aria-label="Seller Portal">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">🏪</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_seller">Seller</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#consumer" id="nav-consumer" class="dock-item" data-social="consumer" data-nav="consumer" title="Verify Produce" aria-label="Verify Produce">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">🛡️</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_consumer">Verify</div>
+                    </li>
+                    <li class="icon-content">
+                        <a href="#datasets" id="nav-datasets" class="dock-item" data-social="datasets" data-nav="datasets" title="Tamil Nadu Agricultural Datasets" aria-label="TN Datasets">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">📁</span>
+                        </a>
+                        <div class="tooltip" data-i18n="nav_datasets">TN Datasets</div>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Row 2: Actions & Utilities -->
+            <!-- Row 2: Actions & Utilities (Faizuddinq Design - Points Free) -->
             <div class="floating-nav-group">
                 <div class="floating-nav-group-header">
                     <span class="floating-nav-group-label" data-i18n="nav_actions_label">ACTIONS & UTILITIES</span>
                 </div>
-                <div class="floating-nav-scroll-row floating-nav-actions" role="toolbar" aria-label="Actions and Tools">
-                    <!-- AgriTrace Points Outlet -->
-                    <button id="hardhatAccountBtn" class="floating-nav-btn nav-outlet-btn account-pts-outlet" type="button" title="AgriTrace Points">
-                        <span class="pts-icon">⭐</span>
-                        <span id="accountPointsDisplay">100,000 PTS</span>
-                    </button>
-
+                <ul class="example-2 floating-nav-faizuddinq-row" role="toolbar" aria-label="Actions and Tools">
                     <!-- Network Status Outlet -->
-                    <div id="networkBadge" class="floating-nav-btn nav-outlet-btn network-outlet" title="Click to Switch Network / Account" style="cursor:pointer;">
-                        <span class="status-dot"></span>
-                        <span>Hardhat Local</span>
-                    </div>
+                    <li class="icon-content">
+                        <a href="javascript:void(0)" id="networkBadge" data-social="network" title="Click to Switch Network / Account" aria-label="Network Status">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">🌐</span>
+                        </a>
+                        <div class="tooltip">Hardhat Local</div>
+                    </li>
 
                     <!-- Camera Scan Outlet -->
-                    <button id="openCameraBtn" class="floating-nav-btn nav-outlet-btn icon-outlet" type="button" title="Scan Produce">
-                        📸
-                    </button>
+                    <li class="icon-content">
+                        <a href="javascript:void(0)" id="openCameraBtn" data-social="camera" title="Scan Produce" aria-label="Scan Produce">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">📸</span>
+                        </a>
+                        <div class="tooltip">Scan Produce</div>
+                    </li>
 
                     <!-- QR Scanner Outlet -->
-                    <button id="openQRScannerBtn" class="floating-nav-btn nav-outlet-btn icon-outlet" type="button" title="Scan QR Code">
-                        ⛶
-                    </button>
+                    <li class="icon-content">
+                        <a href="javascript:void(0)" id="openQRScannerBtn" data-social="qr" title="Scan QR Code" aria-label="Scan QR Code">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">⛶</span>
+                        </a>
+                        <div class="tooltip">QR Scanner</div>
+                    </li>
 
                     <!-- Alerts Outlet -->
-                    <button class="floating-nav-btn nav-outlet-btn icon-outlet alerts-btn" type="button" title="Alerts"
-                        onclick="document.getElementById('alertsPanel').classList.toggle('open')">
-                        🔔
-                        <span id="alertBadge" class="alert-badge" style="display:none">0</span>
-                    </button>
+                    <li class="icon-content">
+                        <a href="javascript:void(0)" id="navAlertsBtn" class="alerts-btn" data-social="alerts" title="Alerts" aria-label="Alerts"
+                            onclick="document.getElementById('alertsPanel').classList.toggle('open')">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">🔔</span>
+                        </a>
+                        <div class="tooltip">Alerts</div>
+                    </li>
 
                     <!-- Connect Wallet Outlet -->
-                    <button id="connectWalletBtn" class="floating-nav-btn nav-outlet-btn wallet-outlet" type="button">
-                        <span class="wallet-btn-text" data-i18n="wallet_connect">Connect Wallet</span>
-                    </button>
+                    <li class="icon-content">
+                        <a href="javascript:void(0)" id="connectWalletBtn" data-social="wallet" title="Connect Wallet" aria-label="Connect Wallet">
+                            <div class="filled"></div>
+                            <span class="nav-btn-icon">👛</span>
+                        </a>
+                        <div class="tooltip" data-i18n="wallet_connect">Connect Wallet</div>
+                    </li>
 
-                    <!-- User Role & Authoritative Rewards Status Badge -->
-                    <div id="userAuthBadge" class="floating-nav-btn nav-outlet-btn" style="display:none; cursor:pointer;" title="Click to view portal & rewards">
-                        <span id="userAuthRoleIcon"></span>
-                        <span id="userAuthName">Farmer</span>
-                        <span id="userAuthPointsBadge" style="background:var(--green); color:#000; padding:2px 7px; border-radius:10px; font-size:11px; font-weight:700; margin-left:4px;">0 PTS</span>
-                    </div>
-
-                    <!-- Admin Rewards Config Outlet -->
-                    <button id="adminRewardsConfigBtn" class="floating-nav-btn nav-outlet-btn" type="button" title="Admin Reward Points Configuration" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.35); color:#fbbf24; font-weight:600;">
-                        <span>🛎️</span>
-                        <span>Rewards Admin</span>
-                    </button>
-                </div>
+                    <!-- User Role Status Badge (Without Points) -->
+                    <li class="icon-content" id="userAuthBadgeLi" style="display:none;">
+                        <a href="javascript:void(0)" id="userAuthBadge" data-social="user" title="User Portal Profile" aria-label="User Profile">
+                            <div class="filled"></div>
+                            <span id="userAuthRoleIcon" class="nav-btn-icon">👨‍🌾</span>
+                        </a>
+                        <div id="userAuthName" class="tooltip">Farmer</div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -409,189 +444,21 @@
 
 
             <!-- =====================================================
-                 ANIMATING VISUAL ALGORITHM WORKFLOW REEL (SHORT-VIDEO STYLE)
+                 PROJECT ALGORITHM ANIMATION (UIVERSE.IO BY PRAASHOO7)
                  ===================================================== -->
-            <div id="workflowStoryReel" class="hero-workflow-container">
-                <div class="workflow-reel-card">
-                    <!-- Top Story Progress Bars (Shorts / Reels Style) -->
-                    <div class="reel-header">
-                        <div class="reel-progress-bars">
-                            <div class="reel-bar-track active" data-step="0" title="Step 1: Farm Origin">
-                                <div class="reel-bar-fill"></div>
-                            </div>
-                            <div class="reel-bar-track" data-step="1" title="Step 2: AI Inspection">
-                                <div class="reel-bar-fill"></div>
-                            </div>
-                            <div class="reel-bar-track" data-step="2" title="Step 3: Cold Transit">
-                                <div class="reel-bar-fill"></div>
-                            </div>
-                            <div class="reel-bar-track" data-step="3" title="Step 4: Fair Escrow">
-                                <div class="reel-bar-fill"></div>
-                            </div>
-                            <div class="reel-bar-track" data-step="4" title="Step 5: Verified QR">
-                                <div class="reel-bar-fill"></div>
-                            </div>
-                        </div>
-
-                        <div class="reel-status-bar">
-                            <div class="reel-live-pill">
-                                <span class="reel-live-dot"></span>
-                                <span>LIVE ALGORITHM REEL</span>
-                            </div>
-                            <div class="reel-header-controls">
-                                <span class="reel-step-counter">01 / 05</span>
-                                <button id="reelPrevBtn" class="reel-ctrl-btn" type="button" title="Previous step" aria-label="Previous step">‹</button>
-                                <button id="reelPlayPauseBtn" class="reel-ctrl-btn" type="button" title="Pause reel" aria-label="Pause or play">⏸</button>
-                                <button id="reelNextBtn" class="reel-ctrl-btn" type="button" title="Next step" aria-label="Next step">›</button>
-                            </div>
-                        </div>
+            <div id="heroAlgorithmCard" class="hero-workflow-container">
+                <div class="praashoo7-wrapper">
+                    <div class="card">
+                        <p class="heading">AgriTrace Algorithm</p>
+                        <p class="details">Decentralized Farm-to-Fork Batch Traceability & Fair Price Escrow</p>
+                        <a href="#records" class="btn1">Explore Protocol</a>
+                        <a href="#dashboard" class="btn2">View On-Chain</a>
+                        <p class="price">⛓ 100% Immutable</p>
                     </div>
-
-                    <!-- Dynamic Visual Stage Viewport -->
-                    <div class="reel-viewport">
-                        <!-- SCENE 1: Farm Origin & IoT Genesis -->
-                        <div class="reel-stage scene-farm active" id="scene-origin">
-                            <div class="farm-block-card">
-                                <strong>⛓ BLOCK #10429 MINTER</strong>
-                                <span>LOT-2026 • 24.5°C • 68% RH</span>
-                            </div>
-                            <div class="farm-sun"></div>
-                            <div class="farm-hills"></div>
-                            <div class="farm-center-elements">
-                                <div class="farm-sprout" title="Sprouting Harvest">🌱</div>
-                                <div class="farm-iot-tower">
-                                    <div class="tower-wave"></div>
-                                    <div class="tower-wave" style="animation-delay: 1s;"></div>
-                                    <span class="tower-icon">📡</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SCENE 2: AI Quality Grading Engine -->
-                        <div class="reel-stage scene-ai" id="scene-ai">
-                            <div class="ai-scan-rig">
-                                <div class="ai-turntable"></div>
-                                <div class="ai-produce-item" title="Organic Produce">🍅</div>
-                                <div class="ai-laser-beam"></div>
-                                <div class="ai-reticle-box"></div>
-                            </div>
-                            <div class="ai-metrics-panel">
-                                <div class="ai-metric-row">
-                                    <div class="ai-metric-label">
-                                        <span>Freshness</span>
-                                        <strong>98.4%</strong>
-                                    </div>
-                                    <div class="ai-meter-track">
-                                        <div class="ai-meter-fill" style="width: 98%;"></div>
-                                    </div>
-                                </div>
-                                <div class="ai-metric-row">
-                                    <div class="ai-metric-label">
-                                        <span>Purity</span>
-                                        <strong>99.1%</strong>
-                                    </div>
-                                    <div class="ai-meter-track">
-                                        <div class="ai-meter-fill" style="width: 99%;"></div>
-                                    </div>
-                                </div>
-                                <span class="ai-grade-stamp">GRADE A+ CERTIFIED</span>
-                            </div>
-                        </div>
-
-                        <!-- SCENE 3: Cold-Chain Logistics & Telemetry -->
-                        <div class="reel-stage scene-transit" id="scene-transit">
-                            <div class="transit-telemetry-badge">
-                                <div class="telemetry-row">
-                                    <span class="temp-dot"></span>
-                                    <span>REEFER TEMP: 4.2°C</span>
-                                </div>
-                                <small style="display:block;font-size:9px;color:#697961;margin-top:2px;">GPS Locked • 0 Tampering</small>
-                            </div>
-                            <div class="transit-sky"></div>
-                            <div class="transit-mountain m1"></div>
-                            <div class="transit-mountain m2"></div>
-                            <div class="transit-road">
-                                <div class="road-stripe"></div>
-                            </div>
-                            <div class="transit-truck-wrap">
-                                <span class="truck-graphic">🚚</span>
-                            </div>
-                        </div>
-
-                        <!-- SCENE 4: Algorithmic Market & Escrow -->
-                        <div class="reel-stage scene-market" id="scene-market">
-                            <div class="market-chart-card">
-                                <span class="chart-title">Fair Price Ticker</span>
-                                <strong class="chart-price">₹34.50 <small style="font-size:11px;color:#16a34a;">+18%</small></strong>
-                                <svg class="chart-svg" viewBox="0 0 100 40">
-                                    <path d="M 0 35 Q 30 25, 50 20 T 100 8" fill="none" stroke="#1e382c" stroke-width="2.5" stroke-linecap="round" class="chart-line" />
-                                </svg>
-                            </div>
-                            <div class="market-escrow-vault">
-                                <div class="coin-shower">
-                                    <span class="coin-particle">🪙</span>
-                                    <span class="coin-particle">✨</span>
-                                    <span class="coin-particle">🪙</span>
-                                </div>
-                                <span class="escrow-lock">🔓</span>
-                                <span class="escrow-pill-reward">+500 AgriPoints Payout</span>
-                            </div>
-                        </div>
-
-                        <!-- SCENE 5: Consumer Proof & Verification -->
-                        <div class="reel-stage scene-consumer" id="scene-consumer">
-                            <div class="consumer-phone-frame">
-                                <div class="phone-notch"></div>
-                                <div class="phone-screen">
-                                    <div class="phone-qr-scan">
-                                        <div class="phone-scan-laser"></div>
-                                        <span>📱</span>
-                                    </div>
-                                    <span class="phone-verified-badge">✓ 100% VERIFIED</span>
-                                </div>
-                            </div>
-                            <div class="consumer-badge-details">
-                                <div class="consumer-tag">
-                                    <span>🌱 Origin:</span>
-                                    <strong>Arumugam's Farm</strong>
-                                </div>
-                                <div class="consumer-tag">
-                                    <span>🛡 Safety:</span>
-                                    <strong>0 Pesticides</strong>
-                                </div>
-                                <div class="consumer-tag">
-                                    <span>⛓ Hash:</span>
-                                    <strong>0x8f2a...c31b</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Character Storyteller & Narrative Speech Box -->
-                    <div class="reel-narrative-box">
-                        <div class="character-avatar-wrap">
-                            <div class="character-avatar-circle">👨‍🌾</div>
-                            <span class="character-badge-role">Farmer</span>
-                        </div>
-                        <div class="character-speech">
-                            <div class="character-meta">
-                                <div class="character-name">
-                                    <span>Farmer Arumugam</span>
-                                </div>
-                                <span class="step-phase-tag">01 • Origin</span>
-                            </div>
-                            <p class="character-quote">“I record freshly harvested organic tomatoes at dawn. IoT sensors log 24.5°C & 68% RH, automatically anchoring Lot #LOT-2026 to the blockchain ledger.”</p>
-                            <a href="#trace" class="character-action-pill">View Produce Origin ➔</a>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Step Selector Pills at Bottom -->
-                    <div class="reel-nav-pills">
-                        <button class="reel-step-btn active" type="button" data-step="0">🌱 1. Origin</button>
-                        <button class="reel-step-btn" type="button" data-step="1">🔬 2. AI Grade</button>
-                        <button class="reel-step-btn" type="button" data-step="2">🚚 3. Cold Transit</button>
-                        <button class="reel-step-btn" type="button" data-step="3">🏪 4. Fair Escrow</button>
-                        <button class="reel-step-btn" type="button" data-step="4">✨ 5. Verified QR</button>
+                    <img class="glasses" src="assets/agritrace-algorithm.png" alt="AgriTrace Algorithm Flow" />
+                    <div class="praashoo7-info-pill">
+                        <span class="pulse-dot"></span>
+                        <span>Interactive Protocol Logic • Hover to Expand</span>
                     </div>
                 </div>
             </div>
@@ -2597,9 +2464,9 @@
                     Chain ID: 31337
                 </span>
 
-                <a href="#home" id="quickHardhatLocalLink" style="color:var(--green);font-weight:700;">
-                    ⭐ AgriTrace Points (100K PTS)
-                </a>
+                <span>
+                    Hardhat Local Testnet
+                </span>
 
                 <span>
                     Smart Contract
@@ -3174,8 +3041,6 @@
     <script src="js/tnDatasets.js"></script>
     <script src="js/features.js"></script>
     <script src="js/auth_rewards.js"></script>
-    <!-- Visual Moving Workflow Story Reel Controller -->
-    <script src="js/algorithm-reel.js"></script>
 
 
     <!-- =====================================================
@@ -3772,8 +3637,10 @@
          Voice AI • Universal Translate • Web Builder • Dismiss capability
          ===================================================== -->
     <div id="accessibilityToolbar" class="floating-access-bar" role="toolbar" aria-label="Accessibility & Readability Controls">
-        <button id="floatVoiceBtn" class="float-btn float-voice-btn" type="button" title="AgriTrace Voice Assistant AI — Click to talk or type">
-            🎙️ <span class="tv-text" data-i18n="voice_assistant_ai">Voice AI</span>
+        <button id="floatVoiceBtn" class="ai-assist-retro-btn button" type="button" title="AgriTrace AI Assistant — Click to talk or type" aria-label="AI assist">
+            <div>
+                <span>🎙️ AI assist</span>
+            </div>
         </button>
 
         <button id="floatTranslateBtn" class="float-btn" type="button" title="All-Language Universal Translator">

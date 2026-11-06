@@ -3392,29 +3392,46 @@ function renderDatasetGrid() {
   const isTa = typeof getCurrentLanguage === 'function' && getCurrentLanguage() === 'ta';
 
   grid.innerHTML = toDisplay.map(item => `
-    <article class="tn-dataset-card" onclick="openDatasetDetailModal(${item.id})" aria-label="Dataset: ${item.cropName}">
-      <div class="tn-card-top">
-        <div class="tn-crop-avatar">${item.icon}</div>
-        <div class="tn-card-header-meta">
-          <span class="tn-cat-pill tn-cat-${item.category}">${isTa ? item.categoryLabelTa : item.categoryLabel}</span>
-          <span class="tn-date-pill">📅 ${item.lastUpdated}</span>
+    <div class="parent tn-dataset-parent" onclick="openDatasetDetailModal(${item.id})" style="cursor:pointer;" aria-label="Dataset: ${item.cropName}">
+      <div class="card tn-glass-card">
+        <div class="logo">
+          <span class="circle circle1"></span>
+          <span class="circle circle2"></span>
+          <span class="circle circle3"></span>
+          <span class="circle circle4"></span>
+          <span class="circle circle5">
+            <span style="font-size:22px;line-height:1;display:block;">${item.icon || '🌾'}</span>
+          </span>
+        </div>
+        <div class="glass"></div>
+        <div class="content">
+          <span class="title">${item.cropName} <small style="font-size:13px;font-weight:600;opacity:0.85;">(${item.cropTamil})</small></span>
+          <span class="text">${item.desc && item.desc.length > 70 ? item.desc.slice(0, 67) + '...' : (item.desc || '')}</span>
+        </div>
+        <div class="bottom">
+          <div class="social-buttons-container">
+            <button type="button" class="social-button" title="Category: ${item.categoryLabel}" onclick="event.stopPropagation();">
+              <span style="font-size:12px;">📊</span>
+            </button>
+            <button type="button" class="social-button" title="Districts: ${item.districts}" onclick="event.stopPropagation();">
+              <span style="font-size:12px;">📍</span>
+            </button>
+            <button type="button" class="social-button" title="Updated: ${item.lastUpdated}" onclick="event.stopPropagation();">
+              <span style="font-size:12px;">📅</span>
+            </button>
+          </div>
+          <div class="view-more">
+            <button type="button" class="view-more-button" onclick="event.stopPropagation(); openDatasetDetailModal(${item.id})">
+              ${isTa ? 'விவரம்' : 'View'}
+            </button>
+            <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M9 6l6 6l-6 6"></path>
+            </svg>
+          </div>
         </div>
       </div>
-      <div class="tn-card-body">
-        <h4 class="tn-card-title">
-          ${item.cropName} <span class="tn-tamil-name">${item.cropTamil}</span>
-        </h4>
-        <p class="tn-card-desc">${item.desc}</p>
-        <div class="tn-district-tag">📍 ${item.districts}</div>
-      </div>
-      <div class="tn-card-footer">
-        <div class="tn-source-name" title="${item.sourceOrg}">🏛️ ${item.sourceOrg.split('—')[0].split(',')[0]}</div>
-        <button type="button" class="tn-card-view-btn" onclick="event.stopPropagation(); openDatasetDetailModal(${item.id})">
-          <span>${isTa ? 'விவரம் காண்க' : 'View Dataset'}</span>
-          <span>→</span>
-        </button>
-      </div>
-    </article>
+    </div>
   `).join('');
 
   // Handle Show More Button

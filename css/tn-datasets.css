@@ -127,12 +127,269 @@
   color: #fff;
 }
 
-/* Compact Dataset Grid */
+/* Compact Dataset Grid & Smit-Prajapati 3D Card Layout */
 .tn-dataset-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 18px;
-  margin-top: 16px;
+  gap: 28px;
+  margin-top: 24px;
+  justify-items: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+/* From Uiverse.io by Smit-Prajapati */ 
+.parent {
+  width: 290px;
+  height: 300px;
+  perspective: 1000px;
+  margin: 0 auto;
+}
+
+.parent .card {
+  height: 100%;
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgb(0, 255, 214) 0%, rgb(8, 226, 96) 100%);
+  transition: all 0.5s ease-in-out;
+  transform-style: preserve-3d;
+  box-shadow: rgba(5, 71, 17, 0) 40px 50px 25px -40px, rgba(5, 71, 17, 0.2) 0px 25px 25px -5px;
+  position: relative;
+}
+
+.parent .glass {
+  transform-style: preserve-3d;
+  position: absolute;
+  inset: 8px;
+  border-radius: 55px;
+  border-top-right-radius: 100%;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.349) 0%, rgba(255, 255, 255, 0.815) 100%);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transform: translate3d(0px, 0px, 25px);
+  border-left: 1px solid white;
+  border-bottom: 1px solid white;
+  transition: all 0.5s ease-in-out;
+}
+
+.parent .content {
+  padding: 85px 35px 0px 24px;
+  transform: translate3d(0, 0, 26px);
+}
+
+.parent .content .title {
+  display: block;
+  color: #00894d;
+  font-weight: 900;
+  font-size: 19px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.parent .content .text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: rgba(0, 137, 78, 0.88);
+  font-size: 13.5px;
+  line-height: 1.45;
+  margin-top: 12px;
+}
+
+.parent .bottom {
+  padding: 10px 14px;
+  transform-style: preserve-3d;
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translate3d(0, 0, 26px);
+}
+
+.parent .bottom .view-more {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.parent .bottom .view-more:hover {
+  transform: translate3d(0, 0, 10px);
+}
+
+.parent .bottom .view-more .view-more-button {
+  background: none;
+  border: none;
+  color: #00894d;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.parent .bottom .view-more .svg {
+  fill: none;
+  stroke: #00894d;
+  stroke-width: 3px;
+  max-height: 15px;
+  width: 15px;
+}
+
+.parent .bottom .social-buttons-container {
+  display: flex;
+  gap: 8px;
+  transform-style: preserve-3d;
+}
+
+.parent .bottom .social-buttons-container .social-button {
+  width: 30px;
+  height: 30px;
+  aspect-ratio: 1;
+  padding: 4px;
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-content: center;
+  box-shadow: rgba(5, 71, 17, 0.4) 0px 5px 6px -3px;
+  cursor: pointer;
+}
+
+.parent .bottom .social-buttons-container .social-button:first-child {
+  transition: transform 0.2s ease-in-out 0.4s, box-shadow 0.2s ease-in-out 0.4s;
+}
+
+.parent .bottom .social-buttons-container .social-button:nth-child(2) {
+  transition: transform 0.2s ease-in-out 0.6s, box-shadow 0.2s ease-in-out 0.6s;
+}
+
+.parent .bottom .social-buttons-container .social-button:nth-child(3) {
+  transition: transform 0.2s ease-in-out 0.8s, box-shadow 0.2s ease-in-out 0.8s;
+}
+
+.parent .bottom .social-buttons-container .social-button .svg {
+  width: 15px;
+  fill: #00894d;
+}
+
+.parent .bottom .social-buttons-container .social-button:hover {
+  background: black;
+  color: white;
+}
+
+.parent .bottom .social-buttons-container .social-button:hover .svg {
+  fill: white;
+}
+
+.parent .bottom .social-buttons-container .social-button:active {
+  background: rgb(255, 234, 0);
+}
+
+.parent .bottom .social-buttons-container .social-button:active .svg {
+  fill: black;
+}
+
+.parent .logo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+.parent .logo .circle {
+  display: block;
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  box-shadow: rgba(100, 100, 111, 0.2) -10px 10px 20px 0px;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background: rgba(0, 249, 203, 0.2);
+  transition: all 0.5s ease-in-out;
+}
+
+.parent .logo .circle1 {
+  width: 170px;
+  transform: translate3d(0, 0, 20px);
+  top: 8px;
+  right: 8px;
+}
+
+.parent .logo .circle2 {
+  width: 140px;
+  transform: translate3d(0, 0, 40px);
+  top: 10px;
+  right: 10px;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  transition-delay: 0.4s;
+}
+
+.parent .logo .circle3 {
+  width: 110px;
+  transform: translate3d(0, 0, 60px);
+  top: 17px;
+  right: 17px;
+  transition-delay: 0.8s;
+}
+
+.parent .logo .circle4 {
+  width: 80px;
+  transform: translate3d(0, 0, 80px);
+  top: 23px;
+  right: 23px;
+  transition-delay: 1.2s;
+}
+
+.parent .logo .circle5 {
+  width: 50px;
+  transform: translate3d(0, 0, 100px);
+  top: 30px;
+  right: 30px;
+  display: grid;
+  place-content: center;
+  transition-delay: 1.6s;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.parent .logo .circle5 .svg {
+  width: 20px;
+  fill: white;
+}
+
+.parent:hover .card {
+  transform: rotate3d(1, 1, 0, 30deg);
+  box-shadow: rgba(5, 71, 17, 0.3) 30px 50px 25px -40px, rgba(5, 71, 17, 0.1) 0px 25px 30px 0px;
+}
+
+.parent:hover .card .bottom .social-buttons-container .social-button {
+  transform: translate3d(0, 0, 50px);
+  box-shadow: rgba(5, 71, 17, 0.2) -5px 20px 10px 0px;
+}
+
+.parent:hover .card .logo .circle2 {
+  transform: translate3d(0, 0, 60px);
+}
+
+.parent:hover .card .logo .circle3 {
+  transform: translate3d(0, 0, 80px);
+}
+
+.parent:hover .card .logo .circle4 {
+  transform: translate3d(0, 0, 100px);
+}
+
+.parent:hover .card .logo .circle5 {
+  transform: translate3d(0, 0, 120px);
 }
 
 .tn-dataset-card {

@@ -70,6 +70,7 @@
   // Update navbar indicator
   function updateNavAuthIndicator() {
     const badge = document.getElementById("userAuthBadge");
+    const badgeLi = document.getElementById("userAuthBadgeLi");
     const nameEl = document.getElementById("userAuthName");
     const ptsEl = document.getElementById("userAuthPointsBadge");
     const iconEl = document.getElementById("userAuthRoleIcon");
@@ -77,9 +78,11 @@
     if (!badge) return;
 
     if (currentUser) {
-      badge.style.display = "inline-flex";
-      if (nameEl) nameEl.textContent = currentUser.name.split(" ")[0] || currentUser.email;
-      if (ptsEl) ptsEl.textContent = `${Number(currentUser.points_balance || 0)} PTS`;
+      if (badgeLi) badgeLi.style.display = "block";
+      badge.style.display = "flex";
+      const displayName = currentUser.name ? currentUser.name.split(" ")[0] : (currentUser.email || "User");
+      if (nameEl) nameEl.textContent = `${displayName} (${currentUser.role || "User"})`;
+      if (ptsEl) ptsEl.textContent = "";
       if (iconEl) iconEl.textContent = currentUser.role === "farmer" ? "👨‍🌾" : (currentUser.role === "seller" ? "🏪" : "🛡️");
       badge.onclick = () => {
         if (currentUser.role === "farmer") {
@@ -91,6 +94,7 @@
         }
       };
     } else {
+      if (badgeLi) badgeLi.style.display = "none";
       badge.style.display = "none";
     }
   }
