@@ -127,15 +127,17 @@ function getReadProvider() {
 async function getBrowserProvider() {
   ensureEthers();
 
-  if (!window.ethereum) {
+  const ethereum = (typeof getEthereumProvider === "function")
+    ? getEthereumProvider()
+    : (window.ethereum || null);
+
+  if (!ethereum) {
     throw new Error(
-      "MetaMask is not installed."
+      "MetaMask was not detected. Please install and unlock the MetaMask extension."
     );
   }
 
-  return new ethers.BrowserProvider(
-    window.ethereum
-  );
+  return new ethers.BrowserProvider(ethereum);
 }
 
 
@@ -156,6 +158,8 @@ function isContractConfigured() {
 
 /* =========================================================
    GET CONTRACT INSTANCE
+   Signer must always be the genuine connected Web3 wallet.
+   No hardcoded private keys or simulated signers.
    ========================================================= */
 
 async function getContract({ signer = false } = {}) {
@@ -163,32 +167,20 @@ async function getContract({ signer = false } = {}) {
 
   if (!isContractConfigured()) {
     throw new Error(
-      "AgriTrace contract is not configured. Deploy the contract and update CONTRACT_ADDRESS."
+      "AgriTrace contract is not configured. Deploy the contract and set window.AGRITRACE.CONTRACT_ADDRESS."
     );
   }
 
   let runner;
 
   if (signer) {
-    if (window.ethereum) {
-      try {
-        const provider = await getBrowserProvider();
-        runner = await provider.getSigner();
-      } catch (err) {
-        if (window.walletState?.isHardhatLocal) {
-          const provider = new ethers.JsonRpcProvider(window.AGRITRACE.LOCAL_RPC_URL);
-          runner = new ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
-        } else {
-          throw err;
-        }
-      }
-    } else if (window.walletState?.isHardhatLocal) {
-      const provider = new ethers.JsonRpcProvider(window.AGRITRACE.LOCAL_RPC_URL);
-      runner = new ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
-    } else {
-      const provider = await getBrowserProvider();
-      runner = await provider.getSigner();
+    if (!window.walletState?.connected || !window.walletState?.account) {
+      throw new Error(
+        "Please connect your MetaMask wallet first to sign blockchain transactions."
+      );
     }
+    const provider = await getBrowserProvider();
+    runner = await provider.getSigner();
   } else {
     runner = getReadProvider();
   }
@@ -203,16 +195,10 @@ async function getContract({ signer = false } = {}) {
 
 /* =========================================================
    CHECK CONNECTED WALLET OPERATOR STATUS
+   Queries the smart contract isOperator(account) on-chain.
    ========================================================= */
 
 async function isConnectedOperator() {
-  if (
-    window.walletState?.isHardhatLocal ||
-    window.walletState?.account?.toLowerCase() === "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
-  ) {
-    return true;
-  }
-
   if (
     !window.walletState?.account ||
     !isContractConfigured()
@@ -222,16 +208,9 @@ async function isConnectedOperator() {
 
   try {
     const contract = await getContract();
-
-    return await contract.isOperator(
-      window.walletState.account
-    );
-
+    return await contract.isOperator(window.walletState.account);
   } catch (error) {
-    console.error(
-      "Operator check failed:",
-      error
-    );
+    console.warn("On-chain operator check failed:", error.message || error);
     return false;
   }
 }

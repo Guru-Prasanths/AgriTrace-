@@ -17,7 +17,7 @@ const KAGGLE_DATASETS = [
     icon: "💹",
     desc: "Historical price data for key agricultural commodities. Useful for tracking market trends, seasonal fluctuations, and price analysis across crop categories.",
     meta: ["📅 Historical", "📈 Price Trends", "🌾 Commodities"],
-    url: "https://www.kaggle.com/code/arvindkhoda/price-of-agricultural-commodities-data/input"
+    url: "https://www.kaggle.com/datasets/arvindkhoda/price-of-agricultural-commodities-data"
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const KAGGLE_DATASETS = [
     icon: "📉",
     desc: "Day-wise commodity price records across Indian markets. Covers a wide range of agricultural produce and enables time-series analysis at state and national levels.",
     meta: ["🇮🇳 India Markets", "📅 Daily Records", "📊 Time Series"],
-    url: "https://www.kaggle.com/code/khandelwalmanas/daily-prices-of-commodity-india-starter-notebook/input"
+    url: "https://www.kaggle.com/datasets/khandelwalmanas/daily-prices-of-commodity-india"
   },
   {
     id: 3,

@@ -1479,7 +1479,7 @@
                         <div>
 
                             <span class="card-number">
-                                LIVE
+                                DISTRIBUTION
                             </span>
 
                             <h3>
@@ -1727,7 +1727,7 @@
                         <div>
 
                             <span class="card-number">
-                                LIVE
+                                SENSOR
                             </span>
 
                             <h3>
@@ -1736,8 +1736,8 @@
 
                         </div>
 
-                        <span class="live-badge">
-                            ● LIVE
+                        <span class="live-badge" style="background: rgba(180, 83, 9, 0.18); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.35); font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 999px;">
+                            Hardware Not Connected — Stored / Manual Logs
                         </span>
 
                     </div>
@@ -1848,6 +1848,10 @@
 
                         </div>
 
+                    </div>
+
+                    <div id="sensorThresholdAlert" style="display:none; margin-top: 16px; padding: 12px 14px; border-radius: 8px; font-size: 13px; line-height: 1.5; background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.35);">
+                        ⚠️ <strong>Cold Chain Excursion Warning:</strong> Current readings exceed safe storage limits (Ideal: 2°C – 8°C, Humidity: 60% – 85%).
                     </div>
 
 
@@ -2865,48 +2869,48 @@
 
 
     <!-- =====================================================
-         HARDHAT LOCAL ACCOUNT & NETWORK MODAL
+         SECURE METAMASK NETWORK & ACCOUNT STATUS MODAL
          ===================================================== -->
 
     <div id="hardhatModal" class="feat-modal">
         <div class="feat-modal-box feat-modal-wide">
             <div class="feat-modal-header">
                 <div>
-                    <span class="card-number">⭐</span>
-                    <h3>AgriTrace Points & Network Management</h3>
+                    <span class="card-number">🦊</span>
+                    <h3>MetaMask & Network Management</h3>
                     <small style="color:var(--muted);display:block;margin-top:2px;">
-                        Manage your AgriTrace Points, local testing rewards and network switching
+                        Connect your Web3 wallet, switch networks, and verify smart-contract operator status.
                     </small>
                 </div>
                 <button id="closeHardhatModalBtn" type="button" class="small-button">✕ Close</button>
             </div>
 
             <div style="padding: 20px;">
-                <!-- Account Summary Card -->
+                <!-- Wallet Connection Summary Card -->
                 <div class="hardhat-account-card">
                     <div class="account-header-row">
                         <div>
                             <div class="account-badge-lg">
-                                <span>⭐ Account Name:</span>
-                                <strong>AgriTrace Points Account</strong>
+                                <span>🦊 Connected Account:</span>
+                                <strong id="modalConnectedAddress">Not Connected</strong>
                             </div>
-                            <small style="display:block;color:#a7f3d0;margin-top:6px;">
-                                System Operator • Contract Deployer • Full Platform Access
+                            <small id="modalOperatorStatusLabel" style="display:block;color:var(--muted);margin-top:6px;">
+                                Connect your MetaMask wallet to interact with on-chain records.
                             </small>
                         </div>
                         <div style="text-align:right;">
-                            <div class="section-label" style="margin-bottom:2px;">AVAILABLE POINTS</div>
-                            <div id="modalPointsDisplay" class="points-pill-giant">100,000 AgriPoints</div>
-                            <small style="color:#facc15;font-weight:700;">+ 10,000 ETH Test Balance</small>
+                            <div class="section-label" style="margin-bottom:2px;">ACTIVE CHAIN</div>
+                            <div id="modalChainDisplay" class="points-pill-giant">Hardhat (31337)</div>
+                            <small id="modalBalanceDisplay" style="color:var(--muted);font-weight:700;">Balance: —</small>
                         </div>
                     </div>
 
-                    <!-- Direct Connect Action -->
-                    <button id="btnConnectHardhatPreset" class="primary-button" type="button" style="width:100%;padding:14px;font-size:15px;margin-bottom:12px;">
-                        🚀 1-Click Connect AgriTrace Points (Immediate Access)
+                    <!-- Direct Connect Action via MetaMask -->
+                    <button id="btnModalConnectMetaMask" class="primary-button" type="button" style="width:100%;padding:14px;font-size:15px;margin-bottom:12px;">
+                        🦊 Connect with MetaMask
                     </button>
                     <p style="font-size:11px;color:var(--muted);text-align:center;">
-                        Instantly activates the AgriTrace Points account with 100,000 points and operator privileges without requiring MetaMask installation.
+                        Secure cryptographic authentication. Private keys remain protected inside your browser extension.
                     </p>
                 </div>
 
@@ -2915,13 +2919,12 @@
                     <strong style="color:#fbbf24;font-size:13px;display:flex;align-items:center;gap:6px;">
                         <span>💡</span> <span>Why MetaMask says "Not Detected" on this page:</span>
                     </strong>
-                    <p style="font-size:12px;color:#e2e8f0;margin:6px 0 8px 0;line-height:1.5;">
-                        You are opening the website directly via <code>file:///</code>. Chrome and Chromium browsers disable MetaMask on <code>file:///</code> URLs by default for security.
+                    <p style="font-size:12px;color:var(--white);margin:6px 0 8px 0;line-height:1.5;">
+                        You are opening the website directly via <code>file:///</code>. Chrome and Chromium browsers disable extensions on <code>file:///</code> URLs by default.
                     </p>
-                    <div style="font-size:12px;color:#cbd5e1;display:flex;flex-direction:column;gap:5px;line-height:1.4;">
-                        <div>• <strong style="color:#39ff88;">Option 1 (Instant):</strong> Click <strong>"1-Click Connect AgriTrace Points"</strong> above for instant 100K PTS Web3 access!</div>
-                        <div>• <strong style="color:#38bdf8;">Option 2 (Localhost Server):</strong> Open <a href="http://localhost:5500" target="_blank" style="color:#38bdf8;text-decoration:underline;font-weight:700;">http://localhost:5500</a> (VS Code Live Server) or <a href="http://localhost:4001" target="_blank" style="color:#38bdf8;text-decoration:underline;font-weight:700;">http://localhost:4001</a> (AgriTrace Backend). MetaMask connects automatically in the side panel!</div>
-                        <div>• <strong style="color:#facc15;">Option 3 (File URLs in Chrome):</strong> Go to <code>chrome://extensions/</code> → MetaMask <strong>Details</strong> → toggle ON <strong>"Allow access to file URLs"</strong>.</div>
+                    <div style="font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:5px;line-height:1.4;">
+                        <div>• <strong>Recommended:</strong> Open via local HTTP server: <a href="http://localhost:5500" target="_blank" style="color:var(--accent);text-decoration:underline;font-weight:700;">http://localhost:5500</a> or <a href="http://localhost:4001" target="_blank" style="color:var(--accent);text-decoration:underline;font-weight:700;">http://localhost:4001</a>.</div>
+                        <div>• <strong>Alternative:</strong> In Chrome, go to <code>chrome://extensions/</code> → MetaMask <strong>Details</strong> → toggle ON <strong>"Allow access to file URLs"</strong>.</div>
                     </div>
                 </div>
 
@@ -2934,7 +2937,7 @@
                             <strong>Hardhat Local Network</strong>
                         </div>
                         <span style="font-size:12px;color:var(--muted);">Chain ID: 31337 • RPC: 127.0.0.1:8545</span>
-                        <span style="font-size:11px;color:var(--green);font-weight:600;">✓ Abundant Points & 0-Cost Instant Blocks</span>
+                        <span style="font-size:11px;color:var(--green);font-weight:600;">✓ Fast local testing & 0-cost blocks</span>
                     </button>
 
                     <button id="btnSwitchToSepolia" class="net-card-btn" type="button">
@@ -2943,37 +2946,27 @@
                             <strong>Sepolia Public Testnet</strong>
                         </div>
                         <span style="font-size:12px;color:var(--muted);">Chain ID: 11155111 • Public Ethereum Testnet</span>
-                        <span style="font-size:11px;color:#93c5fd;font-weight:600;">External blockchain verification</span>
+                        <span style="font-size:11px;color:#93c5fd;font-weight:600;">Public decentralized testnet</span>
                     </button>
                 </div>
 
-                <!-- Import into MetaMask Details -->
-                <div class="section-label" style="margin-bottom:8px;">IMPORT ACCOUNT DETAILS (METAMASK)</div>
-                <div class="key-box-row">
-                    <div>
-                        <strong style="color:#38bdf8;display:block;">Account Address:</strong>
-                        <span>0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266</span>
-                    </div>
-                </div>
-                <div class="key-box-row">
+                <!-- Smart Contract Deployment Info -->
+                <div class="section-label" style="margin-bottom:8px;margin-top:16px;">DEPLOYED SMART CONTRACT</div>
+                <div class="key-box-row" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px 14px;">
                     <div style="min-width:0;flex:1;">
-                        <strong style="color:#facc15;display:block;">Private Key (Preloaded with 100K Points & 10,000 ETH):</strong>
-                        <span style="font-size:11px;">0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80</span>
+                        <strong style="color:var(--white);display:block;font-size:12px;margin-bottom:2px;">Contract Address:</strong>
+                        <code id="modalContractAddress" style="font-size:12px;color:var(--green);word-break:break-all;">0x5FbDB2315678afecb367f032d93F642f64180aa3</code>
                     </div>
-                    <button id="btnCopyHardhatKey" class="small-button" type="button" style="flex-shrink:0;">
-                        📋 Copy Key
-                    </button>
                 </div>
 
-                <!-- Free Faucet Box -->
-                <div class="faucet-action-box">
+                <!-- Rewards Information Callout -->
+                <div class="faucet-action-box" style="margin-top:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
                     <div>
-                        <strong style="color:#ffffff;display:block;">Need More Access Points?</strong>
-                        <small style="color:var(--muted);">Add +25,000 bonus AgriPoints to your connected account anytime for unlimited testing.</small>
+                        <strong style="color:var(--white);display:block;margin-bottom:4px;">How AgriTrace Rewards Work</strong>
+                        <small style="color:var(--muted);line-height:1.5;display:block;">
+                            AgriPoints are authoritative platform incentive points earned by registered farmers and sellers for verified produce creation, completed trade orders, and daily activity. Log in via the Farmer or Seller portal to view your points ledger.
+                        </small>
                     </div>
-                    <button id="btnClaimPointsFaucet" class="primary-button" type="button" style="padding:10px 18px;font-size:13px;white-space:nowrap;">
-                        🎁 Claim +25,000 Points
-                    </button>
                 </div>
             </div>
         </div>
@@ -3606,60 +3599,38 @@
                     }
 
 
-                    if (riskValue) {
-
-                        riskValue.textContent =
-                            risk.toFixed(1);
-
+                    let activeRisk = risk;
+                    if (!riskInput?.value && (temperatureInput?.value || humidityInput?.value)) {
+                        let r = 5.0;
+                        if (temperature > 8) r += (temperature - 8) * 4.5;
+                        else if (temperature < 0) r += Math.abs(temperature) * 3.0;
+                        if (humidity > 90) r += (humidity - 90) * 2.5;
+                        else if (humidity < 50) r += (50 - humidity) * 1.5;
+                        activeRisk = Math.min(100, Math.max(0, r));
                     }
 
+                    if (riskValue) {
+                        riskValue.textContent = activeRisk.toFixed(1);
+                    }
 
                     if (tempMeter) {
-
-                        const tempPercent =
-                            Math.min(
-                                100,
-                                Math.max(
-                                    0,
-                                    (
-                                        temperature /
-                                        40
-                                    ) * 100
-                                )
-                            );
-
-
-                        tempMeter.style.width =
-                            `${tempPercent}%`;
-
+                        const tempPercent = Math.min(100, Math.max(0, (temperature / 40) * 100));
+                        tempMeter.style.width = `${tempPercent}%`;
                     }
-
 
                     if (humidityMeter) {
-
-                        humidityMeter.style.width =
-                            `${Math.min(
-                                100,
-                                Math.max(
-                                    0,
-                                    humidity
-                                )
-                            )}%`;
-
+                        humidityMeter.style.width = `${Math.min(100, Math.max(0, humidity))}%`;
                     }
 
-
                     if (riskMeter) {
+                        riskMeter.style.width = `${Math.min(100, Math.max(0, activeRisk))}%`;
+                    }
 
-                        riskMeter.style.width =
-                            `${Math.min(
-                                100,
-                                Math.max(
-                                    0,
-                                    risk
-                                )
-                            )}%`;
-
+                    const thresholdAlert = document.getElementById("sensorThresholdAlert");
+                    if (thresholdAlert) {
+                        const isExcursion = (temperatureInput?.value && (temperature > 8 || temperature < 0)) ||
+                                            (humidityInput?.value && (humidity > 85 || humidity < 50));
+                        thresholdAlert.style.display = isExcursion ? "block" : "none";
                     }
 
                 }
