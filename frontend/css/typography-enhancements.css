@@ -157,3 +157,314 @@ small,
   font-size: 15.5px !important;
   line-height: 1.55 !important;
 }
+
+
+
+/* =========================================================
+   VOICE AI PORTAL ACCESSIBILITY & VISIBILITY FIX (IMAGE 3)
+   Fixes font visibility, removes overlapping, clean flex layout
+   ========================================================= */
+
+.voice-panel {
+  width: 440px !important;
+  max-width: calc(100vw - 24px) !important;
+  height: 640px !important;
+  max-height: calc(100vh - 40px) !important;
+  background: #0f1c15 !important;
+  border: 1.5px solid #2d553d !important;
+  border-radius: 20px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(123, 155, 58, 0.25) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  z-index: 1000 !important;
+}
+
+.voice-panel.is-minimized {
+  height: 64px !important;
+  min-height: 64px !important;
+  overflow: hidden !important;
+}
+
+.voice-panel-header {
+  background: #14281e !important;
+  padding: 14px 20px !important;
+  border-bottom: 1px solid rgba(123, 155, 58, 0.25) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-shrink: 0 !important;
+}
+
+.voice-panel-header strong,
+#voiceAssistantTitle {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  display: block !important;
+}
+
+.voice-panel-header small {
+  color: #a3c293 !important;
+  font-size: 13.5px !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+.voice-header-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.voice-header-actions button,
+.voice-tool-btn,
+.voice-close-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(123, 155, 58, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+
+.voice-header-actions button:hover {
+  background: rgba(123, 155, 58, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.voice-status-bar {
+  background: #162c21 !important;
+  padding: 10px 18px !important;
+  border-bottom: 1px solid rgba(123, 155, 58, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-shrink: 0 !important;
+}
+
+.voice-status-text {
+  color: #ffffff !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+}
+
+.voice-lang-pill {
+  background: rgba(123, 155, 58, 0.25) !important;
+  color: #a7f3d0 !important;
+  border: 1px solid #7B9B3A !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  padding: 3px 10px !important;
+  border-radius: 999px !important;
+}
+
+.voice-controls-toolbar {
+  background: #122219 !important;
+  padding: 10px 18px !important;
+  border-bottom: 1px solid rgba(123, 155, 58, 0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+}
+
+.start-listen-btn {
+  background: #22c55e !important;
+  color: #051a0e !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.stop-speaking-btn {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #f59e0b !important;
+  border: 1px solid #f59e0b !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  padding: 8px 14px !important;
+  border-radius: 10px !important;
+  margin-left: auto !important;
+  cursor: pointer !important;
+}
+
+/* Audio Volume Bar — Zero Overlap with Chat Log */
+.voice-audio-bar {
+  position: relative !important;
+  background: #0f1d16 !important;
+  padding: 8px 18px !important;
+  border-bottom: 1px solid rgba(123, 155, 58, 0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+.voice-audio-label {
+  color: #cbd5e1 !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+}
+
+.voice-audio-pct {
+  color: #7B9B3A !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+}
+
+.voice-vol-slider {
+  accent-color: #7B9B3A !important;
+  cursor: pointer !important;
+}
+
+/* Voice Chat Log — High Contrast, Fully Visible Solutions */
+.voice-log {
+  flex: 1 1 auto !important;
+  min-height: 180px !important;
+  max-height: 280px !important;
+  overflow-y: auto !important;
+  padding: 16px 18px !important;
+  background: #0a140f !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.voice-bubble {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  padding: 14px 18px !important;
+  border-radius: 16px !important;
+  max-width: 90% !important;
+}
+
+.voice-bubble-assistant {
+  background: #173123 !important;
+  border: 1px solid #2d553d !important;
+  color: #ffffff !important;
+  font-size: 15.5px !important;
+  line-height: 1.6 !important;
+  align-self: flex-start !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+}
+
+.voice-bubble-assistant span,
+.voice-bubble-assistant p {
+  color: #ffffff !important;
+  font-size: 15.5px !important;
+}
+
+.voice-bubble-user {
+  background: #254934 !important;
+  border: 1px solid #4a825f !important;
+  color: #ffffff !important;
+  font-size: 15.5px !important;
+  line-height: 1.6 !important;
+  align-self: flex-end !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+}
+
+.voice-bubble-user span {
+  color: #ffffff !important;
+  font-size: 15.5px !important;
+}
+
+/* Quick Action Buttons — Horizontal Scrollable Row, Zero Squeeze */
+.voice-quick-actions {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  padding: 10px 16px !important;
+  gap: 8px !important;
+  background: #112117 !important;
+  border-top: 1px solid rgba(123, 155, 58, 0.15) !important;
+  flex-shrink: 0 !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.voice-quick-btn {
+  background: #1a3325 !important;
+  color: #c9eed6 !important;
+  border: 1px solid #2d553d !important;
+  padding: 7px 14px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  border-radius: 999px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.voice-quick-btn:hover {
+  background: #7B9B3A !important;
+  color: #000000 !important;
+  border-color: #7B9B3A !important;
+}
+
+/* Input Form at Bottom */
+.voice-input-container {
+  background: #0d1912 !important;
+  border-top: 1px solid rgba(123, 155, 58, 0.2) !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+}
+
+.voice-mic-btn {
+  background: #1a3325 !important;
+  border: 1px solid #2d553d !important;
+  color: #ffffff !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+}
+
+.voice-text-input {
+  background: #172a1f !important;
+  border: 1px solid #2d553d !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  padding: 0 14px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  flex: 1 !important;
+}
+
+.voice-text-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.voice-send-btn {
+  background: #7B9B3A !important;
+  color: #ffffff !important;
+  border: none !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  font-weight: 700 !important;
+}
+
+/* =========================================================
+   PERMANENT REMOVAL OF OLD TOOLBAR CONTROLS (REQUEST 2)
+   ========================================================= */
+.font-size-controls,
+#fontDecBtn,
+#fontResetBtn,
+#fontIncBtn,
+#floatHardhatBtn,
+.float-pts-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

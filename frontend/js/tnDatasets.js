@@ -3431,6 +3431,10 @@ function renderDatasetGrid() {
       showMoreContainer.style.display = 'none';
     }
   }
+
+  if (typeof initUiverseLeafButtons === 'function') {
+    initUiverseLeafButtons();
+  }
 }
 
 function handleShowMoreDatasets() {
@@ -3439,6 +3443,10 @@ function handleShowMoreDatasets() {
 }
 
 function openDatasetDetailModal(datasetId) {
+  if (window.floatingNav && typeof window.floatingNav.close === 'function') {
+    window.floatingNav.close();
+  }
+
   const item = TN_AGRICULTURAL_DATASETS.find(d => d.id === datasetId);
   if (!item) return;
 

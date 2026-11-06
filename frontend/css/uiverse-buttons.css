@@ -1,251 +1,346 @@
 /* =========================================================
    AgriTrace — Uiverse.io Inspired Button & UI Components
-   1. MuhammadHasann Leaf/Flower Animated Button (.agri-animated-btn)
-   2. Ashe-T GitHub Tooltip Button (.uiverse-github-btn)
-   3. Uiverse Gradient & Card Elevation Styles
+   1. MuhammadHasann Leaf Animated Button Component
+   2. Ashe-T GitHub Tooltip Button Component
+   3. Uiverse Documentation Elevation Cards & Badges
    ========================================================= */
 
-/* --- 1. MuhammadHasann Plant/Leaf Animated Button Component --- */
-.agri-animated-btn {
+/* =========================================================
+   1. FROM UIVERSE.IO BY MUHAMMADHASANN
+   Applied to .primary-button, .agri-animated-btn, .uiverse-leaf-btn
+   ========================================================= */
+.primary-button,
+.agri-animated-btn,
+.uiverse-leaf-btn,
+.tn-show-more-btn,
+#consumerScanBtn,
+#confirmProceedBtn,
+#captureProduceBtn,
+.tn-modal-btn.tn-btn-primary,
+.uiverse-doc-btn.uiverse-doc-btn-primary {
   position: relative !important;
-  overflow: visible !important;
+  padding: 13px 35px !important;
+  background: #f5ddb7 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: #181818 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 2px 2px 5px #18181869, inset 2px 2px 10px #ffffffb0 !important;
+  transition: all 0.3s ease-in-out !important;
   display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  background: var(--dp-color-accent, #1e382c);
-  color: #ffffff !important;
-  border: 1px solid rgba(123, 155, 58, 0.45);
-  border-radius: 12px;
-  padding: 13px 32px;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  box-shadow: 0 4px 18px rgba(30, 56, 44, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  overflow: visible !important;
+  z-index: 1 !important;
 }
 
-.agri-animated-btn:hover {
-  background: #274b39;
-  border-radius: 12px 12px 24px 24px;
-  box-shadow: 0 10px 28px rgba(30, 56, 44, 0.42), 0 0 18px rgba(123, 155, 58, 0.3);
-  transform: translateY(-2px);
-  color: #ffffff !important;
+.primary-button:hover,
+.agri-animated-btn:hover,
+.uiverse-leaf-btn:hover,
+.tn-show-more-btn:hover,
+#consumerScanBtn:hover,
+#confirmProceedBtn:hover,
+#captureProduceBtn:hover,
+.tn-modal-btn.tn-btn-primary:hover,
+.uiverse-doc-btn.uiverse-doc-btn-primary:hover {
+  padding: 13px 25px !important;
+  border-radius: 8px 8px 24px 24px !important;
+  color: #181818 !important;
+  background: #ecd2a9 !important;
 }
 
-.agri-animated-btn:focus-visible {
-  outline: 2px solid #7B9B3A;
-  outline-offset: 3px;
-}
-
-/* Five decorative leaf/flower icons */
-.agri-animated-btn .icon-1,
-.agri-animated-btn .icon-2,
-.agri-animated-btn .icon-3,
-.agri-animated-btn .icon-4,
-.agri-animated-btn .icon-5 {
+/* 5 Icons Base Positioning */
+.icon-1,
+.icon-2,
+.icon-3,
+.icon-4,
+.icon-5 {
   position: absolute;
   top: 10%;
   left: 50%;
   transform: translate(-50%, 0);
   width: 0px;
   height: auto;
+  transition: all 0.5s ease-in-out;
   pointer-events: none;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: -1;
-  opacity: 0;
 }
 
-.agri-animated-btn .icon-1 svg,
-.agri-animated-btn .icon-2 svg,
-.agri-animated-btn .icon-3 svg,
-.agri-animated-btn .icon-4 svg,
-.agri-animated-btn .icon-5 svg {
+.icon-1 { z-index: -1; }
+.icon-2 { z-index: -2; }
+.icon-3 { z-index: -2; }
+.icon-4 { z-index: -2; }
+.icon-5 { z-index: -2; }
+
+.icon-1 svg,
+.icon-2 svg,
+.icon-3 svg,
+.icon-4 svg,
+.icon-5 svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-/* Hover trigger for leaf burst */
-.agri-animated-btn:hover .icon-1 {
-  top: -240%;
+/* Hover States for 5 Leaf Icons */
+.primary-button:hover .icon-1,
+.agri-animated-btn:hover .icon-1,
+.uiverse-leaf-btn:hover .icon-1,
+.tn-show-more-btn:hover .icon-1,
+#consumerScanBtn:hover .icon-1 {
+  top: -250%;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 44px;
-  opacity: 1;
-  animation: inIcon1 1s ease 0.35s forwards;
-}
-
-.agri-animated-btn:hover .icon-2 {
-  top: -190%;
-  left: 88%;
-  transform: translate(-50%, 0);
-  width: 58px;
-  opacity: 1;
-  animation: inIcon2 1s ease 0.35s forwards;
-}
-
-.agri-animated-btn:hover .icon-3 {
-  top: -130%;
-  left: 14%;
-  transform: translate(-50%, 0);
   width: 50px;
-  opacity: 1;
-  animation: inIcon3 1s ease 0.35s forwards;
+  height: auto;
+  animation: inIcon1 1s ease 0.45s forwards;
 }
 
-.agri-animated-btn:hover .icon-4 {
-  top: -270%;
-  left: 18%;
+.primary-button:hover .icon-2,
+.agri-animated-btn:hover .icon-2,
+.uiverse-leaf-btn:hover .icon-2,
+.tn-show-more-btn:hover .icon-2,
+#consumerScanBtn:hover .icon-2 {
+  position: absolute;
+  top: -200%;
+  left: 90%;
   transform: translate(-50%, 0);
-  width: 66px;
-  opacity: 1;
-  animation: inIcon4 1s ease 0.35s forwards;
+  width: 75px;
+  height: auto;
+  animation: inIcon2 1s ease 0.45s forwards;
 }
 
-.agri-animated-btn:hover .icon-5 {
+.primary-button:hover .icon-3,
+.agri-animated-btn:hover .icon-3,
+.uiverse-leaf-btn:hover .icon-3,
+.tn-show-more-btn:hover .icon-3,
+#consumerScanBtn:hover .icon-3 {
+  position: absolute;
+  top: -130%;
+  left: 20%;
+  transform: translate(-50%, 0);
+  width: 60px;
+  height: auto;
+  animation: inIcon3 1s ease 0.45s forwards;
+}
+
+.primary-button:hover .icon-4,
+.agri-animated-btn:hover .icon-4,
+.uiverse-leaf-btn:hover .icon-4,
+.tn-show-more-btn:hover .icon-4,
+#consumerScanBtn:hover .icon-4 {
+  position: absolute;
   top: -300%;
-  left: 84%;
+  left: 10%;
   transform: translate(-50%, 0);
-  width: 66px;
-  opacity: 1;
-  animation: inIcon5 1s ease 0.35s forwards;
+  width: 85px;
+  height: auto;
+  animation: inIcon4 1s ease 0.45s forwards;
 }
 
-/* Keyframes with exact specified angles and pivot points */
+.primary-button:hover .icon-5,
+.agri-animated-btn:hover .icon-5,
+.uiverse-leaf-btn:hover .icon-5,
+.tn-show-more-btn:hover .icon-5,
+#consumerScanBtn:hover .icon-5 {
+  position: absolute;
+  top: -350%;
+  left: 90%;
+  transform: translate(-50%, 0);
+  width: 85px;
+  height: auto;
+  animation: inIcon5 1s ease 0.45s forwards;
+}
+
+/* Exact Keyframes from MuhammadHasann */
 @keyframes inIcon1 {
-  0% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-  25% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(5deg); }
-  50% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(1deg); }
-  65% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(3deg); }
-  100% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-}
-
-@keyframes inIcon2 {
-  0% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-  35% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(10deg); }
-  50% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(4deg); }
-  80% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(5deg); }
-  100% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-}
-
-@keyframes inIcon3 {
-  0% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-  35% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(-2deg); }
-  100% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-}
-
-@keyframes inIcon4 {
-  0% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-  40% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(-3deg); }
-  100% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-}
-
-@keyframes inIcon5 {
-  0% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-  35% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(-3deg); }
-  100% { transform-origin: 0 100%; transform: translate(-50%, 0) rotate(0deg); }
-}
-
-/* Reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .agri-animated-btn,
-  .agri-animated-btn .icon-1,
-  .agri-animated-btn .icon-2,
-  .agri-animated-btn .icon-3,
-  .agri-animated-btn .icon-4,
-  .agri-animated-btn .icon-5 {
-    animation: none !important;
-    transition: none !important;
+  0% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  25% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(5deg);
+  }
+  50% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(1deg);
+  }
+  65% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(3deg);
+  }
+  100% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
   }
 }
 
-/* --- 2. Ashe-T Inspired GitHub Tooltip Social Button --- */
+@keyframes inIcon2 {
+  0% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  35% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(10deg);
+  }
+  50% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(4deg);
+  }
+  80% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(5deg);
+  }
+  100% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+@keyframes inIcon3 {
+  0% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  35% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(-2deg);
+  }
+  100% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+@keyframes inIcon4 {
+  0% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  40% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(-3deg);
+  }
+  100% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+@keyframes inIcon5 {
+  0% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  35% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(-3deg);
+  }
+  100% {
+    transform-origin: 0 100%;
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+
+/* Exact Leaf Colors */
+.fil-leaf-1 {
+  fill: #7B9B3A !important;
+}
+
+.fil-leaf-2 {
+  fill: #556729 !important;
+  fill-rule: nonzero;
+}
+
+.fil-leaf-3 {
+  fill: #556729 !important;
+}
+
+.fil-leaf-4 {
+  fill: #3C4819 !important;
+}
+
+.fil-leaf-5 {
+  fill: #3C4819 !important;
+}
+
+/* =========================================================
+   2. FROM UIVERSE.IO BY ASHE-T
+   GitHub Button with Gradient & Tooltip
+   ========================================================= */
 .uiverse-github-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #18201a, #0b110e);
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: linear-gradient(to right, #1f2937, #000000);
   color: #ffffff !important;
-  text-decoration: none;
-  padding: 10px 18px;
-  font-size: 14px;
   font-weight: 600;
-  border-radius: 10px;
-  border: 1px solid rgba(123, 155, 58, 0.35);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  transition: all 0.5s ease;
   cursor: pointer;
   white-space: nowrap;
 }
 
 .uiverse-github-btn:hover {
-  background: linear-gradient(135deg, #233027, #101a14);
-  border-color: #7B9B3A;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), 0 0 16px rgba(123, 155, 58, 0.35);
-  transform: translateY(-2px);
-  color: #7B9B3A !important;
+  transform: translateY(3px);
+  background: linear-gradient(to right, #331029, #310413);
+  color: #ffffff !important;
 }
 
-.uiverse-github-btn:focus-visible {
-  outline: 2px solid #7B9B3A;
-  outline-offset: 3px;
-}
-
-.uiverse-github-btn .icon {
+.uiverse-github-btn svg {
   width: 18px;
   height: 18px;
   fill: currentColor;
-  transition: transform 0.25s ease;
-}
-
-.uiverse-github-btn:hover .icon {
-  transform: scale(1.12);
 }
 
 .uiverse-github-btn .tooltip {
   position: absolute;
-  top: -38px;
+  top: -34px;
   left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: #111a14;
-  color: #e2e8f0;
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 6px;
-  border: 1px solid rgba(123, 155, 58, 0.4);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: translateX(-50%);
   opacity: 0;
+  transition: all 0.7s ease;
   pointer-events: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   white-space: nowrap;
-  z-index: 20;
 }
 
 .uiverse-github-btn .tooltip::after {
   content: "";
   position: absolute;
-  bottom: -5px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 5px 5px 0 5px;
+  border-width: 4px 4px 0 4px;
   border-style: solid;
-  border-color: #111a14 transparent transparent transparent;
+  border-color: #ffffff transparent transparent transparent;
 }
 
 .uiverse-github-btn:hover .tooltip {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(-6px);
 }
 
-/* --- 3. Uiverse Gradient Cards for Research & Documentation --- */
+/* =========================================================
+   3. UIVERSE GRADIENT CARDS FOR RESEARCH & DOCUMENTATION
+   ========================================================= */
 .uiverse-doc-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -255,11 +350,11 @@
 
 .uiverse-doc-card {
   position: relative;
-  background: linear-gradient(145deg, rgba(255, 253, 248, 0.95), rgba(243, 237, 226, 0.9));
-  border: 1px solid rgba(44, 76, 56, 0.2);
+  background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(243, 237, 226, 0.92));
+  border: 1.5px solid rgba(44, 76, 56, 0.2);
   border-radius: 20px;
   padding: 28px 24px;
-  box-shadow: 0 8px 30px rgba(30, 56, 44, 0.08);
+  box-shadow: 0 10px 32px rgba(30, 56, 44, 0.08);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -273,15 +368,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 4px;
+  height: 5px;
   background: linear-gradient(90deg, #7B9B3A, #3C4819);
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .uiverse-doc-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(30, 56, 44, 0.16);
-  border-color: rgba(123, 155, 58, 0.45);
+  box-shadow: 0 18px 45px rgba(30, 56, 44, 0.16);
+  border-color: rgba(123, 155, 58, 0.5);
 }
 
 .uiverse-doc-header {
@@ -292,15 +387,15 @@
 }
 
 .uiverse-doc-icon {
-  width: 54px;
-  height: 54px;
+  width: 56px;
+  height: 56px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(123, 155, 58, 0.15), rgba(60, 72, 25, 0.1));
-  border: 1px solid rgba(123, 155, 58, 0.3);
+  background: linear-gradient(135deg, rgba(123, 155, 58, 0.2), rgba(60, 72, 25, 0.12));
+  border: 1px solid rgba(123, 155, 58, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+  font-size: 28px;
   flex-shrink: 0;
 }
 
@@ -311,15 +406,15 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #3C4819;
-  background: rgba(123, 155, 58, 0.18);
+  background: rgba(123, 155, 58, 0.2);
   padding: 3px 10px;
   border-radius: 999px;
   margin-bottom: 6px;
 }
 
 .uiverse-doc-title {
-  font-family: var(--dp-font-serif, "Garamond", Georgia, serif);
-  font-size: 20px;
+  font-family: var(--dp-font-serif, "EB Garamond", Georgia, serif);
+  font-size: 22px;
   font-weight: 700;
   color: var(--dp-color-ink, #162a20);
   line-height: 1.35;
@@ -327,7 +422,7 @@
 }
 
 .uiverse-doc-desc {
-  font-size: 15px;
+  font-size: 15.5px;
   line-height: 1.6;
   color: #4b6354;
   margin: 0 0 20px 0;
@@ -338,43 +433,28 @@
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  padding-top: 14px;
-  border-top: 1px solid rgba(44, 76, 56, 0.12);
+  padding-top: 16px;
+  border-top: 1px solid rgba(44, 76, 56, 0.15);
 }
 
-.uiverse-doc-btn {
+.uiverse-doc-btn-secondary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 10px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2C4C38;
+  background: rgba(44, 76, 56, 0.08);
+  border: 1.5px solid rgba(44, 76, 56, 0.25);
   text-decoration: none;
   transition: all 0.25s ease;
-  cursor: pointer;
 }
 
-.uiverse-doc-btn.primary {
-  background: var(--dp-color-accent, #1e382c);
-  color: #fff !important;
-  border: 1px solid rgba(123, 155, 58, 0.4);
-}
-
-.uiverse-doc-btn.primary:hover {
-  background: #284c3b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(30, 56, 44, 0.25);
-}
-
-.uiverse-doc-btn.secondary {
-  background: rgba(44, 76, 56, 0.08);
-  color: #1e382c !important;
-  border: 1px solid rgba(44, 76, 56, 0.2);
-}
-
-.uiverse-doc-btn.secondary:hover {
-  background: rgba(44, 76, 56, 0.15);
-  border-color: #1e382c;
-  transform: translateY(-2px);
+.uiverse-doc-btn-secondary:hover {
+  background: rgba(44, 76, 56, 0.16);
+  border-color: #2C4C38;
+  color: #1a3023;
+  transform: translateY(-1.5px);
 }
