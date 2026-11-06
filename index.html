@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="css/auth_rewards.css">
     <!-- Botanical Design System Theme Override -->
     <link rel="stylesheet" href="css/botanical-theme.css">
+    <!-- Animating Visual Algorithm Workflow Reel -->
+    <link rel="stylesheet" href="css/algorithm-reel.css">
     <!-- Official Google Identity Services (Sign in with Google OAuth 2.0 / OpenID Connect) -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="icon" type="image/svg+xml" href="assets/agritrace-icon.svg">
@@ -400,46 +402,190 @@
             </div>
 
 
-            <!-- Hero futuristic visual -->
+            <!-- =====================================================
+                 ANIMATING VISUAL ALGORITHM WORKFLOW REEL (SHORT-VIDEO STYLE)
+                 ===================================================== -->
+            <div id="workflowStoryReel" class="hero-workflow-container">
+                <div class="workflow-reel-card">
+                    <!-- Top Story Progress Bars (Shorts / Reels Style) -->
+                    <div class="reel-header">
+                        <div class="reel-progress-bars">
+                            <div class="reel-bar-track active" data-step="0" title="Step 1: Farm Origin">
+                                <div class="reel-bar-fill"></div>
+                            </div>
+                            <div class="reel-bar-track" data-step="1" title="Step 2: AI Inspection">
+                                <div class="reel-bar-fill"></div>
+                            </div>
+                            <div class="reel-bar-track" data-step="2" title="Step 3: Cold Transit">
+                                <div class="reel-bar-fill"></div>
+                            </div>
+                            <div class="reel-bar-track" data-step="3" title="Step 4: Fair Escrow">
+                                <div class="reel-bar-fill"></div>
+                            </div>
+                            <div class="reel-bar-track" data-step="4" title="Step 5: Verified QR">
+                                <div class="reel-bar-fill"></div>
+                            </div>
+                        </div>
 
-            <div class="hero-network">
-
-                <div class="network-ring ring-1"></div>
-
-                <div class="network-ring ring-2"></div>
-
-                <div class="network-ring ring-3"></div>
-
-
-                <div class="network-core">
-
-                    <div class="core-symbol">
-                        🌱
+                        <div class="reel-status-bar">
+                            <div class="reel-live-pill">
+                                <span class="reel-live-dot"></span>
+                                <span>LIVE ALGORITHM REEL</span>
+                            </div>
+                            <div class="reel-header-controls">
+                                <span class="reel-step-counter">01 / 05</span>
+                                <button id="reelPrevBtn" class="reel-ctrl-btn" type="button" title="Previous step" aria-label="Previous step">‹</button>
+                                <button id="reelPlayPauseBtn" class="reel-ctrl-btn" type="button" title="Pause reel" aria-label="Pause or play">⏸</button>
+                                <button id="reelNextBtn" class="reel-ctrl-btn" type="button" title="Next step" aria-label="Next step">›</button>
+                            </div>
+                        </div>
                     </div>
 
-                    <strong>
-                        AGRITRACE
-                    </strong>
+                    <!-- Dynamic Visual Stage Viewport -->
+                    <div class="reel-viewport">
+                        <!-- SCENE 1: Farm Origin & IoT Genesis -->
+                        <div class="reel-stage scene-farm active" id="scene-origin">
+                            <div class="farm-sun"></div>
+                            <div class="farm-hills"></div>
+                            <div class="farm-sprout" title="Sprouting Harvest">🌱</div>
+                            <div class="farm-iot-tower">
+                                <div class="tower-wave"></div>
+                                <div class="tower-wave" style="animation-delay: 1s;"></div>
+                                <span class="tower-icon">📡</span>
+                            </div>
+                            <div class="farm-block-card">
+                                <strong>⛓ BLOCK #10429 MINTER</strong>
+                                <span>LOT-2026 • 24.5°C • 68% RH</span>
+                            </div>
+                        </div>
 
+                        <!-- SCENE 2: AI Quality Grading Engine -->
+                        <div class="reel-stage scene-ai" id="scene-ai">
+                            <div class="ai-scan-rig">
+                                <div class="ai-turntable"></div>
+                                <div class="ai-produce-item" title="Organic Produce">🍅</div>
+                                <div class="ai-laser-beam"></div>
+                                <div class="ai-reticle-box"></div>
+                            </div>
+                            <div class="ai-metrics-panel">
+                                <div class="ai-metric-row">
+                                    <div class="ai-metric-label">
+                                        <span>Freshness</span>
+                                        <strong>98.4%</strong>
+                                    </div>
+                                    <div class="ai-meter-track">
+                                        <div class="ai-meter-fill" style="width: 98%;"></div>
+                                    </div>
+                                </div>
+                                <div class="ai-metric-row">
+                                    <div class="ai-metric-label">
+                                        <span>Purity</span>
+                                        <strong>99.1%</strong>
+                                    </div>
+                                    <div class="ai-meter-track">
+                                        <div class="ai-meter-fill" style="width: 99%;"></div>
+                                    </div>
+                                </div>
+                                <span class="ai-grade-stamp">GRADE A+ CERTIFIED</span>
+                            </div>
+                        </div>
+
+                        <!-- SCENE 3: Cold-Chain Logistics & Telemetry -->
+                        <div class="reel-stage scene-transit" id="scene-transit">
+                            <div class="transit-sky"></div>
+                            <div class="transit-mountain m1"></div>
+                            <div class="transit-mountain m2"></div>
+                            <div class="transit-road">
+                                <div class="road-stripe"></div>
+                            </div>
+                            <div class="transit-truck-wrap">
+                                <span class="truck-graphic">🚚</span>
+                            </div>
+                            <div class="transit-telemetry-badge">
+                                <div class="telemetry-row">
+                                    <span class="temp-dot"></span>
+                                    <span>REEFER TEMP: 4.2°C</span>
+                                </div>
+                                <small style="display:block;font-size:9px;color:#697961;margin-top:2px;">GPS Locked • 0 Tampering</small>
+                            </div>
+                        </div>
+
+                        <!-- SCENE 4: Algorithmic Market & Escrow -->
+                        <div class="reel-stage scene-market" id="scene-market">
+                            <div class="market-chart-card">
+                                <span class="chart-title">Fair Price Ticker</span>
+                                <strong class="chart-price">₹34.50 <small style="font-size:11px;color:#16a34a;">+18%</small></strong>
+                                <svg class="chart-svg" viewBox="0 0 100 40">
+                                    <path d="M 0 35 Q 30 25, 50 20 T 100 8" fill="none" stroke="#1e382c" stroke-width="2.5" stroke-linecap="round" class="chart-line" />
+                                </svg>
+                            </div>
+                            <div class="market-escrow-vault">
+                                <div class="coin-shower">
+                                    <span class="coin-particle">🪙</span>
+                                    <span class="coin-particle">✨</span>
+                                    <span class="coin-particle">🪙</span>
+                                </div>
+                                <span class="escrow-lock">🔓</span>
+                                <span class="escrow-pill-reward">+500 AgriPoints Payout</span>
+                            </div>
+                        </div>
+
+                        <!-- SCENE 5: Consumer Proof & Verification -->
+                        <div class="reel-stage scene-consumer" id="scene-consumer">
+                            <div class="consumer-phone-frame">
+                                <div class="phone-notch"></div>
+                                <div class="phone-screen">
+                                    <div class="phone-qr-scan">
+                                        <div class="phone-scan-laser"></div>
+                                        <span>📱</span>
+                                    </div>
+                                    <span class="phone-verified-badge">✓ 100% VERIFIED</span>
+                                </div>
+                            </div>
+                            <div class="consumer-badge-details">
+                                <div class="consumer-tag">
+                                    <span>🌱 Origin:</span>
+                                    <strong>Arumugam's Farm</strong>
+                                </div>
+                                <div class="consumer-tag">
+                                    <span>🛡 Safety:</span>
+                                    <strong>0 Pesticides</strong>
+                                </div>
+                                <div class="consumer-tag">
+                                    <span>⛓ Hash:</span>
+                                    <strong>0x8f2a...c31b</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Character Storyteller & Narrative Speech Box -->
+                    <div class="reel-narrative-box">
+                        <div class="character-avatar-wrap">
+                            <div class="character-avatar-circle">👨‍🌾</div>
+                            <span class="character-badge-role">Farmer</span>
+                        </div>
+                        <div class="character-speech">
+                            <div class="character-meta">
+                                <div class="character-name">
+                                    <span>Farmer Arumugam</span>
+                                </div>
+                                <span class="step-phase-tag">01 • Origin</span>
+                            </div>
+                            <p class="character-quote">“I record freshly harvested organic tomatoes at dawn. IoT sensors log 24.5°C & 68% RH, automatically anchoring Lot #LOT-2026 to the blockchain ledger.”</p>
+                            <a href="#trace" class="character-action-pill">View Produce Origin ➔</a>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Step Selector Pills at Bottom -->
+                    <div class="reel-nav-pills">
+                        <button class="reel-step-btn active" type="button" data-step="0">🌱 1. Origin</button>
+                        <button class="reel-step-btn" type="button" data-step="1">🔬 2. AI Grade</button>
+                        <button class="reel-step-btn" type="button" data-step="2">🚚 3. Cold Transit</button>
+                        <button class="reel-step-btn" type="button" data-step="3">🏪 4. Fair Escrow</button>
+                        <button class="reel-step-btn" type="button" data-step="4">✨ 5. Verified QR</button>
+                    </div>
                 </div>
-
-
-                <div class="network-node node-top">
-                    FARM
-                </div>
-
-                <div class="network-node node-right">
-                    MARKET
-                </div>
-
-                <div class="network-node node-bottom">
-                    CONSUMER
-                </div>
-
-                <div class="network-node node-left">
-                    LOGISTICS
-                </div>
-
             </div>
 
 
@@ -2994,6 +3140,8 @@
     <script src="js/kaggleData.js"></script>
     <script src="js/features.js"></script>
     <script src="js/auth_rewards.js"></script>
+    <!-- Visual Moving Workflow Story Reel Controller -->
+    <script src="js/algorithm-reel.js"></script>
 
 
     <!-- =====================================================

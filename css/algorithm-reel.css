@@ -1,0 +1,1020 @@
+/* =========================================================
+   AGRITRACE — ANIMATING VISUAL ALGORITHM WORKFLOW REEL
+   Aesthetic, catchy, animated short-video style reel
+   illustrating the 5-step Farm-to-Fork Web3 + AI algorithm
+   using charming animated characters and dynamic scenes.
+   Harmonized with the Botanical Design System.
+   ========================================================= */
+
+/* --- Reel Outer Container & Arched Botanical Frame --- */
+.hero-workflow-container {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.workflow-reel-card {
+    position: relative;
+    background: linear-gradient(180deg, #fbf7ee 0%, #f4eee0 100%);
+    border: 1.5px solid var(--dp-color-rule, #d4d0bd);
+    border-radius: 42px 42px 28px 28px;
+    box-shadow: 
+        0 20px 48px rgba(30, 56, 44, 0.12),
+        0 4px 12px rgba(30, 56, 44, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.workflow-reel-card:hover {
+    box-shadow: 
+        0 26px 56px rgba(30, 56, 44, 0.16),
+        0 8px 18px rgba(30, 56, 44, 0.08);
+}
+
+/* Subtle botanical decorative arch line */
+.workflow-reel-card::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    right: 12px;
+    bottom: 8px;
+    border: 1px dashed rgba(137, 84, 64, 0.22);
+    border-radius: 36px 36px 22px 22px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- Reel Story Header & Instagram/Shorts-Style Progress Bars --- */
+.reel-header {
+    position: relative;
+    z-index: 5;
+    padding: 16px 20px 10px;
+    background: linear-gradient(180deg, rgba(245, 239, 223, 0.95) 0%, rgba(245, 239, 223, 0.7) 100%);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(212, 208, 189, 0.4);
+}
+
+.reel-progress-bars {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.reel-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(30, 56, 44, 0.15);
+    border-radius: 99px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: height 0.2s ease;
+}
+
+.reel-bar-track:hover {
+    height: 6px;
+}
+
+.reel-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--dp-color-accent, #895440);
+    border-radius: 99px;
+    transition: width 0.1s linear;
+}
+
+.reel-bar-track.completed .reel-bar-fill {
+    width: 100% !important;
+    background: var(--dp-color-ink, #1e382c);
+}
+
+.reel-bar-track.active .reel-bar-fill {
+    background: var(--dp-color-accent, #895440);
+}
+
+.reel-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.reel-live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 10px;
+    background: #e0e5d3;
+    border: 1px solid #b5baa4;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: #1e382c;
+    text-transform: uppercase;
+}
+
+.reel-live-dot {
+    width: 8px;
+    height: 8px;
+    background: #895440;
+    border-radius: 50%;
+    animation: reelPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes reelPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(137, 84, 64, 0.5);
+    }
+    50% {
+        transform: scale(1.25);
+        opacity: 0.85;
+        box-shadow: 0 0 0 6px rgba(137, 84, 64, 0);
+    }
+}
+
+.reel-header-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reel-step-counter {
+    font-family: var(--font-heading, "EB Garamond", serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e382c;
+    letter-spacing: 0.5px;
+    background: rgba(30, 56, 44, 0.06);
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.reel-ctrl-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #d4d0bd;
+    background: #ffffff;
+    color: #1e382c;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.reel-ctrl-btn:hover {
+    background: #1e382c;
+    color: #ffffff;
+    border-color: #1e382c;
+    transform: scale(1.08);
+}
+
+/* --- Reel Viewport & Dynamic Animated Stage Scenes --- */
+.reel-viewport {
+    position: relative;
+    width: 100%;
+    height: 270px;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 30%, #fefcf7 0%, #ece5d6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reel-stage {
+    position: absolute;
+    inset: 0;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 1;
+}
+
+.reel-stage.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    z-index: 3;
+}
+
+/* --- SCENE 1: FARM ORIGIN & IOT GENESIS --- */
+.scene-farm {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.farm-sun {
+    position: absolute;
+    top: 15px;
+    right: 32px;
+    width: 44px;
+    height: 44px;
+    background: radial-gradient(circle, #fde68a 0%, #f59e0b 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.45);
+    animation: sunRotate 20s linear infinite;
+}
+
+@keyframes sunRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.farm-hills {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(180deg, #a7bfa4 0%, #6f876c 100%);
+    border-radius: 60% 60% 0 0 / 25px 25px 0 0;
+}
+
+.farm-hills::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: -20px;
+    right: 40px;
+    height: 80px;
+    background: linear-gradient(180deg, #8ba888 0%, #526f4f 100%);
+    border-radius: 50% 50% 0 0 / 20px 20px 0 0;
+    z-index: 1;
+}
+
+.farm-sprout {
+    position: absolute;
+    bottom: 32px;
+    left: 64px;
+    font-size: 42px;
+    z-index: 2;
+    animation: sproutBounce 3s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+@keyframes sproutBounce {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.08) rotate(3deg); }
+}
+
+.farm-iot-tower {
+    position: absolute;
+    bottom: 25px;
+    right: 70px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tower-icon {
+    font-size: 28px;
+    animation: towerPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes towerPulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+.tower-wave {
+    position: absolute;
+    top: -8px;
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(137, 84, 64, 0.6);
+    border-radius: 50%;
+    animation: waveRadiate 2s infinite ease-out;
+}
+
+@keyframes waveRadiate {
+    0% { transform: scale(0.3); opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+.farm-block-card {
+    position: absolute;
+    top: 25px;
+    left: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #b5baa4;
+    border-radius: 14px;
+    padding: 8px 14px;
+    box-shadow: 0 8px 18px rgba(30, 56, 44, 0.08);
+    z-index: 3;
+    animation: floatBlock 3.5s ease-in-out infinite;
+}
+
+@keyframes floatBlock {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.farm-block-card strong {
+    display: block;
+    font-size: 11px;
+    color: #1e382c;
+    letter-spacing: 0.5px;
+}
+
+.farm-block-card span {
+    font-size: 10px;
+    color: #895440;
+    font-weight: 700;
+}
+
+/* --- SCENE 2: AI COMPUTER VISION INSPECTION --- */
+.scene-ai {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.ai-scan-rig {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ai-turntable {
+    position: absolute;
+    bottom: 5px;
+    width: 110px;
+    height: 24px;
+    background: #d4d0bd;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ai-produce-item {
+    font-size: 54px;
+    z-index: 2;
+    animation: produceWobble 4s ease-in-out infinite;
+}
+
+@keyframes produceWobble {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-4px) scale(1.03); }
+}
+
+.ai-laser-beam {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #895440, #ef4444, #895440, transparent);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+    z-index: 3;
+    animation: laserScan 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes laserScan {
+    0% { top: 15px; opacity: 0.9; }
+    100% { top: 110px; opacity: 0.9; }
+}
+
+.ai-reticle-box {
+    position: absolute;
+    inset: 12px;
+    border: 1px dashed rgba(137, 84, 64, 0.5);
+    border-radius: 12px;
+    pointer-events: none;
+    animation: reticlePulse 2s infinite ease-in-out;
+}
+
+@keyframes reticlePulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.04); opacity: 1; }
+}
+
+.ai-metrics-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 180px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #b5baa4;
+    border-radius: 16px;
+    padding: 12px 14px;
+    box-shadow: 0 8px 20px rgba(30, 56, 44, 0.08);
+}
+
+.ai-metric-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ai-metric-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 700;
+    color: #1e382c;
+    text-transform: uppercase;
+}
+
+.ai-meter-track {
+    width: 100%;
+    height: 6px;
+    background: #e0e5d3;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.ai-meter-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #1e382c, #895440);
+    animation: meterFillIn 1.2s ease-out forwards;
+}
+
+@keyframes meterFillIn {
+    from { width: 0%; }
+    to { width: var(--fill-target, 95%); }
+}
+
+.ai-grade-stamp {
+    align-self: center;
+    background: #1e382c;
+    color: #faf7f0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    animation: stampPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes stampPop {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- SCENE 3: COLD-CHAIN LOGISTICS & IOT TELEMETRY --- */
+.scene-transit {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.transit-sky {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #d8e5db 0%, #edf3eb 60%, transparent 100%);
+}
+
+.transit-mountain {
+    position: absolute;
+    bottom: 70px;
+    width: 140px;
+    height: 60px;
+    background: #b5c7b3;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    opacity: 0.7;
+}
+
+.transit-mountain.m1 { left: 20px; }
+.transit-mountain.m2 { right: 40px; width: 170px; height: 80px; }
+
+.transit-road {
+    position: absolute;
+    bottom: 20px;
+    left: -20px;
+    right: -20px;
+    height: 52px;
+    background: #4a5d52;
+    transform: perspective(200px) rotateX(25deg);
+    border-top: 3px solid #895440;
+    overflow: hidden;
+}
+
+.road-stripe {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 200%;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, #f5efdf 0px, #f5efdf 25px, transparent 25px, transparent 55px);
+    animation: roadMove 0.8s linear infinite;
+}
+
+@keyframes roadMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-55px); }
+}
+
+.transit-truck-wrap {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: truckRide 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes truckRide {
+    from { transform: translateY(0); }
+    to { transform: translateY(-3px); }
+}
+
+.truck-graphic {
+    font-size: 56px;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2));
+}
+
+.transit-telemetry-badge {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #b5baa4;
+    border-radius: 14px;
+    padding: 8px 12px;
+    box-shadow: 0 8px 18px rgba(30, 56, 44, 0.1);
+    z-index: 4;
+}
+
+.telemetry-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e382c;
+}
+
+.temp-dot {
+    width: 8px;
+    height: 8px;
+    background: #0284c7;
+    border-radius: 50%;
+    animation: tempBlink 1.2s infinite ease-in-out;
+}
+
+@keyframes tempBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+}
+
+/* --- SCENE 4: ALGORITHMIC MARKET & ESCROW PAYOUT --- */
+.scene-market {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 20px;
+}
+
+.market-chart-card {
+    width: 155px;
+    background: #ffffff;
+    border: 1px solid #b5baa4;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 8px 20px rgba(30, 56, 44, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chart-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #697961;
+    text-transform: uppercase;
+}
+
+.chart-price {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e382c;
+}
+
+.chart-svg {
+    width: 100%;
+    height: 50px;
+}
+
+.chart-line {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: drawChart 2s ease-out forwards;
+}
+
+@keyframes drawChart {
+    to { stroke-dashoffset: 0; }
+}
+
+.market-escrow-vault {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.escrow-lock {
+    font-size: 48px;
+    animation: unlockBounce 2.5s ease-in-out infinite;
+}
+
+@keyframes unlockBounce {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    30% { transform: scale(1.15) rotate(-6deg); }
+    60% { transform: scale(1.1) rotate(6deg); }
+}
+
+.coin-shower {
+    position: absolute;
+    top: -15px;
+    display: flex;
+    gap: 8px;
+}
+
+.coin-particle {
+    font-size: 18px;
+    animation: coinFloat 1.8s ease-in-out infinite;
+}
+
+.coin-particle:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.coin-particle:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+@keyframes coinFloat {
+    0% { transform: translateY(0) scale(0.7); opacity: 0; }
+    50% { opacity: 1; transform: translateY(-18px) scale(1.1); }
+    100% { transform: translateY(-30px) scale(0.8); opacity: 0; }
+}
+
+.escrow-pill-reward {
+    margin-top: 6px;
+    background: linear-gradient(135deg, #895440, #67392a);
+    color: #faf7f0;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(137, 84, 64, 0.35);
+}
+
+/* --- SCENE 5: CONSUMER SCAN & VERIFICATION POP --- */
+.scene-consumer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.consumer-phone-frame {
+    position: relative;
+    width: 130px;
+    height: 200px;
+    background: #1e382c;
+    border: 3px solid #895440;
+    border-radius: 24px;
+    padding: 8px;
+    box-shadow: 0 12px 28px rgba(30, 56, 44, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.phone-notch {
+    width: 40px;
+    height: 6px;
+    background: #0d1a14;
+    border-radius: 0 0 6px 6px;
+    margin-bottom: 8px;
+}
+
+.phone-screen {
+    width: 100%;
+    flex: 1;
+    background: #faf7f0;
+    border-radius: 16px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.phone-qr-scan {
+    font-size: 40px;
+    position: relative;
+}
+
+.phone-scan-laser {
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    height: 2px;
+    background: #16a34a;
+    box-shadow: 0 0 8px #16a34a;
+    animation: phoneScan 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes phoneScan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+.phone-verified-badge {
+    margin-top: 8px;
+    background: #1e382c;
+    color: #faf7f0;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 99px;
+    letter-spacing: 0.5px;
+    animation: verifyPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes verifyPop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.consumer-badge-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 160px;
+}
+
+.consumer-tag {
+    background: #ffffff;
+    border: 1px solid #b5baa4;
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #1e382c;
+    box-shadow: 0 4px 12px rgba(30, 56, 44, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.consumer-tag strong {
+    color: #895440;
+}
+
+/* --- Reel Character Narrative Section (The Storyteller Box) --- */
+.reel-narrative-box {
+    position: relative;
+    z-index: 5;
+    background: #ffffff;
+    border-top: 1.5px solid rgba(212, 208, 189, 0.5);
+    padding: 16px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.character-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.character-avatar-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #e0e5d3 0%, #cfd7c0 100%);
+    border: 2px solid #895440;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 12px rgba(137, 84, 64, 0.2);
+    animation: avatarBob 3s ease-in-out infinite;
+}
+
+@keyframes avatarBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.character-badge-role {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: #1e382c;
+    color: #ffffff;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 99px;
+    border: 1px solid #ffffff;
+}
+
+.character-speech {
+    flex: 1;
+    min-width: 0;
+}
+
+.character-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.character-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e382c;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.step-phase-tag {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #895440;
+    background: rgba(137, 84, 64, 0.1);
+    padding: 2px 7px;
+    border-radius: 99px;
+}
+
+.character-quote {
+    font-family: var(--font-heading, "EB Garamond", serif);
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.35;
+    color: #2a3a30;
+    margin: 0 0 6px 0;
+    transition: opacity 0.25s ease;
+}
+
+.character-action-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e382c;
+    background: #e0e5d3;
+    padding: 3px 10px;
+    border-radius: 99px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.character-action-pill:hover {
+    background: #1e382c;
+    color: #ffffff;
+    transform: translateX(2px);
+}
+
+/* --- Reel Interactive Step Selector Pills at Bottom --- */
+.reel-nav-pills {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    gap: 6px;
+    padding: 10px 16px 14px;
+    background: #f4eee0;
+    border-top: 1px solid rgba(212, 208, 189, 0.6);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.reel-nav-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.reel-step-btn {
+    flex: 1;
+    min-width: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 8px;
+    background: #ffffff;
+    border: 1px solid #d4d0bd;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #697961;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    white-space: nowrap;
+}
+
+.reel-step-btn:hover {
+    border-color: #895440;
+    color: #1e382c;
+    transform: translateY(-1px);
+}
+
+.reel-step-btn.active {
+    background: #1e382c;
+    color: #faf7f0;
+    border-color: #1e382c;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(30, 56, 44, 0.15);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 900px) {
+    .hero-workflow-container {
+        max-width: 480px;
+        margin-top: 30px;
+    }
+
+    .reel-viewport {
+        height: 240px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-workflow-container {
+        max-width: 100%;
+        margin-top: 24px;
+    }
+
+    .workflow-reel-card {
+        border-radius: 28px;
+    }
+
+    .reel-viewport {
+        height: 220px;
+    }
+
+    .character-avatar-circle {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
+
+    .character-quote {
+        font-size: 13.5px;
+    }
+
+    .ai-metrics-panel {
+        width: 140px;
+        padding: 8px 10px;
+    }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    .reel-stage,
+    .farm-sprout,
+    .sunRotate,
+    .towerPulse,
+    .road-stripe,
+    .produceWobble,
+    .truckRide,
+    .ai-laser-beam {
+        animation: none !important;
+        transition: none !important;
+    }
+}
