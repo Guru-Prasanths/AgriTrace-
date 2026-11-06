@@ -2492,3 +2492,21 @@ function _applyKaggleFilters(keyword, category) {
   }
 }
 
+// Algorithm Video Resilience
+function initAlgorithmVideo() {
+  const video = document.getElementById('algorithmVideoPlayer');
+  if (!video) return;
+  video.muted = true;
+  video.defaultMuted = true;
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      // Browser autoplay policy handled; fallback poster remains displayed
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAlgorithmVideo();
+});
+
