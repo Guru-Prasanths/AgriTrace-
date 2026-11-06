@@ -886,6 +886,12 @@ async function writePriceSnapshot(event) {
     if (!marketPrice) { showToast("Enter the market price.", "error"); return; }
     if (!consumerPrice) { showToast("Enter the consumer price.", "error"); return; }
 
+    const fPrice = Number(farmerPrice);
+    const cPrice = Number(consumerPrice);
+    if (isNaN(fPrice) || fPrice < 0) { showToast("Farmer price must be a non-negative number.", "error"); return; }
+    if (isNaN(cPrice) || cPrice <= 0) { showToast("Consumer price must be greater than zero.", "error"); return; }
+    if (fPrice > cPrice) { showToast("Farmer price cannot exceed consumer price.", "error"); return; }
+
     button.textContent = "Confirm in MetaMask…";
 
     const result = await blockchain.recordPriceOnChain({
@@ -959,6 +965,13 @@ async function writeSensorSnapshot(event) {
     if (!temperatureC) { showToast("Enter temperature.", "error"); return; }
     if (!humidityPct) { showToast("Enter humidity.", "error"); return; }
     if (!spoilageRiskPct) { showToast("Enter spoilage risk.", "error"); return; }
+
+    const tempNum = Number(temperatureC);
+    const humNum = Number(humidityPct);
+    const riskNum = Number(spoilageRiskPct);
+    if (isNaN(tempNum) || tempNum < -50 || tempNum > 100) { showToast("Temperature must be between -50°C and 100°C.", "error"); return; }
+    if (isNaN(humNum) || humNum < 0 || humNum > 100) { showToast("Humidity must be between 0% and 100%.", "error"); return; }
+    if (isNaN(riskNum) || riskNum < 0 || riskNum > 100) { showToast("Spoilage risk must be between 0% and 100%.", "error"); return; }
 
     button.textContent = "Confirm in MetaMask…";
 

@@ -19,7 +19,7 @@ AgriTrace is a full-stack decentralized agricultural intelligence dApp engineere
 - **Amplified Voice Assistant AI:** High-audibility speech synthesis with Web Audio hardware chime, on-screen text toast HUD, and hands-free section navigation.
 - **Pinned Left-Margin Navigation Dock:** Sleek vertical navigation dock with collapsible icon/expanded modes, dynamic active-section indicators, and high contrast.
 - **Straight Header Action Outlets:** Unified 34px outlet buttons with compact straight baseline alignment for Voice AI, Translate, Points, Network, Camera, QR, Alerts, and Wallet.
-- **Hardhat Local Account & Network:** Preconfigured high-points test account (`Hardhat Local`) with 100,000 AgriPoints and 10,000 ETH test balance, enabling seamless friction-free testing alternate to Sepolia testnet.
+- **Dual-Network Blockchain Support:** Seamless MetaMask switching between Hardhat Local development node (Chain ID 31337) and Sepolia Testnet (Chain ID 11155111) with zero exposed secrets and genuine on-chain operator access control.
 - **All-Language Universal Translator:** Real-time dynamic translation engine supporting English, Tamil, Hindi, and 100+ languages with full persistent state.
 - **Clear Text View (High Readability Mode):** Dedicated WCAG AAA high-contrast typography mode with sharp borders, pure-contrast backgrounds, and accessibility font size steppers (A- / A / A+) for crystal-clear readability across all devices.
 - **MetaMask Dual-Network Support:** One-click network switching between Hardhat Local (31337) and Sepolia (11155111).

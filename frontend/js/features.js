@@ -1031,7 +1031,8 @@ function initCameraScanner() {
       if (video) { video.srcObject = cameraStream; video.play(); }
     } catch (err) {
       const feed = document.getElementById('cameraFeed');
-      if (feed) feed.innerHTML = `<div class="camera-demo-mode"><div class="camera-demo-icon">📷</div><p>Camera unavailable in this environment</p><p style="color:var(--green);margin-top:8px;font-size:13px;">DEMO MODE — Click "Identify Produce" to simulate AI recognition</p></div>`;
+      if (feed) feed.innerHTML = `<div class="camera-demo-mode"><div class="camera-demo-icon">📷</div><p>Camera unavailable or permission denied</p><p style="color:var(--muted);margin-top:6px;font-size:12.5px;">Manual Catalog Mode — Select produce directly below:</p></div>`;
+      showProduceSelector();
     }
   });
 
@@ -1039,7 +1040,7 @@ function initCameraScanner() {
 
   if (captureBtn) {
     captureBtn.addEventListener('click', () => {
-      captureBtn.textContent = '🔍 Analyzing with AI...';
+      captureBtn.textContent = '🔍 Matching Catalog Entry...';
       captureBtn.disabled = true;
       const loadingEl = document.getElementById('recognitionLoader');
       if (loadingEl) loadingEl.style.display = 'flex';
@@ -1047,13 +1048,13 @@ function initCameraScanner() {
         const keys = Object.keys(PRODUCE_DATABASE);
         const key = keys[Math.floor(Math.random() * keys.length)];
         if (loadingEl) loadingEl.style.display = 'none';
-        captureBtn.textContent = typeof window.t === 'function' ? window.t('camera_btn_identify') : '📷 Identify Produce';
+        captureBtn.textContent = typeof window.t === 'function' ? window.t('camera_btn_identify') : '📷 Sample Catalog Match';
         captureBtn.disabled = false;
         displayProduceResult(key);
         if (typeof speak === 'function') {
-          speak(`I detected ${PRODUCE_DATABASE[key].name}, Grade ${PRODUCE_DATABASE[key].grade}. Price range ${PRODUCE_DATABASE[key].priceRange}.`);
+          speak(`Sample matched: ${PRODUCE_DATABASE[key].name}, Grade ${PRODUCE_DATABASE[key].grade}. Price range ${PRODUCE_DATABASE[key].priceRange}.`);
         }
-      }, 2000);
+      }, 1200);
     });
   }
 }
@@ -1112,7 +1113,8 @@ function displayTraceabilityProfile(record, container) {
   if (!container) return;
   const harvestDate = record.harvest_date ? new Date(record.harvest_date).toLocaleDateString('en-IN') : 'N/A';
   const isVerified = !!record.blockchain_verified;
-  const qrData = `https://agritrace.io/verify/${record.lot_id}`;
+  const isDemo = !!record.is_demo;
+  const qrData = `${window.location.origin}${window.location.pathname}#trace?lotId=${encodeURIComponent(record.lot_id)}`;
   const farmerCapture = record.farmer_price && record.consumer_price ? Math.round((record.farmer_price / record.consumer_price) * 100) : '--';
 
   const tOrigin = typeof window.t === 'function' ? window.t('label_origin') : 'Origin';
@@ -1129,25 +1131,28 @@ function displayTraceabilityProfile(record, container) {
   const tStep4 = typeof window.t === 'function' ? window.t('consumer_journey_coldchain') : 'Cold Chain Monitored';
   const tStep5 = typeof window.t === 'function' ? window.t('consumer_journey_delivered') : 'Delivered to Market';
 
+  const badgeClass = isDemo ? 'trace-badge-unverified' : (isVerified ? 'trace-badge-verified' : 'trace-badge-unverified');
+  const badgeLabel = isDemo ? '📋 DEMO RECORD (OFF-CHAIN)' : (isVerified ? '✓ BLOCKCHAIN VERIFIED' : '⚠ UNVERIFIED');
+
   container.innerHTML = `
     <div class="trace-profile">
       <div class="trace-header">
         <div>
-          <div class="trace-lot-id">${record.lot_id}</div>
-          <div class="trace-crop-name">${record.crop_name || 'Produce'}</div>
+          <div class="trace-lot-id">${escapeHtml(record.lot_id)}</div>
+          <div class="trace-crop-name">${escapeHtml(record.crop_name || 'Produce')}</div>
         </div>
-        <div class="trace-badge ${isVerified ? 'trace-badge-verified' : 'trace-badge-unverified'}">
-          ${isVerified ? '✓ BLOCKCHAIN VERIFIED' : '⚠ UNVERIFIED'}
+        <div class="trace-badge ${badgeClass}">
+          ${badgeLabel}
         </div>
       </div>
       <div class="trace-grid">
-        <div class="trace-item"><span class="trace-icon">🌾</span><div><div class="trace-label">${tOrigin}</div><div class="trace-value">${record.origin || 'N/A'}</div></div></div>
+        <div class="trace-item"><span class="trace-icon">🌾</span><div><div class="trace-label">${tOrigin}</div><div class="trace-value">${escapeHtml(record.origin || 'N/A')}</div></div></div>
         <div class="trace-item"><span class="trace-icon">📅</span><div><div class="trace-label">${tHarvest}</div><div class="trace-value">${harvestDate}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">⭐</span><div><div class="trace-label">${tGrade}</div><div class="trace-value">Grade ${record.quality_grade || 'N/A'}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">🌡️</span><div><div class="trace-label">${tTemp}</div><div class="trace-value">${record.storage_temperature_c || '--'}°C</div></div></div>
-        <div class="trace-item"><span class="trace-icon">💧</span><div><div class="trace-label">${tHumidity}</div><div class="trace-value">${record.storage_humidity_pct || '--'}%</div></div></div>
-        <div class="trace-item"><span class="trace-icon">💰</span><div><div class="trace-label">${tFarmerPrice}</div><div class="trace-value">₹${record.farmer_price || '--'}/kg</div></div></div>
-        <div class="trace-item"><span class="trace-icon">🛒</span><div><div class="trace-label">${tConsumerPrice}</div><div class="trace-value">₹${record.consumer_price || '--'}/kg</div></div></div>
+        <div class="trace-item"><span class="trace-icon">⭐</span><div><div class="trace-label">${tGrade}</div><div class="trace-value">Grade ${escapeHtml(record.quality_grade || 'N/A')}</div></div></div>
+        <div class="trace-item"><span class="trace-icon">🌡️</span><div><div class="trace-label">${tTemp}</div><div class="trace-value">${record.storage_temperature_c != null ? record.storage_temperature_c : '--'}°C</div></div></div>
+        <div class="trace-item"><span class="trace-icon">💧</span><div><div class="trace-label">${tHumidity}</div><div class="trace-value">${record.storage_humidity_pct != null ? record.storage_humidity_pct : '--'}%</div></div></div>
+        <div class="trace-item"><span class="trace-icon">💰</span><div><div class="trace-label">${tFarmerPrice}</div><div class="trace-value">₹${record.farmer_price != null ? record.farmer_price : '--'}/kg</div></div></div>
+        <div class="trace-item"><span class="trace-icon">🛒</span><div><div class="trace-label">${tConsumerPrice}</div><div class="trace-value">₹${record.consumer_price != null ? record.consumer_price : '--'}/kg</div></div></div>
         <div class="trace-item"><span class="trace-icon">📊</span><div><div class="trace-label">Farmer Share</div><div class="trace-value">${farmerCapture}%</div></div></div>
       </div>
       <div class="trace-blockchain">
@@ -1162,10 +1167,10 @@ function displayTraceabilityProfile(record, container) {
         </div>
         <div class="trace-journey">
           <div class="trace-label" style="margin-bottom:12px;">SUPPLY CHAIN JOURNEY</div>
-          <div class="journey-step done"><span>🌾</span> ${tStep1} — ${record.origin || 'Farm'}</div>
+          <div class="journey-step done"><span>🌾</span> ${tStep1} — ${escapeHtml(record.origin || 'Farm')}</div>
           <div class="journey-step done"><span>📋</span> ${tStep2}</div>
           <div class="journey-step ${isVerified ? 'done' : 'pending'}"><span>⛓</span> ${tStep3}</div>
-          <div class="journey-step ${record.storage_temperature_c ? 'done' : 'pending'}"><span>🚚</span> ${tStep4}</div>
+          <div class="journey-step ${record.storage_temperature_c != null ? 'done' : 'pending'}"><span>🚚</span> ${tStep4}</div>
           <div class="journey-step pending"><span>🛒</span> ${tStep5}</div>
         </div>
       </div>
@@ -1178,15 +1183,18 @@ function displayTraceabilityProfile(record, container) {
   }, 80);
 }
 
-function lookupAndShowQRRecord(lotId) {
+async function lookupAndShowQRRecord(lotId) {
   const resultEl = document.getElementById('qrModalResult');
   if (!resultEl) return;
+  const cleanId = String(lotId || '').trim();
+  if (!cleanId) return;
+
   const allRec = typeof allRecords !== 'undefined' ? allRecords : [];
   const demos = typeof DEMO_FALLBACK_RECORDS !== 'undefined' ? DEMO_FALLBACK_RECORDS : [];
-  let record = [...allRec, ...demos].find(r => r.lot_id && r.lot_id.toLowerCase() === lotId.toLowerCase());
+  let record = [...allRec, ...demos].find(r => r.lot_id && r.lot_id.toLowerCase() === cleanId.toLowerCase());
 
   if (!record) {
-    const listing = SELLER_LISTINGS.find(l => l.lotId.toLowerCase() === lotId.toLowerCase());
+    const listing = SELLER_LISTINGS.find(l => l.lotId.toLowerCase() === cleanId.toLowerCase());
     if (listing) {
       record = {
         lot_id: listing.lotId, crop_name: listing.crop, origin: listing.origin,
@@ -1195,12 +1203,34 @@ function lookupAndShowQRRecord(lotId) {
         farmer_price: listing.askPrice, consumer_price: Math.round(listing.askPrice * 1.42),
         blockchain_verified: listing.verified, metadata_hash: '0xdemo' + listing.lotId,
         blockchain_tx_hash: listing.verified ? '0xtx' + listing.lotId : null,
+        is_demo: true
       };
+    }
+  }
+
+  // Query backend database/API if not cached in memory
+  if (!record && typeof api === 'function') {
+    resultEl.innerHTML = `<div style="text-align:center;padding:24px;color:var(--muted);">🔍 Searching database & blockchain for <strong>${escapeHtml(cleanId)}</strong>…</div>`;
+    try {
+      const res = await api(`/traceability/${encodeURIComponent(cleanId)}`);
+      if (res && res.record) {
+        record = res.record;
+      }
+    } catch (err) {
+      console.warn("Backend lookup query notice:", err.message);
     }
   }
 
   if (record) {
     displayTraceabilityProfile(record, resultEl);
+  } else {
+    resultEl.innerHTML = `
+      <div style="text-align:center;padding:28px 18px;color:#fca5a5;background:rgba(239,68,68,0.1);border-radius:10px;border:1px solid rgba(239,68,68,0.3);">
+        <div style="font-size:28px;margin-bottom:6px;">⚠️</div>
+        <h4 style="color:#f87171;margin-bottom:6px;">Lot Not Found</h4>
+        <p style="font-size:13px;color:#e2e8f0;margin:0;">No registered produce record found for Lot ID: <strong>${escapeHtml(cleanId)}</strong>.</p>
+      </div>
+    `;
   }
 }
 
@@ -1247,18 +1277,33 @@ const FARMER_DATA = {
 function renderFarmerDashboard() {
   const infoEl = document.getElementById('farmerInfo');
   if (infoEl) {
-    const f = FARMER_DATA.farmer;
-    infoEl.innerHTML = `
-      <div class="dash-profile">
-        <div class="dash-avatar">👨‍🌾</div>
-        <div class="dash-profile-info">
-          <div class="dash-name">${f.name}</div>
-          <div class="dash-id">${f.id}</div>
-          <div class="dash-location">📍 ${f.location}</div>
-          <div class="dash-meta"><span>⭐ ${f.rating}/5.0</span><span>Since ${f.since}</span></div>
+    const user = typeof agriCurrentUser !== 'undefined' && agriCurrentUser ? agriCurrentUser : null;
+    if (user && user.role === 'farmer') {
+      infoEl.innerHTML = `
+        <div class="dash-profile">
+          <div class="dash-avatar">👨‍🌾</div>
+          <div class="dash-profile-info">
+            <div class="dash-name">${escapeHtml(user.name)}</div>
+            <div class="dash-id">${escapeHtml(user.email)}</div>
+            <div class="dash-location">📍 ${escapeHtml(user.location || 'Tamil Nadu, India')}</div>
+            <div class="dash-meta"><span>⭐ 4.9/5.0</span><span>Verified Farmer Account</span></div>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      const f = FARMER_DATA.farmer;
+      infoEl.innerHTML = `
+        <div class="dash-profile">
+          <div class="dash-avatar">👨‍🌾</div>
+          <div class="dash-profile-info">
+            <div class="dash-name">${f.name}</div>
+            <div class="dash-id">${f.id}</div>
+            <div class="dash-location">📍 ${f.location}</div>
+            <div class="dash-meta"><span>⭐ ${f.rating}/5.0</span><span>Since ${f.since}</span></div>
+          </div>
+        </div>
+      `;
+    }
   }
 
   const earningsEl = document.getElementById('farmerEarnings');
@@ -1285,26 +1330,46 @@ function renderFarmerDashboard() {
     const btnQR = typeof window.t === 'function' ? window.t('farmer_btn_qr') : 'QR Code';
     const btnTrace = typeof window.t === 'function' ? window.t('farmer_btn_trace') : 'Trace';
 
-    listEl.innerHTML = FARMER_DATA.produce.map(p => `
+    const realLots = (typeof allRecords !== 'undefined' && Array.isArray(allRecords)) ? allRecords.filter(r => !r.is_demo) : [];
+    
+    let produceItems = [];
+    if (realLots.length > 0) {
+      produceItems = realLots.map(r => ({
+        lotId: r.lot_id,
+        crop: r.crop_name,
+        emoji: '🌱',
+        qty: r.quantity || '500',
+        unit: 'kg',
+        grade: r.quality_grade || 'A',
+        askPrice: r.farmer_price || 0,
+        offers: 1,
+        status: r.blockchain_verified ? 'verified' : (r.blockchain_tx_hash ? 'anchored' : 'registered'),
+        isReal: true
+      }));
+    }
+
+    produceItems = produceItems.concat(FARMER_DATA.produce.map(p => ({ ...p, isReal: false })));
+
+    listEl.innerHTML = produceItems.map(p => `
       <div class="produce-row produce-status-${p.status}">
         <div class="produce-row-left">
           <span class="produce-row-emoji">${p.emoji}</span>
           <div>
-            <div class="produce-row-lot">${p.lotId}</div>
-            <div class="produce-row-name">${p.crop}</div>
+            <div class="produce-row-lot">${escapeHtml(p.lotId)} ${p.isReal ? '<span style="color:#4ade80;font-size:10px;font-weight:700;margin-left:4px;">● REGISTRY</span>' : '<span style="color:var(--muted);font-size:10px;margin-left:4px;">[DEMO]</span>'}</div>
+            <div class="produce-row-name">${escapeHtml(p.crop)}</div>
           </div>
         </div>
         <div class="produce-row-right">
-          <span>${p.qty} ${p.unit}</span>
-          <span>Grade ${p.grade}</span>
-          <span>₹${p.askPrice}/kg</span>
+          <span>${escapeHtml(String(p.qty))} ${escapeHtml(p.unit || 'kg')}</span>
+          <span>Grade ${escapeHtml(p.grade)}</span>
+          <span>₹${Number(p.askPrice)}/kg</span>
           <span class="offers-count">${p.offers} offer${p.offers !== 1 ? 's' : ''}</span>
           <span class="status-badge status-${p.status}">${p.status.toUpperCase()}</span>
         </div>
         <div class="produce-row-actions">
-          ${p.status !== 'sold' ? `<button class="small-button" onclick="viewFarmerOffers('${p.lotId}')">${btnOffers}</button>` : `<span class="sold-label">✓ SOLD</span>`}
-          <button class="small-button" onclick="generateBatchQR('${p.lotId}')">${btnQR}</button>
-          <button class="small-button" onclick="lookupAndShowQRRecord('${p.lotId}'); document.getElementById('qrScannerModal').classList.add('open')">${btnTrace}</button>
+          ${p.status !== 'sold' ? `<button class="small-button" onclick="viewFarmerOffers('${escapeHtml(p.lotId)}')">${btnOffers}</button>` : `<span class="sold-label">✓ SOLD</span>`}
+          <button class="small-button" onclick="generateBatchQR('${escapeHtml(p.lotId)}')">${btnQR}</button>
+          <button class="small-button" onclick="lookupAndShowQRRecord('${escapeHtml(p.lotId)}'); document.getElementById('qrScannerModal').classList.add('open')">${btnTrace}</button>
         </div>
       </div>
     `).join('');
@@ -1424,7 +1489,8 @@ function generateBatchQR(lotId) {
   const lotIdEl = document.getElementById('batchQRLotId');
   if (lotIdEl) lotIdEl.textContent = lotId;
   const qrContainer = document.getElementById('batchQRCode');
-  if (qrContainer) generateQRCode(`https://agritrace.io/verify/${lotId}`, qrContainer);
+  const targetUrl = `${window.location.origin}${window.location.pathname}#trace?lotId=${encodeURIComponent(lotId)}`;
+  if (qrContainer) generateQRCode(targetUrl, qrContainer);
   modal.classList.add('open');
   if (typeof showToast === 'function') showToast(`QR Code generated for ${lotId}`, 'success');
 }
@@ -1725,9 +1791,9 @@ function initHardhatLocalModal() {
     const modal = document.getElementById('hardhatModal');
     if (modal) {
       modal.classList.add('open');
-      const pts = typeof getAccountPoints === 'function' ? getAccountPoints() : 100000;
-      const ptsEl = document.getElementById('modalPointsVal');
-      if (ptsEl) ptsEl.textContent = pts.toLocaleString();
+      if (typeof updateWalletUI === 'function') {
+        updateWalletUI();
+      }
     }
   };
 
@@ -1737,23 +1803,19 @@ function initHardhatLocalModal() {
   const floatBtn = document.getElementById('floatHardhatBtn');
   if (floatBtn) floatBtn.addEventListener('click', openModal);
 
-  const copyKeyBtn = document.getElementById('copyPrivKeyBtn');
-  if (copyKeyBtn) {
-    copyKeyBtn.addEventListener('click', () => {
-      const key = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
-      navigator.clipboard.writeText(key).then(() => {
-        if (typeof showToast === 'function') showToast('Hardhat Local private key copied to clipboard!', 'success');
-      });
+  const closeBtn = document.getElementById('closeHardhatModalBtn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      const modal = document.getElementById('hardhatModal');
+      if (modal) modal.classList.remove('open');
     });
   }
 
-  const faucetBtn = document.getElementById('hardhatFaucetBtn');
-  if (faucetBtn) {
-    faucetBtn.addEventListener('click', () => {
-      if (typeof claimPointsFaucet === 'function') {
-        const total = claimPointsFaucet(25000);
-        const ptsEl = document.getElementById('modalPointsVal');
-        if (ptsEl) ptsEl.textContent = total.toLocaleString();
+  const connectBtn = document.getElementById('btnModalConnectMetaMask');
+  if (connectBtn) {
+    connectBtn.addEventListener('click', () => {
+      if (typeof connectWallet === 'function') {
+        connectWallet();
       }
     });
   }

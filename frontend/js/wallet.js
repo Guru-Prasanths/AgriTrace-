@@ -1,7 +1,8 @@
 /* =========================================================
    AgriTrace Wallet Integration
-   MetaMask + Ethers.js
+   Real MetaMask + Ethers.js v6 BrowserProvider
    Supports Hardhat Local (31337) and Sepolia (11155111)
+   No hardcoded private keys or simulated operator grants.
    ========================================================= */
 
 /* ---------------------------------------------------------
@@ -13,54 +14,9 @@ window.walletState = {
   account: null,
   chainId: null,
   connected: false,
-  accountName: null,
-  isHardhatLocal: false
+  balanceEth: null,
+  isOperator: false
 };
-
-
-/* ---------------------------------------------------------
-   HARDHAT LOCAL PRESET ACCOUNT & POINTS
-   Account name: Hardhat Local
-   Alternate to Sepolia with 100,000 abundant test points
-   --------------------------------------------------------- */
-
-const HARDHAT_LOCAL_ACCOUNT = {
-  name: "Hardhat Local",
-  address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-  privateKey: "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
-  chainIdHex: "0x7a69",
-  chainIdDec: 31337,
-  rpcUrl: "http://127.0.0.1:8545",
-  defaultPoints: 100000,
-  balanceEth: "10,000 ETH"
-};
-
-/* Points Tracking */
-function getAccountPoints(account = window.walletState.account) {
-  const isHardhat = !account || (account && account.toLowerCase() === HARDHAT_LOCAL_ACCOUNT.address.toLowerCase()) || window.walletState.isHardhatLocal;
-  const key = `agritrace_pts_${(account || "hardhat").toLowerCase()}`;
-  const stored = localStorage.getItem(key);
-  if (stored !== null) return parseInt(stored, 10);
-  const initial = isHardhat ? HARDHAT_LOCAL_ACCOUNT.defaultPoints : 25000;
-  localStorage.setItem(key, initial);
-  return initial;
-}
-
-function updateAccountPoints(delta, account = window.walletState.account) {
-  const current = getAccountPoints(account);
-  const updated = Math.max(0, current + delta);
-  const key = `agritrace_pts_${(account || "hardhat").toLowerCase()}`;
-  localStorage.setItem(key, updated);
-  updateWalletUI();
-  return updated;
-}
-
-function claimPointsFaucet(amount = 25000) {
-  const total = updateAccountPoints(amount);
-  showWalletToast(`🎁 Added +${amount.toLocaleString()} points to your account! Total: ${total.toLocaleString()} PTS`, "success");
-  return total;
-}
-
 
 /* ---------------------------------------------------------
    KNOWN CHAINS
@@ -71,12 +27,11 @@ const KNOWN_CHAINS = {
   "0xaa36a7": { name: "Sepolia",        id: 11155111, explorer: "https://sepolia.etherscan.io" }
 };
 
-/* Which chains are acceptable for AgriTrace */
+/* Acceptable chain IDs for AgriTrace */
 const ALLOWED_CHAIN_IDS = ["0x7a69", "0xaa36a7"];
 
-
 /* ---------------------------------------------------------
-   PROVIDER DETECTION (EIP-6963 + Multi-Injected Provider Support)
+   PROVIDER DETECTION (EIP-6963 + Injected Providers)
    --------------------------------------------------------- */
 
 let announcedProviders = [];
@@ -102,7 +57,7 @@ function getEthereumProvider() {
     return announcedProviders[0].provider;
   }
 
-  // 2. Multi-provider array (when other wallets like Phantom or Coinbase are installed alongside MetaMask)
+  // 2. Multi-provider array
   if (window.ethereum?.providers && Array.isArray(window.ethereum.providers)) {
     const mm = window.ethereum.providers.find(p => p.isMetaMask);
     if (mm) return mm;
@@ -122,9 +77,6 @@ function getEthereumProvider() {
   return null;
 }
 
-/**
- * Asynchronously wait for provider injection (Chrome MV3 extensions inject after DOM load)
- */
 async function waitForEthereumProvider(timeoutMs = 600) {
   const existing = getEthereumProvider();
   if (existing) return existing;
@@ -151,9 +103,8 @@ async function waitForEthereumProvider(timeoutMs = 600) {
   });
 }
 
-
 /* ---------------------------------------------------------
-   SHORTEN ADDRESS
+   HELPERS: SHORTEN ADDRESS & CHAIN INFO
    --------------------------------------------------------- */
 
 function shortAddress(address) {
@@ -161,14 +112,9 @@ function shortAddress(address) {
   return `${address.slice(0, 6)}…${address.slice(-4)}`;
 }
 
-
-/* ---------------------------------------------------------
-   CHAIN NAME LOOKUP
-   --------------------------------------------------------- */
-
 function chainName(hexChainId) {
   const info = KNOWN_CHAINS[hexChainId?.toLowerCase()];
-  return info ? info.name : `Unknown (${hexChainId})`;
+  return info ? info.name : `Unknown (${hexChainId || "none"})`;
 }
 
 function chainNumericId(hexChainId) {
@@ -186,89 +132,139 @@ function txExplorerLink(txHash) {
   return `${url}/tx/${txHash}`;
 }
 
-
-/* ---------------------------------------------------------
-   IS ACCEPTABLE CHAIN
-   --------------------------------------------------------- */
-
 function isAcceptableChain(hexChainId) {
   return ALLOWED_CHAIN_IDS.includes(hexChainId?.toLowerCase());
 }
 
+/* ---------------------------------------------------------
+   POINTS RESOLVER (AUTHORITATIVE FROM BACKEND PROFILE)
+   --------------------------------------------------------- */
+
+function getAccountPoints() {
+  // If user is authenticated in the Farmer/Seller portal, return actual points
+  if (window.agriCurrentUser && window.agriCurrentUser.points_balance !== undefined) {
+    return Number(window.agriCurrentUser.points_balance);
+  }
+  return 0;
+}
 
 /* ---------------------------------------------------------
    UPDATE UI ELEMENTS
-   Uses the actual element IDs from index.html:
-     #connectWalletBtn  – the wallet button
-     #networkBadge      – the network status badge
-     #footerNetwork     – the footer network label
    --------------------------------------------------------- */
 
-function updateWalletUI() {
-  const btn       = document.getElementById("connectWalletBtn");
-  const badge     = document.getElementById("networkBadge");
-  const footer    = document.getElementById("footerNetwork");
-  const ptsEl     = document.getElementById("accountPointsDisplay");
-  const floatPts  = document.getElementById("floatHardhatBtn");
-  const modalPts  = document.getElementById("modalPointsDisplay");
+async function updateWalletUI() {
+  const btn             = document.getElementById("connectWalletBtn");
+  const badge           = document.getElementById("networkBadge");
+  const footer          = document.getElementById("footerNetwork");
+  const modalAddress    = document.getElementById("modalConnectedAddress");
+  const modalChain      = document.getElementById("modalChainDisplay");
+  const modalBalance    = document.getElementById("modalBalanceDisplay");
+  const modalOpLabel    = document.getElementById("modalOperatorStatusLabel");
+  const ptsEl           = document.getElementById("accountPointsDisplay");
+  const floatPts        = document.getElementById("floatHardhatBtn");
 
-  const { account, chainId, connected, isHardhatLocal } = window.walletState;
-  const isHardhatAcc = isHardhatLocal || (account && account.toLowerCase() === HARDHAT_LOCAL_ACCOUNT.address.toLowerCase());
-  const points = getAccountPoints(account);
+  const { account, chainId, connected } = window.walletState;
+  const points = getAccountPoints();
 
-  /* -- Update points displays -- */
+  /* -- Update points badges if authenticated -- */
   if (ptsEl) ptsEl.textContent = `${points.toLocaleString()} PTS`;
   if (floatPts) floatPts.innerHTML = `⭐ ${points >= 1000 ? Math.floor(points / 1000) + "K" : points} PTS`;
-  if (modalPts) modalPts.textContent = `${points.toLocaleString()} AgriPoints`;
 
-  /* -- Wallet button -- */
+  /* -- Fetch real ETH balance if connected -- */
+  if (connected && account && window.ethers) {
+    try {
+      const ethereum = getEthereumProvider();
+      if (ethereum) {
+        const provider = new ethers.BrowserProvider(ethereum);
+        const balWei = await provider.getBalance(account);
+        const balEth = Number(ethers.formatEther(balWei)).toFixed(4);
+        window.walletState.balanceEth = `${balEth} ETH`;
+        if (modalBalanceDisplay) {
+          modalBalanceDisplay.textContent = `Balance: ${balEth} ETH`;
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch wallet balance:", e.message);
+    }
+  }
+
+  /* -- Check operator status on-chain -- */
+  if (connected && account && window.blockchain && typeof window.blockchain.isConnectedOperator === "function") {
+    try {
+      const isOp = await window.blockchain.isConnectedOperator();
+      window.walletState.isOperator = isOp;
+      if (modalOpLabel) {
+        if (isOp) {
+          modalOpLabel.innerHTML = `<span style="color:var(--green,#22c55e);font-weight:700;">✓ Smart-Contract Operator (Create, Verify & Sign Allowed)</span>`;
+        } else {
+          modalOpLabel.innerHTML = `<span style="color:var(--muted);font-weight:600;">Standard Wallet (View & Verify Only)</span>`;
+        }
+      }
+    } catch {
+      window.walletState.isOperator = false;
+    }
+  } else if (modalOpLabel) {
+    modalOpLabel.textContent = "Connect your MetaMask wallet to interact with on-chain records.";
+  }
+
+  /* -- Update Modal details -- */
+  if (modalAddress) {
+    modalAddress.textContent = connected && account ? account : "Not Connected";
+  }
+  if (modalChain) {
+    modalChain.textContent = connected && chainId ? chainName(chainId) : "Hardhat (31337)";
+  }
+
+  /* -- Wallet button in Nav -- */
   if (btn) {
     if (connected && account) {
-      const label = isHardhatAcc ? "⭐ Hardhat Local" : shortAddress(account);
       btn.innerHTML =
-        `<span>✦</span> ${label} <span class="wallet-pts-pill">${points >= 1000 ? Math.floor(points/1000) + 'K' : points}p</span>`;
+        `<span>🦊</span> ${shortAddress(account)} <span class="wallet-pts-pill" style="font-size:11px;background:rgba(30,56,44,0.1);">${window.walletState.isOperator ? 'OPERATOR' : 'CONNECTED'}</span>`;
       btn.classList.add("connected");
-      btn.title = `Connected: ${account} (${points.toLocaleString()} PTS)`;
+      btn.title = `Connected: ${account} on ${chainName(chainId)}`;
     } else {
       const connectText = (typeof t === 'function') ? t('wallet_connect') : 'Connect Wallet';
       btn.innerHTML = `<span class="wallet-btn-text" data-i18n="wallet_connect">${connectText}</span>`;
       btn.classList.remove("connected");
-      btn.title = "Connect MetaMask or AgriTrace Points Account";
+      btn.title = "Connect MetaMask Extension";
     }
   }
 
-  /* -- Network badge -- */
+  /* -- Network badge in Header -- */
   if (badge) {
-    const name = connected ? chainName(chainId) : "Hardhat Local (Offline)";
-    const ok   = connected && isAcceptableChain(chainId);
+    const ok = connected && isAcceptableChain(chainId);
+    const name = connected ? chainName(chainId) : "MetaMask Disconnected";
 
     badge.innerHTML = `
-      <span class="status-dot" style="background:${ok ? "var(--accent, #39ff88)" : "#39ff88"};"></span>
+      <span class="status-dot" style="background:${ok ? "var(--green,#22c55e)" : "#ef4444"};"></span>
       <span>${name}</span>
     `;
-    badge.title = "Click to open Hardhat Local & Network Switcher";
+    badge.title = "Click to open Network Selector";
   }
 
   /* -- Footer network label -- */
   if (footer) {
     if (connected && chainId) {
       const numId = chainNumericId(chainId);
-      footer.textContent = `${chainName(chainId).toUpperCase()} • CHAIN ${numId} • ${points.toLocaleString()} PTS`;
+      footer.textContent = `${chainName(chainId).toUpperCase()} • CHAIN ${numId}`;
     } else {
-      footer.textContent = `HARDHAT LOCAL • CHAIN 31337 • ${points.toLocaleString()} PTS`;
+      footer.textContent = `WALLET DISCONNECTED • CHAIN 31337 / 11155111`;
     }
+  }
+
+  // Refresh operator status tags in forms
+  if (typeof refreshOperatorStatus === "function") {
+    refreshOperatorStatus();
   }
 }
 
-
 /* ---------------------------------------------------------
-   CONNECT WALLET
+   CONNECT WALLET (GENUINE METAMASK EXTENSION CALL)
    --------------------------------------------------------- */
 
 async function connectWallet() {
   let ethereum = getEthereumProvider();
 
-  // If not immediately available, wait briefly for async injection from extension
   if (!ethereum) {
     ethereum = await waitForEthereumProvider(600);
   }
@@ -278,10 +274,10 @@ async function connectWallet() {
     if (isFileUrl) {
       const goToLocal = confirm(
         "🦊 MetaMask Connection Notice:\n\n" +
-        "Google Chrome blocks wallet extensions (MetaMask) on 'file:///' URLs for security.\n\n" +
-        "Please open AgriTrace using an HTTP server:\n" +
-        "• Option 1: http://localhost:5500 (Live Server)\n" +
-        "• Option 2: http://localhost:4001 (AgriTrace Backend)\n\n" +
+        "Chrome blocks wallet extensions on 'file:///' URLs for security.\n\n" +
+        "Please open AgriTrace via a local web server:\n" +
+        "• http://localhost:5500 (Live Server)\n" +
+        "• http://localhost:4001 (AgriTrace Backend)\n\n" +
         "Click OK to open http://localhost:4001 now!"
       );
       if (goToLocal) {
@@ -290,12 +286,11 @@ async function connectWallet() {
       }
     } else {
       showWalletToast(
-        "MetaMask was not detected in this browser tab. Please ensure MetaMask extension is installed and active.",
+        "MetaMask was not detected in this browser. Please ensure the MetaMask extension is installed and enabled.",
         "error"
       );
     }
 
-    // Automatically open the AgriTrace Points & Network modal for 1-click connection
     const modal = document.getElementById("hardhatModal");
     if (modal) modal.classList.add("open");
 
@@ -303,14 +298,14 @@ async function connectWallet() {
   }
 
   try {
-    showWalletToast("🦊 Opening MetaMask... Please check your side panel / extension popup to approve.", "info");
+    showWalletToast("🦊 Requesting MetaMask connection… Check the MetaMask extension window.", "info");
 
     const accounts = await ethereum.request({
       method: "eth_requestAccounts"
     });
 
     if (!accounts || accounts.length === 0) {
-      showWalletToast("No wallet account was selected in MetaMask.", "error");
+      showWalletToast("No account was selected in MetaMask.", "error");
       return null;
     }
 
@@ -321,13 +316,15 @@ async function connectWallet() {
     window.walletState.account   = accounts[0];
     window.walletState.chainId   = chainId;
     window.walletState.connected = true;
-    window.walletState.isHardhatLocal = false;
 
-    updateWalletUI();
+    // Attach event listeners for account/network changes
+    attachWalletListeners(ethereum);
+
+    await updateWalletUI();
 
     if (!isAcceptableChain(chainId)) {
       showWalletToast(
-        "Please switch your wallet to Sepolia or Hardhat Local in MetaMask.",
+        `Connected to unsupported network (${chainName(chainId)}). Please switch to Hardhat Local (31337) or Sepolia (11155111).`,
         "warning"
       );
     } else {
@@ -337,6 +334,10 @@ async function connectWallet() {
       );
     }
 
+    // Close modal if open
+    const modal = document.getElementById("hardhatModal");
+    if (modal) modal.classList.remove("open");
+
     return accounts[0];
 
   } catch (error) {
@@ -345,27 +346,53 @@ async function connectWallet() {
     if (error.code === 4001) {
       showWalletToast("MetaMask connection request was cancelled.", "error");
     } else if (error.code === -32002) {
-      showWalletToast("🦊 MetaMask is already open in your side panel or toolbar waiting for approval! Click the MetaMask icon to finish connecting.", "warning");
+      showWalletToast("🦊 MetaMask popup is already pending approval! Click the MetaMask icon in your browser toolbar.", "warning");
     } else {
-      showWalletToast("Unable to connect to MetaMask: " + (error.message || ""), "error");
+      showWalletToast("Could not connect MetaMask: " + (error.message || error), "error");
     }
 
     return null;
   }
 }
 
+let listenersAttached = false;
+function attachWalletListeners(ethereum) {
+  if (listenersAttached || !ethereum) return;
+  listenersAttached = true;
+
+  if (typeof ethereum.on === "function") {
+    ethereum.on("accountsChanged", (accounts) => {
+      if (!accounts || accounts.length === 0) {
+        disconnectWallet();
+        showWalletToast("MetaMask account disconnected.", "info");
+      } else {
+        window.walletState.account = accounts[0];
+        window.walletState.connected = true;
+        updateWalletUI();
+        showWalletToast(`MetaMask switched account: ${shortAddress(accounts[0])}`, "info");
+      }
+    });
+
+    ethereum.on("chainChanged", (hexChainId) => {
+      window.walletState.chainId = hexChainId;
+      updateWalletUI();
+      showWalletToast(`Switched network to ${chainName(hexChainId)}`, "info");
+    });
+  }
+}
 
 /* ---------------------------------------------------------
-   DISCONNECT (reset state)
+   DISCONNECT (RESET CLIENT STATE)
    --------------------------------------------------------- */
 
 function disconnectWallet() {
   window.walletState.account   = null;
   window.walletState.chainId   = null;
   window.walletState.connected = false;
+  window.walletState.balanceEth = null;
+  window.walletState.isOperator = false;
   updateWalletUI();
 }
-
 
 /* ---------------------------------------------------------
    SWITCH TO SEPOLIA
@@ -381,7 +408,7 @@ async function switchToSepolia() {
   try {
     await ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0xaa36a7" }]
+      params: [{ chainId: "0xaa36a7" }] // 11155111
     });
 
     showWalletToast("Switched to Sepolia Testnet (Chain 11155111).", "success");
@@ -392,7 +419,7 @@ async function switchToSepolia() {
 
     if (error.code === 4902) {
       showWalletToast(
-        "Sepolia is not available in this wallet. Please enable Sepolia test network in MetaMask settings.",
+        "Sepolia is not enabled in this wallet. Please enable test networks in MetaMask settings.",
         "error"
       );
     } else if (error.code === 4001) {
@@ -405,18 +432,15 @@ async function switchToSepolia() {
   }
 }
 
-
 /* ---------------------------------------------------------
    SWITCH TO HARDHAT LOCAL
-   Allows MetaMask to access Hardhat Local alternate to Sepolia
    --------------------------------------------------------- */
 
 async function switchToHardhatLocal() {
   const ethereum = getEthereumProvider();
   if (!ethereum) {
-    // If no MetaMask in browser, activate preset Hardhat Local account directly
-    connectHardhatLocalAccount();
-    return true;
+    showWalletToast("MetaMask was not detected. Please install MetaMask to switch networks.", "error");
+    return false;
   }
 
   try {
@@ -431,21 +455,19 @@ async function switchToHardhatLocal() {
   } catch (error) {
     console.warn("Hardhat local switch check:", error);
 
-    // 4902 error code indicates chain has not been added to MetaMask
     if (error.code === 4902 || error?.data?.originalError?.code === 4902 || String(error?.message).includes("Unrecognized chain ID")) {
       return await addHardhatLocalChain();
     } else if (error.code === 4001) {
       showWalletToast("Network switch to Hardhat Local was rejected.", "error");
       return false;
     } else {
-      // Fallback try adding chain directly
       return await addHardhatLocalChain();
     }
   }
 }
 
 /* ---------------------------------------------------------
-   ADD HARDHAT LOCAL TO METAMASK
+   ADD HARDHAT LOCAL CHAIN TO METAMASK
    --------------------------------------------------------- */
 
 async function addHardhatLocalChain() {
@@ -485,54 +507,7 @@ async function addHardhatLocalChain() {
 }
 
 /* ---------------------------------------------------------
-   CONNECT AS HARDHAT LOCAL ACCOUNT
-   Direct 1-Click Access with 100,000 Points & Full Permissions
-   --------------------------------------------------------- */
-
-function connectHardhatLocalAccount() {
-  window.walletState.account = HARDHAT_LOCAL_ACCOUNT.address;
-  window.walletState.chainId = HARDHAT_LOCAL_ACCOUNT.chainIdHex;
-  window.walletState.connected = true;
-  window.walletState.isHardhatLocal = true;
-  window.walletState.accountName = HARDHAT_LOCAL_ACCOUNT.name;
-
-  localStorage.setItem("agritrace_preferred_account", "hardhat_local");
-  updateWalletUI();
-
-  const pts = getAccountPoints(HARDHAT_LOCAL_ACCOUNT.address);
-  showWalletToast(`⭐ Connected as ${HARDHAT_LOCAL_ACCOUNT.name}! Available Balance: ${pts.toLocaleString()} Points (${HARDHAT_LOCAL_ACCOUNT.balanceEth})`, "success");
-
-  // Refresh operator status if available
-  if (typeof refreshOperatorStatus === "function") {
-    refreshOperatorStatus();
-  }
-
-  // Close modal if open
-  const modal = document.getElementById("hardhatModal");
-  if (modal) modal.classList.remove("open");
-
-  return HARDHAT_LOCAL_ACCOUNT.address;
-}
-
-/* Copy Hardhat Local Private Key to Clipboard */
-function copyHardhatPrivateKey() {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(HARDHAT_LOCAL_ACCOUNT.privateKey)
-      .then(() => {
-        showWalletToast("Copied Hardhat Local private key to clipboard! Import into MetaMask under Account -> Import Account.", "success");
-      })
-      .catch(() => {
-        prompt("Copy Hardhat Local Private Key:", HARDHAT_LOCAL_ACCOUNT.privateKey);
-      });
-  } else {
-    prompt("Copy Hardhat Local Private Key:", HARDHAT_LOCAL_ACCOUNT.privateKey);
-  }
-}
-
-
-/* ---------------------------------------------------------
    WALLET READY CHECK
-   Used by app.js to gate blockchain operations.
    --------------------------------------------------------- */
 
 function walletReady() {
@@ -544,159 +519,96 @@ function walletReady() {
   );
 }
 
-
 /* ---------------------------------------------------------
    TOAST HELPER
-   Uses the existing AgriTrace toast (#toast).
-   wallet.js loads before app.js, so showToast may not exist
-   yet. We use the toast DOM directly as fallback.
    --------------------------------------------------------- */
 
-function showWalletToast(message, type) {
+function showWalletToast(msg, type = "info") {
   if (typeof showToast === "function") {
-    showToast(message, type);
+    showToast(msg, type);
     return;
   }
 
-  /* Fallback: use the toast element directly */
   const toast = document.getElementById("toast");
-
-  if (toast) {
-    const titleEl   = document.getElementById("toastTitle");
-    const messageEl = document.getElementById("toastMessage");
-
-    if (titleEl)   titleEl.textContent   = "AgriTrace";
-    if (messageEl) messageEl.textContent = message;
-
-    toast.className = `toast show ${type || "success"}`;
-
-    clearTimeout(showWalletToast._timer);
-    showWalletToast._timer = setTimeout(() => {
-      toast.className = "toast";
-    }, 5500);
-  } else {
-    console.log(`[wallet:${type}] ${message}`);
+  if (!toast) {
+    console.log(`[${type.toUpperCase()}] ${msg}`);
+    return;
   }
+
+  toast.textContent = msg;
+  toast.className = `toast ${type}`;
+  toast.style.display = "block";
+
+  clearTimeout(showWalletToast._timer);
+  showWalletToast._timer = setTimeout(() => {
+    toast.style.display = "none";
+  }, 4500);
 }
 
-
 /* ---------------------------------------------------------
-   METAMASK EVENT LISTENERS
+   INITIALIZATION
    --------------------------------------------------------- */
 
-function setupWalletListeners() {
+document.addEventListener("DOMContentLoaded", async () => {
+  // Bind wallet connect buttons
+  const btn = document.getElementById("connectWalletBtn");
+  if (btn) btn.addEventListener("click", connectWallet);
+
+  const modalConnectBtn = document.getElementById("btnModalConnectMetaMask");
+  if (modalConnectBtn) modalConnectBtn.addEventListener("click", connectWallet);
+
+  // Bind network switch buttons
+  const btnHardhat = document.getElementById("btnSwitchToHardhat");
+  if (btnHardhat) btnHardhat.addEventListener("click", switchToHardhatLocal);
+
+  const btnSepolia = document.getElementById("btnSwitchToSepolia");
+  if (btnSepolia) btnSepolia.addEventListener("click", switchToSepolia);
+
+  // Network badge in header opens network modal
+  const badge = document.getElementById("networkBadge");
+  if (badge) {
+    badge.addEventListener("click", () => {
+      const modal = document.getElementById("hardhatModal");
+      if (modal) modal.classList.add("open");
+    });
+  }
+
+  // Check if provider is already unlocked
   const ethereum = getEthereumProvider();
-  if (!ethereum) return;
-
-  ethereum.on("accountsChanged", (accounts) => {
-    if (!accounts || accounts.length === 0) {
-      disconnectWallet();
-      showWalletToast("Wallet disconnected.", "error");
-      return;
-    }
-
-    window.walletState.account = accounts[0];
-    window.walletState.isHardhatLocal = accounts[0].toLowerCase() === HARDHAT_LOCAL_ACCOUNT.address.toLowerCase();
-    updateWalletUI();
-    showWalletToast(`Account changed: ${shortAddress(accounts[0])}`, "success");
-  });
-
-  ethereum.on("chainChanged", (chainId) => {
-    window.walletState.chainId = chainId;
-    updateWalletUI();
-
-    if (!isAcceptableChain(chainId)) {
-      showWalletToast(
-        "Please switch your wallet to Sepolia or Hardhat Local.",
-        "error"
-      );
-    } else {
-      showWalletToast(`Network changed to ${chainName(chainId)}.`, "success");
-    }
-  });
-}
-
-
-/* ---------------------------------------------------------
-   DOM READY — bind wallet button & listeners
-   --------------------------------------------------------- */
-
-document.addEventListener("DOMContentLoaded", () => {
-  setupWalletListeners();
-
-  // Show notice if running under file:/// where browser extensions are restricted
-  if (typeof window !== "undefined" && window.location.protocol === "file:") {
-    const fileNotice = document.getElementById("fileUrlMetaMaskNotice");
-    if (fileNotice) fileNotice.style.display = "block";
-  }
-
-  // Auto-connect if user previously selected Hardhat Local
-  if (localStorage.getItem("agritrace_preferred_account") === "hardhat_local") {
-    connectHardhatLocalAccount();
-  }
-
-  const connectBtn = document.getElementById("connectWalletBtn");
-  if (connectBtn) {
-    connectBtn.addEventListener("click", async () => {
-      if (window.walletState.connected) {
-        /* If clicking connected wallet, open network & account modal for easy access */
-        const modal = document.getElementById("hardhatModal");
-        if (modal) {
-          modal.classList.add("open");
-        } else {
-          disconnectWallet();
-          showWalletToast("Wallet disconnected.", "success");
-        }
-      } else {
-        await connectWallet();
+  if (ethereum && typeof ethereum.request === "function") {
+    try {
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+      if (accounts && accounts.length > 0) {
+        const chainId = await ethereum.request({ method: "eth_chainId" });
+        window.walletState.account = accounts[0];
+        window.walletState.chainId = chainId;
+        window.walletState.connected = true;
+        attachWalletListeners(ethereum);
       }
-    });
+    } catch (e) {
+      console.warn("Silent wallet check:", e.message);
+    }
   }
 
-  // Network badge click also opens the Hardhat Local & Network Switcher
-  const networkBadge = document.getElementById("networkBadge");
-  if (networkBadge) {
-    networkBadge.style.cursor = "pointer";
-    networkBadge.addEventListener("click", () => {
-      const modal = document.getElementById("hardhatModal");
-      if (modal) modal.classList.toggle("open");
-    });
-  }
-
-  // Hardhat Local button in nav
-  const hardhatBtn = document.getElementById("hardhatAccountBtn");
-  if (hardhatBtn) {
-    hardhatBtn.addEventListener("click", () => {
-      const modal = document.getElementById("hardhatModal");
-      if (modal) modal.classList.toggle("open");
-    });
-  }
+  updateWalletUI();
 });
 
-
 /* ---------------------------------------------------------
-   PUBLIC API
-   Exposed on window.wallet for app.js and blockchain.js
+   EXPORTS ON WINDOW
    --------------------------------------------------------- */
 
 window.wallet = {
+  walletState: window.walletState,
   connectWallet,
   disconnectWallet,
   switchToSepolia,
   switchToHardhatLocal,
-  addHardhatLocalChain,
-  connectHardhatLocalAccount,
-  copyHardhatPrivateKey,
-  getAccountPoints,
-  updateAccountPoints,
-  claimPointsFaucet,
-  HARDHAT_LOCAL_ACCOUNT,
   walletReady,
   shortAddress,
-  getEthereumProvider,
-  updateWalletUI,
   chainName,
+  chainNumericId,
   isAcceptableChain,
   txExplorerLink,
-  getExplorerUrl
+  updateWalletUI,
+  getAccountPoints
 };
