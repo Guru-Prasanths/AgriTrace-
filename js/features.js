@@ -790,8 +790,21 @@ function initVoiceAssistant() {
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
       panel.classList.remove('open');
+      panel.classList.remove('is-minimized');
       stopSpeaking();
       stopListening();
+    });
+  }
+
+  const voiceMinimizeBtn = document.getElementById('voiceMinimizeBtn');
+  if (voiceMinimizeBtn) {
+    voiceMinimizeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      panel.classList.toggle('is-minimized');
+      const icon = document.getElementById('voiceMinimizeIcon');
+      if (icon) {
+        icon.textContent = panel.classList.contains('is-minimized') ? '🗖' : '🗕';
+      }
     });
   }
 
@@ -921,7 +934,7 @@ function initClearTextView() {
   const mClearBtn = document.getElementById('m-clearTextViewBtn');
   if (mClearBtn) mClearBtn.addEventListener('click', () => toggleClearTextView());
 
-  // Font Size Stepper Buttons
+  // Font Size Stepper Buttons (if present)
   const fontDec = document.getElementById('fontDecBtn');
   const fontReset = document.getElementById('fontResetBtn');
   const fontInc = document.getElementById('fontIncBtn');
@@ -929,6 +942,44 @@ function initClearTextView() {
   if (fontDec) fontDec.addEventListener('click', () => setTextSize('small'));
   if (fontReset) fontReset.addEventListener('click', () => setTextSize('default'));
   if (fontInc) fontInc.addEventListener('click', () => setTextSize('large'));
+
+  // Floating Toolbar Controls (Dismiss / Reopen / Translate / Builder)
+  const floatBar = document.getElementById('accessibilityToolbar');
+  const floatDismissBtn = document.getElementById('floatDismissBtn');
+  const floatReopenBtn = document.getElementById('floatReopenBtn');
+  const floatTranslateBtn = document.getElementById('floatTranslateBtn');
+  const floatBuilderBtn = document.getElementById('floatBuilderBtn');
+
+  if (floatDismissBtn && floatBar && floatReopenBtn) {
+    floatDismissBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      floatBar.style.display = 'none';
+      floatReopenBtn.style.display = 'inline-flex';
+    });
+
+    floatReopenBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      floatBar.style.display = 'flex';
+      floatReopenBtn.style.display = 'none';
+    });
+  }
+
+  if (floatTranslateBtn) {
+    floatTranslateBtn.addEventListener('click', () => {
+      const allLangBtn = document.getElementById('allLangModalBtn');
+      if (allLangBtn) allLangBtn.click();
+    });
+  }
+
+  if (floatBuilderBtn) {
+    floatBuilderBtn.addEventListener('click', () => {
+      const footerBtn = document.getElementById('footerBuilderProfileBtn');
+      if (footerBtn) {
+        footerBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        footerBtn.click();
+      }
+    });
+  }
 }
 
 /* =========================================================
@@ -2114,10 +2165,10 @@ function initFloatingPopNav() {
     }
   }
 
-  // Ensure default state: OPEN on load without touching anything
+  // Ensure default state: OPEN on initial load
   openMenu();
 
-  // Toggle button click (when minimized)
+  // Toggle button click (when minimized to reopen)
   toggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     openMenu();
@@ -2132,7 +2183,7 @@ function initFloatingPopNav() {
     });
   }
 
-  // Close on Escape key press (optional accessibility shortcut)
+  // Close on Escape key press
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !panel.classList.contains('is-closed')) {
       e.preventDefault();
@@ -2141,16 +2192,48 @@ function initFloatingPopNav() {
     }
   });
 
-  // Navigation item selection: smoothly navigate to section without hiding the navigation bar
+  // Automatic Navigation Collapse on interacting outside
+  document.addEventListener('click', (e) => {
+    if (!panel.classList.contains('is-closed')) {
+      if (!panel.contains(e.target) && !toggleBtn.contains(e.target)) {
+        closeMenu();
+      }
+    }
+  });
+
+  // Automatic Collapse when clicking any section or main page content
+  document.querySelectorAll('section, main, header, footer').forEach(container => {
+    container.addEventListener('click', (e) => {
+      if (!panel.classList.contains('is-closed')) {
+        if (!panel.contains(e.target) && !toggleBtn.contains(e.target)) {
+          closeMenu();
+        }
+      }
+    });
+  });
+
+  // Navigation item selection: smoothly navigate and auto-collapse navigation
   dockLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
         e.preventDefault();
         navigateToSection(href);
+        closeMenu();
       }
     });
   });
+
+  // Automatic Collapse when any modal opens
+  if ('MutationObserver' in window) {
+    const modalObserver = new MutationObserver(() => {
+      const anyOpenModal = document.querySelector('.open, .feat-modal.open, .tn-modal-backdrop.open, .voice-panel.open');
+      if (anyOpenModal && !panel.classList.contains('is-closed')) {
+        closeMenu();
+      }
+    });
+    modalObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  }
 
   // Enable mouse-wheel horizontal scrolling on scroll rows
   scrollRows.forEach(row => {
@@ -2163,7 +2246,7 @@ function initFloatingPopNav() {
   });
 
   // IntersectionObserver for scroll spy active states
-  const sectionIds = ['home', 'dashboard', 'records', 'prices', 'sensors', 'farmer', 'seller', 'consumer', 'kaggle'];
+  const sectionIds = ['home', 'dashboard', 'records', 'prices', 'sensors', 'farmer', 'seller', 'consumer', 'datasets', 'documentation'];
   const sections = sectionIds
     .map(id => document.getElementById(id))
     .filter(Boolean);
@@ -2254,9 +2337,35 @@ function initOfflineResilience() {
   }
 }
 
+// ---------------------------------------------------------
+// Uiverse.io Leaf Decorative Button Animation Controller
+// ---------------------------------------------------------
+function initUiverseLeafButtons() {
+  const leafSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+    <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+  </svg>`;
+
+  document.querySelectorAll('.agri-animated-btn').forEach(btn => {
+    if (!btn.querySelector('.icon-container')) {
+      const container = document.createElement('div');
+      container.className = 'icon-container';
+      for (let i = 1; i <= 5; i++) {
+        const iconDiv = document.createElement('div');
+        iconDiv.className = `icon icon-${i}`;
+        iconDiv.innerHTML = leafSvg;
+        container.appendChild(iconDiv);
+      }
+      btn.appendChild(container);
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Accessibility & Clear Text & Text Sizing
   initClearTextView();
+
+  // 1b. Uiverse.io Leaf Animation Buttons
+  initUiverseLeafButtons();
 
   // 2. Voice Assistant
   initVoiceAssistant();

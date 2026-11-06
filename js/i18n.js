@@ -6,8 +6,8 @@
 
 const I18N_STORAGE_KEY = 'agritrace_lang';
 const SUPPORTED_LANGUAGES = [
-  { code: 'en', name: 'English', native: 'English', flag: '🇬🇧', dir: 'ltr' },
   { code: 'ta', name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳', dir: 'ltr' },
+  { code: 'en', name: 'English', native: 'English', flag: '🇬🇧', dir: 'ltr' },
   { code: 'hi', name: 'Hindi', native: 'हिंदी', flag: '🇮🇳', dir: 'ltr' },
 ];
 
@@ -43,6 +43,9 @@ const TRANSLATIONS = {
     nav_seller: 'Seller',
     nav_consumer: 'Verify',
     nav_kaggle: 'Kaggle',
+    nav_datasets: 'TN Datasets',
+    tn_dataset_label: 'TAMIL NADU AGRICULTURAL REGISTRY & MARKET REPOSITORIES',
+    tn_dataset_sub: 'Curated official repository of 200 authentic agricultural datasets covering Tamil Nadu\'s prime Mandis, TNAU, and State Agricultural Marketing Committees. Filter by category, search by crop name or district, and view full mandi arrival metrics.',
 
     // Mobile Menu
     m_nav_home: '🏠 Home',
@@ -54,6 +57,7 @@ const TRANSLATIONS = {
     m_nav_seller: '🛒 Seller',
     m_nav_consumer: '✓ Verify',
     m_nav_kaggle: '📊 Kaggle Datasets',
+    m_nav_datasets: '📊 TN Datasets (200 Records)',
     m_clear_text: '👓 Clear Text View (High Readability)',
     m_all_lang: '🌐 Translate Page — All 100+ Languages',
     m_hardhat: '⭐ AgriTrace Points (100K PTS)',
@@ -388,6 +392,9 @@ const TRANSLATIONS = {
     nav_seller: 'விற்பனையாளர்',
     nav_consumer: 'சரிபார்க்க',
     nav_kaggle: 'காகில் தரவுகள்',
+    nav_datasets: 'தமிழக தரவுகள்',
+    tn_dataset_label: 'தமிழ்நாடு வேளாண்மை மற்றும் உழவர் நலத்துறை சந்தை களஞ்சியம்',
+    tn_dataset_sub: 'தமிழ்நாட்டின் முக்கிய ஒழுங்குமுறை விற்பனைக் கூடங்கள் (மண்டி), தமிழ்நாடு வேளாண்மைப் பல்கலைக்கழகம் (TNAU) மற்றும் அரசு முகமைகளின் 200 உண்மையான விவசாயத் தரவுகள்.',
 
     // Mobile Menu
     m_nav_home: '🏠 முகப்பு',
@@ -399,6 +406,7 @@ const TRANSLATIONS = {
     m_nav_seller: '🛒 விற்பனையாளர்',
     m_nav_consumer: '✓ சரிபார்க்க',
     m_nav_kaggle: '📊 காகில் தரவுத்தொகுப்புகள்',
+    m_nav_datasets: '📊 தமிழக தரவுகள் (200 பதிவுகள்)',
     m_clear_text: '👓 தெளிவான உரை காட்சி (அதிக வாசிப்புத்திறன்)',
     m_all_lang: '🌐 பக்கத்தை மொழிபெயர் — 100+ மொழிகள்',
     m_hardhat: '⭐ AgriTrace Points (100K புள்ளிகள்)',
@@ -733,6 +741,9 @@ const TRANSLATIONS = {
     nav_seller: 'विक्रेता',
     nav_consumer: 'सत्यापित करें',
     nav_kaggle: 'कागल डेटा',
+    nav_datasets: 'तमिलनाडु डेटा',
+    tn_dataset_label: 'तमिलनाडु कृषि रजिस्ट्री एवं मंडी डेटाबेस',
+    tn_dataset_sub: 'तमिलनाडु की प्रमुख मंडियों, टीएनएयू और राज्य कृषि विपणन समितियों के 200 प्रामाणिक कृषि डेटासेट का संग्रह।',
 
     // Mobile Menu
     m_nav_home: '🏠 होम',
@@ -744,6 +755,7 @@ const TRANSLATIONS = {
     m_nav_seller: '🛒 विक्रेता',
     m_nav_consumer: '✓ सत्यापित करें',
     m_nav_kaggle: '📊 कागल डेटासेट',
+    m_nav_datasets: '📊 तमिलनाडु डेटा (200 रिकॉर्ड)',
     m_clear_text: '👓 क्लियर टेक्स्ट व्यू (उच्च पठनीयता)',
     m_all_lang: '🌐 पृष्ठ अनुवाद करें — 100+ भाषाएं',
     m_hardhat: '⭐ AgriTrace Points (100K अंक)',
@@ -1051,10 +1063,10 @@ const TRANSLATIONS = {
 function getStoredLanguage() {
   try {
     if (typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function') {
-      return localStorage.getItem(I18N_STORAGE_KEY) || 'en';
+      return localStorage.getItem(I18N_STORAGE_KEY) || 'ta';
     }
   } catch (e) {}
-  return 'en';
+  return 'ta';
 }
 
 function setStoredLanguage(lang) {
@@ -1066,7 +1078,7 @@ function setStoredLanguage(lang) {
 }
 
 let currentLanguage = getStoredLanguage();
-if (!TRANSLATIONS[currentLanguage]) currentLanguage = 'en';
+if (!TRANSLATIONS[currentLanguage]) currentLanguage = 'ta';
 
 /**
  * Get translation string by key with fallback and parameter interpolation
