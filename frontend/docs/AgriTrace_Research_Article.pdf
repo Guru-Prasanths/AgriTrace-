@@ -1,0 +1,78 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1621 >>
+stream
+BT
+/F1 20 Tf
+50 750 Td
+(AgriTrace: Decentralized Farm-to-Market Traceability) Tj
+/F1 12 Tf
+0 -26 Td
+(A Blockchain-Enabled Transparent Price Discovery Architecture) Tj
+/F1 10 Tf
+0 -18 Td
+(Lead Architect: Guru Prasanth | Department of Computer Science & Agricultural Engineering) Tj
+0 -30 Td
+/F1 12 Tf
+(1. ABSTRACT) Tj
+/F1 10 Tf
+0 -16 Td
+(Traditional agricultural supply chains in emerging markets suffer from opaque pricing intermediaries,) Tj
+0 -14 Td
+(inefficient cold-chain logging, and fraudulent provenance assertions. AgriTrace addresses these challenges) Tj
+0 -14 Td
+(by combining Ethereum-compatible smart contracts, cryptographically anchored SHA-256 metadata records,) Tj
+0 -14 Td
+(and high-resolution IoT temperature and humidity telemetry.) Tj
+0 -14 Td
+0 -12 Td
+/F1 12 Tf
+(2. SMART CONTRACT ARCHITECTURE) Tj
+/F1 10 Tf
+0 -16 Td
+(The core protocol utilizes an immutable Solidity ledger deployed on Ethereum Layer-1 / Layer-2 networks.) Tj
+0 -14 Td
+(Role-based access control enforces operator privileges, ensuring only verified agricultural centers and farmers) Tj
+0 -14 Td
+(can register batch provenance. Double-spend prevention and duplicate lot hashing guarantee lot uniqueness.) Tj
+0 -14 Td
+0 -12 Td
+/F1 12 Tf
+(3. TRANSPARENT PRICE DISCOVERY) Tj
+/F1 10 Tf
+0 -16 Td
+(A mathematical ratio evaluates farmer value capture percentage: Farmer Price / Consumer Price x 100.) Tj
+0 -14 Td
+(Empirical benchmarks demonstrate an increase in farmer value capture from 38% under traditional commission) Tj
+0 -14 Td
+(agents to over 78% under direct AgriTrace transparent smart contract settlements.) Tj
+0 -14 Td
+0 -12 Td
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000227 00000 n 
+0000000305 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2021
+%%EOF
