@@ -1,224 +1,269 @@
 /* =========================================================
-   AGRITRACE — PROJECT ALGORITHM ANIMATION
-   Uiverse.io by Praashoo7
-   Interactive card animation showcasing the Farm-to-Fork
-   batch algorithm with dynamic hover expansion & graphic.
+   AGRITRACE — INTELLIGENT ALGORITHM CARD & VIDEO ANIMATION
+   Clean, vertically balanced, professional layout:
+   1. 16:9 Video Player (Autoplay, Loop, Muted, Playsinline, Poster)
+   2. Heading: AgriTrace Algorithm
+   3. Status Label: Blockchain Traceability (100% Immutable)
+   4. Explore Protocol Button
+   5. View On-Chain Button
+   6. Description: Farm-to-Fork Batch Traceability & Fair Price Escrow
+   Botanical design system: cream paper, forest green & clay accents
    ========================================================= */
 
 .hero-workflow-container {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  min-height: 480px;
 }
 
-.praashoo7-wrapper {
+/* Card Outer Shell */
+.agritrace-algorithm-card {
   position: relative;
   width: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f0 100%);
+  border: 1.5px solid rgba(212, 208, 189, 0.7);
+  border-radius: 28px;
+  padding: 18px 20px 22px;
+  box-shadow: 
+    0 20px 48px rgba(30, 56, 44, 0.1),
+    0 4px 14px rgba(30, 56, 44, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  min-height: 460px;
-  padding: 30px 0;
-  perspective: 1000px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* From Uiverse.io by Praashoo7 */
-.praashoo7-wrapper .card {
+.agritrace-algorithm-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 28px 60px rgba(30, 56, 44, 0.14),
+    0 8px 20px rgba(30, 56, 44, 0.07);
+}
+
+/* 1. Video / Media Area (16:9 Aspect Ratio) */
+.algorithm-media-wrap {
   position: relative;
-  top: 2em;
-  width: 13.5em;
-  height: 7.5em;
-  background: #ffffff;
-  transition: .4s ease-in-out;
-  border-radius: 18px;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
   overflow: hidden;
-  border: 1.5px solid rgba(212, 208, 189, 0.6);
-  z-index: 2;
-  cursor: pointer;
+  background: #091711;
+  box-shadow: 0 6px 20px rgba(11, 26, 19, 0.2);
+  border: 1px solid rgba(212, 208, 189, 0.45);
 }
 
-.praashoo7-wrapper .heading {
-  position: relative;
-  color: #181818;
-  font-weight: 800;
-  font-size: 1.15em;
-  padding-top: 1em;
-  padding-left: 1.1em;
-  transition: .4s ease-in-out;
-  margin: 0;
-  line-height: 1.2;
+.algorithm-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  background: #091711;
+}
+
+.algorithm-fallback-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.algorithm-media-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.media-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(9, 23, 17, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* 2. Heading: AgriTrace Algorithm */
+.algorithm-heading {
+  font-family: var(--dp-font-serif, "EB Garamond", Georgia, serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: #162a20;
+  margin: 16px 0 6px 0;
+  text-align: center;
+  line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
-.praashoo7-wrapper .details {
-  position: relative;
-  color: #555555;
-  font-size: 0.65em;
-  padding-top: 1.2em;
-  padding-left: 1.9em;
-  padding-right: 1.5em;
-  transition: .4s ease-in-out;
-  margin: 0;
-  line-height: 1.45;
-}
-
-.praashoo7-wrapper .price {
-  position: absolute;
-  color: #059669;
-  font-weight: 800;
-  font-size: 0.85em;
-  padding-left: 1.5em;
-  top: 9.6em;
-  left: 1.8em;
-  transition: .4s ease-in-out;
-  margin: 0;
-  letter-spacing: 0.02em;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.praashoo7-wrapper .btn1 {
-  position: absolute;
-  border: none;
-  outline: none;
-  background-color: #181818;
-  color: #ffffff;
-  font-size: 0.62em;
-  padding-left: 2.4em;
-  padding-right: 2.4em;
-  padding-top: 0.85em;
-  padding-bottom: 0.85em;
-  border-radius: 10px;
-  left: 2.6em;
-  top: 14.8em;
-  transition: .4s ease-in-out;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.praashoo7-wrapper .btn1:hover {
-  background-color: limegreen;
-  color: #181818;
-  cursor: pointer;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(50, 205, 50, 0.4);
-}
-
-.praashoo7-wrapper .btn2 {
-  position: absolute;
-  border: none;
-  outline: none;
-  background-color: #181818;
-  color: #ffffff;
-  font-size: 0.62em;
-  padding-left: 2.4em;
-  padding-right: 2.4em;
-  padding-top: 0.85em;
-  padding-bottom: 0.85em;
-  border-radius: 10px;
-  left: 2.6em;
-  top: 17.6em;
-  transition: .4s ease-in-out;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.praashoo7-wrapper .btn2:hover {
-  background-color: limegreen;
-  color: #181818;
-  cursor: pointer;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(50, 205, 50, 0.4);
-}
-
-.praashoo7-wrapper .glasses {
-  position: relative;
-  top: -4.2em;
-  left: 5.6em;
-  width: 85px;
-  height: 85px;
-  border-radius: 16px;
-  object-fit: cover;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18), 0 0 0 3px rgba(255,255,255,0.8);
-  transition: .4s ease-in-out;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.praashoo7-wrapper .card:hover {
-  width: 13.5em;
-  height: 23em;
-  transform: translateY(1.25em);
-  box-shadow: 0 28px 60px rgba(30, 56, 44, 0.18), 0 8px 20px rgba(30, 56, 44, 0.08);
-}
-
-.praashoo7-wrapper .card:hover + .glasses {
-  transform: rotateX(360deg);
-  height: 110px;
-  width: 110px;
-  left: 0;
-  top: -18.5em;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(255,255,255,0.9);
-}
-
-.praashoo7-wrapper .card:hover .heading {
-  transform: translateY(7em) translateX(0.6em);
-}
-
-.praashoo7-wrapper .card:hover .details {
-  transform: translateY(12.8em) translateX(0.4em);
-}
-
-/* Algorithm Info Badge below card */
-.praashoo7-info-pill {
-  position: relative;
-  margin-top: 18px;
+/* 3. Status Label: Blockchain Traceability */
+.algorithm-status-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(30, 56, 44, 0.06);
-  border: 1px solid rgba(212, 208, 189, 0.8);
-  padding: 6px 16px;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  padding: 5px 14px;
   border-radius: 999px;
+  margin: 0 auto 16px auto;
   font-size: 13px;
-  color: #1e382c;
-  font-weight: 600;
-  pointer-events: auto;
+  font-weight: 700;
+  color: #166534;
 }
 
-.praashoo7-info-pill .pulse-dot {
+.status-pulse-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #16a34a;
   box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
-  animation: pulsePill 2s infinite;
+  animation: pulseDot 2s infinite;
 }
 
-@keyframes pulsePill {
+@keyframes pulseDot {
   0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
   70% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
   100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
 }
 
-@media (max-width: 640px) {
-  .praashoo7-wrapper {
-    font-size: 16px;
+.status-sub-pill {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #15803d;
+  background: rgba(22, 163, 74, 0.15);
+  padding: 1px 7px;
+  border-radius: 6px;
+  margin-left: 2px;
+}
+
+/* 4 & 5. Action Buttons Group */
+.algorithm-actions-group {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.algorithm-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-sizing: border-box;
+}
+
+/* Explore Protocol Button */
+.btn-explore {
+  background: #1e382c;
+  color: #ffffff;
+  border: 1.5px solid #1e382c;
+  box-shadow: 0 4px 14px rgba(30, 56, 44, 0.2);
+}
+
+.btn-explore:hover {
+  background: #2b503f;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(30, 56, 44, 0.28);
+}
+
+.btn-explore .btn-arrow {
+  transition: transform 0.25s ease;
+}
+
+.btn-explore:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+/* View On-Chain Button */
+.btn-chain {
+  background: #f5ddb7;
+  color: #181818;
+  border: 1.5px solid rgba(24, 24, 24, 0.12);
+  box-shadow: 2px 2px 8px rgba(24, 24, 24, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn-chain:hover {
+  background: #ecd2a9;
+  color: #181818;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 221, 183, 0.45);
+}
+
+/* 6. Description */
+.algorithm-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4b6354;
+  text-align: center;
+  margin: 0;
+  max-width: 360px;
+  font-weight: 500;
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .algorithm-video {
+    animation: none;
+  }
+  .status-pulse-dot {
+    animation: none;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .hero-workflow-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  .agritrace-algorithm-card {
+    padding: 14px 14px 18px;
+    border-radius: 22px;
+  }
+  .algorithm-heading {
+    font-size: 22px;
+    margin: 12px 0 4px 0;
+  }
+  .algorithm-status-badge {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .algorithm-actions-group {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .algorithm-btn {
+    width: 100%;
+    padding: 11px 12px;
+  }
+  .algorithm-description {
+    font-size: 13px;
   }
 }

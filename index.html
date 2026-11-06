@@ -444,23 +444,68 @@
 
 
             <!-- =====================================================
-                 PROJECT ALGORITHM ANIMATION (UIVERSE.IO BY PRAASHOO7)
+                 AGRITRACE ALGORITHM CARD & VIDEO ANIMATION
+                 Order:
+                 1. Generated Algorithm Video Player (Autoplay, Loop, Muted, Playsinline, Poster & Fallback)
+                 2. Heading: AgriTrace Algorithm
+                 3. Status label: Blockchain Traceability (100% Immutable)
+                 4. Explore Protocol button
+                 5. View On-Chain button
+                 6. Description: Decentralized Farm-to-Fork Batch Traceability & Fair Price Escrow
                  ===================================================== -->
             <div id="heroAlgorithmCard" class="hero-workflow-container">
-                <div class="praashoo7-wrapper">
-                    <div class="card">
-                        <p class="heading">AgriTrace Algorithm</p>
-                        <p class="details">Decentralized Farm-to-Fork Batch Traceability & Fair Price Escrow</p>
-                        <a href="#records" class="btn1">Explore Protocol</a>
-                        <a href="#dashboard" class="btn2">View On-Chain</a>
-                        <p class="price">⛓ 100% Immutable</p>
+                <article class="agritrace-algorithm-card" aria-label="AgriTrace Intelligent Algorithm">
+                    <!-- 1. Generated Algorithm Video Player -->
+                    <div class="algorithm-media-wrap">
+                        <video 
+                            id="algorithmVideoPlayer"
+                            class="algorithm-video" 
+                            autoplay 
+                            muted 
+                            loop 
+                            playsinline 
+                            poster="assets/agritrace-algorithm-poster.png"
+                            aria-label="AgriTrace Farm-to-Market Blockchain Traceability Algorithm Animation Video">
+                            <source src="assets/agritrace-algorithm.mp4" type="video/mp4">
+                            <!-- Fallback Image if video fails or while loading -->
+                            <img 
+                                src="assets/agritrace-algorithm-poster.png" 
+                                alt="AgriTrace Algorithm Visual Poster" 
+                                class="algorithm-fallback-img" 
+                                loading="lazy" />
+                        </video>
+                        <div class="algorithm-media-overlay" aria-hidden="true">
+                            <span class="media-live-badge">⛓ 10-SEC ALGORITHM</span>
+                        </div>
                     </div>
-                    <img class="glasses" src="assets/agritrace-algorithm.png" alt="AgriTrace Algorithm Flow" />
-                    <div class="praashoo7-info-pill">
-                        <span class="pulse-dot"></span>
-                        <span>Interactive Protocol Logic • Hover to Expand</span>
+
+                    <!-- 2. Heading -->
+                    <h3 class="algorithm-heading">AgriTrace Algorithm</h3>
+
+                    <!-- 3. Status Label -->
+                    <div class="algorithm-status-badge">
+                        <span class="status-pulse-dot" aria-hidden="true"></span>
+                        <span class="status-text">Blockchain Traceability</span>
+                        <span class="status-sub-pill">100% Immutable</span>
                     </div>
-                </div>
+
+                    <!-- 4 & 5. Action Buttons -->
+                    <div class="algorithm-actions-group">
+                        <a href="#records" class="algorithm-btn btn-explore" id="exploreProtocolBtn" title="Explore AgriTrace Traceability Protocol">
+                            <span>Explore Protocol</span>
+                            <span class="btn-arrow" aria-hidden="true">➔</span>
+                        </a>
+                        <a href="#dashboard" class="algorithm-btn btn-chain" id="viewOnChainBtn" title="View On-Chain Blockchain Ledger">
+                            <span>View On-Chain</span>
+                            <span class="btn-hash-icon" aria-hidden="true">⛓</span>
+                        </a>
+                    </div>
+
+                    <!-- 6. Description -->
+                    <p class="algorithm-description">
+                        Decentralized Farm-to-Fork Batch Traceability & Fair Price Escrow
+                    </p>
+                </article>
             </div>
 
 

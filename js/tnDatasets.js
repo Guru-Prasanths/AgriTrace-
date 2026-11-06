@@ -3392,43 +3392,25 @@ function renderDatasetGrid() {
   const isTa = typeof getCurrentLanguage === 'function' && getCurrentLanguage() === 'ta';
 
   grid.innerHTML = toDisplay.map(item => `
-    <div class="parent tn-dataset-parent" onclick="openDatasetDetailModal(${item.id})" style="cursor:pointer;" aria-label="Dataset: ${item.cropName}">
-      <div class="card tn-glass-card">
-        <div class="logo">
-          <span class="circle circle1"></span>
-          <span class="circle circle2"></span>
-          <span class="circle circle3"></span>
-          <span class="circle circle4"></span>
-          <span class="circle circle5">
-            <span style="font-size:22px;line-height:1;display:block;">${item.icon || '🌾'}</span>
-          </span>
+    <div class="flip-card" onclick="openDatasetDetailModal(${item.id})" style="cursor:pointer;" aria-label="Dataset: ${item.cropName}">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <div class="flip-crop-icon">${item.icon || '🌾'}</div>
+          <p class="title">${item.cropName}</p>
+          <span class="flip-crop-tamil">${item.cropTamil}</span>
+          <span class="flip-cat-tag">${isTa ? item.categoryLabelTa : item.categoryLabel}</span>
+          <span class="flip-hint">↺ ${isTa ? 'சுழற்றிப் பார்க்க' : 'Hover to Flip'}</span>
         </div>
-        <div class="glass"></div>
-        <div class="content">
-          <span class="title">${item.cropName} <small style="font-size:13px;font-weight:600;opacity:0.85;">(${item.cropTamil})</small></span>
-          <span class="text">${item.desc && item.desc.length > 70 ? item.desc.slice(0, 67) + '...' : (item.desc || '')}</span>
-        </div>
-        <div class="bottom">
-          <div class="social-buttons-container">
-            <button type="button" class="social-button" title="Category: ${item.categoryLabel}" onclick="event.stopPropagation();">
-              <span style="font-size:12px;">📊</span>
-            </button>
-            <button type="button" class="social-button" title="Districts: ${item.districts}" onclick="event.stopPropagation();">
-              <span style="font-size:12px;">📍</span>
-            </button>
-            <button type="button" class="social-button" title="Updated: ${item.lastUpdated}" onclick="event.stopPropagation();">
-              <span style="font-size:12px;">📅</span>
-            </button>
+        <div class="flip-card-back">
+          <p class="title">${item.cropName}</p>
+          <div class="flip-meta">
+            <span>📍 ${item.districts}</span>
+            <span>📅 ${item.lastUpdated}</span>
           </div>
-          <div class="view-more">
-            <button type="button" class="view-more-button" onclick="event.stopPropagation(); openDatasetDetailModal(${item.id})">
-              ${isTa ? 'விவரம்' : 'View'}
-            </button>
-            <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M9 6l6 6l-6 6"></path>
-            </svg>
-          </div>
+          <p class="flip-desc">${item.desc && item.desc.length > 55 ? item.desc.slice(0, 52) + '...' : (item.desc || '')}</p>
+          <button type="button" class="flip-view-btn" onclick="event.stopPropagation(); openDatasetDetailModal(${item.id})">
+            ${isTa ? 'விவரம் காண்க ➔' : 'View Details ➔'}
+          </button>
         </div>
       </div>
     </div>
