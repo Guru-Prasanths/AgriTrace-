@@ -825,8 +825,8 @@ async function createRecord(event) {
 
         if (wallet.walletReady()) {
           onChainAttempted = true;
-          button.textContent = "Confirming on Hardhat Local…";
-          showToast("Submitting produce batch to smart contract…", "info");
+          button.textContent = "Waiting for MetaMask signature…";
+          showToast("🦊 MetaMask Prompt: Check extension. If you see Blockaid's 'Review alerts' screen, click 'Review alerts' → 'Proceed anyway'.", "info");
 
           const blockchainPayload = {
             ...payload,
