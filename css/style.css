@@ -5731,7 +5731,15 @@ body {
 }
 
 #google_translate_element {
-    display: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    display: block !important;
 }
 
 .goog-tooltip,
@@ -5743,6 +5751,202 @@ body {
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
+}
+
+/* =========================================================
+   AGRITRACE FULLSCREEN PPT PRESENTATION THEATER
+   ========================================================= */
+
+#slideDeckModal.ppt-fullscreen-mode {
+    display: flex !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 999999 !important;
+    background: #06110b !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+.ppt-hud-top {
+    background: rgba(10, 24, 18, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid rgba(123, 155, 58, 0.35);
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.ppt-stage-wrapper {
+    flex: 1;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 16px 20px;
+    background: radial-gradient(circle at 50% 45%, #0f2c20 0%, #06110b 100%);
+}
+
+.ppt-slide-card {
+    width: 100%;
+    max-width: 1240px;
+    aspect-ratio: 16 / 9;
+    max-height: calc(100vh - 125px);
+    background: #fdfbf7;
+    border-radius: 18px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85), 0 0 0 1.5px rgba(123, 155, 58, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    position: relative;
+    user-select: text;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 900px) {
+    .ppt-slide-card {
+        aspect-ratio: auto;
+        min-height: 480px;
+        max-height: calc(100vh - 140px);
+        padding: 14px;
+    }
+}
+
+.ppt-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(10, 24, 18, 0.7);
+    border: 1.5px solid rgba(123, 155, 58, 0.6);
+    color: #ffffff;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+}
+
+.ppt-nav-arrow:hover {
+    background: #1e382c;
+    border-color: #a7f3d0;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.ppt-nav-prev {
+    left: 18px;
+}
+
+.ppt-nav-next {
+    right: 18px;
+}
+
+.ppt-progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.ppt-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #7B9B3A, #a7f3d0);
+    transition: width 0.3s ease;
+}
+
+.ppt-hud-bottom {
+    background: rgba(10, 24, 18, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(123, 155, 58, 0.25);
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    color: #a7f3d0;
+    font-size: 12px;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+/* Indian Languages Fast Switcher & Search Highlight */
+.indian-lang-card {
+    background: rgba(30, 56, 44, 0.22);
+    border: 1.5px solid rgba(123, 155, 58, 0.45);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+}
+
+.indian-lang-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.indian-lang-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(10, 28, 20, 0.85);
+    border: 1px solid rgba(123, 155, 58, 0.4);
+    border-radius: 20px;
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.indian-lang-chip:hover {
+    background: #1e382c;
+    border-color: #a7f3d0;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.indian-lang-chip.active {
+    background: #7B9B3A;
+    border-color: #a7f3d0;
+    color: #0b1e14;
+    box-shadow: 0 0 12px rgba(123, 155, 58, 0.5);
+}
+
+.lang-search-highlight-box {
+    background: linear-gradient(135deg, rgba(30, 56, 44, 0.5), rgba(123, 155, 58, 0.25));
+    border: 1.5px solid #7B9B3A;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    animation: fadeIn 0.2s ease;
 }
 
 /* =========================================================
