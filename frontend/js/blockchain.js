@@ -28,6 +28,12 @@ window.AGRITRACE = {
   CONTRACT_ADDRESS:
     "0x5FbDB2315678afecb367f032d93F642f64180aa3",
 
+  /* Per-network contract mappings */
+  CONTRACT_ADDRESSES: {
+    "0x7a69": "0x5FbDB2315678afecb367f032d93F642f64180aa3", // Hardhat Local (Chain 31337)
+    "0xaa36a7": null // Sepolia Testnet (Chain 11155111) — deploy when ready
+  },
+
   /* -----------------------------------------------------------
      RPC URLS — for read-only provider fallback
      ----------------------------------------------------------- */
@@ -142,16 +148,25 @@ async function getBrowserProvider() {
 
 
 /* =========================================================
-   CHECK CONTRACT ADDRESS
+   CHECK CONTRACT ADDRESS (NETWORK-AWARE)
+   Prevents calling Hardhat local address on public testnets
+   which triggers MetaMask Blockaid false-positive phishing flags.
    ========================================================= */
 
+function getActiveContractAddress() {
+  const currentChain = (window.walletState?.chainId || "0x7a69").toLowerCase();
+  if (currentChain === "0x7a69") {
+    return window.AGRITRACE.CONTRACT_ADDRESS;
+  }
+  return window.AGRITRACE.CONTRACT_ADDRESSES?.[currentChain] || null;
+}
+
 function isContractConfigured() {
+  const addr = getActiveContractAddress();
   return (
-    /^0x[a-fA-F0-9]{40}$/.test(
-      window.AGRITRACE.CONTRACT_ADDRESS
-    ) &&
-    window.AGRITRACE.CONTRACT_ADDRESS !==
-      "0x0000000000000000000000000000000000000000"
+    typeof addr === "string" &&
+    /^0x[a-fA-F0-9]{40}$/.test(addr) &&
+    addr !== "0x0000000000000000000000000000000000000000"
   );
 }
 
@@ -165,9 +180,12 @@ function isContractConfigured() {
 async function getContract({ signer = false } = {}) {
   ensureEthers();
 
-  if (!isContractConfigured()) {
+  const currentChain = (window.walletState?.chainId || "0x7a69").toLowerCase();
+  const contractAddress = getActiveContractAddress();
+
+  if (!contractAddress || !isContractConfigured()) {
     throw new Error(
-      "AgriTrace contract is not configured. Deploy the contract and set window.AGRITRACE.CONTRACT_ADDRESS."
+      `AgriTrace smart contract is not deployed on ${wallet?.chainName ? wallet.chainName(currentChain) : currentChain}. Switch MetaMask to Hardhat Local (Chain 31337) or use instant manual registration.`
     );
   }
 
@@ -186,7 +204,7 @@ async function getContract({ signer = false } = {}) {
   }
 
   return new ethers.Contract(
-    window.AGRITRACE.CONTRACT_ADDRESS,
+    contractAddress,
     window.AGRITRACE.CONTRACT_ABI,
     runner
   );

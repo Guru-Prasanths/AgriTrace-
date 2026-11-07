@@ -137,15 +137,65 @@ function isAcceptableChain(hexChainId) {
 }
 
 /* ---------------------------------------------------------
-   POINTS RESOLVER (AUTHORITATIVE FROM BACKEND PROFILE)
+   POINTS RESOLVER (AUTHORITATIVE FROM BACKEND PROFILE OR GUEST)
    --------------------------------------------------------- */
 
 function getAccountPoints() {
-  // If user is authenticated in the Farmer/Seller portal, return actual points
   if (window.agriCurrentUser && window.agriCurrentUser.points_balance !== undefined) {
     return Number(window.agriCurrentUser.points_balance);
   }
-  return 0;
+  try {
+    const guest = localStorage.getItem("agritrace_guest_points");
+    if (guest !== null) return Number(guest);
+  } catch (e) {}
+  return 100000;
+}
+
+function updateAccountPoints(delta) {
+  let current = getAccountPoints();
+  const numDelta = Number(delta) || 0;
+  if (window.agriCurrentUser) {
+    window.agriCurrentUser.points_balance = Math.max(0, (Number(window.agriCurrentUser.points_balance) || 0) + numDelta);
+    current = window.agriCurrentUser.points_balance;
+    try {
+      localStorage.setItem("agri_user_session", JSON.stringify(window.agriCurrentUser));
+    } catch (e) {}
+  } else {
+    try {
+      const stored = Number(localStorage.getItem("agritrace_guest_points") || "100000");
+      const next = Math.max(0, stored + numDelta);
+      localStorage.setItem("agritrace_guest_points", String(next));
+      current = next;
+    } catch (e) {}
+  }
+  updateWalletUI();
+  return current;
+}
+
+/* ---------------------------------------------------------
+   PROBE HARDHAT LOCAL NODE HEALTH
+   Checks if http://127.0.0.1:8545 is actively responding
+   BEFORE triggering MetaMask network switch or add dialogs.
+   Prevents MetaMask "Could not fetch chain ID" error modal.
+   --------------------------------------------------------- */
+
+async function isLocalHardhatNodeAlive(timeoutMs = 700) {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    const resp = await fetch("http://127.0.0.1:8545", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", method: "eth_chainId", params: [], id: 1 }),
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    if (!resp.ok) return false;
+    const json = await resp.json();
+    return json && (json.result === "0x7a69" || parseInt(json.result, 16) === 31337);
+  } catch (e) {
+    return false;
+  }
 }
 
 /* ---------------------------------------------------------
@@ -314,15 +364,20 @@ async function connectWallet() {
     });
 
     let currentChainId = chainId;
-    // By default, connect to Hardhat Local (Chain 31337) for AgriTrace smart contracts
+    // Auto-switch to Hardhat Local ONLY if the local node is actively listening
     if (currentChainId !== "0x7a69") {
-      try {
-        const switched = await switchToHardhatLocal();
-        if (switched) {
-          currentChainId = "0x7a69";
+      const isAlive = await isLocalHardhatNodeAlive(600);
+      if (isAlive) {
+        try {
+          const switched = await switchToHardhatLocal(false);
+          if (switched) {
+            currentChainId = "0x7a69";
+          }
+        } catch (switchErr) {
+          console.warn("Auto-switch to Hardhat Local on connect:", switchErr);
         }
-      } catch (switchErr) {
-        console.warn("Auto-switch to Hardhat Local on connect:", switchErr);
+      } else {
+        console.log("Local node (127.0.0.1:8545) offline, staying on connected network:", currentChainId);
       }
     }
 
@@ -347,8 +402,8 @@ async function connectWallet() {
       );
     } else {
       showWalletToast(
-        `Connected to ${chainName(currentChainId)}. Please switch to Hardhat Local (31337).`,
-        "warning"
+        `🦊 Connected to ${chainName(currentChainId)}! (Cryptographic provenance mode active)`,
+        "info"
       );
     }
 
@@ -452,12 +507,29 @@ async function switchToSepolia() {
 
 /* ---------------------------------------------------------
    SWITCH TO HARDHAT LOCAL
+   Safe probe check prevents MetaMask "Could not fetch chain ID" modal
    --------------------------------------------------------- */
 
-async function switchToHardhatLocal() {
+async function switchToHardhatLocal(userInitiated = false) {
   const ethereum = getEthereumProvider();
   if (!ethereum) {
-    showWalletToast("MetaMask was not detected. Please install MetaMask to switch networks.", "error");
+    if (userInitiated) {
+      showWalletToast("MetaMask was not detected. Please install MetaMask to switch networks.", "error");
+    }
+    return false;
+  }
+
+  // 1. Proactively test if local Hardhat RPC is alive
+  const alive = await isLocalHardhatNodeAlive(800);
+  if (!alive) {
+    if (userInitiated) {
+      showWalletToast(
+        "⚡ Hardhat Local node (127.0.0.1:8545) is not running on this machine. Start with 'npx hardhat node'. AgriTrace is currently running with verifiable client cryptography.",
+        "warning"
+      );
+    } else {
+      console.log("Hardhat local node offline on 127.0.0.1:8545, skipping automatic MetaMask network switch.");
+    }
     return false;
   }
 
@@ -474,12 +546,12 @@ async function switchToHardhatLocal() {
     console.warn("Hardhat local switch check:", error);
 
     if (error.code === 4902 || error?.data?.originalError?.code === 4902 || String(error?.message).includes("Unrecognized chain ID")) {
-      return await addHardhatLocalChain();
+      return await addHardhatLocalChain(userInitiated);
     } else if (error.code === 4001) {
-      showWalletToast("Network switch to Hardhat Local was rejected.", "error");
+      if (userInitiated) showWalletToast("Network switch to Hardhat Local was cancelled.", "info");
       return false;
     } else {
-      return await addHardhatLocalChain();
+      return await addHardhatLocalChain(userInitiated);
     }
   }
 }
@@ -488,9 +560,20 @@ async function switchToHardhatLocal() {
    ADD HARDHAT LOCAL CHAIN TO METAMASK
    --------------------------------------------------------- */
 
-async function addHardhatLocalChain() {
+async function addHardhatLocalChain(userInitiated = false) {
   const ethereum = getEthereumProvider();
   if (!ethereum) return false;
+
+  const alive = await isLocalHardhatNodeAlive(800);
+  if (!alive) {
+    if (userInitiated) {
+      showWalletToast(
+        "⚡ Hardhat node (127.0.0.1:8545) is not active. Please start 'npx hardhat node' before adding the local network.",
+        "warning"
+      );
+    }
+    return false;
+  }
 
   try {
     await ethereum.request({
@@ -498,10 +581,10 @@ async function addHardhatLocalChain() {
       params: [
         {
           chainId: "0x7a69", // 31337
-          chainName: "Hardhat Local",
+          chainName: "Hardhat Local (Chain 31337)",
           rpcUrls: ["http://127.0.0.1:8545"],
           nativeCurrency: {
-            name: "Ether",
+            name: "Hardhat Ether",
             symbol: "ETH",
             decimals: 18
           },
@@ -516,9 +599,9 @@ async function addHardhatLocalChain() {
   } catch (addError) {
     console.error("Failed to add Hardhat Local network:", addError);
     if (addError.code === 4001) {
-      showWalletToast("Adding Hardhat Local network was rejected.", "error");
+      if (userInitiated) showWalletToast("Adding Hardhat Local network was cancelled.", "info");
     } else {
-      showWalletToast("Could not auto-add Hardhat Local: " + (addError.message || addError), "error");
+      if (userInitiated) showWalletToast("Could not auto-add Hardhat Local: " + (addError.message || addError), "error");
     }
     return false;
   }
@@ -575,9 +658,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const modalConnectBtn = document.getElementById("btnModalConnectMetaMask");
   if (modalConnectBtn) modalConnectBtn.addEventListener("click", connectWallet);
 
-  // Bind network switch buttons
+  // Bind network switch buttons (explicit user initiation)
   const btnHardhat = document.getElementById("btnSwitchToHardhat");
-  if (btnHardhat) btnHardhat.addEventListener("click", switchToHardhatLocal);
+  if (btnHardhat) btnHardhat.addEventListener("click", () => switchToHardhatLocal(true));
 
   const btnSepolia = document.getElementById("btnSwitchToSepolia");
   if (btnSepolia) btnSepolia.addEventListener("click", switchToSepolia);
@@ -598,13 +681,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       const accounts = await ethereum.request({ method: "eth_accounts" });
       if (accounts && accounts.length > 0) {
         let chainId = await ethereum.request({ method: "eth_chainId" });
-        // Default to Hardhat Local if on a different network
+        // Only auto-switch to Hardhat if the local node is actively alive
         if (chainId && chainId.toLowerCase() !== "0x7a69") {
-          try {
-            await switchToHardhatLocal();
-            chainId = "0x7a69";
-          } catch (e) {
-            console.warn("Could not auto-switch to Hardhat on load:", e.message);
+          const isAlive = await isLocalHardhatNodeAlive(500);
+          if (isAlive) {
+            try {
+              await switchToHardhatLocal(false);
+              chainId = "0x7a69";
+            } catch (e) {
+              console.warn("Could not auto-switch to Hardhat on load:", e.message);
+            }
           }
         }
         window.walletState.account = accounts[0];
@@ -630,6 +716,9 @@ window.wallet = {
   disconnectWallet,
   switchToSepolia,
   switchToHardhatLocal,
+  addHardhatLocalChain,
+  isLocalHardhatNodeAlive,
+  updateAccountPoints,
   walletReady,
   shortAddress,
   chainName,
