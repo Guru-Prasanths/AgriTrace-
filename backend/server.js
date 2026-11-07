@@ -14,6 +14,7 @@ const authRoutes = require("./routes/authRoutes");
 const rewardRoutes = require("./routes/rewardRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const tnCropRoutes = require("./routes/tnCropRoutes");
 const { initRewardScheduler } = require("./services/rewardScheduler");
 
 /* =========================================================
@@ -110,6 +111,13 @@ app.get("/api", (req, res) => {
         triggerDaily: "POST /api/admin/rewards/trigger-daily",
         logs: "GET /api/admin/rewards/logs",
         auditLogs: "GET /api/admin/audit-logs"
+      },
+      tnCrops: {
+        list: "GET /api/tn-crops",
+        detail: "GET /api/tn-crops/:slugOrId",
+        marketPrices: "GET /api/tn-crops/:slugOrId/market-prices",
+        sources: "GET /api/tn-crops/sources",
+        refresh: "POST /api/tn-crops/refresh"
       }
     }
   });
@@ -130,6 +138,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/rewards", rewardRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/tn-crops", tnCropRoutes);
 
 // Initialize background 24h daily reward scheduler
 if (process.env.NODE_ENV !== "test") {

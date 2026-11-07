@@ -573,6 +573,18 @@ function navigateToSection(hash, callback) {
       a.classList.toggle('active', a.getAttribute('href') === hash);
     });
   }
+  // Auto-collapse navigation panel so section content is 100% visible
+  const navPanel = document.getElementById('floatingNavPanel');
+  const navToggle = document.getElementById('floatingNavToggleBtn');
+  if (navPanel && navPanel.classList.contains('is-open')) {
+    navPanel.classList.remove('is-open');
+    navPanel.classList.add('is-closed');
+    navPanel.setAttribute('aria-hidden', 'true');
+    if (navToggle) {
+      navToggle.classList.add('is-visible');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
   if (callback) setTimeout(callback, 800);
 }
 
@@ -2165,8 +2177,12 @@ function initFloatingPopNav() {
     }
   }
 
-  // Ensure default state: OPEN on initial load
-  openMenu();
+  // Ensure default state: OPEN on home, collapsed if deep-linked to a specific section
+  if (window.location.hash && window.location.hash !== '#home' && window.location.hash !== '') {
+    closeMenu();
+  } else {
+    openMenu();
+  }
 
   // Toggle button click (when minimized to reopen)
   toggleBtn.addEventListener('click', (e) => {
