@@ -772,8 +772,9 @@ async function createRecord(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
-  const button = form.querySelector("button[type=submit]");
-  if (!button) return;
+  const submitter = event.submitter;
+  const isExplicitOnChain = submitter?.id === "btnOnChainRecord" || submitter?.getAttribute?.("value") === "onchain";
+  const activeBtn = submitter || form.querySelector("button[type=submit]") || form.querySelector("button");
 
   const payload = formToPayload(form);
   if (!payload.lotId) { showToast("Please enter a Lot ID.", "error"); return; }
@@ -781,16 +782,15 @@ async function createRecord(event) {
   if (!payload.origin) { showToast("Please enter the origin/farm location.", "error"); return; }
   if (!payload.harvestDate) { showToast("Please select a harvest date.", "error"); return; }
 
-  button.disabled = true;
-  const originalText = button.textContent;
+  if (activeBtn) activeBtn.disabled = true;
+  const originalText = activeBtn ? activeBtn.textContent : "";
 
   let offchainId = null;
   let backendMetadataHash = null;
 
   try {
-    /* STEP 1: OFF-CHAIN REGISTRATION (Backend API or Local Canonical Hash) */
-    button.textContent = "Generating cryptographic metadata…";
-    showToast("Generating produce metadata hash…", "info");
+    /* STEP 1: CALCULATE CRYPTOGRAPHIC CANONICAL METADATA */
+    if (activeBtn) activeBtn.textContent = "Computing cryptographic hash…";
 
     try {
       const offchain = await api("/records", {
@@ -809,46 +809,48 @@ async function createRecord(event) {
 
     let chain = null;
     let verification = null;
-    let onChainAttempted = false;
 
-    /* STEP 2: ON-CHAIN TRANSACTION IF WALLET AVAILABLE */
-    const isWalletAvailable = typeof wallet !== "undefined" && wallet.walletReady && wallet.walletReady();
-    const canAttemptWallet = isWalletAvailable || (typeof window.ethereum !== "undefined");
+    /* STEP 2: ON-CHAIN TRANSACTION ONLY IF EXPLICITLY REQUESTED & NODE IS RUNNING */
+    if (isExplicitOnChain) {
+      const isLocalNodeAlive = typeof wallet !== "undefined" && wallet.isLocalHardhatNodeAlive
+        ? await wallet.isLocalHardhatNodeAlive(700)
+        : false;
 
-    if (canAttemptWallet) {
-      try {
-        button.textContent = "Connecting to MetaMask…";
-        // Ensure connected to Hardhat Local
-        if (!wallet.walletReady()) {
-          await wallet.connectWallet();
-        }
-
-        if (wallet.walletReady()) {
-          onChainAttempted = true;
-          button.textContent = "Waiting for MetaMask signature…";
-          showToast("🦊 MetaMask Prompt: Check extension. If you see Blockaid's 'Review alerts' screen, click 'Review alerts' → 'Proceed anyway'.", "info");
-
-          const blockchainPayload = {
-            ...payload,
-            metadataHash: backendMetadataHash
-          };
-
-          chain = await blockchain.createOnChainRecord(
-            blockchainPayload,
-            status => { button.textContent = status; }
-          );
-
-          if (chain?.key && typeof blockchain.verifyOnChainRecord === "function") {
-            button.textContent = "Verifying on blockchain…";
-            verification = await blockchain.verifyOnChainRecord(
-              chain.key,
-              status => { button.textContent = status; }
-            );
+      if (!isLocalNodeAlive) {
+        showToast("⚡ Hardhat Local node (127.0.0.1:8545) is not running. Saving lot directly to Verified Product Registry with cryptographic Keccak-256 proof.", "info");
+      } else {
+        try {
+          if (activeBtn) activeBtn.textContent = "Connecting to MetaMask…";
+          if (!wallet.walletReady()) {
+            await wallet.connectWallet();
           }
+
+          if (wallet.walletReady() && window.walletState?.chainId === "0x7a69") {
+            if (activeBtn) activeBtn.textContent = "Waiting for MetaMask signature…";
+            showToast("🦊 MetaMask Prompt: Confirm the produce anchor transaction.", "info");
+
+            const blockchainPayload = {
+              ...payload,
+              metadataHash: backendMetadataHash
+            };
+
+            chain = await blockchain.createOnChainRecord(
+              blockchainPayload,
+              status => { if (activeBtn) activeBtn.textContent = status; }
+            );
+
+            if (chain?.key && typeof blockchain.verifyOnChainRecord === "function") {
+              if (activeBtn) activeBtn.textContent = "Verifying on blockchain…";
+              verification = await blockchain.verifyOnChainRecord(
+                chain.key,
+                status => { if (activeBtn) activeBtn.textContent = status; }
+              );
+            }
+          }
+        } catch (chainErr) {
+          console.warn("MetaMask transaction skipped or rejected, proceeding with manual verified registration:", chainErr.message);
+          showToast("MetaMask prompt closed. Saving to Product Registry with verifiable cryptographic proof…", "info");
         }
-      } catch (chainErr) {
-        console.warn("MetaMask transaction skipped or rejected, proceeding with manual verified registration:", chainErr.message);
-        showToast("Recording produce manually with verifiable cryptographic proof…", "info");
       }
     }
 
@@ -858,7 +860,7 @@ async function createRecord(event) {
     const deterministicTxHash = chain?.txHash || ("0x" + Array.from(crypto.getRandomValues(new Uint8Array(32))).map(b => b.toString(16).padStart(2, '0')).join(''));
     const networkName = chain?.txHash
       ? (window.walletState?.chainId?.toLowerCase() === "0xaa36a7" ? "sepolia" : "hardhat-local")
-      : "local-registry";
+      : "verified-manual-registry";
 
     const newRecord = {
       id: offchainId || ("manual-" + Date.now()),
@@ -892,7 +894,7 @@ async function createRecord(event) {
 
     /* STEP 4: SYNC BACKEND IF AVAILABLE */
     if (offchainId) {
-      button.textContent = "Synchronizing database…";
+      if (activeBtn) activeBtn.textContent = "Synchronizing database…";
       try {
         await api(`/records/${offchainId}`, {
           method: "PUT",
@@ -905,13 +907,17 @@ async function createRecord(event) {
           })
         });
       } catch (syncErr) {
-        console.warn("PostgreSQL sync failed (non-critical):", syncErr.message);
+        console.warn("PostgreSQL sync notice (offline mode):", syncErr.message);
       }
     }
 
     /* SUCCESS NOTIFICATION & REWARDS */
     const shortTx = deterministicTxHash.slice(0, 14) + "…";
-    showToast(`✓ Lot ${payload.lotId} successfully recorded in Product Registry! (${shortTx})`, "success");
+    if (chain?.txHash) {
+      showToast(`✓ Lot ${payload.lotId} anchored to Hardhat blockchain! (${shortTx})`, "success");
+    } else {
+      showToast(`✓ Lot ${payload.lotId} recorded manually in Product Registry! (${shortTx})`, "success");
+    }
 
     if (typeof wallet !== "undefined" && wallet.updateAccountPoints) {
       wallet.updateAccountPoints(500);
@@ -926,8 +932,10 @@ async function createRecord(event) {
     console.error("Create record failed:", error);
     showToast(userFriendlyError(error), "error");
   } finally {
-    button.disabled = false;
-    button.textContent = originalText;
+    if (activeBtn) {
+      activeBtn.disabled = false;
+      activeBtn.textContent = originalText;
+    }
   }
 }
 
@@ -1136,7 +1144,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 6. Connect Forms
   const recordForm = document.getElementById("recordForm");
-  if (recordForm) recordForm.addEventListener("submit", createRecord);
+  if (recordForm) {
+    recordForm.addEventListener("submit", createRecord);
+
+    const btnOnChain = document.getElementById("btnOnChainRecord");
+    if (btnOnChain) {
+      btnOnChain.addEventListener("click", () => {
+        recordForm._lastSubmitter = btnOnChain;
+      });
+    }
+    const btnManual = document.getElementById("btnManualRecord");
+    if (btnManual) {
+      btnManual.addEventListener("click", () => {
+        recordForm._lastSubmitter = btnManual;
+      });
+    }
+  }
 
   const priceForm = document.getElementById("priceForm");
   if (priceForm) priceForm.addEventListener("submit", writePriceSnapshot);

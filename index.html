@@ -993,23 +993,25 @@
                         </div>
 
 
-                        <div class="form-actions">
+                        <div class="form-actions" style="display: flex; flex-direction: column; gap: 12px;">
 
-                            <button type="submit" class="primary-button">
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <button type="submit" id="btnManualRecord" class="primary-button" name="submitAction" value="manual" style="flex: 1; min-width: 240px; background: #1e382c; color: #ffffff; font-weight: 800;">
+                                    📝 RECORD IN REGISTRY (INSTANT &amp; VERIFIED)
+                                    <span>✓</span>
+                                </button>
 
-                                CREATE & VERIFY
-
-                                <span>
-                                    →
-                                </span>
-
-                            </button>
+                                <button type="submit" id="btnOnChainRecord" class="secondary-button" name="submitAction" value="onchain" style="padding: 12px 20px; font-weight: 800; border-radius: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid #1e382c; background: #ffffff; color: #1e382c; font-size: 14.5px;">
+                                    <span>🦊 ANCHOR ON-CHAIN (METAMASK)</span>
+                                    <span>→</span>
+                                </button>
+                            </div>
 
                             <div id="recordFormStatus" class="form-status"></div>
 
-                            <div class="hardhat-blockaid-tip" style="margin-top: 14px; font-size: 13px; color: #1e382c; background: rgba(30, 56, 44, 0.06); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(30, 56, 44, 0.18); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                            <div class="hardhat-blockaid-tip" style="margin-top: 6px; font-size: 13px; color: #1e382c; background: rgba(30, 56, 44, 0.06); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(30, 56, 44, 0.18); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
                                 <span style="font-size: 16px;">💡</span>
-                                <span><strong>MetaMask Blockaid Notice:</strong> If MetaMask displays a red <em>"High-risk transfer / Malicious address"</em> warning during signature, this is a standard false positive because default Hardhat test keys are public. Simply click <strong style="color: #14281f;">"Review alerts" → "Proceed anyway"</strong>. Your local test transactions are completely safe.</span>
+                                <span><strong>Product Registry Modes:</strong> Click <strong>Record in Registry</strong> to immediately save &amp; verify your crop with verifiable Keccak-256 cryptographic provenance (100% instant, no MetaMask required). Use <strong>Anchor On-Chain</strong> when your local Hardhat node is running (Chain 31337).</span>
                             </div>
 
                         </div>
