@@ -2009,33 +2009,188 @@ function initAllLanguageModal() {
   const openBtn = document.getElementById('allLangModalBtn');
   const floatBtn = document.getElementById('floatTranslateBtn');
   const mBtn = document.getElementById('m-allLangModalBtn');
+  const closeBtn = document.getElementById('closeAllLangModalBtn');
 
-  const openModal = () => { if (modal) modal.classList.add('open'); };
+  const openModal = () => { 
+    if (modal) {
+      modal.classList.add('open');
+      const input = document.getElementById('langSearchInput');
+      if (input) {
+        input.value = '';
+        filterLanguages('');
+        setTimeout(() => input.focus(), 80);
+      }
+    }
+  };
+
+  const closeModal = () => {
+    if (modal) modal.classList.remove('open');
+  };
 
   if (openBtn) openBtn.addEventListener('click', openModal);
   if (floatBtn) floatBtn.addEventListener('click', openModal);
   if (mBtn) mBtn.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
+  window.openAllLangModal = openModal;
+  window.closeAllLangModal = closeModal;
+
+  // Render Major Indian Languages chips
+  const indianContainer = document.getElementById('indianLangChips');
+  if (indianContainer && typeof INDIAN_LANGUAGES !== 'undefined') {
+    const currentLang = (typeof getCurrentLanguage === 'function') ? getCurrentLanguage() : (localStorage.getItem('agritrace_lang') || 'en');
+    indianContainer.innerHTML = INDIAN_LANGUAGES.map(lang => `
+      <button type="button" class="indian-lang-chip ${lang.code === currentLang ? 'active' : ''}" data-code="${lang.code}" data-name="${lang.name}">
+        <span>${lang.flag}</span>
+        <strong>${lang.native}</strong>
+        <span style="font-size:11px;opacity:0.85;">(${lang.name})</span>
+      </button>
+    `).join('');
+
+    indianContainer.querySelectorAll('.indian-lang-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const code = chip.dataset.code;
+        const name = chip.dataset.name;
+        if (typeof window.translateEntireWebApp === 'function') {
+          window.translateEntireWebApp(code, name);
+        } else if (typeof window.setLanguage === 'function') {
+          window.setLanguage(code, name);
+        }
+        closeModal();
+      });
+    });
+  }
+
+  // Render All Languages Grid & Search
   const grid = document.getElementById('allLangGrid');
-  if (grid && typeof SUPPORTED_LANGUAGES !== 'undefined') {
-    grid.innerHTML = SUPPORTED_LANGUAGES.map(lang => `
-      <div class="all-lang-item" data-code="${lang.code}">
+  const highlightBox = document.getElementById('langSearchHighlightBox');
+  const countBadge = document.getElementById('langSearchCount');
+  const searchInput = document.getElementById('langSearchInput');
+
+  function renderGrid(langs) {
+    if (!grid) return;
+    const currentLang = (typeof getCurrentLanguage === 'function') ? getCurrentLanguage() : (localStorage.getItem('agritrace_lang') || 'en');
+    
+    if (!langs || langs.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 28px; text-align: center; color: var(--muted); font-size: 14px;">
+          🔍 No language matching your search found. Try typing Tamil, Hindi, Telugu, Kannada, French, Spanish, etc.
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = langs.map(lang => `
+      <div class="all-lang-item ${lang.code === currentLang ? 'active' : ''}" data-code="${lang.code}" data-name="${lang.name}">
         <span class="all-lang-flag">${lang.flag}</span>
         <div class="all-lang-info">
           <strong>${lang.native}</strong>
-          <small>${lang.name}</small>
+          <small>${lang.name}${lang.isIndian ? ' • 🇮🇳 Official' : ''}</small>
         </div>
       </div>
     `).join('');
 
     grid.querySelectorAll('.all-lang-item').forEach(item => {
       item.addEventListener('click', () => {
-        if (typeof window.setLanguage === 'function') {
-          window.setLanguage(item.dataset.code);
+        const code = item.dataset.code;
+        const name = item.dataset.name;
+        if (typeof window.translateEntireWebApp === 'function') {
+          window.translateEntireWebApp(code, name);
+        } else if (typeof window.setLanguage === 'function') {
+          window.setLanguage(code, name);
         }
-        if (modal) modal.classList.remove('open');
+        closeModal();
       });
     });
+  }
+
+  function filterLanguages(query) {
+    if (typeof SUPPORTED_LANGUAGES === 'undefined') return;
+    const q = (query || '').trim().toLowerCase();
+
+    if (!q) {
+      if (highlightBox) highlightBox.style.display = 'none';
+      if (countBadge) countBadge.textContent = `Showing all ${SUPPORTED_LANGUAGES.length} supported languages`;
+      renderGrid(SUPPORTED_LANGUAGES);
+      return;
+    }
+
+    const matched = SUPPORTED_LANGUAGES.filter(lang => 
+      lang.name.toLowerCase().includes(q) ||
+      lang.native.toLowerCase().includes(q) ||
+      lang.code.toLowerCase().includes(q)
+    );
+
+    if (countBadge) {
+      countBadge.innerHTML = `Showing <strong>${matched.length}</strong> matching language${matched.length === 1 ? '' : 's'} for "<em>${query}</em>"`;
+    }
+
+    if (highlightBox) {
+      if (matched.length > 0) {
+        const top = matched[0];
+        highlightBox.style.display = 'flex';
+        highlightBox.innerHTML = `
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:30px;">${top.flag}</span>
+            <div>
+              <div style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#a7f3d0;">
+                ${top.isIndian ? '🇮🇳 MAJOR INDIAN LANGUAGE MATCH' : '🌐 SEARCH RESULT MATCH'}
+              </div>
+              <div style="font-size:16px;font-weight:800;color:#ffffff;margin-top:2px;">
+                ${top.native} &nbsp;<span style="font-size:13px;font-weight:600;color:#cbd5e1;">(${top.name})</span>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="uiverse-doc-btn uiverse-doc-btn-primary" style="padding:8px 22px;font-weight:800;cursor:pointer;background:#7B9B3A;color:#0b1e14;border:none;border-radius:10px;">
+            Translate Entire Web App ➔
+          </button>
+        `;
+        const btn = highlightBox.querySelector('button');
+        if (btn) {
+          btn.onclick = () => {
+            if (typeof window.translateEntireWebApp === 'function') {
+              window.translateEntireWebApp(top.code, top.name);
+            }
+            closeModal();
+          };
+        }
+      } else {
+        highlightBox.style.display = 'none';
+      }
+    }
+
+    renderGrid(matched);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', e => {
+      filterLanguages(e.target.value);
+    });
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const q = searchInput.value.trim().toLowerCase();
+        if (q && typeof SUPPORTED_LANGUAGES !== 'undefined') {
+          const top = SUPPORTED_LANGUAGES.find(lang => 
+            lang.name.toLowerCase().includes(q) ||
+            lang.native.toLowerCase().includes(q) ||
+            lang.code.toLowerCase().includes(q)
+          );
+          if (top) {
+            if (typeof window.translateEntireWebApp === 'function') {
+              window.translateEntireWebApp(top.code, top.name);
+            }
+            closeModal();
+          }
+        }
+      }
+    });
+  }
+
+  // Initial render
+  if (typeof SUPPORTED_LANGUAGES !== 'undefined') {
+    renderGrid(SUPPORTED_LANGUAGES);
   }
 }
 
@@ -2891,16 +3046,58 @@ const PRESENTATION_SLIDES = [
 function openSlideDeckModal(slideNumber = 1) {
   const modal = document.getElementById('slideDeckModal');
   if (!modal) return;
+
+  // Open in full presentation theater mode
+  modal.classList.add('ppt-fullscreen-mode');
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+
+  // Enter true browser fullscreen if available
+  try {
+    if (modal.requestFullscreen) {
+      modal.requestFullscreen().catch(() => {});
+    } else if (modal.webkitRequestFullscreen) {
+      modal.webkitRequestFullscreen();
+    } else if (modal.msRequestFullscreen) {
+      modal.msRequestFullscreen();
+    }
+  } catch (err) {
+    console.log('Fullscreen presentation request notice:', err);
+  }
+
   goToSlide(slideNumber);
 }
 
 function closeSlideDeckModal() {
   const modal = document.getElementById('slideDeckModal');
   if (!modal) return;
+
+  // Exit browser fullscreen if active
+  try {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+  } catch (err) {}
+
+  modal.classList.remove('ppt-fullscreen-mode');
   modal.style.display = 'none';
   document.body.style.overflow = '';
+}
+
+function toggleSlideFullscreen() {
+  const modal = document.getElementById('slideDeckModal');
+  if (!modal) return;
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    if (modal.requestFullscreen) modal.requestFullscreen().catch(() => {});
+    else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
 }
 
 function goToSlide(n) {
@@ -2911,6 +3108,7 @@ function goToSlide(n) {
   const stage = document.getElementById('slideStage');
   if (stage && PRESENTATION_SLIDES[n - 1]) {
     stage.innerHTML = PRESENTATION_SLIDES[n - 1];
+    stage.scrollTop = 0;
   }
 
   const indicator = document.getElementById('slideIndicator');
@@ -2918,18 +3116,26 @@ function goToSlide(n) {
     indicator.textContent = `Slide ${n} of ${TOTAL_SLIDES}`;
   }
 
-  // Update dots
+  // Update progress bar
+  const progress = document.getElementById('slideProgressBar');
+  if (progress) {
+    progress.style.width = `${(n / TOTAL_SLIDES) * 100}%`;
+  }
+
+  // Update dots/pills
   for (let i = 1; i <= TOTAL_SLIDES; i++) {
     const dot = document.getElementById(`slideDot${i}`);
     if (dot) {
       if (i === n) {
-        dot.style.background = '#1e382c';
-        dot.style.color = '#ffffff';
-        dot.style.borderColor = '#1e382c';
+        dot.style.background = '#7B9B3A';
+        dot.style.color = '#0b1e14';
+        dot.style.borderColor = '#a7f3d0';
+        dot.style.fontWeight = '800';
       } else {
-        dot.style.background = '#ffffff';
-        dot.style.color = '#14281f';
-        dot.style.borderColor = '#ded9cb';
+        dot.style.background = 'rgba(255,255,255,0.1)';
+        dot.style.color = '#e2e8f0';
+        dot.style.borderColor = 'rgba(255,255,255,0.2)';
+        dot.style.fontWeight = '600';
       }
     }
   }
@@ -2938,6 +3144,11 @@ function goToSlide(n) {
   if (prevBtn) prevBtn.disabled = (n === 1);
   const nextBtn = document.getElementById('nextSlideBtn');
   if (nextBtn) nextBtn.disabled = (n === TOTAL_SLIDES);
+
+  const stagePrev = document.getElementById('stagePrevArrow');
+  if (stagePrev) stagePrev.style.opacity = (n === 1) ? '0.3' : '1';
+  const stageNext = document.getElementById('stageNextArrow');
+  if (stageNext) stageNext.style.opacity = (n === TOTAL_SLIDES) ? '0.3' : '1';
 }
 
 function prevSlide() {
@@ -2948,19 +3159,83 @@ function nextSlide() {
   if (currentSlideIndex < TOTAL_SLIDES) goToSlide(currentSlideIndex + 1);
 }
 
+// Click on slide stage to advance (right half next, left half prev)
+function handleSlideStageClick(e) {
+  if (e.target.closest('a') || e.target.closest('button')) return;
+  const stage = document.getElementById('slideStage');
+  if (!stage) return;
+  const rect = stage.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  if (clickX > rect.width * 0.45) {
+    nextSlide();
+  } else {
+    prevSlide();
+  }
+}
+
+// Touch swipe gestures on presentation container
+let touchStartX = 0;
+let touchStartY = 0;
+const slideModalElem = document.getElementById('slideDeckModal');
+if (slideModalElem) {
+  slideModalElem.addEventListener('touchstart', e => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }
+  }, { passive: true });
+
+  slideModalElem.addEventListener('touchend', e => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      const touchEndX = e.changedTouches[0].screenX;
+      const touchEndY = e.changedTouches[0].screenY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) nextSlide();
+        else prevSlide();
+      }
+    }
+  }, { passive: true });
+}
+
 // Keyboard arrow navigation
 document.addEventListener('keydown', e => {
   const modal = document.getElementById('slideDeckModal');
-  if (!modal || modal.style.display !== 'flex') return;
-  if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
-  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
-  else if (e.key === 'Escape') closeSlideDeckModal();
+  if (!modal || modal.style.display === 'none') return;
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    nextSlide();
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+    e.preventDefault();
+    prevSlide();
+  } else if (e.key === 'Escape') {
+    closeSlideDeckModal();
+  } else if (e.key >= '1' && e.key <= '5') {
+    goToSlide(parseInt(e.key, 10));
+  }
+});
+
+// Fullscreen change listener to sync icons
+document.addEventListener('fullscreenchange', () => {
+  const fsBtn = document.getElementById('pptFsToggleBtn');
+  if (fsBtn) {
+    if (document.fullscreenElement) {
+      fsBtn.innerHTML = '🗗 Windowed';
+      fsBtn.title = 'Exit Fullscreen';
+    } else {
+      fsBtn.innerHTML = '⛶ Fullscreen';
+      fsBtn.title = 'Enter Fullscreen';
+    }
+  }
 });
 
 window.openSlideDeckModal = openSlideDeckModal;
 window.closeSlideDeckModal = closeSlideDeckModal;
+window.toggleSlideFullscreen = toggleSlideFullscreen;
 window.goToSlide = goToSlide;
 window.prevSlide = prevSlide;
 window.nextSlide = nextSlide;
+window.handleSlideStageClick = handleSlideStageClick;
 
 

@@ -5,11 +5,51 @@
    ========================================================= */
 
 const I18N_STORAGE_KEY = 'agritrace_lang';
-const SUPPORTED_LANGUAGES = [
-  { code: 'ta', name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳', dir: 'ltr' },
-  { code: 'en', name: 'English', native: 'English', flag: '🇬🇧', dir: 'ltr' },
-  { code: 'hi', name: 'Hindi', native: 'हिंदी', flag: '🇮🇳', dir: 'ltr' },
+const INDIAN_LANGUAGES = [
+  { code: 'ta', name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'hi', name: 'Hindi', native: 'हिंदी', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'ml', name: 'Malayalam', native: 'മലയാളം', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'bn', name: 'Bengali', native: 'বাংলা', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'mr', name: 'Marathi', native: 'मराठी', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'or', name: 'Odia', native: 'ଓଡ଼ିଆ', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'ur', name: 'Urdu', native: 'اردو', flag: '🇮🇳', isIndian: true, dir: 'rtl' },
+  { code: 'as', name: 'Assamese', native: 'অসমীয়া', flag: '🇮🇳', isIndian: true, dir: 'ltr' },
+  { code: 'en', name: 'English', native: 'English', flag: '🇬🇧', isIndian: false, dir: 'ltr' }
 ];
+
+const GLOBAL_LANGUAGES = [
+  { code: 'es', name: 'Spanish', native: 'Español', flag: '🇪🇸', dir: 'ltr' },
+  { code: 'fr', name: 'French', native: 'Français', flag: '🇫🇷', dir: 'ltr' },
+  { code: 'de', name: 'German', native: 'Deutsch', flag: '🇩🇪', dir: 'ltr' },
+  { code: 'ar', name: 'Arabic', native: 'العربية', flag: '🇸🇦', dir: 'rtl' },
+  { code: 'zh-CN', name: 'Chinese (Simplified)', native: '简体中文', flag: '🇨🇳', dir: 'ltr' },
+  { code: 'ja', name: 'Japanese', native: '日本語', flag: '🇯🇵', dir: 'ltr' },
+  { code: 'ru', name: 'Russian', native: 'Русский', flag: '🇷🇺', dir: 'ltr' },
+  { code: 'pt', name: 'Portuguese', native: 'Português', flag: '🇵🇹', dir: 'ltr' },
+  { code: 'id', name: 'Indonesian', native: 'Bahasa Indonesia', flag: '🇮🇩', dir: 'ltr' },
+  { code: 'it', name: 'Italian', native: 'Italiano', flag: '🇮🇹', dir: 'ltr' },
+  { code: 'ko', name: 'Korean', native: '한국어', flag: '🇰🇷', dir: 'ltr' },
+  { code: 'tr', name: 'Turkish', native: 'Türkçe', flag: '🇹🇷', dir: 'ltr' },
+  { code: 'vi', name: 'Vietnamese', native: 'Tiếng Việt', flag: '🇻🇳', dir: 'ltr' },
+  { code: 'th', name: 'Thai', native: 'ไทย', flag: '🇹🇭', dir: 'ltr' },
+  { code: 'nl', name: 'Dutch', native: 'Nederlands', flag: '🇳🇱', dir: 'ltr' },
+  { code: 'fa', name: 'Persian', native: 'فارسی', flag: '🇮🇷', dir: 'rtl' },
+  { code: 'sw', name: 'Swahili', native: 'Kiswahili', flag: '🇰🇪', dir: 'ltr' },
+  { code: 'pl', name: 'Polish', native: 'Polski', flag: '🇵🇱', dir: 'ltr' },
+  { code: 'uk', name: 'Ukrainian', native: 'Українська', flag: '🇺🇦', dir: 'ltr' },
+  { code: 'el', name: 'Greek', native: 'Ελληνικά', flag: '🇬🇷', dir: 'ltr' },
+  { code: 'he', name: 'Hebrew', native: 'עברית', flag: '🇮🇱', dir: 'rtl' },
+  { code: 'ms', name: 'Malay', native: 'Bahasa Melayu', flag: '🇲🇾', dir: 'ltr' },
+  { code: 'ne', name: 'Nepali', native: 'नेपाली', flag: '🇳🇵', dir: 'ltr' },
+  { code: 'si', name: 'Sinhala', native: 'සිංහල', flag: '🇱🇰', dir: 'ltr' },
+  { code: 'my', name: 'Burmese', native: 'မြန်မာ', flag: '🇲🇲', dir: 'ltr' }
+];
+
+const SUPPORTED_LANGUAGES = [...INDIAN_LANGUAGES, ...GLOBAL_LANGUAGES];
 
 const TRANSLATIONS = {
   en: {
@@ -1223,54 +1263,145 @@ function applyTranslations(lang = currentLanguage) {
 }
 
 /**
+ * Trigger Google Neural Translate combo element
+ */
+function triggerGoogleTranslateCombo(langCode) {
+  const combo = document.querySelector('.goog-te-combo');
+  if (combo) {
+    if (combo.value !== langCode) {
+      combo.value = langCode;
+      combo.dispatchEvent(new Event('change'));
+    }
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Translate Entire Web Application (All pages, tables, forms, modals)
+ * Using AgriTrace Multi-Language Architecture + Google Cloud Neural Translation
+ */
+function translateEntireWebApp(langCode, langName) {
+  if (!langCode) return;
+  const targetCode = langCode === 'zh' ? 'zh-CN' : langCode;
+  
+  // 1. Store preference
+  try {
+    localStorage.setItem(I18N_STORAGE_KEY, targetCode);
+    if (langName) localStorage.setItem('agritrace_lang_name', langName);
+  } catch (e) {}
+
+  // 2. Set Google Translate cookie for whole application translation
+  const host = window.location.hostname;
+  const cookieVal = targetCode === 'en' ? '/auto/en' : `/auto/${targetCode}`;
+  
+  document.cookie = `googtrans=${cookieVal}; path=/;`;
+  if (host && host !== 'localhost' && !host.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+    document.cookie = `googtrans=${cookieVal}; domain=${host}; path=/;`;
+    const parts = host.split('.');
+    if (parts.length > 1) {
+      document.cookie = `googtrans=${cookieVal}; domain=.${parts.slice(-2).join('.')}; path=/;`;
+    }
+  }
+
+  // If resetting to English, also clear googtrans cookie
+  if (targetCode === 'en') {
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    if (host && host !== 'localhost') {
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${host}; path=/;`;
+      const parts = host.split('.');
+      if (parts.length > 1) {
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.${parts.slice(-2).join('.')}; path=/;`;
+      }
+    }
+  }
+
+  // 3. Dispatch combo change
+  if (!triggerGoogleTranslateCombo(targetCode)) {
+    let attempts = 0;
+    const interval = setInterval(() => {
+      attempts++;
+      if (triggerGoogleTranslateCombo(targetCode) || attempts > 20) {
+        clearInterval(interval);
+      }
+    }, 150);
+  }
+
+  // 4. Update native i18n dictionary for instant UI refresh & voice assistant sync
+  const norm = targetCode === 'zh-CN' ? 'zh' : targetCode;
+  if (TRANSLATIONS[norm]) {
+    currentLanguage = norm;
+    applyTranslations(norm);
+  } else {
+    currentLanguage = targetCode;
+    applyTranslations('en');
+  }
+
+  // 5. Update UI active states
+  updateLanguageSwitcherUI(targetCode);
+
+  // 6. Voice Assistant voice engine sync
+  if (typeof updateVoiceAssistantLanguage === 'function') {
+    updateVoiceAssistantLanguage(targetCode);
+  }
+
+  // 7. Show confirmation toast
+  const langObj = SUPPORTED_LANGUAGES.find(l => l.code === targetCode);
+  const displayName = langName || (langObj ? `${langObj.native} (${langObj.name})` : targetCode);
+  if (typeof showToast === 'function') {
+    showToast(`🌐 Entire web application translated to ${displayName}`, 'success');
+  }
+
+  // 8. Dispatch global event for reactive components
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('agritrace:languageChanged', { 
+      detail: { language: targetCode, name: displayName } 
+    }));
+  }
+}
+
+/**
  * Update active state on language switchers
  */
 function updateLanguageSwitcherUI(lang) {
   if (typeof document === 'undefined') return;
   const switcher = document.getElementById('langSwitcher');
   if (switcher) {
-    switcher.innerHTML = SUPPORTED_LANGUAGES.map(l => `
+    // Show Major Indian Languages + English in footer switcher
+    const primaryLangs = INDIAN_LANGUAGES;
+    switcher.innerHTML = primaryLangs.map(l => `
       <button type="button" class="lang-opt ${l.code === lang ? 'active' : ''}" data-lang="${l.code}" title="${l.name}">
         <span>${l.flag}</span>
         <strong>${l.native}</strong>
       </button>
-    `).join('');
+    `).join('') + `
+      <button type="button" class="lang-opt" onclick="if(typeof openAllLangModal==='function')openAllLangModal();else document.getElementById('allLangModalBtn').click();" title="Browse all 100+ languages" style="background:rgba(123,155,58,0.25);border-color:#7B9B3A;">
+        <span>🌐</span>
+        <strong>More Languages...</strong>
+      </button>
+    `;
 
-    switcher.querySelectorAll('.lang-opt').forEach(btn => {
+    switcher.querySelectorAll('.lang-opt[data-lang]').forEach(btn => {
       btn.addEventListener('click', () => {
         setLanguage(btn.dataset.lang);
       });
     });
   }
 
-  // Update modal language items if open
+  // Update modal language items and chips if open
   document.querySelectorAll('.all-lang-item').forEach(item => {
     item.classList.toggle('active', item.dataset.code === lang);
+  });
+  document.querySelectorAll('.indian-lang-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.code === lang);
   });
 }
 
 /**
  * Switch language and notify
  */
-function setLanguage(lang) {
-  const norm = lang === 'zh-CN' ? 'zh' : lang;
-  if (!TRANSLATIONS[norm]) {
-    // If language is not one of our core dictionaries, default gracefully
-    currentLanguage = 'en';
-  } else {
-    currentLanguage = norm;
-  }
-
-  applyTranslations(currentLanguage);
-
-  if (typeof showToast === 'function') {
-    showToast(t('toast_lang_changed'), 'success');
-  }
-
-  // Sync with Voice Assistant voice engine
-  if (typeof updateVoiceAssistantLanguage === 'function') {
-    updateVoiceAssistantLanguage(currentLanguage);
-  }
+function setLanguage(lang, langName) {
+  translateEntireWebApp(lang, langName);
 }
 
 /**
@@ -1307,14 +1438,29 @@ if (typeof window !== 'undefined') {
   window.TRANSLATIONS = TRANSLATIONS;
   window.t = t;
   window.setLanguage = setLanguage;
+  window.translateEntireWebApp = translateEntireWebApp;
+  window.triggerGoogleTranslateCombo = triggerGoogleTranslateCombo;
   window.applyTranslations = applyTranslations;
   window.auditTranslations = auditTranslations;
   window.SUPPORTED_LANGUAGES = SUPPORTED_LANGUAGES;
+  window.INDIAN_LANGUAGES = INDIAN_LANGUAGES;
+  window.GLOBAL_LANGUAGES = GLOBAL_LANGUAGES;
   window.getCurrentLanguage = () => currentLanguage;
 
   if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
-      applyTranslations(currentLanguage);
+      // Check saved language
+      try {
+        const saved = localStorage.getItem(I18N_STORAGE_KEY);
+        if (saved && saved !== 'en') {
+          translateEntireWebApp(saved);
+        } else {
+          applyTranslations(currentLanguage);
+          updateLanguageSwitcherUI('en');
+        }
+      } catch (e) {
+        applyTranslations(currentLanguage);
+      }
     });
   }
 }
@@ -1323,8 +1469,12 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     TRANSLATIONS,
     SUPPORTED_LANGUAGES,
+    INDIAN_LANGUAGES,
+    GLOBAL_LANGUAGES,
     t,
     setLanguage,
+    translateEntireWebApp,
+    triggerGoogleTranslateCombo,
     applyTranslations,
     auditTranslations,
     getCurrentLanguage: () => currentLanguage
