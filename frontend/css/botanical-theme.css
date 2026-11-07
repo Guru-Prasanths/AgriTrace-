@@ -24,11 +24,11 @@
     --purple:         #895440;
 
     --white:          #1e382c;
-    --muted:          #697961;
-    --muted-2:        #8a9a80;
+    --muted:          #244033;   /* Enhanced contrast botanical slate-forest */
+    --muted-2:        #335242;   /* Enhanced secondary legible tone */
 
-    --border:         #d4d0bd;
-    --border-bright:  #b5baa4;
+    --border:         #c9c5b2;
+    --border-bright:  #8fa89b;
 
     --shadow:         0 4px 20px rgba(30, 56, 44, 0.07);
     --glow:           none;
@@ -42,13 +42,13 @@
 
     /* === Botanical Tokens === */
     --dp-color-ground:         #f5efdf;
-    --dp-color-ink:            #1e382c;
+    --dp-color-ink:            #14281f;
     --dp-color-panel:          #e0e5d3;
     --dp-color-warm-field:     #e6cbb8;
     --dp-color-accent:         #895440;
-    --dp-color-rule:           #d4d0bd;
-    --dp-color-ornament-line:  #b5baa4;
-    --dp-color-field-line:     #697961;
+    --dp-color-rule:           #c9c5b2;
+    --dp-color-ornament-line:  #537060;   /* High contrast placeholder/ornament */
+    --dp-color-field-line:     #244033;   /* High contrast primary label/field ink */
     --dp-typography-display:   "EB Garamond", Georgia, serif;
     --dp-typography-reading:   "Instrument Sans", sans-serif;
     --dp-radius-panel:         34px;
@@ -1701,3 +1701,47 @@ span[style*="color:#93c5fd"] {
 #confirmModalMessage {
     color: var(--dp-color-ink) !important;
 }
+
+/* =========================================================
+   ADAPTIVE CONTRAST & LEGIBILITY ENHANCEMENTS
+   Ensures all dim / secondary texts adapt to background
+   with high WCAG AA/AAA visibility.
+   ========================================================= */
+
+/* On cream/light backgrounds, strengthen dim texts */
+body, .section, .card, .panel, .table-wrap, .form-container, .records-section {
+    color: #14281f;
+}
+
+.text-muted, .muted, small, .help-text, .subtitle, .description,
+.metric-label, .field-hint, .stat-label, .feature-desc,
+.tn-dataset-counter, .tn-meta-item strong {
+    color: #244033 !important;
+    opacity: 0.95 !important;
+}
+
+label, .form-group label, .record-field-label {
+    color: #1a3328 !important;
+    font-weight: 600 !important;
+}
+
+/* Form input placeholder legibility */
+::placeholder {
+    color: #4a6657 !important;
+    opacity: 1 !important;
+}
+
+/* Secondary meta pills and district tags */
+.flip-meta span, .tn-tag-chip, .tn-district-pill {
+    color: #1a3328 !important;
+    font-weight: 600 !important;
+}
+
+/* Dark containers adapt appropriately with crisp light ink */
+.dark-panel, .voice-log, .mandi-hero-dark, .agri-toast, [data-theme="dark"] {
+    color: #f1f5f9 !important;
+}
+.dark-panel .text-muted, .dark-panel small, .dark-panel .muted {
+    color: #cbd5e1 !important;
+}
+

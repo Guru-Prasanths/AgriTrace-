@@ -313,8 +313,21 @@ async function connectWallet() {
       method: "eth_chainId"
     });
 
+    let currentChainId = chainId;
+    // By default, connect to Hardhat Local (Chain 31337) for AgriTrace smart contracts
+    if (currentChainId !== "0x7a69") {
+      try {
+        const switched = await switchToHardhatLocal();
+        if (switched) {
+          currentChainId = "0x7a69";
+        }
+      } catch (switchErr) {
+        console.warn("Auto-switch to Hardhat Local on connect:", switchErr);
+      }
+    }
+
     window.walletState.account   = accounts[0];
-    window.walletState.chainId   = chainId;
+    window.walletState.chainId   = currentChainId;
     window.walletState.connected = true;
 
     // Attach event listeners for account/network changes
@@ -322,15 +335,20 @@ async function connectWallet() {
 
     await updateWalletUI();
 
-    if (!isAcceptableChain(chainId)) {
+    if (currentChainId === "0x7a69") {
       showWalletToast(
-        `Connected to unsupported network (${chainName(chainId)}). Please switch to Hardhat Local (31337) or Sepolia (11155111).`,
-        "warning"
+        `🦊 MetaMask connected: ${shortAddress(accounts[0])} on Hardhat Local (31337)!`,
+        "success"
+      );
+    } else if (isAcceptableChain(currentChainId)) {
+      showWalletToast(
+        `🦊 MetaMask connected: ${shortAddress(accounts[0])} on ${chainName(currentChainId)}!`,
+        "success"
       );
     } else {
       showWalletToast(
-        `🦊 MetaMask connected: ${shortAddress(accounts[0])} on ${chainName(chainId)}!`,
-        "success"
+        `Connected to ${chainName(currentChainId)}. Please switch to Hardhat Local (31337).`,
+        "warning"
       );
     }
 
@@ -579,7 +597,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const accounts = await ethereum.request({ method: "eth_accounts" });
       if (accounts && accounts.length > 0) {
-        const chainId = await ethereum.request({ method: "eth_chainId" });
+        let chainId = await ethereum.request({ method: "eth_chainId" });
+        // Default to Hardhat Local if on a different network
+        if (chainId && chainId.toLowerCase() !== "0x7a69") {
+          try {
+            await switchToHardhatLocal();
+            chainId = "0x7a69";
+          } catch (e) {
+            console.warn("Could not auto-switch to Hardhat on load:", e.message);
+          }
+        }
         window.walletState.account = accounts[0];
         window.walletState.chainId = chainId;
         window.walletState.connected = true;
