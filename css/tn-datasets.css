@@ -283,22 +283,26 @@
 }
 
 .flip-card-back .flip-view-btn {
-  background: #ffffff;
-  color: #d14d23;
+  background: #14281f;
+  color: #ffffff;
   border: none;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 800;
-  padding: 7px 16px;
+  padding: 8px 18px;
   cursor: pointer;
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   transition: all 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.flip-card-back .flip-view-btn:hover {
-  background: #181818;
+.flip-card-back .flip-view-btn:hover,
+.flip-card-back .flip-view-btn:active {
+  background: #2a5040;
   color: #ffffff;
   transform: scale(1.05);
+  box-shadow: 0 5px 14px rgba(0,0,0,0.3);
 }
 
 /* Touch Flip Support */
@@ -480,7 +484,7 @@
   background: rgba(8, 20, 15, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -490,6 +494,7 @@
 }
 
 .tn-modal-backdrop.open {
+  display: flex !important;
   opacity: 1;
   pointer-events: auto;
 }
@@ -1058,3 +1063,78 @@
     justify-content: center;
   }
 }
+
+/* =========================================================
+   RELATED RESULTS & SATELLITE MANDIS SECTION
+   ========================================================= */
+
+.tn-related-results-box {
+  margin-top: 24px;
+  padding: 18px 20px;
+  background: rgba(230, 203, 184, 0.28);
+  border: 1.5px solid rgba(137, 84, 64, 0.25);
+  border-radius: 16px;
+}
+
+.tn-related-results-box h5 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #14281f;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tn-related-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tn-related-crop-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(30, 56, 44, 0.2);
+  border-radius: 12px;
+  color: #14281f;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.tn-related-crop-pill:hover,
+.tn-related-crop-pill:active {
+  background: #1e382c;
+  color: #ffffff !important;
+  border-color: #1e382c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 56, 44, 0.18);
+}
+
+.tn-related-mandis-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.tn-mandi-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(30, 56, 44, 0.08);
+  border: 1px solid rgba(30, 56, 44, 0.15);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #14281f;
+}
+

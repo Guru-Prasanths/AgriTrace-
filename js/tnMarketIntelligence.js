@@ -852,3 +852,4 @@
   window.initMarketIntelligence = init;
   window.switchMiTab = switchMiTab;
 })();
+
