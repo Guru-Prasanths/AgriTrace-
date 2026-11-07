@@ -174,7 +174,7 @@ strong {
    Ensures sections never get covered underneath fixed/floating navbars.
    ========================================================= */
 html {
-    scroll-padding-top: 250px !important;
+    scroll-padding-top: 280px !important;
 }
 
 .section,
@@ -191,16 +191,24 @@ section[id],
 #consumer,
 #datasets,
 #kaggle {
-    scroll-margin-top: 250px !important;
+    scroll-margin-top: 280px !important;
 }
 
 .seller-section,
 .farmer-section {
-    padding-top: 28px !important;
+    padding-top: 110px !important;
+}
+
+#sellerAuthContainer,
+#farmerAuthContainer {
+    width: 100%;
+    margin-top: 24px;
+    position: relative;
+    z-index: 5;
 }
 
 .role-auth-card {
-    margin: 40px auto 30px auto !important;
+    margin: 30px auto 40px auto !important;
     position: relative !important;
     z-index: 5 !important;
 }
@@ -962,16 +970,24 @@ table tr:hover {
 
 .voice-panel {
     background: var(--dp-color-ground) !important;
-    border: 1px solid var(--dp-color-rule) !important;
+    border: 1.5px solid var(--dp-color-rule) !important;
     border-radius: var(--dp-radius-panel) !important;
-    box-shadow: 0 20px 60px rgba(30, 56, 44, 0.15) !important;
+    box-shadow: 0 24px 60px rgba(30, 56, 44, 0.18) !important;
     backdrop-filter: none !important;
     color: var(--dp-color-ink) !important;
+    width: 440px !important;
+    max-width: calc(100vw - 32px) !important;
+    height: 640px !important;
+    max-height: calc(100vh - 40px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
 }
 
 .voice-panel-header {
     border-bottom: 1px solid var(--dp-color-rule) !important;
     color: var(--dp-color-ink) !important;
+    flex-shrink: 0 !important;
 }
 
 .voice-panel-header strong {
@@ -985,6 +1001,7 @@ table tr:hover {
 .voice-status-bar {
     background: var(--dp-color-panel) !important;
     color: var(--dp-color-ink) !important;
+    flex-shrink: 0 !important;
 }
 
 .voice-status-dot {
@@ -992,9 +1009,71 @@ table tr:hover {
     box-shadow: none !important;
 }
 
+.voice-audio-bar {
+    background: var(--dp-color-panel) !important;
+    border-bottom: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+    padding: 8px 18px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.voice-audio-label {
+    color: var(--dp-color-ink) !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+}
+
+.voice-audio-pct {
+    color: #166534 !important;
+    font-weight: 700 !important;
+    font-size: 13.5px !important;
+}
+
+.voice-log {
+    background: var(--dp-color-ground) !important;
+    flex: 1 1 auto !important;
+    min-height: 220px !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    padding: 16px 18px !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.voice-quick-actions {
+    background: var(--dp-color-panel) !important;
+    border-top: 1px solid var(--dp-color-rule) !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding: 8px 14px !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+    scrollbar-width: thin !important;
+}
+
+.voice-quick-btn {
+    background: var(--dp-color-ground) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    color: var(--dp-color-ink) !important;
+    white-space: nowrap !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 6px 14px !important;
+    border-radius: 999px !important;
+}
+
 .voice-bubble-assistant {
     background: var(--dp-color-panel) !important;
     color: var(--dp-color-ink) !important;
+    border: 1px solid var(--dp-color-rule) !important;
+    box-shadow: 0 4px 14px rgba(30, 56, 44, 0.06) !important;
 }
 
 .voice-bubble-user {

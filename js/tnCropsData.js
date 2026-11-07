@@ -996,6 +996,79 @@ const TN_CROPS = [
       processing_possibilities: "Poultry and livestock feed pellets (Namakkal cluster), corn starch, corn flakes, corn oil extraction from germ, and bio-ethanol.",
       waste_reduction: "Utilize maize cobs as clean industrial furnace fuel and furfural extraction; convert stover into silage for high-yield dairy cattle."
     }
+  },
+  {
+    id: 15,
+    slug: "drumstick",
+    crop_name: "Drumstick / Moringa",
+    crop_tamil: "முருங்கை",
+    scientific_name: "Moringa oleifera",
+    category: "vegetables",
+    category_label: "Vegetables",
+    category_label_ta: "காய்கறிகள்",
+    icon: "🥢",
+    image_url: "assets/crops/drumstick.jpg",
+    description: "Nutritious perennial and annual vegetable widely cultivated across Tamil Nadu's semi-arid tracts, celebrated for tender pods, mineral-dense leaves, and export-grade value addition.",
+    varieties: [
+      "PKM 1 (Annual Moringa - TNAU)",
+      "PKM 2 (High Pod Yield)",
+      "ODC 3 (Ottanchathiram Moringa)",
+      "Bhagya (KDM 01)",
+      "Rohit 1",
+      "Chavakacheri Murungai"
+    ],
+    suitable_regions: "Theni (Andipatti), Dindigul, Karur (Aravakurichi), Tiruppur (Dharapuram), Madurai, Thoothukudi, Tirunelveli",
+    official_source_id: "TNAU",
+    official_source_name: "TNAU Agritech Portal (Horticulture: Drumstick Management)",
+    official_source_url: "https://agritech.tnau.ac.in/horticulture/horti_vegetables_drumstick.html",
+    last_updated: "2026-03-01",
+    seasonal: {
+      sowing_season: "June–July (Monsoon) and November–December (Winter)",
+      growing_period: "Perennial / Annual; first harvest begins 6 months after sowing",
+      harvest_season: "Peak harvest: March to June and September to October",
+      maturity_days_min: 160,
+      maturity_days_max: 210,
+      district_variations: "Theni (Andipatti cluster) and Karur (Aravakurichi) provide round-the-year commercial supply through drip irrigation."
+    },
+    market: {
+      mandi_name: "Oddanchatram Regulated Market",
+      district: "Dindigul",
+      modal_price_quintal: 4500,
+      min_price_quintal: 3800,
+      max_price_quintal: 5400,
+      observation_date: "2026-03-01",
+      source_name: "Department of Agricultural Marketing & Agri Business, GoTN",
+      history: [
+        { date: "2025-10-15", modal_price: 3600 },
+        { date: "2025-11-20", modal_price: 5200 },
+        { date: "2025-12-15", modal_price: 6800 },
+        { date: "2026-01-10", modal_price: 5900 },
+        { date: "2026-02-15", modal_price: 4800 },
+        { date: "2026-03-01", modal_price: 4500 }
+      ]
+    },
+    care_storage: {
+      shelf_life_ambient: "4 to 7 days under shade with moist burlap covering",
+      shelf_life_cold: "14 to 21 days at 7–9°C with 85–90% RH (avoiding chilling injury)",
+      temp_min_c: 7.0,
+      temp_max_c: 10.0,
+      humidity_min_pct: 85.0,
+      humidity_max_pct: 90.0,
+      storage_conditions: "Store pods flat in well-aerated CFB cartons or perforated polyethylene wraps to prevent moisture loss and pod shrinkage.",
+      spoilage_factors: "Desiccation causing fiber hardening and pithiness, mechanical snap breakage, fungal pod rot (*Botryodiplodia theobromae*).",
+      deterioration_signs: "Yellowing tip discoloration, skin wrinkling, fibrous toughness, spongy core, and fungal mold spots.",
+      pests_diseases: "Moringa Fruit Fly (*Gitona distigma*), Bud Midge (*Stictodiplosis moringae*), Leaf Caterpillar (*Noorda blitealis*), Pod Rot.",
+      preventive_measures: "Apply neem oil 3% or NSKE 5% at flowering initiation; install methyl eugenol / citronella traps (5/acre); soil drenching with *Trichoderma harzianum*.",
+      ipm_guidance: "Spray spinosad 45% SC (0.4ml/L) or chlorantraniliprole 18.5% SC (0.3ml/L) targeting fruit fly maggots; collect and destroy fallen infested pods.",
+      harvest_indicators: "Pods reach tender pencil-to-thumb thickness (40–60cm length) with seeds just beginning to swell, without hardening of ribs.",
+      harvest_precautions: "Harvest in cool morning hours using pole shear clippers with collecting net; never shake branches; trim pedicel cleanly.",
+      sorting_grading: "Grade Super Export: 50–65cm length, deep green, tender, zero curvature; Grade Domestic: 40–50cm, slight curve; Grade B: Overmature / pithy pods.",
+      packaging_recommendations: "10kg to 15kg ventilated 5-ply CFB corrugated cartons with paper shred cushioning; bundles tied with soft banana fiber for local mandi.",
+      transport_precautions: "Stack cartons horizontally to prevent crushing of fragile tips; ventilated night transport; avoid direct sunlight exposure on truck bed.",
+      post_harvest_preservation: "Hydro-cooling with cold water spray (8°C) within 2 hours of harvest; wrap cut stem ends in moist food-grade parchment.",
+      processing_possibilities: "Moringa leaf powder (export superfood), canned drumstick slices in brine, drumstick soup mix, moringa seed oil extraction, and dried moringa tea.",
+      waste_reduction: "Convert broken pods into culinary soup paste and dehydrated powder; utilize leaf prunings as high-protein livestock fodder."
+    }
   }
 ];
 

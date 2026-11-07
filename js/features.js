@@ -225,7 +225,17 @@ function showVoiceAnswerToast(text) {
  * Speak text with appropriate voice, max volume and state tracking
  */
 function speak(text, onComplete) {
-  appendVoiceBubble('assistant', text);
+  const log = document.getElementById('voiceLog');
+  let isDuplicate = false;
+  if (log && log.lastElementChild) {
+    const lastTxt = (log.lastElementChild.textContent || '').trim();
+    if (lastTxt.includes(text.substring(0, 25)) || text.includes(lastTxt.substring(0, 25))) {
+      isDuplicate = true;
+    }
+  }
+  if (!isDuplicate) {
+    appendVoiceBubble('assistant', text);
+  }
   showVoiceAnswerToast(text);
   playVoiceChime();
 
@@ -414,7 +424,15 @@ function processVoiceCommand(transcript) {
     return;
   }
 
-  // 2. Specific Search: "Search for tomatoes" / "tomato"
+  // 2. Tamil Nadu Agricultural Intelligence & Real AGMARKNET Prices Query
+  if (/விலை|price|rate|mandi|market|சந்தை|விவசாய|அறுவடை|harvest|திட்டம்|scheme/.test(lower) &&
+      (/தக்காளி|tomato|நெல்|nel|rice|வெங்காயம்|onion|வாழை|banana|மாம்பழம்|mango|தேங்காய்|coconut|கரும்பு|sugarcane|கடலை|groundnut|மஞ்சள்|turmeric|கத்திரிக்காய்|brinjal|மிளகாய்|chilli|பருத்தி|cotton|கிழங்கு|tapioca|மக்கா|maize|முருங்கை|drumstick|சேலம்|salem|மதுரை|madurai|கோவை|coimbatore|ஈரோடு|erode|திண்டுக்கல்|dindigul|தேனி|theni|திருச்சி|trichy|சென்னை|chennai|தூத்துக்குடி|thoothukudi|திருநெல்வேலி|tirunelveli|தஞ்சாவூர்|thanjavur/.test(lower))) {
+    navigateToSection('#prices');
+    handleAgriMarketVoiceQuery(raw, lower, currentLang);
+    return;
+  }
+
+  // 3. Specific Search: "Search for tomatoes" / "tomato"
   if (/tomato|தக்காளி|टमाटर/.test(lower)) {
     filterAndSearchProduce('tomato');
     const resp = VOICE_KNOWLEDGE.tomato[currentLang] || VOICE_KNOWLEDGE.tomato.en;
@@ -567,7 +585,21 @@ function processVoiceCommand(transcript) {
 function navigateToSection(hash, callback) {
   const el = document.querySelector(hash);
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const navPanel = document.getElementById('floatingNavPanel');
+    // Calculate header height + generous breathing buffer so content is 100% visible
+    let headerOffset = 210;
+    if (navPanel) {
+      const rect = navPanel.getBoundingClientRect();
+      headerOffset = (rect.height > 0 ? rect.height : 210) + 40;
+    }
+    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = Math.max(0, elementPosition - headerOffset);
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+
     // Update active nav link across dock and mobile navigation
     document.querySelectorAll('.dock-item, .dock-nav-links a, .nav-links a, .mobile-menu a').forEach(a => {
       a.classList.toggle('active', a.getAttribute('href') === hash);
@@ -601,6 +633,89 @@ function filterAndSearchProduce(keyword) {
       if (typeof renderRecordTable === 'function') renderRecordTable();
     }
   });
+}
+
+/**
+ * Handle Tamil Nadu Agricultural Intelligence & Real AGMARKNET Prices Query
+ */
+function handleAgriMarketVoiceQuery(raw, lower, currentLang) {
+  fetch(`/api/tn-market/voice-query?query=${encodeURIComponent(raw)}&lang=${currentLang}`)
+    .then(r => r.json())
+    .then(res => {
+      if (res && res.ok && res.data && res.data.spoken_answer) {
+        speak(res.data.spoken_answer);
+      } else {
+        fallbackAgriMarketVoiceQuery(raw, lower, currentLang);
+      }
+    })
+    .catch(() => fallbackAgriMarketVoiceQuery(raw, lower, currentLang));
+}
+
+function fallbackAgriMarketVoiceQuery(raw, lower, currentLang) {
+  const records = window.TN_MARKET_PRICE_RECORDS || [];
+  const CROPS_MAP = {
+    tomato: ["tomato", "தக்காளி", "टमाटर"],
+    rice: ["rice", "paddy", "நெல்", "அரிசி", "nel", "चावल", "धान"],
+    banana: ["banana", "வாழை", "केला"],
+    onion: ["onion", "shallot", "வெங்காயம்", "प्याज"],
+    coconut: ["coconut", "தேங்காய்", "தென்னை", "नारियल"],
+    sugarcane: ["sugarcane", "கரும்பு", "गन्ना"],
+    groundnut: ["groundnut", "peanut", "வேர்க்கடலை", "கடலை", "मूंगफली"],
+    turmeric: ["turmeric", "மஞ்சள்", "हल्दी"],
+    mango: ["mango", "மாம்பழம்", "आम"],
+    brinjal: ["brinjal", "eggplant", "கத்திரிக்காய்", "கத்தரிக்காய்", "बैंगन"],
+    chilli: ["chilli", "chili", "மிளகாய்", "मिर्च"],
+    cotton: ["cotton", "பருத்தி", "कपास"],
+    tapioca: ["tapioca", "cassava", "மரவள்ளிக்கிழங்கு", "கிழங்கு"],
+    maize: ["maize", "corn", "மக்காச்சோளம்", "மக்கா", "मक्का"],
+    drumstick: ["drumstick", "moringa", "முருங்கை", "सहजन"]
+  };
+  const DISTRICTS = ["Salem", "Madurai", "Coimbatore", "Erode", "Dindigul", "Theni", "Tiruchirappalli", "Chennai", "Thoothukudi", "Tirunelveli", "Thanjavur"];
+
+  let detectedCrop = "tomato";
+  for (const [cropKey, aliases] of Object.entries(CROPS_MAP)) {
+    if (aliases.some(a => lower.includes(a))) {
+      detectedCrop = cropKey;
+      break;
+    }
+  }
+
+  let detectedDistrict = null;
+  for (const dist of DISTRICTS) {
+    if (lower.includes(dist.toLowerCase())) {
+      detectedDistrict = dist;
+      break;
+    }
+  }
+
+  // Switch crop in UI if element exists
+  const cropSelect = document.getElementById("miCropSelector");
+  if (cropSelect && cropSelect.value !== detectedCrop) {
+    cropSelect.value = detectedCrop;
+    cropSelect.dispatchEvent(new Event("change"));
+  }
+
+  const matching = records.filter(r => r.commodity_id === detectedCrop && (!detectedDistrict || r.district.toLowerCase() === detectedDistrict.toLowerCase()));
+  if (matching.length > 0) {
+    const rec = matching[0];
+    const unitPrice = (rec.modal_price / 100).toFixed(2);
+    const minPrice = (rec.min_price / 100).toFixed(2);
+    const maxPrice = (rec.max_price / 100).toFixed(2);
+    const cropName = rec.commodity_name;
+    const marketName = rec.market_name;
+
+    let ans = "";
+    if (currentLang === "ta") {
+      ans = `${marketName} சந்தையில் ${cropName} மாதிரி விலை கிலோவுக்கு ₹${unitPrice} (குறைந்தபட்சம் ₹${minPrice}, அதிகபட்சம் ₹${maxPrice}).`;
+    } else if (currentLang === "hi") {
+      ans = `${marketName} में ${cropName} का मॉडल मूल्य ₹${unitPrice} प्रति किलो है (न्यूनतम ₹${minPrice}, अधिकतम ₹${maxPrice})।`;
+    } else {
+      ans = `In ${marketName}, ${cropName} modal price is ₹${unitPrice}/kg (Min: ₹${minPrice}, Max: ₹${maxPrice}).`;
+    }
+    speak(ans);
+  } else {
+    speak(currentLang === "ta" ? "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட சந்தை விலை தகவல் கிடைக்கவில்லை." : "Sorry, market price data for that query is currently unavailable.");
+  }
 }
 
 /**
@@ -783,6 +898,8 @@ function initVoiceAssistant() {
     panel.classList.toggle('open');
     if (panel.classList.contains('open')) {
       setVoiceState('idle');
+      const log = document.getElementById('voiceLog');
+      if (log) log.scrollTop = 0;
       const greeting = typeof window.t === 'function' ? window.t('voice_greeting') : 'Welcome to AgriTrace!';
       setTimeout(() => speak(greeting), 400);
     } else {
