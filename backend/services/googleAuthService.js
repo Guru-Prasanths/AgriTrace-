@@ -27,23 +27,6 @@ async function verifyGoogleIdToken(idToken) {
     return global.__mockVerifyGoogleToken(idToken);
   }
 
-  // In development mode, allow simulated Google testing if idToken is a dev mock token
-  if ((process.env.NODE_ENV === "development" || !process.env.NODE_ENV) && idToken.startsWith("dev-mock-google-token:")) {
-    const rawData = idToken.replace("dev-mock-google-token:", "");
-    try {
-      const parsed = JSON.parse(Buffer.from(rawData, "base64").toString("utf8"));
-      return {
-        sub: parsed.sub || `dev-google-sub-${Date.now()}`,
-        email: parsed.email || "developer@gmail.com",
-        name: parsed.name || "AgriTrace Google User",
-        picture: parsed.picture || "https://lh3.googleusercontent.com/a/default-user",
-        email_verified: true
-      };
-    } catch {
-      // Proceed to standard verification if parse fails
-    }
-  }
-
   try {
     const ticket = await oauthClient.verifyIdToken({
       idToken: idToken.trim(),

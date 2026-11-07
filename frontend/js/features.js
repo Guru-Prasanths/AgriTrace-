@@ -1297,6 +1297,9 @@ function displayTraceabilityProfile(record, container) {
   const qrData = `${window.location.origin}${window.location.pathname}#trace?lotId=${encodeURIComponent(record.lot_id)}`;
   const farmerCapture = record.farmer_price && record.consumer_price ? Math.round((record.farmer_price / record.consumer_price) * 100) : '--';
 
+  const rawGrade = String(record.quality_grade || 'A').trim();
+  const gradeDisplay = rawGrade.toLowerCase().startsWith('grade') ? rawGrade : `Grade ${rawGrade}`;
+
   const tOrigin = typeof window.t === 'function' ? window.t('label_origin') : 'Origin';
   const tHarvest = typeof window.t === 'function' ? window.t('label_harvest_date') : 'Harvest Date';
   const tGrade = typeof window.t === 'function' ? window.t('label_quality_grade') : 'Quality Grade';
@@ -1315,43 +1318,43 @@ function displayTraceabilityProfile(record, container) {
   const badgeLabel = isDemo ? '📋 DEMO RECORD (OFF-CHAIN)' : (isVerified ? '✓ BLOCKCHAIN VERIFIED' : '⚠ UNVERIFIED');
 
   container.innerHTML = `
-    <div class="trace-profile">
-      <div class="trace-header">
+    <div class="trace-profile" style="background:#13281e !important; border:2px solid #34d399 !important; border-radius:18px !important; padding:24px !important; box-shadow:0 12px 36px rgba(0,0,0,0.4) !important; color:#ffffff !important;">
+      <div class="trace-header" style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.15); margin-bottom:18px; flex-wrap:wrap; gap:10px;">
         <div>
-          <div class="trace-lot-id">${escapeHtml(record.lot_id)}</div>
-          <div class="trace-crop-name">${escapeHtml(record.crop_name || 'Produce')}</div>
+          <div class="trace-lot-id" style="font-size:13.5px; font-family:monospace; color:#34d399 !important; font-weight:800; letter-spacing:0.06em;">${escapeHtml(record.lot_id)}</div>
+          <div class="trace-crop-name" style="font-size:28px; font-weight:900; color:#ffffff !important; margin-top:4px;">${escapeHtml(record.crop_name || 'Produce')}</div>
         </div>
-        <div class="trace-badge ${badgeClass}">
+        <div class="trace-badge ${badgeClass}" style="padding:6px 14px; font-size:12.5px; font-weight:800; border-radius:999px; background:${isVerified ? '#059669' : '#ea580c'} !important; color:#ffffff !important; border:1px solid ${isVerified ? '#34d399' : '#fb923c'} !important;">
           ${badgeLabel}
         </div>
       </div>
-      <div class="trace-grid">
-        <div class="trace-item"><span class="trace-icon">🌾</span><div><div class="trace-label">${tOrigin}</div><div class="trace-value">${escapeHtml(record.origin || 'N/A')}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">📅</span><div><div class="trace-label">${tHarvest}</div><div class="trace-value">${harvestDate}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">⭐</span><div><div class="trace-label">${tGrade}</div><div class="trace-value">Grade ${escapeHtml(record.quality_grade || 'N/A')}</div></div></div>
-        <div class="trace-item"><span class="trace-icon">🌡️</span><div><div class="trace-label">${tTemp}</div><div class="trace-value">${record.storage_temperature_c != null ? record.storage_temperature_c : '--'}°C</div></div></div>
-        <div class="trace-item"><span class="trace-icon">💧</span><div><div class="trace-label">${tHumidity}</div><div class="trace-value">${record.storage_humidity_pct != null ? record.storage_humidity_pct : '--'}%</div></div></div>
-        <div class="trace-item"><span class="trace-icon">💰</span><div><div class="trace-label">${tFarmerPrice}</div><div class="trace-value">₹${record.farmer_price != null ? record.farmer_price : '--'}/kg</div></div></div>
-        <div class="trace-item"><span class="trace-icon">🛒</span><div><div class="trace-label">${tConsumerPrice}</div><div class="trace-value">₹${record.consumer_price != null ? record.consumer_price : '--'}/kg</div></div></div>
-        <div class="trace-item"><span class="trace-icon">📊</span><div><div class="trace-label">Farmer Share</div><div class="trace-value">${farmerCapture}%</div></div></div>
+      <div class="trace-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-bottom:18px;">
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">🌾</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tOrigin}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">${escapeHtml(record.origin || 'N/A')}</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">📅</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tHarvest}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">${harvestDate}</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">⭐</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tGrade}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">${escapeHtml(gradeDisplay)}</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">🌡️</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tTemp}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">${record.storage_temperature_c != null ? record.storage_temperature_c : '--'}°C</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">💧</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tHumidity}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">${record.storage_humidity_pct != null ? record.storage_humidity_pct : '--'}%</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">💰</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tFarmerPrice}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">₹${record.farmer_price != null ? record.farmer_price : '--'}/kg</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">🛒</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">${tConsumerPrice}</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">₹${record.consumer_price != null ? record.consumer_price : '--'}/kg</div></div></div>
+        <div class="trace-item" style="background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.14) !important; border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:12px;"><span class="trace-icon" style="font-size:22px;">📊</span><div><div class="trace-label" style="font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#a7f3d0 !important; font-weight:800;">Farmer Share</div><div class="trace-value" style="font-size:16px; font-weight:800; color:#ffffff !important;">${farmerCapture}%</div></div></div>
       </div>
-      <div class="trace-blockchain">
-        <div class="trace-bc-title">⛓ BLOCKCHAIN RECORD</div>
-        <div class="trace-hash"><span>Metadata Hash:</span><code>${(record.metadata_hash || 'N/A').substring(0, 34)}…</code></div>
-        ${record.blockchain_tx_hash ? `<div class="trace-hash"><span>TX Hash:</span><code>${record.blockchain_tx_hash.substring(0, 34)}…</code></div>` : ''}
+      <div class="trace-blockchain" style="background:rgba(0,0,0,0.45) !important; border:1px solid rgba(52,211,153,0.3) !important; border-radius:12px; padding:14px 18px; margin-bottom:18px;">
+        <div class="trace-bc-title" style="font-size:12.5px; font-weight:800; letter-spacing:0.08em; color:#38bdf8 !important; margin-bottom:8px;">⛓ BLOCKCHAIN RECORD</div>
+        <div class="trace-hash" style="display:flex; justify-content:space-between; font-size:13px; color:#cbd5e1 !important; margin-bottom:6px; flex-wrap:wrap; gap:6px;"><span style="color:#94a3b8 !important; font-weight:700;">Metadata Hash:</span><code style="font-family:monospace; color:#4ade80 !important; font-weight:700; background:rgba(0,0,0,0.4); padding:2px 6px; border-radius:4px;">${(record.metadata_hash || 'N/A').substring(0, 34)}…</code></div>
+        ${record.blockchain_tx_hash ? `<div class="trace-hash" style="display:flex; justify-content:space-between; font-size:13px; color:#cbd5e1 !important; margin-bottom:4px; flex-wrap:wrap; gap:6px;"><span style="color:#94a3b8 !important; font-weight:700;">TX Hash:</span><code style="font-family:monospace; color:#4ade80 !important; font-weight:700; background:rgba(0,0,0,0.4); padding:2px 6px; border-radius:4px;">${record.blockchain_tx_hash.substring(0, 34)}…</code></div>` : ''}
       </div>
-      <div class="trace-bottom">
+      <div class="trace-bottom" style="display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:center; padding-top:16px; border-top:1px solid rgba(255,255,255,0.15);">
         <div>
-          <div class="trace-label" style="margin-bottom:10px;">QR CODE</div>
+          <div class="trace-label" style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#34d399 !important; margin-bottom:10px;">QR CODE</div>
           <div id="traceQRCode"></div>
         </div>
-        <div class="trace-journey">
-          <div class="trace-label" style="margin-bottom:12px;">SUPPLY CHAIN JOURNEY</div>
-          <div class="journey-step done"><span>🌾</span> ${tStep1} — ${escapeHtml(record.origin || 'Farm')}</div>
-          <div class="journey-step done"><span>📋</span> ${tStep2}</div>
-          <div class="journey-step ${isVerified ? 'done' : 'pending'}"><span>⛓</span> ${tStep3}</div>
-          <div class="journey-step ${record.storage_temperature_c != null ? 'done' : 'pending'}"><span>🚚</span> ${tStep4}</div>
-          <div class="journey-step pending"><span>🛒</span> ${tStep5}</div>
+        <div class="trace-journey" style="display:flex; flex-direction:column; gap:9px;">
+          <div class="trace-label" style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#34d399 !important; margin-bottom:4px;">SUPPLY CHAIN JOURNEY</div>
+          <div class="journey-step done" style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:#ffffff !important; font-weight:700;"><span>🌾</span> ${tStep1} — ${escapeHtml(record.origin || 'Farm')}</div>
+          <div class="journey-step done" style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:#ffffff !important; font-weight:700;"><span>📋</span> ${tStep2}</div>
+          <div class="journey-step ${isVerified ? 'done' : 'pending'}" style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:${isVerified ? '#ffffff' : '#94a3b8'} !important; font-weight:700;"><span>⛓</span> ${tStep3}</div>
+          <div class="journey-step ${record.storage_temperature_c != null ? 'done' : 'pending'}" style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:${record.storage_temperature_c != null ? '#ffffff' : '#94a3b8'} !important; font-weight:700;"><span>🚚</span> ${tStep4}</div>
+          <div class="journey-step pending" style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:#94a3b8 !important; font-weight:600;"><span>🛒</span> ${tStep5}</div>
         </div>
       </div>
     </div>
