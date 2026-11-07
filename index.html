@@ -2628,7 +2628,7 @@
                         <div class="uiverse-doc-header">
                             <div class="uiverse-doc-icon">📊</div>
                             <div>
-                                <span class="uiverse-doc-tag">EXECUTIVE SLIDE DECK · 28 SLIDES</span>
+                                <span class="uiverse-doc-tag">TEAM 1 PRESENTATION &bull; 5 SLIDES</span>
                                 <div style="font-size:12px;color:var(--muted);">Engineering, UI/UX & Field Deployment Architecture</div>
                             </div>
                         </div>
@@ -2637,13 +2637,16 @@
                             Comprehensive visual walkthrough covering the complete problem statement, botanical design system, voice AI multilingual interaction, smart contract security audit, Tamil Nadu mandi dataset benchmarks, and real-time farmer payout workflows.
                         </p>
                     </div>
-                    <div class="uiverse-doc-actions">
-                        <a href="docs/AgriTrace_Project_Presentation.pdf" target="_blank" rel="noopener noreferrer" class="uiverse-doc-btn uiverse-doc-btn-primary">
+                    <div class="uiverse-doc-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button type="button" onclick="openSlideDeckModal(1)" class="uiverse-doc-btn uiverse-doc-btn-primary" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
                             <span>👁️ View Slides</span>
                             <span>↗</span>
+                        </button>
+                        <a href="docs/AgriTrace_Project_Presentation.pdf" target="_blank" download="AgriTrace_Project_Presentation.pdf" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
+                            <span>📥 Download PDF</span>
                         </a>
-                        <a href="docs/AgriTrace_Project_Presentation.pdf" download="AgriTrace_Project_Presentation.pdf" class="uiverse-doc-btn uiverse-doc-btn-secondary">
-                            <span>📥 Download</span>
+                        <a href="docs/AgriTrace_Project_Presentation.pptx" download="AgriTrace_Project_Presentation.pptx" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; border-color:#7B9B3A; color:#1e382c;">
+                            <span>📊 Download PPTX</span>
                         </a>
                     </div>
                 </article>
@@ -2651,6 +2654,59 @@
             </div>
 
         </section>
+
+        <!-- =====================================================
+             AGRITRACE MASTER PRESENTATION SLIDE DECK MODAL
+             ===================================================== -->
+        <div id="slideDeckModal" class="tn-modal-backdrop" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(10,25,18,0.88); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;" role="dialog" aria-modal="true" aria-labelledby="slideDeckModalTitle" onclick="if(event.target===this)closeSlideDeckModal()">
+            <div class="slide-deck-card" style="background:#fdfbf7; border:2px solid rgba(123,155,58,0.4); border-radius:24px; box-shadow:0 30px 80px rgba(0,0,0,0.6); width:100%; max-width:1160px; max-height:92vh; display:flex; flex-direction:column; overflow:hidden; position:relative;">
+                
+                <!-- Modal Top Bar -->
+                <div style="background:linear-gradient(180deg, #ffffff 0%, #f4f0e2 100%); padding:14px 22px; border-bottom:1.5px solid #ded9cb; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="background:#1e382c; color:#ffffff; font-size:12px; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:1px;">SLIDES</span>
+                        <h3 id="slideDeckModalTitle" style="margin:0; font-size:17px; font-weight:800; color:#14281f; font-family:var(--font-heading, Georgia, serif);">AgriTrace Master Architecture &amp; Field Deployment Presentation</h3>
+                        <span id="slideIndicator" style="font-size:13px; font-weight:700; color:#526359; background:#ede7d5; padding:3px 10px; border-radius:12px;">Slide 1 of 5</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <a href="docs/AgriTrace_Project_Presentation.pdf" target="_blank" download="AgriTrace_Project_Presentation.pdf" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; text-decoration:none;">
+                            📥 PDF
+                        </a>
+                        <a href="docs/AgriTrace_Project_Presentation.pptx" download="AgriTrace_Project_Presentation.pptx" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; text-decoration:none; border-color:#7B9B3A; color:#1e382c;">
+                            📊 PPTX
+                        </a>
+                        <button type="button" onclick="closeSlideDeckModal()" style="background:#ffffff; border:1px solid #ded9cb; border-radius:50%; width:36px; height:36px; font-size:16px; font-weight:800; cursor:pointer; color:#14281f; display:flex; align-items:center; justify-content:center;" aria-label="Close presentation">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Slide Stage Content -->
+                <div id="slideStage" style="padding:24px; overflow-y:auto; flex:1; min-height:480px; display:flex; align-items:center; justify-content:center; background:#f7f5ec;">
+                    <!-- Injected by features.js goToSlide() -->
+                </div>
+
+                <!-- Modal Bottom Navigation Controls -->
+                <div style="background:#f4f0e2; padding:12px 22px; border-top:1.5px solid #ded9cb; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <button type="button" id="prevSlideBtn" onclick="prevSlide()" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:8px 18px; font-weight:700; cursor:pointer;">
+                        ← Previous
+                    </button>
+
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <button type="button" class="slide-dot-btn" onclick="goToSlide(1)" id="slideDot1" style="width:36px; height:32px; border-radius:8px; border:1px solid #1e382c; background:#1e382c; color:#fff; font-weight:700; font-size:13px; cursor:pointer;">1</button>
+                        <button type="button" class="slide-dot-btn" onclick="goToSlide(2)" id="slideDot2" style="width:36px; height:32px; border-radius:8px; border:1px solid #ded9cb; background:#fff; color:#14281f; font-weight:700; font-size:13px; cursor:pointer;">2</button>
+                        <button type="button" class="slide-dot-btn" onclick="goToSlide(3)" id="slideDot3" style="width:36px; height:32px; border-radius:8px; border:1px solid #ded9cb; background:#fff; color:#14281f; font-weight:700; font-size:13px; cursor:pointer;">3</button>
+                        <button type="button" class="slide-dot-btn" onclick="goToSlide(4)" id="slideDot4" style="width:36px; height:32px; border-radius:8px; border:1px solid #ded9cb; background:#fff; color:#14281f; font-weight:700; font-size:13px; cursor:pointer;">4</button>
+                        <button type="button" class="slide-dot-btn" onclick="goToSlide(5)" id="slideDot5" style="width:36px; height:32px; border-radius:8px; border:1px solid #ded9cb; background:#fff; color:#14281f; font-weight:700; font-size:13px; cursor:pointer;">5</button>
+                    </div>
+
+                    <button type="button" id="nextSlideBtn" onclick="nextSlide()" class="uiverse-doc-btn uiverse-doc-btn-primary" style="padding:8px 22px; font-weight:800; cursor:pointer; background:#1e382c; color:#fff;">
+                        Next →
+                    </button>
+                </div>
+
+            </div>
+        </div>
 
     </main>
 
