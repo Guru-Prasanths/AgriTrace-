@@ -118,11 +118,15 @@
   let googleConfigChecked = false;
 
   async function fetchGoogleConfig() {
-    if (googleConfigChecked) return googleClientId;
+    if (googleClientId) return googleClientId;
+    if (window.AGRITRACE_GOOGLE_CLIENT_ID && typeof window.AGRITRACE_GOOGLE_CLIENT_ID === "string" && !window.AGRITRACE_GOOGLE_CLIENT_ID.includes("your-google-client-id") && window.AGRITRACE_GOOGLE_CLIENT_ID.trim() !== "") {
+      googleClientId = window.AGRITRACE_GOOGLE_CLIENT_ID.trim();
+      return googleClientId;
+    }
     try {
       const res = await apiRequest("/auth/google/config");
-      if (res.ok && res.data && res.data.clientId) {
-        googleClientId = res.data.clientId;
+      if (res.ok && res.data && res.data.clientId && !res.data.clientId.includes("your-google-client-id") && res.data.clientId.trim() !== "") {
+        googleClientId = res.data.clientId.trim();
       }
     } catch (e) {
       console.warn("[google-auth] Config fetch notice:", e.message);
@@ -220,41 +224,24 @@
     }
   };
 
-  // Dev Mode Simulated Google Auth Helper (for local testing before Google Cloud OAuth is provisioned)
-  window.promptDevGoogleAuth = function (portalRole, isSignUp) {
-    const defaultEmail = portalRole === 'farmer' ? 'guru.farmer@gmail.com' : 'guru.seller@gmail.com';
-    const email = window.prompt(`[Dev Simulation] Enter a Gmail address for Google Authentication (${portalRole.toUpperCase()} portal):`, defaultEmail);
-    if (!email || !email.trim()) return;
-
-    const devPayload = {
-      sub: `dev-google-${Date.now()}`,
-      email: email.trim(),
-      name: `${portalRole.charAt(0).toUpperCase() + portalRole.slice(1)} Google User`,
-      picture: "https://lh3.googleusercontent.com/a/default-user",
-      email_verified: true
-    };
-    const devToken = "dev-mock-google-token:" + btoa(unescape(encodeURIComponent(JSON.stringify(devPayload))));
-    window.handleGoogleAuthResponse({ credential: devToken }, portalRole, isSignUp);
-  };
-
-  // Trigger Google Sign-In Flow
+  // Trigger Google Sign-In Flow (Genuine Google Identity Services)
   window.triggerGoogleAuth = async function (portalRole, isSignUp) {
     const clientId = await fetchGoogleConfig();
 
-    if (!clientId || clientId === "your-google-client-id.apps.googleusercontent.com") {
+    if (!clientId || clientId.includes("your-google-client-id")) {
       const errorElId = `${portalRole}${isSignUp ? 'Signup' : 'Login'}Error`;
       const errorEl = document.getElementById(errorElId);
       if (errorEl) {
         errorEl.innerHTML = `
           <div style="text-align:left;line-height:1.5;">
-            <div style="font-weight:700;color:#fbbf24;margin-bottom:6px;">⚠️ Google Sign-In Setup Notice</div>
-            <p style="margin:0 0 6px 0;font-size:12px;color:#e2e8f0;">
-              Live Google Sign-In requires your Google Cloud OAuth Client ID in <code>.env</code>:
+            <div style="font-weight:700;color:#fbbf24;margin-bottom:6px;">⚠️ Google Sign-In Configuration Required</div>
+            <p style="margin:0 0 6px 0;font-size:12.5px;color:#e2e8f0;">
+              Please configure your AgriTrace Google Cloud OAuth 2.0 Web Client ID in <code>.env</code>:
             </p>
-            <pre style="background:rgba(0,0,0,0.4);padding:5px 8px;border-radius:6px;font-family:monospace;font-size:11px;color:#38bdf8;margin:0 0 8px 0;user-select:all;">GOOGLE_CLIENT_ID=your-id.apps.googleusercontent.com</pre>
-            <button type="button" class="small-button" style="background:#10b981;color:#000;font-weight:700;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;" onclick="promptDevGoogleAuth('${portalRole}', ${isSignUp ? 'true' : 'false'})">
-              ⚡ Quick Test with Simulated Google Account (Dev Mode)
-            </button>
+            <pre style="background:rgba(0,0,0,0.45);padding:6px 10px;border-radius:6px;font-family:monospace;font-size:12px;color:#38bdf8;margin:0 0 6px 0;user-select:all;">GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com</pre>
+            <p style="margin:0;font-size:11.5px;color:#94a3b8;">
+              You can also set <code>window.AGRITRACE_GOOGLE_CLIENT_ID = "..."</code> in <code>frontend/index.html</code>.
+            </p>
           </div>
         `;
         errorEl.style.display = "block";
@@ -270,7 +257,7 @@
         cancel_on_tap_outside: true
       });
 
-      // Prompt One-Tap / native dialog
+      // Prompt Google One-Tap or native dialog
       window.google.accounts.id.prompt((notification) => {
         if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
           const containerId = `${portalRole}${isSignUp ? 'Signup' : 'Login'}GoogleBtnHidden`;
@@ -288,7 +275,7 @@
         }
       });
     } else {
-      notify("Google Identity Services library is loading. Please verify internet connection or try again shortly.", "info");
+      notify("Google Identity Services library is loading. Please check your internet connection or reload.", "info");
     }
   };
 
