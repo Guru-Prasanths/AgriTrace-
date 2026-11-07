@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="css/uiverse-buttons.css">
     <!-- Tamil Nadu Agricultural Dataset Centre Styles -->
     <link rel="stylesheet" href="css/tn-datasets.css">
+    <!-- Tamil Nadu Agricultural Market Intelligence & Decision Support -->
+    <link rel="stylesheet" href="css/tn-market-intelligence.css">
     <!-- Global Typography & Legibility Standards (15-16px) -->
     <link rel="stylesheet" href="css/typography-enhancements.css">
     <!-- Official Google Identity Services (Sign in with Google OAuth 2.0 / OpenID Connect) -->
@@ -455,27 +457,15 @@
                  ===================================================== -->
             <div id="heroAlgorithmCard" class="hero-workflow-container">
                 <article class="agritrace-algorithm-card" aria-label="AgriTrace Intelligent Algorithm">
-                    <!-- 1. Generated Algorithm Video Player -->
+                    <!-- 1. Algorithm Visual Poster & Protocol Architecture -->
                     <div class="algorithm-media-wrap">
-                        <video 
-                            id="algorithmVideoPlayer"
-                            class="algorithm-video" 
-                            autoplay 
-                            muted 
-                            loop 
-                            playsinline 
-                            poster="assets/agritrace-algorithm-poster.png"
-                            aria-label="AgriTrace Farm-to-Market Blockchain Traceability Algorithm Animation Video">
-                            <source src="assets/agritrace-algorithm.mp4" type="video/mp4">
-                            <!-- Fallback Image if video fails or while loading -->
-                            <img 
-                                src="assets/agritrace-algorithm-poster.png" 
-                                alt="AgriTrace Algorithm Visual Poster" 
-                                class="algorithm-fallback-img" 
-                                loading="lazy" />
-                        </video>
+                        <img 
+                            src="assets/agritrace-algorithm-poster.png" 
+                            alt="AgriTrace Farm-to-Market Blockchain Traceability Algorithm Visual Architecture" 
+                            class="algorithm-poster-img" 
+                            loading="eager" />
                         <div class="algorithm-media-overlay" aria-hidden="true">
-                            <span class="media-live-badge">⛓ 10-SEC ALGORITHM</span>
+                            <span class="media-live-badge">⛓ IMMUTABLE PROTOCOL</span>
                         </div>
                     </div>
 
@@ -1502,6 +1492,309 @@
 
                 </div>
 
+            </div>
+
+            <!-- =====================================================
+                 TAMIL NADU AGRICULTURAL MARKET INTELLIGENCE & DECISION SUPPORT
+                 7-Tab Suite: Comparison, Profit Calc, Trends, Weather, Grading, Markets, Schemes
+                 ===================================================== -->
+            <div id="marketIntelligencePortal" class="market-intelligence-wrapper">
+                <div class="mi-header-block">
+                    <span class="section-label">TAMIL NADU AGRICULTURAL INTELLIGENCE</span>
+                    <h3>Regulated Market Price Comparison & Decision Support</h3>
+                    <p>
+                        Authoritative AGMARKNET & Regulated Markets (APMC) observation data across Tamil Nadu districts.
+                        Compare modal prices with strict common observation dates, project 7-day trends, compute itemized net profit, and inspect live agro-met harvesting advisories.
+                    </p>
+                </div>
+
+                <!-- Feature Navigation Tabs -->
+                <nav class="mi-tab-bar" aria-label="Market Intelligence Navigation">
+                    <button type="button" class="mi-tab-btn active" data-tab="tabMarketComparison">
+                        <span>📊</span> <span>District Price Comparison</span>
+                    </button>
+                    <button type="button" class="mi-tab-btn" data-tab="tabProfitCalculator">
+                        <span>🧮</span> <span>Smart Selling Calculator</span>
+                    </button>
+                    <button type="button" class="mi-tab-btn" data-tab="tabPriceTrends">
+                        <span>📈</span> <span>30-Day Trends & Projections</span>
+                    </button>
+                    <button type="button" class="mi-tab-btn" data-tab="tabWeatherAdvisory">
+                        <span>🌦️</span> <span>Weather-Based Harvest Advisory</span>
+                    </button>
+                    <button type="button" class="mi-tab-btn" data-tab="tabQualityGrading">
+                        <span>⭐</span> <span>Crop Quality & Grading</span>
+                    </button>
+                    <button type="button" class="mi-tab-btn" data-tab="tabNearbyMarkets">
+                        <span>📍</span> <span>Regulated Markets & Hubs</span>
+                    </button>
+                    <button type="button" class="mi-tab-btn" data-tab="tabGovernmentSchemes">
+                        <span>🏛️</span> <span>Government Schemes</span>
+                    </button>
+                </nav>
+
+                <!-- TAB 1: DISTRICT PRICE COMPARISON -->
+                <div id="tabMarketComparison" class="mi-tab-pane active">
+                    <!-- Controls Bar -->
+                    <div class="mi-controls-bar">
+                        <div class="mi-control-group">
+                            <label for="miCropSelector">Select Tamil Nadu Crop:</label>
+                            <select id="miCropSelector" class="mi-select">
+                                <option value="tomato" selected>🍅 Tomato (Thakkali)</option>
+                                <option value="rice">🌾 Rice / Paddy (Nel)</option>
+                                <option value="banana">🍌 Banana (Vazhaipazham)</option>
+                                <option value="onion">🧅 Small Onion / Shallot (Chinna Vengayam)</option>
+                                <option value="coconut">🥥 Coconut (Thengai)</option>
+                                <option value="sugarcane">🎋 Sugarcane (Karumbu)</option>
+                                <option value="groundnut">🥜 Groundnut (Kadalai)</option>
+                                <option value="turmeric">🌱 Turmeric (Manjal)</option>
+                                <option value="mango">🥭 Mango (Maangai)</option>
+                                <option value="brinjal">🍆 Brinjal / Eggplant (Kathirikai)</option>
+                                <option value="chilli">🌶️ Green Chilli (Pachai Milagai)</option>
+                                <option value="cotton">☁️ Cotton (Paruthi)</option>
+                                <option value="tapioca">🥔 Tapioca (Maravalli Kizhangu)</option>
+                                <option value="maize">🌽 Maize / Corn (Makka Cholam)</option>
+                                <option value="drumstick">🌿 Drumstick / Moringa (Murungai)</option>
+                            </select>
+                        </div>
+
+                        <div class="mi-control-group">
+                            <label>Comparison Mode:</label>
+                            <div class="mi-mode-switch-group">
+                                <button type="button" class="mi-mode-btn active" data-mode="strict_common_date" title="Strict Common Observation Date comparison">
+                                    <span>Mode A: Common Date</span>
+                                    <span class="mi-badge-default">DEFAULT</span>
+                                </button>
+                                <button type="button" class="mi-mode-btn" data-mode="latest_available" title="Latest available records with multi-date discrepancy warning">
+                                    <span>Mode B: Latest Available</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mi-control-group">
+                            <label>Display Price Unit:</label>
+                            <div class="mi-unit-switch-group">
+                                <button type="button" class="mi-unit-btn active" data-unit="kg">₹/kg</button>
+                                <button type="button" class="mi-unit-btn" data-unit="quintal">₹/quintal</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- District Filter Chips -->
+                    <div class="mi-district-section">
+                        <span class="mi-district-label">Filter Districts (Min 2 required for comparative spread):</span>
+                        <div id="miDistrictChipsContainer" class="mi-district-chips-container"></div>
+                    </div>
+
+                    <!-- Mode Callout Banner -->
+                    <div id="miModeBannerContainer"></div>
+
+                    <!-- Smart Selling Insights Summary Cards -->
+                    <div id="miInsightsContainer"></div>
+
+                    <!-- Comparison Table -->
+                    <div class="mi-table-responsive">
+                        <table class="mi-price-table">
+                            <thead>
+                                <tr>
+                                    <th>Regulated Market</th>
+                                    <th>District</th>
+                                    <th class="sortable" data-sort="modal">Modal Price ⇕</th>
+                                    <th>Min Price</th>
+                                    <th>Max Price</th>
+                                    <th class="sortable" data-sort="date">Observation Date ⇕</th>
+                                    <th>Reporting Status</th>
+                                    <th>7-Day Trend</th>
+                                    <th>Official Source</th>
+                                </tr>
+                            </thead>
+                            <tbody id="miComparisonTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Visual Comparison Bar Chart -->
+                    <div class="mi-chart-box">
+                        <div class="mi-chart-header">
+                            <h4>📊 Regulated Market Price Distribution Chart</h4>
+                            <span class="mi-chart-subtitle">Real-time visualization of modal rates across selected Tamil Nadu APMC mandis</span>
+                        </div>
+                        <div id="miComparisonChart" class="mi-chart-body"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: SMART SELLING PROFIT CALCULATOR -->
+                <div id="tabProfitCalculator" class="mi-tab-pane">
+                    <div class="mi-profit-calculator-layout">
+                        <!-- Left Form -->
+                        <div class="mi-calc-card">
+                            <h4 class="mi-calc-heading">🌾 Harvest & Logistics Parameters</h4>
+                            <p class="mi-calc-sub">Simulate net farm-gate earnings after deducting packaging, loading, transport, and APMC market cess.</p>
+                            <form id="miProfitCalcForm" class="mi-calc-form" onsubmit="return false;">
+                                <div class="mi-form-row">
+                                    <div class="mi-field">
+                                        <label for="calcCrop">Produce Crop</label>
+                                        <select id="calcCrop" class="mi-input">
+                                            <option value="tomato" selected>🍅 Tomato</option>
+                                            <option value="rice">🌾 Rice / Paddy</option>
+                                            <option value="banana">🍌 Banana</option>
+                                            <option value="onion">🧅 Onion</option>
+                                            <option value="coconut">🥥 Coconut</option>
+                                            <option value="sugarcane">🎋 Sugarcane</option>
+                                            <option value="groundnut">🥜 Groundnut</option>
+                                            <option value="turmeric">🌱 Turmeric</option>
+                                            <option value="mango">🥭 Mango</option>
+                                            <option value="brinjal">🍆 Brinjal</option>
+                                            <option value="chilli">🌶️ Chilli</option>
+                                            <option value="cotton">☁️ Cotton</option>
+                                            <option value="tapioca">🥔 Tapioca</option>
+                                            <option value="maize">🌽 Maize</option>
+                                            <option value="drumstick">🌿 Drumstick</option>
+                                        </select>
+                                    </div>
+                                    <div class="mi-field">
+                                        <label for="calcQuantity">Harvest Quantity (kg)</label>
+                                        <input type="number" id="calcQuantity" class="mi-input" value="1000" min="50" step="50" required />
+                                    </div>
+                                </div>
+
+                                <div class="mi-form-row">
+                                    <div class="mi-field">
+                                        <label for="calcOrigin">Origin Farm District</label>
+                                        <select id="calcOrigin" class="mi-input">
+                                            <option value="Salem" selected>Salem</option>
+                                            <option value="Madurai">Madurai</option>
+                                            <option value="Coimbatore">Coimbatore</option>
+                                            <option value="Erode">Erode</option>
+                                            <option value="Dindigul">Dindigul</option>
+                                            <option value="Theni">Theni</option>
+                                            <option value="Tiruchirappalli">Tiruchirappalli</option>
+                                            <option value="Chennai">Chennai</option>
+                                            <option value="Thoothukudi">Thoothukudi</option>
+                                            <option value="Tirunelveli">Tirunelveli</option>
+                                            <option value="Thanjavur">Thanjavur</option>
+                                        </select>
+                                    </div>
+                                    <div class="mi-field">
+                                        <label for="calcGrade">Quality Grade Standard</label>
+                                        <select id="calcGrade" class="mi-input">
+                                            <option value="A+" selected>Grade A+ (Export / Super-Premium: +8%)</option>
+                                            <option value="A">Grade A (Standard Market: 100% Modal)</option>
+                                            <option value="B">Grade B (Fair Commercial: -10%)</option>
+                                            <option value="C">Grade C (Processing / Distressed: -25%)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mi-form-row">
+                                    <div class="mi-field">
+                                        <label for="calcPackaging">Packaging Cost (₹ Total)</label>
+                                        <input type="number" id="calcPackaging" class="mi-input" placeholder="Auto-calculated (approx ₹480)" min="0" />
+                                    </div>
+                                    <div class="mi-field">
+                                        <label for="calcLoading">Loading & Handling (₹ Total)</label>
+                                        <input type="number" id="calcLoading" class="mi-input" placeholder="Auto-calculated (approx ₹300)" min="0" />
+                                    </div>
+                                </div>
+
+                                <div class="mi-form-row">
+                                    <div class="mi-field">
+                                        <label for="calcTransport">Custom Transport Fee (₹ Total)</label>
+                                        <input type="number" id="calcTransport" class="mi-input" placeholder="Leave empty for distance auto-calc" min="0" />
+                                    </div>
+                                    <div class="mi-field">
+                                        <label for="calcCommission">Mandi Fee / Commission (%)</label>
+                                        <input type="number" id="calcCommission" class="mi-input" value="1.0" min="0" max="10" step="0.5" />
+                                    </div>
+                                </div>
+
+                                <button type="button" class="primary-button agri-animated-btn" style="width:100%;margin-top:14px;" onclick="runProfitCalculation()">
+                                    CALCULATE OPTIMAL SELLING MARKET <span>➔</span>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right Itemized Receipt -->
+                        <div class="mi-receipt-wrapper">
+                            <div id="miProfitReceiptContainer" class="mi-receipt-box"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: 30-DAY PRICE TRENDS & PROJECTIONS -->
+                <div id="tabPriceTrends" class="mi-tab-pane">
+                    <div id="miPriceTrendsContainer"></div>
+                </div>
+
+                <!-- TAB 4: WEATHER-BASED HARVEST ADVISORY -->
+                <div id="tabWeatherAdvisory" class="mi-tab-pane">
+                    <div id="miWeatherAdvisoryContainer"></div>
+                </div>
+
+                <!-- TAB 5: CROP QUALITY & GRADING STANDARDS -->
+                <div id="tabQualityGrading" class="mi-tab-pane">
+                    <div class="mi-quality-grading-section">
+                        <div class="mi-grading-header">
+                            <h4>🏆 AGMARK Agricultural Quality & Grading Framework</h4>
+                            <p>Authoritative physical grading metrics determining mandi gate price realizations across Tamil Nadu regulated markets.</p>
+                        </div>
+                        <div class="mi-grades-grid">
+                            <div class="mi-grade-card grade-aplus">
+                                <div class="mi-grade-badge">GRADE A+</div>
+                                <h5>Export & Premium Retail</h5>
+                                <p class="mi-grade-mult"><strong>Price Realization:</strong> +8% to +15% over modal</p>
+                                <ul class="mi-grade-specs">
+                                    <li>Uniform size, vibrant color and zero surface blemishes</li>
+                                    <li>Firm texture with optimal moisture content (12–14% for grains)</li>
+                                    <li>Zero pest damage, foreign material &lt; 0.5%</li>
+                                    <li>Compliant with APEDA / AGMARK export specifications</li>
+                                </ul>
+                            </div>
+                            <div class="mi-grade-card grade-a">
+                                <div class="mi-grade-badge">GRADE A</div>
+                                <h5>Standard Regulated Mandi Grade</h5>
+                                <p class="mi-grade-mult"><strong>Price Realization:</strong> 100% of reported modal price</p>
+                                <ul class="mi-grade-specs">
+                                    <li>Characteristic shape and varietal purity &gt; 95%</li>
+                                    <li>Minor surface scarring allowed &lt; 5% surface area</li>
+                                    <li>Firmness adequate for 3–5 day shelf life</li>
+                                    <li>Meets standard Tamil Nadu Agricultural Marketing Board criteria</li>
+                                </ul>
+                            </div>
+                            <div class="mi-grade-card grade-b">
+                                <div class="mi-grade-badge">GRADE B</div>
+                                <h5>Fair Commercial & Local Consumption</h5>
+                                <p class="mi-grade-mult"><strong>Price Realization:</strong> -10% to -15% discount</p>
+                                <ul class="mi-grade-specs">
+                                    <li>Slight size variance and mixed ripening stages</li>
+                                    <li>Skin blemishes &lt; 15%, no active internal decay</li>
+                                    <li>Suitable for immediate local retail within 24–48 hours</li>
+                                    <li>Moderate moisture variance permitted</li>
+                                </ul>
+                            </div>
+                            <div class="mi-grade-card grade-c">
+                                <div class="mi-grade-badge">GRADE C</div>
+                                <h5>Processing & Bulk Value-Addition</h5>
+                                <p class="mi-grade-mult"><strong>Price Realization:</strong> -25% to -35% discount</p>
+                                <ul class="mi-grade-specs">
+                                    <li>Irregular size, mechanical cuts or over-ripeness</li>
+                                    <li>Purely designated for pulp, puree, starch, oil or dehydration</li>
+                                    <li>Zero tolerance for toxic molds or microbial contamination</li>
+                                    <li>Sold directly to industrial processing plants</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 6: REGULATED MARKETS & HUBS -->
+                <div id="tabNearbyMarkets" class="mi-tab-pane">
+                    <div id="miNearbyMarketsContainer"></div>
+                </div>
+
+                <!-- TAB 7: VERIFIED GOVERNMENT SCHEMES -->
+                <div id="tabGovernmentSchemes" class="mi-tab-pane">
+                    <div id="miSchemesContainer"></div>
+                </div>
             </div>
 
         </section>
@@ -3302,7 +3595,9 @@
 
     <!-- Tamil Nadu Agricultural Knowledge Base & Datasets -->
     <script src="js/tnCropsData.js"></script>
+    <script src="js/tnMarketData.js"></script>
     <script src="js/tnDatasets.js"></script>
+    <script src="js/tnMarketIntelligence.js"></script>
     <script src="js/features.js"></script>
     <script src="js/auth_rewards.js"></script>
 

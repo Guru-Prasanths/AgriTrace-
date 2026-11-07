@@ -293,6 +293,19 @@ small,
   cursor: pointer !important;
 }
 
+/* Voice Assistant Panel — Zero Overlap, Full Legibility Standards */
+.voice-panel {
+  width: 440px !important;
+  max-width: calc(100vw - 32px) !important;
+  height: 640px !important;
+  max-height: calc(100vh - 40px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45) !important;
+  border-radius: 20px !important;
+}
+
 /* Audio Volume Bar — Zero Overlap with Chat Log */
 .voice-audio-bar {
   position: relative !important;
@@ -304,6 +317,7 @@ small,
   justify-content: space-between !important;
   gap: 12px !important;
   flex-shrink: 0 !important;
+  margin: 0 !important;
 }
 
 .voice-audio-label {
@@ -326,14 +340,15 @@ small,
 /* Voice Chat Log — High Contrast, Fully Visible Solutions */
 .voice-log {
   flex: 1 1 auto !important;
-  min-height: 180px !important;
-  max-height: 280px !important;
+  min-height: 220px !important;
+  max-height: none !important;
   overflow-y: auto !important;
   padding: 16px 18px !important;
   background: #0a140f !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 12px !important;
+  margin: 0 !important;
 }
 
 .voice-bubble {
@@ -342,7 +357,7 @@ small,
   gap: 12px !important;
   padding: 14px 18px !important;
   border-radius: 16px !important;
-  max-width: 90% !important;
+  max-width: 92% !important;
 }
 
 .voice-bubble-assistant {

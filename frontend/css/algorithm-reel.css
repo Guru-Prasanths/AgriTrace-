@@ -59,13 +59,19 @@
   border: 1px solid rgba(212, 208, 189, 0.45);
 }
 
-.algorithm-video {
+.algorithm-video,
+.algorithm-poster-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   border-radius: 20px;
   background: #091711 url('../assets/agritrace-algorithm-poster.png') center / cover no-repeat;
+  transition: transform 0.4s ease;
+}
+
+.agritrace-algorithm-card:hover .algorithm-poster-img {
+  transform: scale(1.03);
 }
 
 .algorithm-fallback-img {

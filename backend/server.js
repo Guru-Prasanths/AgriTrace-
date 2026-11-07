@@ -15,6 +15,7 @@ const rewardRoutes = require("./routes/rewardRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const tnCropRoutes = require("./routes/tnCropRoutes");
+const tnMarketRoutes = require("./routes/tnMarketRoutes");
 const { initRewardScheduler } = require("./services/rewardScheduler");
 
 /* =========================================================
@@ -139,6 +140,7 @@ app.use("/api/rewards", rewardRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/tn-crops", tnCropRoutes);
+app.use("/api/tn-market", tnMarketRoutes);
 
 // Initialize background 24h daily reward scheduler
 if (process.env.NODE_ENV !== "test") {
