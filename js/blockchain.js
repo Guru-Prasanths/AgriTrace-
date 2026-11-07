@@ -154,11 +154,14 @@ async function getBrowserProvider() {
    ========================================================= */
 
 function getActiveContractAddress() {
-  const currentChain = (window.walletState?.chainId || "0x7a69").toLowerCase();
+  const currentChain = (window.walletState?.chainId || "").toLowerCase();
   if (currentChain === "0x7a69") {
     return window.AGRITRACE.CONTRACT_ADDRESS;
   }
-  return window.AGRITRACE.CONTRACT_ADDRESSES?.[currentChain] || null;
+  if (currentChain) {
+    return window.AGRITRACE.CONTRACT_ADDRESSES?.[currentChain] || null;
+  }
+  return window.AGRITRACE.CONTRACT_ADDRESS;
 }
 
 function isContractConfigured() {
@@ -180,16 +183,8 @@ function isContractConfigured() {
 async function getContract({ signer = false } = {}) {
   ensureEthers();
 
-  const currentChain = (window.walletState?.chainId || "0x7a69").toLowerCase();
-  const contractAddress = getActiveContractAddress();
-
-  if (!contractAddress || !isContractConfigured()) {
-    throw new Error(
-      `AgriTrace smart contract is not deployed on ${wallet?.chainName ? wallet.chainName(currentChain) : currentChain}. Switch MetaMask to Hardhat Local (Chain 31337) or use instant manual registration.`
-    );
-  }
-
   let runner;
+  let activeChainIdHex;
 
   if (signer) {
     if (!window.walletState?.connected || !window.walletState?.account) {
@@ -199,8 +194,32 @@ async function getContract({ signer = false } = {}) {
     }
     const provider = await getBrowserProvider();
     runner = await provider.getSigner();
+
+    // Verify ACTUAL chain directly from connected provider
+    const network = await provider.getNetwork();
+    activeChainIdHex = "0x" + network.chainId.toString(16).toLowerCase();
   } else {
     runner = getReadProvider();
+    activeChainIdHex = (window.walletState?.chainId || "0x7a69").toLowerCase();
+  }
+
+  // Contract address resolution strictly by active chain
+  let contractAddress = null;
+  if (activeChainIdHex === "0x7a69") {
+    contractAddress = window.AGRITRACE.CONTRACT_ADDRESS;
+  } else {
+    contractAddress = window.AGRITRACE.CONTRACT_ADDRESSES?.[activeChainIdHex] || null;
+  }
+
+  if (
+    !contractAddress ||
+    !/^0x[a-fA-F0-9]{40}$/.test(contractAddress) ||
+    contractAddress === "0x0000000000000000000000000000000000000000"
+  ) {
+    const chainDisplay = typeof wallet !== "undefined" && wallet.chainName ? wallet.chainName(activeChainIdHex) : activeChainIdHex;
+    throw new Error(
+      `AgriTrace smart contract is deployed on Hardhat Local (Chain 31337). Your MetaMask is currently on ${chainDisplay}. Please run 'npx hardhat node' and switch MetaMask to Hardhat Local, or click 'Record in Registry (Instant & Verified)' for instant cryptographic verification.`
+    );
   }
 
   return new ethers.Contract(

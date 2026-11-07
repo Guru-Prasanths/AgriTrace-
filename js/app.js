@@ -817,7 +817,7 @@ async function createRecord(event) {
         : false;
 
       if (!isLocalNodeAlive) {
-        showToast("⚡ Hardhat Local node (127.0.0.1:8545) is not running. Saving lot directly to Verified Product Registry with cryptographic Keccak-256 proof.", "info");
+        showToast("⚡ Hardhat Local node (127.0.0.1:8545) is not active. Saving lot directly to Verified Product Registry with cryptographic Keccak-256 proof.", "info");
       } else {
         try {
           if (activeBtn) activeBtn.textContent = "Connecting to MetaMask…";
@@ -825,7 +825,15 @@ async function createRecord(event) {
             await wallet.connectWallet();
           }
 
-          if (wallet.walletReady() && window.walletState?.chainId === "0x7a69") {
+          const currentChain = (window.walletState?.chainId || "").toLowerCase();
+          if (currentChain && currentChain !== "0x7a69") {
+            const switched = await wallet.switchToHardhatLocal(true);
+            if (!switched) {
+              showToast("Switched away from Hardhat Local. Saving lot directly to Verified Product Registry with cryptographic Keccak-256 proof.", "info");
+            }
+          }
+
+          if (wallet.walletReady() && (window.walletState?.chainId || "").toLowerCase() === "0x7a69") {
             if (activeBtn) activeBtn.textContent = "Waiting for MetaMask signature…";
             showToast("🦊 MetaMask Prompt: Confirm the produce anchor transaction.", "info");
 
