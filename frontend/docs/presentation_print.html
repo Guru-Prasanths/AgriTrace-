@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriTrace Master Architecture & Field Deployment Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: 1920px 1080px;
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #14281f;
+    background: #e5e5e5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    page-break-after: always;
+    page-break-inside: avoid;
+    overflow: hidden;
+    background: #f7f5ec;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* SLIDE 1: TITLE SLIDE */
+  .slide-1 {
+    background: #f7f5ec url('presentation_assets/image-1002-1.jpeg') center/cover no-repeat;
+    color: #14281f;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 100px 120px;
+  }
+  .slide-1-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(247, 245, 236, 0.88);
+    backdrop-filter: blur(2px);
+    z-index: 1;
+  }
+  .slide-1-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+  }
+  .s1-domain {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #1e382c;
+    color: #ffffff;
+    padding: 8px 22px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .s1-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 68px;
+    line-height: 1.15;
+    font-weight: 700;
+    color: #14281f;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .s1-tagline {
+    font-size: 26px;
+    color: #3b5e4c;
+    font-weight: 600;
+    margin-bottom: 50px;
+    letter-spacing: 0.5px;
+  }
+  .s1-meta-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid rgba(30, 56, 44, 0.2);
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-shadow: 0 20px 50px rgba(20, 40, 30, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .s1-team-badge {
+    display: inline-block;
+    background: #7B9B3A;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 4px 14px;
+    border-radius: 8px;
+    width: fit-content;
+  }
+  .s1-team-names {
+    font-size: 20px;
+    font-weight: 700;
+    color: #14281f;
+    line-height: 1.5;
+  }
+  .s1-team-sub {
+    font-size: 16px;
+    color: #526359;
+    font-weight: 500;
+  }
+  .s1-supervisor {
+    border-top: 1px solid #e2ddd0;
+    padding-top: 14px;
+    font-size: 17px;
+    color: #244033;
+    font-weight: 600;
+  }
+
+  /* HEADER FOR SLIDES 2-5 */
+  .slide-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 30px;
+  }
+  .slide-category {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7B9B3A;
+  }
+  .slide-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 46px;
+    font-weight: 700;
+    color: #14281f;
+    letter-spacing: -0.01em;
+  }
+
+  /* SLIDE 2: THE NEED FOR AGRITRACE */
+  .s2-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .s2-column {
+    background: #ffffff;
+    border: 1.5px solid #ded9cb;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  }
+  .s2-col-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1e382c;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .s2-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+  .s2-list li {
+    font-size: 17px;
+    color: #244033;
+    line-height: 1.45;
+    position: relative;
+    padding-left: 24px;
+  }
+  .s2-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    color: #7B9B3A;
+    font-size: 24px;
+    line-height: 1;
+  }
+  .s2-img-wrap {
+    width: 100%;
+    height: 320px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #ded9cb;
+  }
+  .s2-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .s2-footer-bar {
+    background: #1e382c;
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .s2-footer-link {
+    color: #a7f3d0;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 15px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+
+  /* SLIDE 3: AGENDA */
+  .s3-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    flex: 1;
+    margin-bottom: 20px;
+  }
+  .s3-card {
+    background: #ffffff;
+    border: 1.5px solid #ded9cb;
+    border-radius: 18px;
+    padding: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+  }
+  .s3-num {
+    background: #1e382c;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .s3-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #14281f;
+    line-height: 1.35;
+    margin-top: 8px;
+  }
+
+  /* SLIDE 4: FUNCTIONAL ARCHITECTURE */
+  .s4-features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+  .s4-feat-card {
+    background: #ffffff;
+    border: 1.5px solid #ded9cb;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.02);
+  }
+  .s4-feat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .s4-feat-icon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+  }
+  .s4-feat-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e382c;
+  }
+  .s4-feat-desc {
+    font-size: 13.5px;
+    color: #3b5e4c;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+  .s4-arch-banner {
+    background: #1e382c;
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 16px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .s4-arch-banner strong {
+    color: #a7f3d0;
+  }
+  .s4-notes {
+    font-size: 13px;
+    color: #64748b;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* SLIDE 5: CLOSING */
+  .s5-closing-card {
+    width: 100%;
+    height: 600px;
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px;
+    background: #0d231a url('presentation_assets/image-5-1.jpeg') center/cover no-repeat;
+  }
+  .s5-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 35, 26, 0.75);
+    backdrop-filter: blur(3px);
+  }
+  .s5-card-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+  }
+  .s5-eyebrow {
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a7f3d0;
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+  .s5-headline {
+    font-family: 'EB Garamond', serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .s5-subtext {
+    font-size: 20px;
+    color: #e2e8f0;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .s5-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fdfbf7;
+    color: #14281f;
+    font-size: 18px;
+    font-weight: 800;
+    padding: 16px 36px;
+    border-radius: 40px;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .s5-footer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #244033;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE SLIDE -->
+<section class="slide slide-1">
+  <div class="slide-1-overlay"></div>
+  <div class="slide-1-content">
+    <div class="s1-domain">Domain &bull; AgriTrace</div>
+    <h1 class="s1-title">Blockchain-Enabled Farm-to-Market Traceability and Transparent Price Discovery System.</h1>
+    <div class="s1-tagline">From Farm to Market. Fair Prices. Trusted Produce.</div>
+    <div class="s1-meta-card">
+      <div class="s1-team-badge">TEAM 1</div>
+      <div class="s1-team-names">
+        <strong>Presented by:</strong> Guru Prasanth S, Leun Hammi D, Jeyaprasanna M<br>
+        <span class="s1-team-sub">Register Number: [9925009028, 99250040308, 99250040310] &nbsp;|&nbsp; Department: [Mech, CSE(Ds)]</span>
+      </div>
+      <div class="s1-supervisor">
+        <strong>Supervisor:</strong> Dr. P. Chinnasamy &nbsp;|&nbsp; <strong>Designation:</strong> Associate Professor
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: PROJECT RECAP -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-category">Project Recap</div>
+    <h2 class="slide-title">THE NEED FOR AGRITRACE</h2>
+  </div>
+  <div class="s2-grid">
+    <!-- Left: Challenges -->
+    <div class="s2-column">
+      <div class="s2-col-title"><span>⚠️</span> Existing Challenges</div>
+      <ul class="s2-list">
+        <li>Multiple intermediaries can reduce direct buyer access.</li>
+        <li>Market prices are not always easy to compare.</li>
+        <li>Produce origin and handling details may be fragmented.</li>
+        <li>Agricultural information is spread across platforms.</li>
+      </ul>
+      <div class="s2-img-wrap">
+        <img src="presentation_assets/image-2-1.jpeg" alt="Farmers harvesting and trading fresh produce in the field">
+      </div>
+    </div>
+
+    <!-- Right: AgriTrace Solution -->
+    <div class="s2-column">
+      <div class="s2-col-title"><span>🌱</span> AgriTrace Solution</div>
+      <ul class="s2-list">
+        <li>Digital farmer-to-buyer marketplace with separate farmer and seller portals.</li>
+        <li>Transparent crop-price information and district-wise market comparison.</li>
+        <li>Government datasets, crop information, and blockchain-supported traceability.</li>
+        <li>QR-based verification where supported.</li>
+      </ul>
+      <div class="s2-img-wrap">
+        <img src="presentation_assets/image-2-2.png" alt="AgriTrace Web Application Interface">
+      </div>
+    </div>
+  </div>
+
+  <div class="s2-footer-bar">
+    <div>Farmer &rarr; AgriTrace Platform &rarr; Buyer &nbsp;|&nbsp; Price transparency &bull; Digital marketplace &bull; Traceability</div>
+    <a href="https://guru-prasanths.github.io/AgriTrace-/" target="_blank" class="s2-footer-link">Live Web App: https://guru-prasanths.github.io/AgriTrace-/ &nearr;</a>
+  </div>
+</section>
+
+<!-- SLIDE 3: AGENDA -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-category">Presentation Route</div>
+    <h2 class="slide-title">AGENDA &ndash; EXPLORING THE AGRITRACE ECOSYSTEM</h2>
+  </div>
+  <div class="s3-grid">
+    <div class="s3-card">
+      <div class="s3-num">01</div>
+      <div class="s3-text">Project overview and objectives</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">02</div>
+      <div class="s3-text">Farmer and seller authentication</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">03</div>
+      <div class="s3-text">Digital agricultural marketplace</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">04</div>
+      <div class="s3-text">Crop listings and order management</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">05</div>
+      <div class="s3-text">Tamil Nadu agriculture datasets</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">06</div>
+      <div class="s3-text">District-wise agricultural market price comparison</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">07</div>
+      <div class="s3-text">Blockchain-based traceability and QR verification</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">08</div>
+      <div class="s3-text">AgriTrace Points and accessibility</div>
+    </div>
+    <div class="s3-card">
+      <div class="s3-num">09</div>
+      <div class="s3-text">Technology architecture and future scope</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: FUNCTIONAL ARCHITECTURE -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-category">Functional Architecture</div>
+    <h2 class="slide-title">AGRITRACE &ndash; SYSTEM WORKFLOW AND FUNCTIONAL ARCHITECTURE</h2>
+  </div>
+
+  <div class="s4-features-grid">
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-1.png" class="s4-feat-icon" alt="Authentication">
+        <span class="s4-feat-title">Authentication</span>
+      </div>
+      <p class="s4-feat-desc">Farmer and Seller portals &bull; email/password &bull; Google authentication integration &bull; role-based access</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-2.png" class="s4-feat-icon" alt="Listing">
+        <span class="s4-feat-title">Listing</span>
+      </div>
+      <p class="s4-feat-desc">Crop name &bull; images &bull; quantity and unit &bull; price and location &bull; quality and availability</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-3.png" class="s4-feat-icon" alt="Marketplace">
+        <span class="s4-feat-title">Marketplace</span>
+      </div>
+      <p class="s4-feat-desc">Browse &bull; compare listings &bull; submit requests or offers &bull; connect with farmers</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-4.png" class="s4-feat-icon" alt="Orders">
+        <span class="s4-feat-title">Orders</span>
+      </div>
+      <p class="s4-feat-desc">Track requests &bull; manage status &bull; coordinate interactions &bull; record supported transaction details</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-5.png" class="s4-feat-icon" alt="Price discovery">
+        <span class="s4-feat-title">Price discovery</span>
+      </div>
+      <p class="s4-feat-desc">Tamil Nadu datasets and official resources &bull; tomato comparison across Salem, Madurai, Coimbatore, Erode</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-6.png" class="s4-feat-icon" alt="Traceability">
+        <span class="s4-feat-title">Traceability</span>
+      </div>
+      <p class="s4-feat-desc">Produce Batch &rarr; Digital Record &rarr; Blockchain Transaction &rarr; QR Verification &rarr; Traceability Information</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-7.png" class="s4-feat-icon" alt="AgriTrace Points">
+        <span class="s4-feat-title">AgriTrace Points</span>
+      </div>
+      <p class="s4-feat-desc">Eligible activities &bull; completion rewards &bull; configured daily eligibility &bull; balance &bull; transaction history</p>
+    </div>
+    <div class="s4-feat-card">
+      <div class="s4-feat-header">
+        <img src="presentation_assets/image-4-8.png" class="s4-feat-icon" alt="Accessibility">
+        <span class="s4-feat-title">Accessibility</span>
+      </div>
+      <p class="s4-feat-desc">Simple navigation &bull; responsive interface &bull; readable text &bull; language accessibility &bull; voice assistance</p>
+    </div>
+  </div>
+
+  <div class="s4-arch-banner">
+    <strong>Architecture:</strong> HTML5 | CSS3 | JavaScript &rarr; Node.js | Express.js &rarr; PostgreSQL | Solidity | Hardhat | MetaMask | ethers.js &rarr; Government Agricultural Datasets / External Data Sources
+  </div>
+
+  <div class="s4-notes">
+    <div>&bull; Comparison fields: Minimum, maximum, modal price, market, date, unit. Tomato values shown in any implementation are illustrative placeholders only.</div>
+    <div>&bull; Traceability boundary: supported records only, not a deployed production blockchain. QR verification where supported.</div>
+  </div>
+</section>
+
+<!-- SLIDE 5: CLOSING -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="slide-category">Closing</div>
+    <h2 class="slide-title">THANK YOU</h2>
+  </div>
+
+  <div class="s5-closing-card">
+    <div class="s5-card-overlay"></div>
+    <div class="s5-card-content">
+      <div class="s5-eyebrow">The Future of Agriculture</div>
+      <h3 class="s5-headline">EVERY CROP.<br>EVERY JOURNEY.<br>EVERY TRANSACTION.</h3>
+      <p class="s5-subtext">AgriTrace transforms agricultural supply chains into a connected, transparent and verifiable digital ecosystem.</p>
+      <div class="s5-btn">START TRACEABILITY &rarr;</div>
+    </div>
+  </div>
+
+  <div class="s5-footer-meta">
+    <div>CSE223 &nbsp;|&nbsp; APPLIED BLOCKCHAIN : TEAM 1</div>
+    <div>AgriTrace Platform Ecosystem</div>
+  </div>
+</section>
+
+</body>
+</html>
+
