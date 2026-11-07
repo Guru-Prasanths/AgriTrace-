@@ -3401,7 +3401,8 @@ tbody tr:hover {
 .toast {
     position: fixed;
 
-    right: 25px;
+    left: 25px;
+    right: auto;
     bottom: 25px;
 
     z-index: 5000;
@@ -3472,13 +3473,14 @@ tbody tr:hover {
 .toast strong {
     font-size: 16px;
     font-weight: 800;
+    color: #000000;
 }
 
 
 .toast p {
     margin-top: 2px;
 
-    color: #cbd5e1;
+    color: #000000;
 
     font-size: 15px;
     line-height: 1.5;
