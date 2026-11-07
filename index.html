@@ -1855,50 +1855,267 @@
                 </button>
             </div>
 
-            <!-- Modal for Dataset Detail -->
-            <div id="tnDatasetDetailModal" class="tn-modal-backdrop" onclick="if(event.target===this)closeDatasetDetailModal()" role="dialog" aria-modal="true" aria-labelledby="tnModalTitle">
-                <div class="tn-modal-card">
+            <!-- Modal for Tamil Nadu Crop Detail (7 Comprehensive Sections + 2 Distinct Action Buttons) -->
+            <div id="tnDatasetDetailModal" class="tn-modal-backdrop" onclick="if(event.target===this)closeDatasetDetailModal()" role="dialog" aria-modal="true" aria-labelledby="tnModalCropName">
+                <div class="tn-modal-card tn-modal-card-expanded">
+                    <!-- Modal Header -->
                     <div class="tn-modal-header">
                         <div class="tn-modal-avatar" id="tnModalCropIcon">🌾</div>
-                        <div style="flex:1;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <div class="tn-modal-header-info">
+                            <div class="tn-modal-badge-row">
                                 <span id="tnModalCategory" class="tn-cat-pill tn-cat-cereals">Cereals & Grains</span>
-                                <span class="tn-verified-chip" style="font-size:11.5px;padding:2px 8px;border-radius:12px;background:#eef7e6;color:#3C4819;font-weight:700;">✓ TNAU / Agmarknet Verified</span>
+                                <span class="tn-verified-chip">✓ TNAU / AGMARKNET Verified</span>
+                                <span id="tnModalLastUpdated" class="tn-update-chip">📅 Feb 2026</span>
                             </div>
-                            <h3 id="tnModalCropName" style="margin:0;font-size:22px;color:#1e382c;font-family:'EB Garamond',serif;">Crop Name</h3>
+                            <h3 id="tnModalCropName" class="tn-modal-title">Crop Name</h3>
+                            <p class="tn-modal-scientific" id="tnModalScientific"><em>Scientific Name</em></p>
                         </div>
-                        <button type="button" class="tn-modal-close" onclick="closeDatasetDetailModal()" aria-label="Close modal">✕</button>
+                        <button type="button" class="tn-modal-close" onclick="closeDatasetDetailModal()" aria-label="Close crop modal">✕</button>
                     </div>
+
+                    <!-- 7-Section Navigation Tabs -->
+                    <div class="tn-modal-tabs-bar" role="tablist" aria-label="Crop Details Sections">
+                        <button class="tn-tab-btn active" role="tab" aria-selected="true" data-tab="tabOverview" onclick="switchTnModalTab('tabOverview')">
+                            <span>🌱 Overview</span>
+                        </button>
+                        <button class="tn-tab-btn" role="tab" aria-selected="false" data-tab="tabSeasonal" onclick="switchTnModalTab('tabSeasonal')">
+                            <span>🗓️ Seasonal</span>
+                        </button>
+                        <button class="tn-tab-btn" role="tab" aria-selected="false" data-tab="tabMarket" onclick="switchTnModalTab('tabMarket')">
+                            <span>💰 Market Prices</span>
+                        </button>
+                        <button class="tn-tab-btn" role="tab" aria-selected="false" data-tab="tabStorage" onclick="switchTnModalTab('tabStorage')">
+                            <span>❄️ Shelf Life & Storage</span>
+                        </button>
+                        <button class="tn-tab-btn" role="tab" aria-selected="false" data-tab="tabProtection" onclick="switchTnModalTab('tabProtection')">
+                            <span>🛡️ Protection</span>
+                        </button>
+                        <button class="tn-tab-btn" role="tab" aria-selected="false" data-tab="tabHarvest" onclick="switchTnModalTab('tabHarvest')">
+                            <span>🚜 Harvesting</span>
+                        </button>
+                        <button class="tn-tab-btn" role="tab" aria-selected="false" data-tab="tabPostHarvest" onclick="switchTnModalTab('tabPostHarvest')">
+                            <span>🏭 Post-Harvest</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal Body: Tab Content Panes -->
                     <div class="tn-modal-body">
-                        <h4 id="tnModalTitle" style="font-size:16px;color:#2C4C38;margin-bottom:12px;">Full Dataset Title</h4>
-                        <p id="tnModalDesc" style="font-size:14.5px;line-height:1.6;color:#3d5246;margin-bottom:16px;">Dataset description...</p>
-                        
-                        <div class="tn-modal-meta-grid">
-                            <div class="tn-meta-item">
-                                <span class="tn-meta-label">Key Districts</span>
-                                <strong class="tn-meta-value" id="tnModalDistricts">-</strong>
+                        <!-- SECTION A: Crop Overview -->
+                        <div id="tnTabOverview" class="tn-tab-pane active" role="tabpanel">
+                            <div class="tn-section-block">
+                                <h4>A. Crop Overview & Identification</h4>
+                                <p id="tnOverviewDesc" class="tn-overview-text">Loading description...</p>
+                                
+                                <div class="tn-detail-cards-grid">
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Released Varieties & Cultivars (TNAU)</span>
+                                        <div id="tnOverviewVarieties" class="tn-tags-wrap">-</div>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Key Growing Districts / Zones</span>
+                                        <div id="tnOverviewDistricts" class="tn-tags-wrap">-</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="tn-meta-item">
-                                <span class="tn-meta-label">Publishing Authority</span>
-                                <strong class="tn-meta-value" id="tnModalSourceOrg">-</strong>
+                        </div>
+
+                        <!-- SECTION B: Seasonal Information -->
+                        <div id="tnTabSeasonal" class="tn-tab-pane" role="tabpanel" style="display:none;">
+                            <div class="tn-section-block">
+                                <h4>B. Tamil Nadu Sowing & Crop Calendar</h4>
+                                <div class="tn-detail-cards-grid">
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Sowing Seasons (TN Agro-Climate)</span>
+                                        <strong id="tnSeasonalSowing" class="tn-card-val">-</strong>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Harvest Season</span>
+                                        <strong id="tnSeasonalHarvest" class="tn-card-val">-</strong>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Maturity Duration (Days)</span>
+                                        <strong id="tnSeasonalDuration" class="tn-card-val">-</strong>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">District-Level Cultivation Variations</span>
+                                        <p id="tnSeasonalVariations" class="tn-card-text">-</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="tn-meta-item">
-                                <span class="tn-meta-label">Data Schedule / Sync</span>
-                                <strong class="tn-meta-value" id="tnModalLastUpdated">-</strong>
+                        </div>
+
+                        <!-- SECTION C: Market Information (₹/kg & ₹/quintal conversions + Historical Trend) -->
+                        <div id="tnTabMarket" class="tn-tab-pane" role="tabpanel" style="display:none;">
+                            <div class="tn-section-block">
+                                <h4>C. Mandi Market Prices & Price Discovery</h4>
+                                
+                                <!-- Mandi Benchmark Hero Card -->
+                                <div class="tn-mandi-price-hero">
+                                    <div class="tn-mandi-badge">
+                                        <span id="tnMarketMandiName">Regulated Market</span> • <span id="tnMarketDistrict">District</span>
+                                    </div>
+                                    <div class="tn-price-columns">
+                                        <div class="tn-price-col modal-col">
+                                            <span class="tn-price-tag">Modal Average Price</span>
+                                            <div class="tn-price-big" id="tnMarketModalKg">₹0.00 <small>/ kg</small></div>
+                                            <div class="tn-price-sub" id="tnMarketModalQuintal">₹0 / quintal</div>
+                                        </div>
+                                        <div class="tn-price-col range-col">
+                                            <span class="tn-price-tag">Mandi Price Range</span>
+                                            <div class="tn-range-text" id="tnMarketRangeKg">₹0.00 - ₹0.00 / kg</div>
+                                            <div class="tn-price-sub" id="tnMarketRangeQuintal">₹0 - ₹0 / quintal</div>
+                                        </div>
+                                    </div>
+                                    <div class="tn-conversion-math-banner">
+                                        <span>⚖️ Official Conversion Formula:</span>
+                                        <code>Price per kg = Price per quintal ÷ 100 &nbsp;|&nbsp; 1 Quintal = 100 kg</code>
+                                    </div>
+                                    <div class="tn-price-source-note">
+                                        <span>Observation Date: <strong id="tnMarketObsDate">-</strong></span>
+                                        <span>Source: <strong id="tnMarketSourceAuth">AGMARKNET / TN Agricultural Marketing Board</strong></span>
+                                    </div>
+                                </div>
+
+                                <!-- Historical Price Trend Table -->
+                                <div class="tn-history-trend-box">
+                                    <h5>Recent Price Trends (5 Observations)</h5>
+                                    <div class="tn-history-table-wrap">
+                                        <table class="tn-history-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Mandi Center</th>
+                                                    <th>Price / Quintal</th>
+                                                    <th>Price / Kg</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tnMarketHistoryBody">
+                                                <!-- Dynamic rows -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="tn-meta-item">
-                                <span class="tn-meta-label">Traceability Standard</span>
-                                <strong class="tn-meta-value" style="color:#7B9B3A;">AgriTrace v2.0 Schema</strong>
+                        </div>
+
+                        <!-- SECTION D: Shelf Life and Spoilage -->
+                        <div id="tnTabStorage" class="tn-tab-pane" role="tabpanel" style="display:none;">
+                            <div class="tn-section-block">
+                                <h4>D. Post-Harvest Shelf Life & Cold Storage</h4>
+                                <div class="tn-detail-cards-grid">
+                                    <div class="tn-card-item highlight-card">
+                                        <span class="tn-card-label">Ambient Room Temperature Shelf Life</span>
+                                        <strong id="tnStorageAmbient" class="tn-card-val">-</strong>
+                                    </div>
+                                    <div class="tn-card-item highlight-card">
+                                        <span class="tn-card-label">Cold Storage Controlled Shelf Life</span>
+                                        <strong id="tnStorageCold" class="tn-card-val">-</strong>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Optimal Storage Temperature (°C)</span>
+                                        <strong id="tnStorageTemp" class="tn-card-val">-</strong>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Optimal Relative Humidity (% RH)</span>
+                                        <strong id="tnStorageHumidity" class="tn-card-val">-</strong>
+                                    </div>
+                                </div>
+                                <div class="tn-spoilage-grid">
+                                    <div class="tn-spoilage-item">
+                                        <span class="tn-card-label">Major Spoilage Factors</span>
+                                        <p id="tnStorageSpoilage" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-spoilage-item">
+                                        <span class="tn-card-label">Deterioration Signs</span>
+                                        <p id="tnStorageDeterioration" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-spoilage-item full-width">
+                                        <span class="tn-card-label">Post-Harvest Storage Recommendations</span>
+                                        <p id="tnStorageRecommendations" class="tn-card-text">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION E: Crop Protection -->
+                        <div id="tnTabProtection" class="tn-tab-pane" role="tabpanel" style="display:none;">
+                            <div class="tn-section-block">
+                                <h4>E. Crop Protection, Pests & IPM Guidance</h4>
+                                <div class="tn-protection-cards">
+                                    <div class="tn-protection-item danger-item">
+                                        <span class="tn-card-label">Major Pests & Diseases (TN AgriTech)</span>
+                                        <p id="tnProtectionPests" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-protection-item warning-item">
+                                        <span class="tn-card-label">Preventive Measures & Cultural Practices</span>
+                                        <p id="tnProtectionPreventive" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-protection-item safe-item">
+                                        <span class="tn-card-label">Safe Pesticide & Integrated Pest Management (IPM)</span>
+                                        <p id="tnProtectionIpm" class="tn-card-text">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION F: Harvesting and Transportation -->
+                        <div id="tnTabHarvest" class="tn-tab-pane" role="tabpanel" style="display:none;">
+                            <div class="tn-section-block">
+                                <h4>F. Harvesting Standards, Grading & Cold Chain Transit</h4>
+                                <div class="tn-detail-cards-grid">
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Maturity Indicators & Optimal Stage</span>
+                                        <p id="tnHarvestIndicators" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Harvesting Precautions</span>
+                                        <p id="tnHarvestPrecautions" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Sorting & Quality Grading Guidance</span>
+                                        <p id="tnHarvestGrading" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-card-item">
+                                        <span class="tn-card-label">Packaging & Transport Precautions</span>
+                                        <p id="tnHarvestPackaging" class="tn-card-text">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION G: Post-Harvest Management -->
+                        <div id="tnTabPostHarvest" class="tn-tab-pane" role="tabpanel" style="display:none;">
+                            <div class="tn-section-block">
+                                <h4>G. Value Addition, Processing & Waste Reduction</h4>
+                                <div class="tn-protection-cards">
+                                    <div class="tn-protection-item safe-item">
+                                        <span class="tn-card-label">Post-Harvest Preservation Methods</span>
+                                        <p id="tnPostHarvestPreservation" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-protection-item safe-item">
+                                        <span class="tn-card-label">Processing Possibilities & Value-Added Products</span>
+                                        <p id="tnPostHarvestProcessing" class="tn-card-text">-</p>
+                                    </div>
+                                    <div class="tn-protection-item warning-item">
+                                        <span class="tn-card-label">Post-Harvest Waste Reduction Strategies</span>
+                                        <p id="tnPostHarvestWaste" class="tn-card-text">-</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tn-modal-footer">
-                        <a id="tnModalDownloadLink" href="#" target="_blank" rel="noopener noreferrer" class="tn-modal-btn tn-btn-secondary">
-                            <span>📥 Download CSV / Schema</span>
-                        </a>
-                        <a id="tnModalSourceLink" href="#" target="_blank" rel="noopener noreferrer" class="tn-modal-btn tn-btn-primary">
-                            <span>🏛️ Open Government Portal</span>
-                            <span>↗</span>
+
+                    <!-- Modal Footer: TWO DISTINCT ACTION BUTTONS -->
+                    <div class="tn-modal-footer tn-two-actions-footer">
+                        <!-- BUTTON 1: View Complete Crop Details -->
+                        <button id="tnModalCompleteBtn" type="button" class="tn-action-primary-btn" onclick="toggleAllCropSections()">
+                            <span>📖 View Complete Crop Details</span>
+                        </button>
+                        
+                        <!-- BUTTON 2: Official Tamil Nadu Government Source -->
+                        <a id="tnModalSourceLink" href="https://agritech.tnau.ac.in/" target="_blank" rel="noopener noreferrer" class="tn-action-gov-btn" title="Open Official Government Portal (TNAU / AGMARKNET / TANHODA)">
+                            <span>🏛️ Official Tamil Nadu Government Source</span>
+                            <span class="tn-btn-arrow" aria-hidden="true">↗</span>
                         </a>
                     </div>
                 </div>
@@ -3083,6 +3300,8 @@
          AGRITRACE FEATURES (Multi-lang, Voice, Camera, QR, Marketplace, TN Datasets)
          ===================================================== -->
 
+    <!-- Tamil Nadu Agricultural Knowledge Base & Datasets -->
+    <script src="js/tnCropsData.js"></script>
     <script src="js/tnDatasets.js"></script>
     <script src="js/features.js"></script>
     <script src="js/auth_rewards.js"></script>

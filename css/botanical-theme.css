@@ -169,12 +169,50 @@ strong {
     color: var(--dp-color-ground) !important;
 }
 
+/* =========================================================
+   GLOBAL SCROLL OFFSET & ZERO NAV OVERLAP STANDARDS
+   Ensures sections never get covered underneath fixed/floating navbars.
+   ========================================================= */
+html {
+    scroll-padding-top: 250px !important;
+}
+
+.section,
+section[id],
+.seller-section,
+.farmer-section,
+#hero,
+#dashboard,
+#records,
+#prices,
+#sensors,
+#farmer,
+#seller,
+#consumer,
+#datasets,
+#kaggle {
+    scroll-margin-top: 250px !important;
+}
+
+.seller-section,
+.farmer-section {
+    padding-top: 28px !important;
+}
+
+.role-auth-card {
+    margin: 40px auto 30px auto !important;
+    position: relative !important;
+    z-index: 5 !important;
+}
+
 .floating-nav-panel {
     background: var(--dp-color-ground) !important;
     border: 1px solid var(--dp-color-rule) !important;
     box-shadow: 0 12px 45px rgba(30, 56, 44, 0.12) !important;
     backdrop-filter: blur(20px) !important;
     border-radius: var(--dp-radius-panel) !important;
+    padding: 10px 18px !important;
+    gap: 8px !important;
 }
 
 .floating-nav-header {

@@ -54,7 +54,7 @@
   aspect-ratio: 16 / 9;
   border-radius: 20px;
   overflow: hidden;
-  background: #091711;
+  background: #091711 url('../assets/agritrace-algorithm-poster.png') center / cover no-repeat;
   box-shadow: 0 6px 20px rgba(11, 26, 19, 0.2);
   border: 1px solid rgba(212, 208, 189, 0.45);
 }
@@ -65,7 +65,7 @@
   object-fit: cover;
   display: block;
   border-radius: 20px;
-  background: #091711;
+  background: #091711 url('../assets/agritrace-algorithm-poster.png') center / cover no-repeat;
 }
 
 .algorithm-fallback-img {
