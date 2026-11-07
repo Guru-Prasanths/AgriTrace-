@@ -532,8 +532,14 @@ async function showTraceabilityModal(lotId) {
   modal.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   if (title) title.textContent = `Batch Lifecycle & Provenance: ${lotId}`;
-  const translate = (key, fallback) => (typeof window.t === "function" ? window.t(key) : fallback);
-  content.innerHTML = `<div style="padding: 20px; color: var(--muted); font-size: 15px;">${translate("loading_trace_data", `Loading traceability data for ${lotId}…`).replace('{lotId}', escapeHtml(lotId))}</div>`;
+  const translate = (key, fallback) => {
+    if (typeof window.t === "function") {
+      const val = window.t(key);
+      if (val && val !== key) return val;
+    }
+    return fallback;
+  };
+  content.innerHTML = `<div style="padding: 20px; color: #cbd5e1; font-size: 15px;">${translate("loading_trace_data", `Loading traceability data for ${lotId}…`).replace('{lotId}', escapeHtml(lotId))}</div>`;
 
   let traceData = null;
   let onChainRecord = null;
@@ -584,100 +590,100 @@ async function showTraceabilityModal(lotId) {
     ? traceData.sensorHistory
     : sensorHistory;
 
-  // Build the rich Authenticity & Traceability View
+  // Build the rich Authenticity & Traceability View with High-Contrast Luminous Typography
   content.innerHTML = `
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 10px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 10px;">
 
       <!-- Card A: ON-CHAIN VERIFIABLE BLOCKCHAIN RECORD -->
-      <div style="background: rgba(3, 16, 13, 0.7); border: 1px solid rgba(57, 255, 136, 0.25); border-radius: 12px; padding: 18px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
-          <span style="font-size: 14px; font-weight: 800; color: var(--green); letter-spacing: 0.5px;">${translate("on_chain_immutable_anchor", "ON-CHAIN IMMUTABLE ANCHOR")}</span>
-          <span class="chain ${isVerified ? "ok" : isAnchored ? "ok" : "pending"}" style="font-size: 13.5px; padding: 4px 10px;">
+      <div style="background: rgba(18, 38, 28, 0.9); border: 1.5px solid rgba(57, 255, 136, 0.4); border-radius: 16px; padding: 20px; box-shadow: 0 4px 18px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 14px; font-weight: 800; color: #34d399; letter-spacing: 0.8px;">${translate("on_chain_immutable_anchor", "ON-CHAIN IMMUTABLE ANCHOR")}</span>
+          <span style="font-size: 12.5px; font-weight: 800; padding: 4px 12px; border-radius: 20px; background: ${isVerified ? '#059669' : isAnchored ? '#0d9488' : '#334155'}; color: #ffffff;">
             ${isVerified ? translate("verified_on_chain", "VERIFIED ON-CHAIN") : isAnchored ? translate("status_anchored", "ANCHORED") : translate("off_chain_only", "OFF-CHAIN ONLY")}
           </span>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+        <div style="display: flex; flex-direction: column; gap: 14px; font-size: 14px;">
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("lot_key", "LOT KEY (KECCAK-256)")}</div>
-            <code style="color: var(--green); font-size: 13px; word-break: break-all;">${recordKey}</code>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">${translate("lot_key", "LOT KEY (KECCAK-256)")}</div>
+            <code style="color: #4ade80; font-size: 13.5px; font-weight: 700; word-break: break-all; font-family: monospace; background: rgba(0,0,0,0.4); padding: 5px 8px; border-radius: 6px; display: block; border: 1px solid rgba(74, 222, 128, 0.2);">${recordKey}</code>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("creator_wallet", "CREATOR WALLET")}</div>
-            <code style="color: var(--white); font-size: 13px; word-break: break-all;">${creator}</code>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">${translate("creator_wallet", "CREATOR WALLET")}</div>
+            <code style="color: #f8fafc; font-size: 13px; font-weight: 600; word-break: break-all; font-family: monospace; background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 6px; display: block;">${creator}</code>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("metadata_hash", "METADATA FINGERPRINT (HASH)")}</div>
-            <code style="color: var(--cyan); font-size: 13px; word-break: break-all;">${metaHash}</code>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">${translate("metadata_hash", "METADATA FINGERPRINT (HASH)")}</div>
+            <code style="color: #fb923c; font-size: 13px; font-weight: 700; word-break: break-all; font-family: monospace; background: rgba(0,0,0,0.3); padding: 5px 8px; border-radius: 6px; display: block;">${metaHash}</code>
           </div>
           ${txHash ? `
             <div>
-              <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("tx_hash_label", "TRANSACTION HASH")}</div>
-              <a href="${explorerUrl || '#'}" target="_blank" rel="noopener" style="color: var(--green); font-size: 13px; word-break: break-all; text-decoration: underline;">
+              <div style="color: #94a3b8; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;">${translate("tx_hash_label", "TRANSACTION HASH")}</div>
+              <a href="${explorerUrl || '#'}" target="_blank" rel="noopener" style="color: #38bdf8; font-size: 13px; font-weight: 700; word-break: break-all; text-decoration: underline; display: block;">
                 ${txHash} ↗
               </a>
             </div>
           ` : `
-            <div style="color: var(--muted); font-size: 13.5px; font-style: italic;">
+            <div style="color: #94a3b8; font-size: 13px; font-style: italic; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 8px;">
               ${translate("no_tx_hash_yet", "No blockchain transaction hash recorded yet.")}
             </div>
           `}
         </div>
 
         ${(!isVerified && isOperatorCached && isAnchored) ? `
-          <button id="modalVerifyBtn" type="button" class="small-button" style="margin-top: 16px; width: 100%; padding: 10px 14px; font-size: 15px; cursor: pointer;">
+          <button id="modalVerifyBtn" type="button" class="small-button" style="margin-top: 18px; width: 100%; padding: 12px 16px; font-size: 15px; font-weight: 800; background: #10b981; color: #ffffff; border: none; border-radius: 10px; cursor: pointer;">
             ⚡ ${translate("btn_verify_on_chain", "Verify on Blockchain")}
           </button>
         ` : ''}
       </div>
 
       <!-- Card B: OFF-CHAIN FARM & PRODUCE ATTRIBUTES -->
-      <div style="background: rgba(3, 16, 13, 0.7); border: 1px solid rgba(78, 255, 158, 0.15); border-radius: 12px; padding: 18px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
-          <span style="font-size: 14px; font-weight: 800; color: var(--cyan); letter-spacing: 0.5px;">${translate("off_chain_metadata", "OFF-CHAIN POSTGRESQL METADATA")}</span>
-          <span style="font-size: 13px; color: var(--muted);">${translate("rich_farm_data", "RICH FARM DATA")}</span>
+      <div style="background: rgba(18, 38, 28, 0.9); border: 1.5px solid rgba(251, 146, 60, 0.4); border-radius: 16px; padding: 20px; box-shadow: 0 4px 18px rgba(0,0,0,0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 14px; font-weight: 800; color: #fb923c; letter-spacing: 0.8px;">${translate("off_chain_metadata", "OFF-CHAIN POSTGRESQL METADATA")}</span>
+          <span style="font-size: 12px; font-weight: 700; color: #e2e8f0; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 6px;">${translate("rich_farm_data", "RICH FARM DATA")}</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14.5px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 14.5px;">
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("col_crop", "CROP")}</div>
-            <strong style="color: var(--white); font-size: 15px;">${escapeHtml(crop)}</strong>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("col_crop", "CROP")}</div>
+            <strong style="color: #ffffff; font-size: 16px; font-weight: 800; display: block; margin-top: 2px;">${escapeHtml(crop)}</strong>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("col_origin", "ORIGIN")}</div>
-            <strong style="color: var(--white); font-size: 15px;">${escapeHtml(origin)}</strong>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("col_origin", "ORIGIN")}</div>
+            <strong style="color: #ffffff; font-size: 16px; font-weight: 800; display: block; margin-top: 2px;">${escapeHtml(origin)}</strong>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("col_harvest", "HARVEST DATE")}</div>
-            <span style="color: var(--white); font-size: 14px;">${harvest ? new Date(harvest).toLocaleDateString("en-IN") : "—"}</span>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("col_harvest", "HARVEST DATE")}</div>
+            <span style="color: #f1f5f9; font-size: 15px; font-weight: 700; display: block; margin-top: 2px;">${harvest ? new Date(harvest).toLocaleDateString("en-IN") : "—"}</span>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("col_grade", "QUALITY GRADE")}</div>
-            <span style="color: var(--green); font-size: 14px; font-weight: 600;">${escapeHtml(localRec.quality_grade || "Grade A")}</span>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("col_grade", "QUALITY GRADE")}</div>
+            <span style="color: #34d399; font-size: 15px; font-weight: 800; display: block; margin-top: 2px;">${escapeHtml(localRec.quality_grade || "Grade A")}</span>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("col_price", "FARMER PRICE")}</div>
-            <span style="color: var(--white); font-size: 15px; font-weight: 700;">₹${money(localRec.farmer_price)}</span>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("col_price", "FARMER PRICE")}</div>
+            <span style="color: #f8fafc; font-size: 18px; font-weight: 900; display: block; margin-top: 2px;">₹${money(localRec.farmer_price)}</span>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("col_consumer_price", "CONSUMER PRICE")}</div>
-            <span style="color: var(--white); font-size: 15px; font-weight: 700;">₹${money(localRec.consumer_price)}</span>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("col_consumer_price", "CONSUMER PRICE")}</div>
+            <span style="color: #f8fafc; font-size: 18px; font-weight: 900; display: block; margin-top: 2px;">₹${money(localRec.consumer_price)}</span>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("storage_temp", "STORAGE TEMP")}</div>
-            <span style="color: var(--cyan); font-size: 14px;">${localRec.storage_temperature_c ? localRec.storage_temperature_c + "°C" : "—"}</span>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("storage_temp", "STORAGE TEMP")}</div>
+            <span style="color: #38bdf8; font-size: 15px; font-weight: 800; display: block; margin-top: 2px;">${localRec.storage_temperature_c ? localRec.storage_temperature_c + "°C" : "—"}</span>
           </div>
           <div>
-            <div style="color: var(--muted); font-size: 13px; font-weight: 600;">${translate("storage_humidity", "STORAGE HUMIDITY")}</div>
-            <span style="color: var(--cyan); font-size: 14px;">${localRec.storage_humidity_pct ? localRec.storage_humidity_pct + "%" : "—"}</span>
+            <div style="color: #94a3b8; font-size: 12px; font-weight: 800; text-transform: uppercase;">${translate("storage_humidity", "STORAGE HUMIDITY")}</div>
+            <span style="color: #38bdf8; font-size: 15px; font-weight: 800; display: block; margin-top: 2px;">${localRec.storage_humidity_pct ? localRec.storage_humidity_pct + "%" : "—"}</span>
           </div>
         </div>
 
-        <div style="margin-top: 16px; display: flex; gap: 10px;">
-          <button id="quickPriceBtn" type="button" class="small-button" style="flex: 1; padding: 8px 12px; font-size: 14px;">
+        <div style="margin-top: 18px; display: flex; gap: 12px;">
+          <button id="quickPriceBtn" type="button" class="small-button" style="flex: 1; padding: 10px 14px; font-size: 14px; font-weight: 800; background: #ffffff; color: #000000; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
             + ${translate("record_price", "Record Price")}
           </button>
-          <button id="quickSensorBtn" type="button" class="small-button" style="flex: 1; padding: 8px 12px; font-size: 14px;">
+          <button id="quickSensorBtn" type="button" class="small-button" style="flex: 1; padding: 10px 14px; font-size: 14px; font-weight: 800; background: #ffffff; color: #000000; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
             + ${translate("record_sensor", "Record Sensor")}
           </button>
         </div>
@@ -686,33 +692,33 @@ async function showTraceabilityModal(lotId) {
     </div>
 
     <!-- LIFECYCLE TIMELINE -->
-    <div style="margin-top: 20px; padding: 18px; background: rgba(2, 7, 6, 0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
-      <div style="font-size: 14px; font-weight: 800; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 14px;">
+    <div style="margin-top: 22px; padding: 20px; background: rgba(14, 28, 22, 0.9); border-radius: 16px; border: 1.5px solid rgba(78, 255, 158, 0.3);">
+      <div style="font-size: 14px; font-weight: 900; color: #34d399; letter-spacing: 0.8px; margin-bottom: 14px; text-transform: uppercase;">
         ${translate("lifecycle_timeline", "FARM-TO-MARKET LIFECYCLE TIMELINE")}
       </div>
 
       <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 13.5px;">
-        <span style="padding: 6px 10px; border-radius: 6px; background: rgba(57, 255, 136, 0.12); color: var(--green); border: 1px solid rgba(57, 255, 136, 0.35); font-weight: 600;">
+        <span style="padding: 8px 14px; border-radius: 8px; background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1.5px solid #10b981; font-weight: 800;">
           ✓ 1. ${translate("step_harvested", "HARVESTED")} (${escapeHtml(origin)})
         </span>
-        <span style="color: var(--muted);">→</span>
-        <span style="padding: 6px 10px; border-radius: 6px; background: rgba(57, 255, 136, 0.12); color: var(--green); border: 1px solid rgba(57, 255, 136, 0.35); font-weight: 600;">
+        <span style="color: #94a3b8; font-weight: 800; font-size: 16px;">→</span>
+        <span style="padding: 8px 14px; border-radius: 8px; background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1.5px solid #10b981; font-weight: 800;">
           ✓ 2. ${translate("step_registered", "REGISTERED")}
         </span>
-        <span style="color: var(--muted);">→</span>
-        <span style="padding: 6px 10px; border-radius: 6px; background: ${isAnchored ? "rgba(57, 255, 136, 0.12); color: var(--green); border: 1px solid rgba(57, 255, 136, 0.35);" : "rgba(255,255,255,0.05); color: var(--muted);"}; font-weight: 600;">
+        <span style="color: #94a3b8; font-weight: 800; font-size: 16px;">→</span>
+        <span style="padding: 8px 14px; border-radius: 8px; background: ${isAnchored ? "rgba(16, 185, 129, 0.25); color: #34d399; border: 1.5px solid #10b981;" : "rgba(255,255,255,0.08); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2);"}; font-weight: 800;">
           ${isAnchored ? "✓" : "○"} 3. ${translate("step_anchored", "BLOCKCHAIN ANCHORED")}
         </span>
-        <span style="color: var(--muted);">→</span>
-        <span style="padding: 6px 10px; border-radius: 6px; background: ${allPrices.length > 0 ? "rgba(57, 255, 136, 0.12); color: var(--green); border: 1px solid rgba(57, 255, 136, 0.35);" : "rgba(255,255,255,0.05); color: var(--muted);"}; font-weight: 600;">
+        <span style="color: #94a3b8; font-weight: 800; font-size: 16px;">→</span>
+        <span style="padding: 8px 14px; border-radius: 8px; background: ${allPrices.length > 0 ? "rgba(16, 185, 129, 0.25); color: #34d399; border: 1.5px solid #10b981;" : "rgba(255,255,255,0.08); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2);"}; font-weight: 800;">
           ${allPrices.length > 0 ? "✓" : "○"} 4. ${translate("step_price", "PRICE DISCOVERY")} (${allPrices.length} Snapshots)
         </span>
-        <span style="color: var(--muted);">→</span>
-        <span style="padding: 6px 10px; border-radius: 6px; background: ${allSensors.length > 0 ? "rgba(57, 255, 136, 0.12); color: var(--green); border: 1px solid rgba(57, 255, 136, 0.35);" : "rgba(255,255,255,0.05); color: var(--muted);"}; font-weight: 600;">
+        <span style="color: #94a3b8; font-weight: 800; font-size: 16px;">→</span>
+        <span style="padding: 8px 14px; border-radius: 8px; background: ${allSensors.length > 0 ? "rgba(16, 185, 129, 0.25); color: #34d399; border: 1.5px solid #10b981;" : "rgba(255,255,255,0.08); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2);"}; font-weight: 800;">
           ${allSensors.length > 0 ? "✓" : "○"} 5. ${translate("step_sensor", "COLD-CHAIN MONITORED")} (${allSensors.length} Readings)
         </span>
-        <span style="color: var(--muted);">→</span>
-        <span style="padding: 6px 10px; border-radius: 6px; background: ${isVerified ? "rgba(57, 255, 136, 0.22); color: var(--green); border: 1px solid var(--green);" : "rgba(255,255,255,0.05); color: var(--muted);"}; font-weight: 600;">
+        <span style="color: #94a3b8; font-weight: 800; font-size: 16px;">→</span>
+        <span style="padding: 8px 14px; border-radius: 8px; background: ${isVerified ? "rgba(16, 185, 129, 0.3); color: #34d399; border: 1.5px solid #10b981;" : "rgba(255,255,255,0.08); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.2);"}; font-weight: 800;">
           ${isVerified ? "✓" : "○"} 6. ${translate("step_verified", "VERIFIED")}
         </span>
       </div>

@@ -1745,3 +1745,109 @@ label, .form-group label, .record-field-label {
     color: #cbd5e1 !important;
 }
 
+/* =========================================================
+   TRACEABILITY MODAL HIGH CONTRAST DARK TERMINAL
+   ========================================================= */
+
+#traceModal, .trace-modal-container {
+    background: #091712 !important;
+    border: 1.5px solid rgba(57, 255, 136, 0.45) !important;
+    color: #f8fafc !important;
+}
+
+#traceModalTitle {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+}
+
+#traceModal .trace-auth-pill,
+#traceModal .card-number {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border: 1.5px solid rgba(52, 211, 153, 0.5) !important;
+    color: #34d399 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.2px !important;
+    border-radius: 20px !important;
+    padding: 4px 12px !important;
+}
+
+#closeTraceModalBtn {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    font-weight: 800 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+#closeTraceModalBtn:hover {
+    background: #f1f5f9 !important;
+    color: #000000 !important;
+}
+
+#traceModal strong,
+#traceModal b,
+#traceModal span[style*="color: #ffffff"],
+#traceModal span[style*="color: #f8fafc"] {
+    color: #ffffff !important;
+}
+
+#traceModal code {
+    color: #4ade80 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* =========================================================
+   AGRITRACE NOTIFICATION POPUP (LEFT CORNER - BLACK TEXT)
+   ========================================================= */
+
+#toast, .toast {
+    position: fixed !important;
+    left: 25px !important;
+    right: auto !important;
+    bottom: 25px !important;
+    top: auto !important;
+    z-index: 999999 !important;
+    background: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35) !important;
+    color: #000000 !important;
+    padding: 14px 18px !important;
+    max-width: min(390px, calc(100vw - 40px)) !important;
+}
+
+#toastTitle,
+.toast strong,
+.toast h4 {
+    color: #000000 !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.01em !important;
+    display: block !important;
+}
+
+#toastMessage,
+.toast p,
+.toast span {
+    color: #000000 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+    margin-top: 2px !important;
+}
+
+.toast-icon {
+    background: #000000 !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    border-radius: 8px !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
