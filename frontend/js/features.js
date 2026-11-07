@@ -2811,30 +2811,30 @@ const TOTAL_SLIDES = 5;
 const PRESENTATION_SLIDES = [
   // SLIDE 1
   `
-  <div style="width:100%; max-width:960px; background:#f7f5ec url('docs/presentation_assets/image-1002-1.jpeg') center/cover no-repeat; border-radius:18px; padding:45px 50px; position:relative; overflow:hidden; box-shadow:0 12px 35px rgba(0,0,0,0.08);">
+  <div class="ppt-slide-card" style="background:#f7f5ec url('docs/presentation_assets/image-1002-1.jpeg') center/cover no-repeat; position:relative; overflow:hidden;">
     <div style="position:absolute; inset:0; background:rgba(247,245,236,0.92); z-index:1;"></div>
     <div style="position:relative; z-index:2;">
-      <div style="display:inline-flex; align-items:center; gap:8px; background:#1e382c; color:#ffffff; padding:6px 18px; border-radius:20px; font-size:13px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:18px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:#1e382c; color:#ffffff; padding:6px 18px; border-radius:20px; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px;">
         DOMAIN &bull; AGRITRACE
       </div>
-      <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:34px; line-height:1.2; font-weight:700; color:#14281f; margin-bottom:12px;">
+      <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:32px; line-height:1.2; font-weight:700; color:#14281f; margin-bottom:10px;">
         Blockchain-Enabled Farm-to-Market Traceability and Transparent Price Discovery System.
       </h2>
-      <p style="font-size:18px; color:#3b5e4c; font-weight:600; margin-bottom:28px;">
+      <p style="font-size:17px; color:#3b5e4c; font-weight:600; margin-bottom:22px;">
         From Farm to Market. Fair Prices. Trusted Produce.
       </p>
       
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:16px; padding:22px 28px; box-shadow:0 8px 24px rgba(0,0,0,0.04);">
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:16px; padding:20px 24px; box-shadow:0 8px 24px rgba(0,0,0,0.04);">
         <div style="display:inline-block; background:#7B9B3A; color:#ffffff; font-size:12px; font-weight:800; padding:3px 12px; border-radius:6px; margin-bottom:10px;">
           TEAM 1
         </div>
-        <div style="font-size:16px; font-weight:700; color:#14281f; margin-bottom:4px;">
+        <div style="font-size:15.5px; font-weight:700; color:#14281f; margin-bottom:4px;">
           Presented by: Guru Prasanth S, Leun Hammi D, Jeyaprasanna M
         </div>
-        <div style="font-size:13px; color:#526359; font-weight:500; margin-bottom:12px;">
+        <div style="font-size:13px; color:#526359; font-weight:500; margin-bottom:10px;">
           Register Number: [9925009028, 99250040308, 99250040310] &nbsp;|&nbsp; Department: [Mech, CSE(Ds)]
         </div>
-        <div style="border-top:1px solid #ded9cb; padding-top:10px; font-size:14px; color:#244033; font-weight:600;">
+        <div style="border-top:1px solid #ded9cb; padding-top:10px; font-size:13.5px; color:#244033; font-weight:600;">
           <strong>Supervisor:</strong> Dr. P. Chinnasamy &nbsp;|&nbsp; <strong>Designation:</strong> Associate Professor
         </div>
       </div>
@@ -2844,87 +2844,87 @@ const PRESENTATION_SLIDES = [
 
   // SLIDE 2
   `
-  <div style="width:100%; max-width:960px; background:#f7f5ec; border-radius:18px; padding:35px 40px; box-shadow:0 12px 35px rgba(0,0,0,0.08);">
+  <div class="ppt-slide-card">
     <div style="font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#7B9B3A; margin-bottom:4px;">PROJECT RECAP</div>
-    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:28px; font-weight:700; color:#14281f; margin-bottom:20px;">THE NEED FOR AGRITRACE</h2>
+    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:26px; font-weight:700; color:#14281f; margin-bottom:18px;">THE NEED FOR AGRITRACE</h2>
     
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:20px; display:flex; flex-direction:column;">
-        <h4 style="font-size:16px; font-weight:800; color:#1e382c; margin-bottom:12px; display:flex; align-items:center; gap:8px;">⚠️ Existing challenges</h4>
-        <ul style="font-size:13.5px; color:#244033; line-height:1.5; padding-left:18px; display:flex; flex-direction:column; gap:8px; margin-bottom:14px; flex:1;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px;">
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; flex-direction:column;">
+        <h4 style="font-size:15px; font-weight:800; color:#1e382c; margin-bottom:10px; display:flex; align-items:center; gap:8px;">⚠️ Existing challenges</h4>
+        <ul style="font-size:13px; color:#244033; line-height:1.5; padding-left:18px; display:flex; flex-direction:column; gap:6px; margin-bottom:12px; flex:1;">
           <li>Multiple intermediaries can reduce direct buyer access.</li>
           <li>Market prices are not always easy to compare.</li>
           <li>Produce origin and handling details may be fragmented.</li>
           <li>Agricultural information is spread across platforms.</li>
         </ul>
-        <div style="border-radius:10px; overflow:hidden; height:160px; border:1px solid #ded9cb;">
-          <img src="docs/presentation_assets/image-2-1.jpeg" alt="Farmers in field" style="width:100%; height:100%; object-fit:cover;">
+        <div style="border-radius:10px; overflow:hidden; height:150px; border:1px solid #ded9cb;">
+          <img src="docs/presentation_assets/image-2-1.jpeg" alt="Farmers harvesting produce in field" style="width:100%; height:100%; object-fit:cover;">
         </div>
       </div>
 
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:20px; display:flex; flex-direction:column;">
-        <h4 style="font-size:16px; font-weight:800; color:#1e382c; margin-bottom:12px; display:flex; align-items:center; gap:8px;">🌱 AgriTrace solution</h4>
-        <ul style="font-size:13.5px; color:#244033; line-height:1.5; padding-left:18px; display:flex; flex-direction:column; gap:8px; margin-bottom:14px; flex:1;">
-          <li>Digital farmer-to-buyer marketplace with separate portals.</li>
-          <li>Transparent crop-price info &amp; district-wise comparison.</li>
-          <li>Government datasets, crop information, &amp; blockchain trace.</li>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; flex-direction:column;">
+        <h4 style="font-size:15px; font-weight:800; color:#1e382c; margin-bottom:10px; display:flex; align-items:center; gap:8px;">🌱 AgriTrace solution</h4>
+        <ul style="font-size:13px; color:#244033; line-height:1.5; padding-left:18px; display:flex; flex-direction:column; gap:6px; margin-bottom:12px; flex:1;">
+          <li>Digital farmer-to-buyer marketplace with separate farmer and seller portals.</li>
+          <li>Transparent crop-price information and district-wise market comparison.</li>
+          <li>Government datasets, crop information, and blockchain-supported traceability.</li>
           <li>QR-based verification where supported.</li>
         </ul>
-        <div style="border-radius:10px; overflow:hidden; height:160px; border:1px solid #ded9cb;">
-          <img src="docs/presentation_assets/image-2-2.png" alt="AgriTrace Web App" style="width:100%; height:100%; object-fit:cover;">
+        <div style="border-radius:10px; overflow:hidden; height:150px; border:1px solid #ded9cb;">
+          <img src="docs/presentation_assets/image-2-2.png" alt="AgriTrace Web App Interface" style="width:100%; height:100%; object-fit:cover;">
         </div>
       </div>
     </div>
 
-    <div style="background:#1e382c; color:#ffffff; border-radius:12px; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:13.5px; font-weight:600;">
+    <div style="background:#1e382c; color:#ffffff; border-radius:12px; padding:12px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:13px; font-weight:600;">
       <div>Farmer &rarr; AgriTrace platform &rarr; Buyer &nbsp;|&nbsp; Price transparency &bull; Digital marketplace &bull; Traceability</div>
-      <a href="https://guru-prasanths.github.io/AgriTrace-/" target="_blank" style="color:#a7f3d0; text-decoration:none; font-family:monospace; font-size:12.5px; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:6px;">Web App: guru-prasanths.github.io/AgriTrace-/ &nearr;</a>
+      <a href="https://guru-prasanths.github.io/AgriTrace-/" target="_blank" style="color:#a7f3d0; text-decoration:none; font-family:monospace; font-size:12px; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:6px;">Visit my Web Application : guru-prasanths.github.io/AgriTrace-/ &nearr;</a>
     </div>
   </div>
   `,
 
   // SLIDE 3
   `
-  <div style="width:100%; max-width:960px; background:#f7f5ec; border-radius:18px; padding:35px 40px; box-shadow:0 12px 35px rgba(0,0,0,0.08);">
+  <div class="ppt-slide-card">
     <div style="font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#7B9B3A; margin-bottom:4px;">PRESENTATION ROUTE</div>
-    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:28px; font-weight:700; color:#14281f; margin-bottom:24px;">AGENDA &ndash; EXPLORING THE AGRITRACE ECOSYSTEM</h2>
+    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:26px; font-weight:700; color:#14281f; margin-bottom:20px;">AGENDA &ndash; EXPLORING THE AGRITRACE ECOSYSTEM</h2>
     
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;">
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">01</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Project overview and objectives</div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;">
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">01</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Project overview and objectives</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">02</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Farmer and seller authentication</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">02</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Farmer and seller authentication</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">03</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Digital agricultural marketplace</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">03</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Digital agricultural marketplace</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">04</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Crop listings and order management</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">04</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Crop listings and order management</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">05</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Tamil Nadu agriculture datasets</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">05</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Tamil Nadu agriculture datasets</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">06</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">District-wise market price comparison</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">06</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">District-wise agricultural market price comparison</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">07</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Blockchain-based traceability &amp; QR verification</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">07</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Blockchain-based traceability and QR verification</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">08</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">AgriTrace Points and accessibility</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">08</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">AgriTrace Points and accessibility</div>
       </div>
-      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:18px; display:flex; align-items:flex-start; gap:14px;">
-        <span style="background:#1e382c; color:#fff; font-size:15px; font-weight:800; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">09</span>
-        <div style="font-size:14.5px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Technology architecture &amp; future scope</div>
+      <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:14px; padding:16px; display:flex; align-items:flex-start; gap:12px;">
+        <span style="background:#1e382c; color:#fff; font-size:14px; font-weight:800; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">09</span>
+        <div style="font-size:14px; font-weight:700; color:#14281f; line-height:1.35; margin-top:4px;">Technology architecture and future scope</div>
       </div>
     </div>
   </div>
@@ -2932,17 +2932,17 @@ const PRESENTATION_SLIDES = [
 
   // SLIDE 4
   `
-  <div style="width:100%; max-width:960px; background:#f7f5ec; border-radius:18px; padding:30px 35px; box-shadow:0 12px 35px rgba(0,0,0,0.08);">
+  <div class="ppt-slide-card">
     <div style="font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#7B9B3A; margin-bottom:4px;">FUNCTIONAL ARCHITECTURE</div>
-    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:26px; font-weight:700; color:#14281f; margin-bottom:18px;">AGRITRACE &ndash; SYSTEM WORKFLOW AND FUNCTIONAL ARCHITECTURE</h2>
+    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:24px; font-weight:700; color:#14281f; margin-bottom:16px;">AGRITRACE &ndash; SYSTEM WORKFLOW AND FUNCTIONAL ARCHITECTURE</h2>
     
-    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:16px;">
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:14px;">
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
           <img src="docs/presentation_assets/image-4-1.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Authentication</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Farmer &amp; Seller portals &bull; email/password &bull; Google auth &bull; role-based access</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Farmer and Seller portals &bull; email/password &bull; Google authentication integration &bull; role-based access</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2950,7 +2950,7 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-2.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Listing</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Crop name &bull; images &bull; quantity/unit &bull; price/location &bull; availability</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Crop name &bull; images &bull; quantity and unit &bull; price and location &bull; quality and availability</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2958,7 +2958,7 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-3.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Marketplace</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Browse &bull; compare listings &bull; submit requests/offers &bull; connect directly</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Browse &bull; compare listings &bull; submit requests or offers &bull; connect with farmers</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2966,7 +2966,7 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-4.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Orders</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Track requests &bull; manage status &bull; coordinate interactions &bull; transactions</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Track requests &bull; manage status &bull; coordinate interactions &bull; record supported transaction details</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2974,7 +2974,7 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-5.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Price discovery</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Tamil Nadu datasets &bull; tomato compare across Salem, Madurai, CBE, Erode</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Tamil Nadu datasets and official resources &bull; tomato comparison across Salem, Madurai, Coimbatore, Erode</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2982,7 +2982,7 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-6.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Traceability</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Produce Batch &rarr; Digital Record &rarr; Blockchain Tx &rarr; QR Verification</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Produce Batch &rarr; Digital Record &rarr; Blockchain Transaction &rarr; QR Verification &rarr; Traceability Information</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2990,7 +2990,7 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-7.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">AgriTrace Points</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Eligible activities &bull; completion rewards &bull; daily eligibility &bull; history</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Eligible activities &bull; completion rewards &bull; configured daily eligibility &bull; balance &bull; transaction history</p>
       </div>
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
@@ -2998,44 +2998,44 @@ const PRESENTATION_SLIDES = [
           <img src="docs/presentation_assets/image-4-8.png" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Accessibility</span>
         </div>
-        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Simple navigation &bull; responsive &bull; readable text &bull; voice assistant</p>
+        <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Simple navigation &bull; responsive interface &bull; readable text &bull; language accessibility &bull; voice assistance</p>
       </div>
     </div>
 
-    <div style="background:#1e382c; color:#ffffff; border-radius:10px; padding:12px 18px; font-size:12.5px; font-weight:600; margin-bottom:10px;">
-      <span style="color:#a7f3d0; font-weight:800;">Architecture:</span> HTML5 | CSS3 | JS &rarr; Node.js | Express.js &rarr; PostgreSQL | Solidity | Hardhat | MetaMask | ethers.js &rarr; TN Datasets
+    <div style="background:#1e382c; color:#ffffff; border-radius:10px; padding:10px 16px; font-size:12px; font-weight:600; margin-bottom:8px;">
+      <span style="color:#a7f3d0; font-weight:800;">Architecture:</span> HTML5 | CSS3 | JavaScript &rarr; Node.js | Express.js &rarr; PostgreSQL | Solidity | Hardhat | MetaMask | ethers.js &rarr; Government Agricultural Datasets / External Data Sources
     </div>
     
-    <div style="font-size:11px; color:#64748b; line-height:1.4;">
-      <div>&bull; Comparison fields: Min, max, modal price, market, date, unit. Illustrative placeholder data.</div>
-      <div>&bull; Traceability boundary: supported records only. QR verification where supported.</div>
+    <div style="font-size:10.5px; color:#64748b; line-height:1.4;">
+      <div>&bull; Comparison fields: Minimum, maximum, modal price, market, date, unit. Tomato values shown in any implementation are illustrative placeholders only.</div>
+      <div>&bull; Traceability boundary: supported records only, not a deployed production blockchain. QR verification where supported.</div>
     </div>
   </div>
   `,
 
   // SLIDE 5
   `
-  <div style="width:100%; max-width:960px; background:#f7f5ec; border-radius:18px; padding:35px 40px; box-shadow:0 12px 35px rgba(0,0,0,0.08);">
+  <div class="ppt-slide-card">
     <div style="font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#7B9B3A; margin-bottom:4px;">CLOSING</div>
-    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:28px; font-weight:700; color:#14281f; margin-bottom:20px;">THANK YOU</h2>
+    <h2 style="font-family:var(--font-heading, Georgia, serif); font-size:26px; font-weight:700; color:#14281f; margin-bottom:16px;">THANK YOU</h2>
 
-    <div style="background:#0d231a url('docs/presentation_assets/image-5-1.jpeg') center/cover no-repeat; border-radius:20px; padding:45px 40px; text-align:center; position:relative; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,0.25);">
+    <div style="background:#0d231a url('docs/presentation_assets/image-5-1.jpeg') center/cover no-repeat; border-radius:18px; padding:40px 36px; text-align:center; position:relative; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,0.25);">
       <div style="position:absolute; inset:0; background:rgba(13,35,26,0.75); backdrop-filter:blur(2px); z-index:1;"></div>
       <div style="position:relative; z-index:2;">
-        <div style="font-size:13px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; color:#a7f3d0; margin-bottom:14px;">THE FUTURE OF AGRICULTURE</div>
-        <h3 style="font-family:var(--font-heading, Georgia, serif); font-size:32px; font-weight:700; color:#ffffff; line-height:1.25; margin-bottom:14px;">
+        <div style="font-size:12px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; color:#a7f3d0; margin-bottom:12px;">THE FUTURE OF AGRICULTURE</div>
+        <h3 style="font-family:var(--font-heading, Georgia, serif); font-size:30px; font-weight:700; color:#ffffff; line-height:1.25; margin-bottom:12px;">
           EVERY CROP. EVERY JOURNEY.<br>EVERY TRANSACTION.
         </h3>
-        <p style="font-size:15px; color:#e2e8f0; max-width:650px; margin:0 auto 28px auto; line-height:1.5;">
+        <p style="font-size:14.5px; color:#e2e8f0; max-width:620px; margin:0 auto 24px auto; line-height:1.5;">
           AgriTrace transforms agricultural supply chains into a connected, transparent and verifiable digital ecosystem.
         </p>
-        <button type="button" onclick="closeSlideDeckModal(); if(typeof navigateToSection==='function'){navigateToSection('#verification');}" style="background:#fdfbf7; color:#14281f; font-size:14.5px; font-weight:800; padding:12px 32px; border-radius:30px; border:none; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,0.3);">
+        <button type="button" onclick="closeSlideDeckModal(); if(typeof navigateToSection==='function'){navigateToSection('#verification');}" style="background:#fdfbf7; color:#14281f; font-size:14px; font-weight:800; padding:12px 30px; border-radius:30px; border:none; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,0.3);">
           START TRACEABILITY &rarr;
         </button>
       </div>
     </div>
 
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; font-size:13.5px; font-weight:700; color:#244033;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; font-size:13px; font-weight:700; color:#244033;">
       <div>CSE223 &nbsp;|&nbsp; APPLIED BLOCKCHAIN : TEAM 1</div>
       <div>AgriTrace Platform Ecosystem</div>
     </div>
@@ -3047,12 +3047,16 @@ function openSlideDeckModal(slideNumber = 1) {
   const modal = document.getElementById('slideDeckModal');
   if (!modal) return;
 
-  // Open in full presentation theater mode
+  // Fully open presentation theater
   modal.classList.add('ppt-fullscreen-mode');
+  modal.classList.add('open');
   modal.style.display = 'flex';
+  modal.style.opacity = '1';
+  modal.style.pointerEvents = 'auto';
+  modal.style.visibility = 'visible';
   document.body.style.overflow = 'hidden';
 
-  // Enter true browser fullscreen if available
+  // Request native fullscreen
   try {
     if (modal.requestFullscreen) {
       modal.requestFullscreen().catch(() => {});
@@ -3084,7 +3088,10 @@ function closeSlideDeckModal() {
   } catch (err) {}
 
   modal.classList.remove('ppt-fullscreen-mode');
+  modal.classList.remove('open');
   modal.style.display = 'none';
+  modal.style.opacity = '';
+  modal.style.pointerEvents = '';
   document.body.style.overflow = '';
 }
 
@@ -3159,17 +3166,20 @@ function nextSlide() {
   if (currentSlideIndex < TOTAL_SLIDES) goToSlide(currentSlideIndex + 1);
 }
 
-// Click on slide stage to advance (right half next, left half prev)
-function handleSlideStageClick(e) {
-  if (e.target.closest('a') || e.target.closest('button')) return;
-  const stage = document.getElementById('slideStage');
-  if (!stage) return;
-  const rect = stage.getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  if (clickX > rect.width * 0.45) {
-    nextSlide();
-  } else {
-    prevSlide();
+// Download Presentation PPTX helper
+function downloadPresentationPPTX(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const link = document.createElement('a');
+  link.href = 'docs/AgriTrace_Project_Presentation.pptx';
+  link.download = 'AgriTrace_Project_Presentation.pptx';
+  link.setAttribute('target', '_blank');
+  document.body.appendChild(link);
+  link.click();
+  setTimeout(() => {
+    if (link.parentNode) link.parentNode.removeChild(link);
+  }, 200);
+  if (typeof showToast === 'function') {
+    showToast('📊 Downloading AgriTrace Project Presentation PPTX...', 'info');
   }
 }
 
@@ -3236,6 +3246,6 @@ window.toggleSlideFullscreen = toggleSlideFullscreen;
 window.goToSlide = goToSlide;
 window.prevSlide = prevSlide;
 window.nextSlide = nextSlide;
-window.handleSlideStageClick = handleSlideStageClick;
+window.downloadPresentationPPTX = downloadPresentationPPTX;
 
 
