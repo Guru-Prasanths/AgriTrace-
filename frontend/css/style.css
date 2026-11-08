@@ -5758,8 +5758,10 @@ body {
    ========================================================= */
 
 #slideDeckModal,
+#reportDeckModal,
 .ppt-presentation-modal,
-#slideDeckModal.ppt-fullscreen-mode {
+#slideDeckModal.ppt-fullscreen-mode,
+#reportDeckModal.ppt-fullscreen-mode {
     position: fixed !important;
     inset: 0 !important;
     width: 100vw !important;
@@ -5777,8 +5779,10 @@ body {
 }
 
 #slideDeckModal.open,
+#reportDeckModal.open,
 .ppt-presentation-modal.open,
-#slideDeckModal.ppt-fullscreen-mode {
+#slideDeckModal.ppt-fullscreen-mode,
+#reportDeckModal.ppt-fullscreen-mode {
     display: flex !important;
     opacity: 1 !important;
     pointer-events: auto !important;
@@ -5841,6 +5845,73 @@ body {
         padding: 20px 18px;
         max-height: calc(100vh - 140px);
     }
+}
+
+.report-page-card {
+    width: 100%;
+    max-width: 1080px;
+    background: #ffffff;
+    color: #14281f;
+    border-radius: 18px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85), 0 0 0 1.5px rgba(123, 155, 58, 0.4);
+    padding: 36px 44px;
+    position: relative;
+    user-select: text;
+    box-sizing: border-box;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (max-width: 900px) {
+    .report-page-card {
+        padding: 20px 18px;
+        max-height: calc(100vh - 140px);
+    }
+}
+
+.report-page-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+}
+
+.report-page-card th {
+    background: #1e382c;
+    color: #ffffff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    border: 1px solid #ded9cb;
+    font-size: 12px;
+}
+
+.report-page-card td {
+    padding: 7px 10px;
+    border: 1px solid #ded9cb;
+    color: #244033;
+    line-height: 1.45;
+}
+
+.report-page-card tr:nth-child(even) td {
+    background: #faf8f3;
+}
+
+.report-page-card h1, .report-page-card h2, .report-page-card h3 {
+    color: #14281f;
+    font-family: var(--font-heading, Georgia, serif);
+}
+
+.report-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
 }
 
 .ppt-nav-arrow {
