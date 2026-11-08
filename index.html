@@ -2611,13 +2611,13 @@
                             A rigorous empirical analysis of decentralized farm-to-table supply chains. Covers ERC-721/1155 batch minting, ECDSA signature verification for regulated Mandi operators, cold-chain sensor hashing, and anti-tamper economic incentives.
                         </p>
                     </div>
-                    <div class="uiverse-doc-actions">
-                        <a href="docs/AgriTrace_Research_Article.pdf" target="_blank" rel="noopener noreferrer" class="uiverse-doc-btn uiverse-doc-btn-primary">
-                            <span>👁️ View PDF Article</span>
+                    <div class="uiverse-doc-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button type="button" onclick="openReportModal(1)" class="uiverse-doc-btn uiverse-doc-btn-primary" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px;" title="Open Course Project Report in Full Screen Presentation View">
+                            <span>👁️ View Report</span>
                             <span>↗</span>
-                        </a>
-                        <a href="docs/AgriTrace_Research_Article.pdf" download="AgriTrace_Research_Article.pdf" class="uiverse-doc-btn uiverse-doc-btn-secondary">
-                            <span>📥 Download</span>
+                        </button>
+                        <a href="docs/AgriTrace_Project_Report.pdf" download="AgriTrace_Project_Report.pdf" onclick="downloadReportPDF(event)" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; border-color:#7B9B3A; color:#1e382c;">
+                            <span>📥 Download PDF</span>
                         </a>
                     </div>
                 </article>
@@ -2719,6 +2719,84 @@
 
                 <button type="button" id="nextSlideBtn" onclick="nextSlide()" class="uiverse-doc-btn uiverse-doc-btn-primary" style="padding:6px 22px; font-weight:800; cursor:pointer; background:#7B9B3A; color:#0b1e14; border:none;">
                     Next Slide →
+                </button>
+            </div>
+
+        </div>
+
+        <!-- =====================================================
+             AGRITRACE COURSE PROJECT REPORT THEATER (FULL SCREEN REPORT PRESENTATION)
+             ===================================================== -->
+        <div id="reportDeckModal" class="ppt-presentation-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="reportDeckModalTitle">
+            
+            <!-- Top Presenter HUD -->
+            <div class="ppt-hud-top">
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <span style="background:#7B9B3A; color:#0b1e14; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:1px;">🌱 AGRITRACE • FULL SCREEN REPORT THEATER</span>
+                    <h3 id="reportDeckModalTitle" style="margin:0; font-size:16px; font-weight:800; color:#ffffff; font-family:var(--font-heading, Georgia, serif);">Blockchain-Based Farm-to-Market Traceability System</h3>
+                    <span id="reportPageIndicator" style="font-size:12.5px; font-weight:700; color:#a7f3d0; background:rgba(30,56,44,0.7); border:1px solid rgba(123,155,58,0.5); padding:3px 12px; border-radius:12px;">Page 1 of 11</span>
+                </div>
+
+                <!-- Page Jumps 1-11 -->
+                <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(1)" id="reportDot1" style="width:30px; height:28px; border-radius:6px; border:1px solid #a7f3d0; background:#7B9B3A; color:#0b1e14; font-weight:800; font-size:12px; cursor:pointer;" title="Page 1: Title & Declaration">1</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(2)" id="reportDot2" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 2: Certificate & Acknowledgement">2</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(3)" id="reportDot3" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 3: Summary & Constraints">3</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(4)" id="reportDot4" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 4: Contents & Abbreviations">4</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(5)" id="reportDot5" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 5: Problem Statement & Chapter I">5</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(6)" id="reportDot6" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 6: Chapter II: Literature Review">6</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(7)" id="reportDot7" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 7: Chapter III: Methodology">7</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(8)" id="reportDot8" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 8: Chapter IV: Simulation Settings">8</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(9)" id="reportDot9" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 9: Chapter V: Performance">9</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(10)" id="reportDot10" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 10: Chapters VI, VII & References">10</button>
+                    <button type="button" class="report-dot-btn" onclick="goToReportPage(11)" id="reportDot11" style="width:30px; height:28px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.1); color:#e2e8f0; font-weight:600; font-size:12px; cursor:pointer;" title="Page 11: IQAC Audit Certificate">11</button>
+                </div>
+
+                <!-- Action Controls -->
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <a href="docs/AgriTrace_Project_Report.pdf" download="AgriTrace_Project_Report.pdf" onclick="downloadReportPDF(event)" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; text-decoration:none; border-color:#7B9B3A; color:#ffffff; background:rgba(123,155,58,0.2);">
+                        📥 Download PDF
+                    </a>
+                    <button type="button" id="reportFsToggleBtn" onclick="toggleReportFullscreen()" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; border-color:rgba(255,255,255,0.3); color:#ffffff; background:rgba(255,255,255,0.08); cursor:pointer;">
+                        ⛶ Fullscreen
+                    </button>
+                    <button type="button" onclick="closeReportModal()" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:6px 14px; font-size:13px; font-weight:800; cursor:pointer; color:#ffffff; display:flex; align-items:center; gap:6px;" aria-label="Exit report view">
+                        ✕ Exit (Esc)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Report Stage -->
+            <div class="ppt-stage-wrapper">
+                <!-- Floating Left Arrow -->
+                <button type="button" id="reportStagePrevArrow" onclick="prevReportPage()" class="ppt-nav-arrow ppt-nav-prev" title="Previous Page (← / PageUp)">❮</button>
+
+                <!-- Center Report Container -->
+                <div id="reportStage" class="ppt-stage-container">
+                    <!-- Injected by features.js goToReportPage() -->
+                </div>
+
+                <!-- Floating Right Arrow -->
+                <button type="button" id="reportStageNextArrow" onclick="nextReportPage()" class="ppt-nav-arrow ppt-nav-next" title="Next Page (→ / Space)">❯</button>
+            </div>
+
+            <!-- Bottom Progress Bar -->
+            <div class="ppt-progress-track">
+                <div id="reportProgressBar" class="ppt-progress-bar" style="width:9.09%;"></div>
+            </div>
+
+            <!-- Bottom Presenter HUD Controls -->
+            <div class="ppt-hud-bottom">
+                <button type="button" id="prevReportBtn" onclick="prevReportPage()" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 18px; font-weight:700; cursor:pointer; border-color:rgba(123,155,58,0.5); color:#ffffff; background:rgba(255,255,255,0.08);">
+                    ← Previous Page
+                </button>
+
+                <div style="font-size:12px; color:#a7f3d0; opacity:0.9; text-align:center;">
+                    Reader Controls: [Space / →] Next Page &bull; [←] Previous &bull; [1-11] Direct Jump &bull; [Esc] Exit
+                </div>
+
+                <button type="button" id="nextReportBtn" onclick="nextReportPage()" class="uiverse-doc-btn uiverse-doc-btn-primary" style="padding:6px 22px; font-weight:800; cursor:pointer; background:#7B9B3A; color:#0b1e14; border:none;">
+                    Next Page →
                 </button>
             </div>
 
