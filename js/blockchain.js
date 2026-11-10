@@ -186,6 +186,10 @@ async function getContract({ signer = false } = {}) {
   let runner;
   let activeChainIdHex;
 
+  const ethereum = (typeof getEthereumProvider === "function")
+    ? getEthereumProvider()
+    : (window.ethereum || null);
+
   if (signer) {
     if (!window.walletState?.connected || !window.walletState?.account) {
       throw new Error(
@@ -199,8 +203,22 @@ async function getContract({ signer = false } = {}) {
     const network = await provider.getNetwork();
     activeChainIdHex = "0x" + network.chainId.toString(16).toLowerCase();
   } else {
-    runner = getReadProvider();
-    activeChainIdHex = (window.walletState?.chainId || "0x7a69").toLowerCase();
+    // When MetaMask is connected, route reads through MetaMask BrowserProvider
+    // to avoid browser Mixed Content errors on HTTPS sites (e.g. GitHub Pages)
+    if (window.walletState?.connected && ethereum) {
+      try {
+        const provider = await getBrowserProvider();
+        runner = provider;
+        const network = await provider.getNetwork();
+        activeChainIdHex = "0x" + network.chainId.toString(16).toLowerCase();
+      } catch (e) {
+        runner = getReadProvider();
+        activeChainIdHex = (window.walletState?.chainId || "0x7a69").toLowerCase();
+      }
+    } else {
+      runner = getReadProvider();
+      activeChainIdHex = (window.walletState?.chainId || "0x7a69").toLowerCase();
+    }
   }
 
   // Contract address resolution strictly by active chain
@@ -218,7 +236,7 @@ async function getContract({ signer = false } = {}) {
   ) {
     const chainDisplay = typeof wallet !== "undefined" && wallet.chainName ? wallet.chainName(activeChainIdHex) : activeChainIdHex;
     throw new Error(
-      `AgriTrace smart contract is deployed on Hardhat Local (Chain 31337). Your MetaMask is currently on ${chainDisplay}. Please run 'npx hardhat node' and switch MetaMask to Hardhat Local, or click 'Record in Registry (Instant & Verified)' for instant cryptographic verification.`
+      `AgriTrace smart contract is deployed on Hardhat Local (Chain 31337). Your MetaMask is currently on ${chainDisplay}. Please switch MetaMask to Hardhat Local.`
     );
   }
 
@@ -245,7 +263,21 @@ async function isConnectedOperator() {
 
   try {
     const contract = await getContract();
-    return await contract.isOperator(window.walletState.account);
+    const account = window.walletState.account;
+    let isOp = false;
+    try {
+      isOp = await contract.isOperator(account);
+    } catch (e) {}
+
+    if (!isOp) {
+      try {
+        const owner = await contract.owner();
+        if (owner && owner.toLowerCase() === account.toLowerCase()) {
+          isOp = true;
+        }
+      } catch (e) {}
+    }
+    return isOp;
   } catch (error) {
     console.warn("On-chain operator check failed:", error.message || error);
     return false;
@@ -300,7 +332,7 @@ function canonicalMetadataHash(payload) {
    ========================================================= */
 
 function getNetworkName() {
-  if (typeof wallet !== "undefined" && wallet.chainName && window.walletState?.chainId) {
+  if (typeof wallet !== "undefined" && wallet.chainName && window.walletState?.chainId && wallet.isAcceptableChain(window.walletState.chainId)) {
     return wallet.chainName(window.walletState.chainId);
   }
   return window.AGRITRACE.NETWORK.name;
