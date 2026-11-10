@@ -273,16 +273,39 @@ async function refreshOperatorStatus() {
 }
 
 async function requireOperator() {
-  if (!wallet.walletReady()) {
-    throw new Error(
-      `Please connect MetaMask to ${blockchain.getNetworkName()} first.`
-    );
+  // 1. Ensure wallet is connected
+  if (!window.walletState?.connected || !window.walletState?.account) {
+    if (typeof wallet !== "undefined" && typeof wallet.connectWallet === "function") {
+      const acc = await wallet.connectWallet();
+      if (!acc) {
+        throw new Error("Please connect your MetaMask wallet first.");
+      }
+    } else {
+      throw new Error("Please connect your MetaMask wallet first.");
+    }
   }
 
+  // 2. Ensure wallet is on an acceptable chain (Hardhat Local 31337 or Sepolia 11155111)
+  if (!wallet.isAcceptableChain(window.walletState?.chainId)) {
+    if (typeof wallet !== "undefined" && typeof wallet.switchToHardhatLocal === "function") {
+      const switched = await wallet.switchToHardhatLocal(true);
+      if (!switched && !wallet.isAcceptableChain(window.walletState?.chainId)) {
+        throw new Error(
+          `Please switch MetaMask to Hardhat Local (Chain 31337) or Sepolia. (Currently on ${wallet.chainName(window.walletState.chainId)})`
+        );
+      }
+    } else {
+      throw new Error(
+        "Please switch MetaMask to Hardhat Local (Chain 31337) or Sepolia."
+      );
+    }
+  }
+
+  // 3. Verify operator privileges on-chain
   const isOp = await blockchain.isConnectedOperator();
   if (!isOp) {
     throw new Error(
-      "Your connected wallet is not registered as an operator on this AgriTrace contract."
+      `Wallet ${wallet.shortAddress(window.walletState.account)} is not an operator on the AgriTrace contract. Switch MetaMask to the contract owner/operator account (e.g. Hardhat Account #0).`
     );
   }
 }
