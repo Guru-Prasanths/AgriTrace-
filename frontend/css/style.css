@@ -7459,3 +7459,255 @@ body.lang-indic h4 {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* =========================================================
+   AGRITRACE 62-PAGE ACADEMIC REPORT THEATER ENHANCEMENTS
+   ========================================================= */
+
+.report-hud-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.report-chapter-select {
+    background: rgba(20, 40, 31, 0.9);
+    color: #e2e8f0;
+    border: 1px solid rgba(123, 155, 58, 0.6);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    max-width: 270px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.report-chapter-select:hover,
+.report-chapter-select:focus {
+    border-color: #a7f3d0;
+    background: #14281f;
+}
+
+.report-chapter-select option {
+    background: #0b1e14;
+    color: #ffffff;
+    padding: 6px;
+}
+
+.report-jump-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(30, 56, 44, 0.7);
+    border: 1px solid rgba(123, 155, 58, 0.5);
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #a7f3d0;
+    font-weight: 700;
+}
+
+.report-jump-input {
+    width: 44px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(123, 155, 58, 0.6);
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 12.5px;
+    text-align: center;
+    padding: 3px 4px;
+    outline: none;
+}
+
+.report-jump-input:focus {
+    border-color: #a7f3d0;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.report-tool-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 2px 4px;
+}
+
+.report-tool-btn {
+    background: transparent;
+    border: none;
+    color: #e2e8f0;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.report-tool-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.report-tool-btn.active {
+    background: #7B9B3A;
+    color: #0b1e14;
+    font-weight: 800;
+}
+
+.report-single-page-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto;
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: top center;
+}
+
+.report-doc-image {
+    max-width: 100%;
+    max-height: calc(100vh - 165px);
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    background: #ffffff;
+    display: block;
+    user-select: none;
+}
+
+.report-page-footer-tag {
+    font-size: 11.5px;
+    color: #a7f3d0;
+    margin-top: 10px;
+    background: rgba(11, 30, 20, 0.85);
+    padding: 4px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(123, 155, 58, 0.45);
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+/* Continuous Scroll Mode */
+#reportStageWrapper {
+    align-items: flex-start !important;
+}
+
+#reportDeckModal .ppt-stage-container {
+    align-items: flex-start;
+}
+
+.report-continuous-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 0 60px 0;
+}
+
+.report-continuous-page {
+    position: relative;
+    max-width: 860px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+}
+
+.report-continuous-page img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.report-continuous-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(11, 30, 20, 0.85);
+    color: #a7f3d0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(123, 155, 58, 0.5);
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Thumbnail Grid Mode */
+.report-thumbnail-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 10px 60px 10px;
+}
+
+.report-thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+}
+
+.report-thumbnail-card {
+    background: #14281f;
+    border: 1.5px solid rgba(123, 155, 58, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.report-thumbnail-card:hover {
+    border-color: #a7f3d0;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 15px rgba(123, 155, 58, 0.4);
+}
+
+.report-thumbnail-card.active {
+    border-color: #7B9B3A;
+    box-shadow: 0 0 0 2px #7B9B3A, 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.report-thumbnail-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    background: #ffffff;
+}
+
+.report-thumbnail-footer {
+    padding: 6px 8px;
+    background: #0f241a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #e2e8f0;
+    font-weight: 700;
+}
+
+.report-thumbnail-page-num {
+    background: #7B9B3A;
+    color: #0b1e14;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-weight: 800;
+}

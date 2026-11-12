@@ -1,0 +1,312 @@
+[
+  {
+    "page": 1,
+    "chapter": "Cover Page & Course Details",
+    "title": "Blockchain-Based Farm-to-Market"
+  },
+  {
+    "page": 2,
+    "chapter": "Declaration",
+    "title": "DECLARATION"
+  },
+  {
+    "page": 3,
+    "chapter": "Bonafide Certificate",
+    "title": "Certified that this project report \u201cBlockchain-Based Farm..."
+  },
+  {
+    "page": 4,
+    "chapter": "Acknowledgement",
+    "title": "ACKNOWLEDGEMENT"
+  },
+  {
+    "page": 5,
+    "chapter": "Project Summary & Tech Stack",
+    "title": "PROJECT SUMMARY"
+  },
+  {
+    "page": 6,
+    "chapter": "Engineering Standards & Constraints",
+    "title": "Engineering standards and realistic constraints in these ..."
+  },
+  {
+    "page": 7,
+    "chapter": "Table of Contents",
+    "title": "TABLE OF CONTENTS"
+  },
+  {
+    "page": 8,
+    "chapter": "List of Tables",
+    "title": "LIST OF TABLES"
+  },
+  {
+    "page": 9,
+    "chapter": "List of Figures",
+    "title": "LIST OF FIGURES"
+  },
+  {
+    "page": 10,
+    "chapter": "List of Abbreviations",
+    "title": "LIST OF ABBERIVATION"
+  },
+  {
+    "page": 11,
+    "chapter": "Problem Statement",
+    "title": "PROBLEM STATEMENT"
+  },
+  {
+    "page": 12,
+    "chapter": "Abstract & SDGs",
+    "title": "ABSTRACT"
+  },
+  {
+    "page": 13,
+    "chapter": "Chapter I: Introduction",
+    "title": "CHAPTER \u2013I"
+  },
+  {
+    "page": 14,
+    "chapter": "Chapter II: Literature Review",
+    "title": "CHAPTER-II"
+  },
+  {
+    "page": 15,
+    "chapter": "Chapter II: Literature Review",
+    "title": "2023"
+  },
+  {
+    "page": 16,
+    "chapter": "Chapter II: Literature Review",
+    "title": "2023"
+  },
+  {
+    "page": 17,
+    "chapter": "Chapter II: Literature Review",
+    "title": "traceability"
+  },
+  {
+    "page": 18,
+    "chapter": "Chapter III: Problem Definition & Objectives",
+    "title": "CHAPTER III"
+  },
+  {
+    "page": 19,
+    "chapter": "Chapter III: Problem Definition & Objectives",
+    "title": "2. To reduce unnecessary dependency on intermediaries by ..."
+  },
+  {
+    "page": 20,
+    "chapter": "Chapter III: Problem Definition & Objectives",
+    "title": "The overall objective is to create a more transparent and..."
+  },
+  {
+    "page": 21,
+    "chapter": "Chapter IV: Proposed Methodology",
+    "title": "CHAPTER- IV"
+  },
+  {
+    "page": 22,
+    "chapter": "Chapter IV: Proposed Methodology",
+    "title": "4.2 System Architecture"
+  },
+  {
+    "page": 23,
+    "chapter": "Chapter IV: Proposed Methodology",
+    "title": "4.3 Batch-Centric Digital Identity"
+  },
+  {
+    "page": 24,
+    "chapter": "Chapter IV: Proposed Methodology",
+    "title": "summaries, hashes, or integrity commitments are anchored ..."
+  },
+  {
+    "page": 25,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "CHAPTER V"
+  },
+  {
+    "page": 26,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "The final sensor selection depends on the prototype desig..."
+  },
+  {
+    "page": 27,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "- GitHub: Supports source-code management and project hos..."
+  },
+  {
+    "page": 28,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "Module 1: User Authentication"
+  },
+  {
+    "page": 29,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "Module 3: Seller Portal"
+  },
+  {
+    "page": 30,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "Module 5: Tamil Nadu Agriculture Datasets"
+  },
+  {
+    "page": 31,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "For example, a farmer selecting Tomato may compare availa..."
+  },
+  {
+    "page": 32,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "Each produce batch can be assigned a unique Lot ID. Relev..."
+  },
+  {
+    "page": 33,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "This provides a simple way to access product information ..."
+  },
+  {
+    "page": 34,
+    "chapter": "Chapter V: Requirements & Module Description",
+    "title": "The system should maintain a transaction history so users..."
+  },
+  {
+    "page": 35,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "CHAPTER VI"
+  },
+  {
+    "page": 36,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "HTML defines the page structure, CSS provides the visual ..."
+  },
+  {
+    "page": 37,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "Home page"
+  },
+  {
+    "page": 38,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "Product Registration Page"
+  },
+  {
+    "page": 39,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "- Product listing management."
+  },
+  {
+    "page": 40,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "For example, a product listing can be associated with a f..."
+  },
+  {
+    "page": 41,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "When a user performs a blockchain-related operation, the ..."
+  },
+  {
+    "page": 42,
+    "chapter": "Chapter VI: System Implementation",
+    "title": "5. The backend validates and stores the readings."
+  },
+  {
+    "page": 43,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "CHAPTER VII"
+  },
+  {
+    "page": 44,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "8. A foundation for IoT-based environmental monitoring."
+  },
+  {
+    "page": 45,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "3. Communication and Market Access"
+  },
+  {
+    "page": 46,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "- Better price awareness: Farmers can compare available m..."
+  },
+  {
+    "page": 47,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "Login response time:"
+  },
+  {
+    "page": 48,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "Frequency of IoT readings received by the backend"
+  },
+  {
+    "page": 49,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "rather than a system that automatically guarantees higher..."
+  },
+  {
+    "page": 50,
+    "chapter": "Chapter VII: Results and Discussion",
+    "title": "Therefore, AgriTrace should be evaluated not only by its ..."
+  },
+  {
+    "page": 51,
+    "chapter": "Chapter VIII: Community Impact",
+    "title": "CHAPTER VIII"
+  },
+  {
+    "page": 52,
+    "chapter": "Chapter VIII: Community Impact",
+    "title": "8.3 Impact on Consumers"
+  },
+  {
+    "page": 53,
+    "chapter": "Chapter VIII: Community Impact",
+    "title": "Better traceability and supply-chain visibility may also ..."
+  },
+  {
+    "page": 54,
+    "chapter": "Chapter IX: Conclusion and Future Scope",
+    "title": "CHAPTER IX"
+  },
+  {
+    "page": 55,
+    "chapter": "Chapter IX: Conclusion and Future Scope",
+    "title": "The proposed IoT integration can further improve visibili..."
+  },
+  {
+    "page": 56,
+    "chapter": "Chapter IX: Conclusion and Future Scope",
+    "title": "3. Advanced IoT Monitoring"
+  },
+  {
+    "page": 57,
+    "chapter": "Chapter IX: Conclusion and Future Scope",
+    "title": "This can make the application easier to use for people wh..."
+  },
+  {
+    "page": 58,
+    "chapter": "Chapter IX: Conclusion and Future Scope",
+    "title": "10. Expansion Across India"
+  },
+  {
+    "page": 59,
+    "chapter": "References",
+    "title": "REFERENCES"
+  },
+  {
+    "page": 60,
+    "chapter": "References",
+    "title": "[11] L. Li, P. Tian, J. Dai, and F. Miao, \u201cDesign of agri..."
+  },
+  {
+    "page": 61,
+    "chapter": "IQAC Project Audit Report",
+    "title": "INTERNAL QUALITY ASSURANCE CELL"
+  },
+  {
+    "page": 62,
+    "chapter": "Enclosures",
+    "title": "ENCLOSURES"
+  }
+]
