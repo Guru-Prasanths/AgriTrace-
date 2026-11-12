@@ -3,11 +3,12 @@
    Full-Stack Offline-First Cache & Resilience Architecture
    ========================================================= */
 
-const CACHE_NAME = 'agritrace-pwa-v1.3.0';
+const CACHE_NAME = 'agritrace-pwa-v1.4.0';
 
 const PRECACHE_ASSETS = [
   './',
   './index.html',
+  './report.html',
   './css/style.css',
   './js/app.js',
   './js/features.js',

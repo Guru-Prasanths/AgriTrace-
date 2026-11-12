@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriTrace Course Project Report — 62 Pages Complete Documentation</title>
+    <meta name="description" content="Complete 62-page Course Level Project Report for Blockchain-Based Farm-to-Market Traceability System by Guru Prasanth S, Leun Hammi D, and Jeyaprasanna M (CSE223 Applied Blockchain).">
+    <link rel="icon" type="image/svg+xml" href="assets/agritrace-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7B9B3A;
+            --primary-dark: #1e382c;
+            --bg-dark: #06110b;
+            --surface-dark: #0f241a;
+            --card-dark: #14281f;
+            --text-light: #f7faf7;
+            --text-muted: #94a3b8;
+            --accent-green: #a7f3d0;
+            --border-color: rgba(123, 155, 58, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Navigation Bar */
+        .report-nav {
+            background: rgba(10, 24, 18, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1.5px solid var(--border-color);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            z-index: 1000;
+            flex-shrink: 0;
+        }
+
+        .report-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-green);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(123, 155, 58, 0.15);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(123, 155, 58, 0.3);
+            color: #ffffff;
+            transform: translateX(-2px);
+        }
+
+        .report-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .report-brand-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+        }
+
+        .report-brand-subtitle {
+            font-size: 11.5px;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        /* Center Controls */
+        .report-nav-center {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chapter-dropdown {
+            background: var(--card-dark);
+            color: #e2e8f0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            max-width: 260px;
+            font-family: inherit;
+        }
+
+        .chapter-dropdown option {
+            background: #0b1e14;
+            color: #ffffff;
+            padding: 6px;
+        }
+
+        .page-jumper {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(30, 56, 44, 0.7);
+            border: 1px solid var(--border-color);
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .page-input {
+            width: 44px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 12.5px;
+            text-align: center;
+            padding: 3px 4px;
+            outline: none;
+        }
+
+        .btn-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 2px 4px;
+        }
+
+        .btn-tool {
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tool:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .btn-tool.active {
+            background: var(--primary);
+            color: #0b1e14;
+            font-weight: 800;
+        }
+
+        /* Right Actions */
+        .report-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn-primary {
+            background: var(--primary);
+            color: #0b1e14;
+        }
+
+        .action-btn-primary:hover {
+            background: #8fb544;
+            transform: translateY(-1px);
+        }
+
+        .action-btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
+        .action-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Layout Main Body */
+        .report-main-layout {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Left Sidebar: Table of Contents & Thumbnails */
+        .report-sidebar {
+            width: 280px;
+            background: var(--surface-dark);
+            border-right: 1.5px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-bottom: 2px;
+        }
+
+        .toc-item:hover {
+            background: rgba(123, 155, 58, 0.2);
+            color: #ffffff;
+        }
+
+        .toc-item.active {
+            background: var(--primary);
+            color: #0b1e14;
+            font-weight: 800;
+        }
+
+        .toc-page-badge {
+            font-size: 10.5px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--accent-green);
+        }
+
+        .toc-item.active .toc-page-badge {
+            background: #0b1e14;
+            color: #ffffff;
+        }
+
+        /* Stage Area */
+        .report-stage-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px;
+            background: radial-gradient(circle at 50% 45%, #0f2c20 0%, #06110b 100%);
+        }
+
+        /* Floating Nav Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(10, 24, 18, 0.8);
+            border: 1.5px solid var(--border-color);
+            color: #ffffff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 500;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-arrow:hover {
+            background: var(--primary);
+            color: #0b1e14;
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 0 20px rgba(123, 155, 58, 0.6);
+        }
+
+        .nav-prev { left: 300px; }
+        .nav-next { right: 24px; }
+
+        @media (max-width: 900px) {
+            .nav-prev { left: 16px; }
+            .report-sidebar { display: none; }
+        }
+
+        /* Page Views */
+        .single-page-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: top center;
+        }
+
+        .report-page-image {
+            max-width: 100%;
+            max-height: calc(100vh - 160px);
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.12);
+            background: #ffffff;
+            display: block;
+            user-select: none;
+        }
+
+        .page-footer-tag {
+            font-size: 12px;
+            color: var(--accent-green);
+            margin-top: 12px;
+            background: rgba(11, 30, 20, 0.85);
+            padding: 5px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        /* Continuous Scroll View */
+        .continuous-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding-bottom: 60px;
+        }
+
+        .continuous-page {
+            position: relative;
+            max-width: 860px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .continuous-page img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .continuous-page-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(11, 30, 20, 0.85);
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+        }
+
+        /* Thumbnails View */
+        .thumbnails-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 1200px;
+            padding-bottom: 60px;
+        }
+
+        .thumbnail-card {
+            background: var(--card-dark);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .thumbnail-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 15px rgba(123, 155, 58, 0.4);
+        }
+
+        .thumbnail-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary), 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .thumbnail-card img {
+            width: 100%;
+            height: 195px;
+            object-fit: cover;
+            object-position: top;
+            background: #ffffff;
+        }
+
+        .thumbnail-footer {
+            padding: 6px 10px;
+            background: #0f241a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .thumbnail-badge {
+            background: var(--primary);
+            color: #0b1e14;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        /* Bottom Progress & Controls */
+        .report-bottom-bar {
+            background: rgba(10, 24, 18, 0.95);
+            border-top: 1.5px solid var(--border-color);
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .progress-bar-track {
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            width: 100%;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 1.6%;
+            transition: width 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header class="report-nav">
+        <div class="report-nav-left">
+            <a href="index.html#documentation" class="back-link" title="Return to AgriTrace Application">
+                <span>←</span>
+                <span>Back to AgriTrace</span>
+            </a>
+            <div class="report-brand">
+                <div class="report-brand-title">Blockchain-Based Farm-to-Market Traceability System</div>
+                <div class="report-brand-subtitle">Course Project Report &bull; Kalasalingam University &bull; 62 Pages</div>
+            </div>
+        </div>
+
+        <div class="report-nav-center">
+            <!-- Chapter Selector -->
+            <select id="chapterSelect" class="chapter-dropdown" onchange="goToPage(parseInt(this.value, 10))" title="Jump to Chapter or Section">
+                <option value="1">Page 1: Title &amp; Course Details</option>
+                <option value="2">Page 2: Declaration</option>
+                <option value="3">Page 3: Bonafide Certificate</option>
+                <option value="4">Page 4: Acknowledgement</option>
+                <option value="5">Page 5: Project Summary &amp; Tech Stack</option>
+                <option value="6">Page 6: Engineering Constraints</option>
+                <option value="7">Page 7: Table of Contents</option>
+                <option value="8">Page 8: List of Tables</option>
+                <option value="9">Page 9: List of Figures</option>
+                <option value="10">Page 10: List of Abbreviations</option>
+                <option value="11">Page 11: Problem Statement</option>
+                <option value="12">Page 12: Abstract &amp; UN SDGs</option>
+                <option value="13">Page 13: Chapter I &bull; Introduction</option>
+                <option value="14">Page 14: Chapter II &bull; Literature Review</option>
+                <option value="15">Page 15: Literature Review Matrix (1)</option>
+                <option value="16">Page 16: Literature Review Matrix (2)</option>
+                <option value="18">Page 18: Chapter III &bull; Problem Definition</option>
+                <option value="19">Page 19: Objectives &amp; Proposed Solution</option>
+                <option value="21">Page 21: Chapter IV &bull; Proposed Methodology</option>
+                <option value="22">Page 22: Architecture Diagram (Figure 1)</option>
+                <option value="23">Page 23: Batch Identity &amp; Smart Contracts</option>
+                <option value="24">Page 24: Selective IoT &amp; Patent Positioning</option>
+                <option value="25">Page 25: Chapter V &bull; Requirements &amp; Modules</option>
+                <option value="28">Page 28: Auth &amp; Farmer Portal</option>
+                <option value="29">Page 29: Seller Portal &amp; Marketplace</option>
+                <option value="30">Page 30: TN Datasets &amp; Price Comparison</option>
+                <option value="32">Page 32: Blockchain Traceability &amp; QR Codes</option>
+                <option value="33">Page 33: IoT Monitoring &amp; AgriTrace Points</option>
+                <option value="35">Page 35: Chapter VI &bull; System Implementation</option>
+                <option value="37">Page 37: Web Interface (Home &amp; Verify)</option>
+                <option value="38">Page 38: Web Interface (Register Produce)</option>
+                <option value="43">Page 43: Chapter VII &bull; Results &amp; Discussion</option>
+                <option value="46">Page 46: Expected Performance Benefits</option>
+                <option value="47">Page 47: Performance Evaluation Parameters</option>
+                <option value="51">Page 51: Chapter VIII &bull; Community Impact</option>
+                <option value="53">Page 53: UN Sustainable Development Goals</option>
+                <option value="54">Page 54: Chapter IX &bull; Conclusion &amp; Scope</option>
+                <option value="55">Page 55: Future Scope &amp; AI Integration</option>
+                <option value="59">Page 59: References (1-10)</option>
+                <option value="60">Page 60: References (11-17)</option>
+                <option value="61">Page 61: IQAC Project Audit Certificate</option>
+                <option value="62">Page 62: Enclosures</option>
+            </select>
+
+            <!-- Page Input -->
+            <span class="page-jumper">
+                Page 
+                <input type="number" id="pageInput" class="page-input" min="1" max="62" value="1" onchange="goToPage(parseInt(this.value, 10))" onkeydown="if(event.key==='Enter') goToPage(parseInt(this.value, 10))"> 
+                / 62
+            </span>
+
+            <!-- Mode Toggle -->
+            <div class="btn-group">
+                <button type="button" id="modeSingleBtn" class="btn-tool active" onclick="setViewMode('single')" title="Flip page by page">📄 Flip</button>
+                <button type="button" id="modeContinuousBtn" class="btn-tool" onclick="setViewMode('continuous')" title="Scroll all 62 pages continuously">📜 Scroll</button>
+                <button type="button" id="modeThumbnailsBtn" class="btn-tool" onclick="setViewMode('thumbnails')" title="View 62 page thumbnails">🗂️ Grid</button>
+            </div>
+
+            <!-- Zoom -->
+            <div class="btn-group" id="zoomGroup">
+                <button type="button" class="btn-tool" onclick="changeZoom(-0.15)" title="Zoom Out">−</button>
+                <button type="button" id="zoomLabel" class="btn-tool" onclick="resetZoom()" title="Reset Zoom">100%</button>
+                <button type="button" class="btn-tool" onclick="changeZoom(0.15)" title="Zoom In">+</button>
+            </div>
+        </div>
+
+        <div class="report-nav-right">
+            <a href="docs/AgriTrace_Project_Report.pdf" download="AgriTrace_Project_Report.pdf" class="action-btn action-btn-primary" title="Download Full 62-Page PDF Document">
+                <span>📥</span>
+                <span>Download PDF (1.2 MB)</span>
+            </a>
+            <button type="button" onclick="window.print()" class="action-btn action-btn-secondary" title="Print Document">
+                <span>🖨️</span>
+                <span>Print</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Progress Track -->
+    <div class="progress-bar-track">
+        <div id="progressBar" class="progress-bar-fill"></div>
+    </div>
+
+    <!-- Main Body Layout -->
+    <main class="report-main-layout">
+        <!-- Sidebar Table of Contents -->
+        <aside class="report-sidebar">
+            <div class="sidebar-header">
+                <span>Table of Contents</span>
+                <span style="font-size:11px; color:var(--text-muted);">62 Pages</span>
+            </div>
+            <div class="sidebar-content" id="sidebarToc">
+                <!-- Injected via JavaScript -->
+            </div>
+        </aside>
+
+        <!-- Viewer Stage -->
+        <section class="report-stage-wrapper" id="stageWrapper">
+            <button type="button" id="stagePrevBtn" class="nav-arrow nav-prev" onclick="prevPage()" title="Previous Page (← / PageUp)">❮</button>
+            
+            <div id="stageContainer" style="width:100%; display:flex; justify-content:center;">
+                <!-- Current view rendered here -->
+            </div>
+
+            <button type="button" id="stageNextBtn" class="nav-arrow nav-next" onclick="nextPage()" title="Next Page (→ / Space)">❯</button>
+        </section>
+    </main>
+
+    <!-- Bottom Controls -->
+    <footer class="report-bottom-bar">
+        <button type="button" id="bottomPrevBtn" onclick="prevPage()" class="action-btn action-btn-secondary" style="padding:4px 14px;">
+            ← Previous
+        </button>
+        <div id="bottomStatusText" style="color:var(--accent-green); font-weight:700;">
+            Page 1 of 62 &bull; Blockchain-Based Farm-to-Market Traceability System
+        </div>
+        <button type="button" id="bottomNextBtn" onclick="nextPage()" class="action-btn action-btn-primary" style="padding:4px 18px;">
+            Next →
+        </button>
+    </footer>
+
+    <script>
+        const TOTAL_PAGES = 62;
+        let currentPage = 1;
+        let currentMode = 'single';
+        let zoom = 1.0;
+        let continuousObserver = null;
+
+        const CHAPTERS = [
+            { page: 1, label: 'Title & Course Details' },
+            { page: 2, label: 'Declaration' },
+            { page: 3, label: 'Bonafide Certificate' },
+            { page: 4, label: 'Acknowledgement' },
+            { page: 5, label: 'Project Summary & Tech Stack' },
+            { page: 6, label: 'Engineering Constraints' },
+            { page: 7, label: 'Table of Contents' },
+            { page: 8, label: 'List of Tables' },
+            { page: 9, label: 'List of Figures' },
+            { page: 10, label: 'List of Abbreviations (24 terms)' },
+            { page: 11, label: 'Problem Statement' },
+            { page: 12, label: 'Abstract & SDGs' },
+            { page: 13, label: 'Chapter I: Introduction' },
+            { page: 14, label: 'Chapter II: Literature Review' },
+            { page: 15, label: 'Literature Review Matrix (1)' },
+            { page: 16, label: 'Literature Review Matrix (2)' },
+            { page: 18, label: 'Chapter III: Problem Definition' },
+            { page: 19, label: 'Project Objectives & Solution' },
+            { page: 21, label: 'Chapter IV: Proposed Methodology' },
+            { page: 22, label: 'Architecture Diagram (Figure 1)' },
+            { page: 23, label: 'Batch-Centric Digital Identity' },
+            { page: 24, label: 'Selective IoT & Patent Positioning' },
+            { page: 25, label: 'Chapter V: Requirements & Modules' },
+            { page: 28, label: 'Module 1 & 2: User Auth & Farmer Portal' },
+            { page: 29, label: 'Module 3 & 4: Seller & Marketplace' },
+            { page: 30, label: 'Module 5 & 6: Datasets & Mandi Prices' },
+            { page: 32, label: 'Module 7 & 8: Blockchain & QR Verification' },
+            { page: 33, label: 'Module 9 & 10: IoT & AgriTrace Points' },
+            { page: 35, label: 'Chapter VI: System Implementation' },
+            { page: 37, label: 'UI: Home & Verification Page' },
+            { page: 38, label: 'UI: Produce Registration & Backend' },
+            { page: 43, label: 'Chapter VII: Results and Discussion' },
+            { page: 46, label: 'Expected Performance Benefits' },
+            { page: 47, label: 'Evaluation Parameters Matrix' },
+            { page: 51, label: 'Chapter VIII: Community Impact' },
+            { page: 53, label: 'UN Sustainable Development Goals' },
+            { page: 54, label: 'Chapter IX: Conclusion & Future Scope' },
+            { page: 55, label: 'Advanced Price Prediction & AI Scope' },
+            { page: 59, label: 'References (Citations 1-10)' },
+            { page: 60, label: 'References (Citations 11-17)' },
+            { page: 61, label: 'IQAC Project Audit Report' },
+            { page: 62, label: 'Enclosures & Verification' }
+        ];
+
+        function initSidebar() {
+            const container = document.getElementById('sidebarToc');
+            if (!container) return;
+            let html = '';
+            CHAPTERS.forEach(ch => {
+                html += `
+                    <div class="toc-item ${ch.page === currentPage ? 'active' : ''}" onclick="goToPage(${ch.page})" id="tocItem${ch.page}">
+                        <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:190px;">${ch.label}</span>
+                        <span class="toc-page-badge">P.${ch.page}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateHUD(n) {
+            currentPage = n;
+            const input = document.getElementById('pageInput');
+            if (input && document.activeElement !== input) input.value = n;
+
+            const progress = document.getElementById('progressBar');
+            if (progress) progress.style.width = `${(n / TOTAL_PAGES) * 100}%`;
+
+            const status = document.getElementById('bottomStatusText');
+            if (status) status.innerHTML = `Page ${n} of ${TOTAL_PAGES} &bull; Blockchain-Based Farm-to-Market Traceability System`;
+
+            const select = document.getElementById('chapterSelect');
+            if (select) {
+                let closest = 1;
+                for (let i = 0; i < CHAPTERS.length; i++) {
+                    if (CHAPTERS[i].page <= n) closest = CHAPTERS[i].page;
+                    else break;
+                }
+                select.value = closest;
+            }
+
+            // Sync sidebar
+            document.querySelectorAll('.toc-item').forEach(el => el.classList.remove('active'));
+            const activeToc = document.getElementById(`tocItem${select ? select.value : 1}`);
+            if (activeToc) {
+                activeToc.classList.add('active');
+            }
+
+            const prevBtn = document.getElementById('bottomPrevBtn');
+            if (prevBtn) prevBtn.disabled = (n === 1);
+            const nextBtn = document.getElementById('bottomNextBtn');
+            if (nextBtn) nextBtn.disabled = (n === TOTAL_PAGES);
+
+            const sPrev = document.getElementById('stagePrevBtn');
+            if (sPrev) {
+                sPrev.style.display = (currentMode === 'single') ? 'flex' : 'none';
+                sPrev.style.opacity = (n === 1) ? '0.3' : '1';
+            }
+            const sNext = document.getElementById('stageNextBtn');
+            if (sNext) {
+                sNext.style.display = (currentMode === 'single') ? 'flex' : 'none';
+                sNext.style.opacity = (n === TOTAL_PAGES) ? '0.3' : '1';
+            }
+        }
+
+        function renderSinglePage(n) {
+            const container = document.getElementById('stageContainer');
+            if (!container) return;
+            container.innerHTML = `
+                <div class="single-page-card" style="transform: scale(${zoom});">
+                    <img src="docs/report_pages/page_${n}.png" alt="Page ${n} of ${TOTAL_PAGES}" class="report-page-image" loading="eager" />
+                    <div class="page-footer-tag">Page ${n} of ${TOTAL_PAGES} &bull; CSE223 Applied Blockchain &bull; Kalasalingam University</div>
+                </div>
+            `;
+            const wrapper = document.getElementById('stageWrapper');
+            if (wrapper) wrapper.scrollTop = 0;
+
+            // Preload adjacent
+            [n - 1, n + 1].filter(p => p >= 1 && p <= TOTAL_PAGES).forEach(p => {
+                const img = new Image();
+                img.src = `docs/report_pages/page_${p}.png`;
+            });
+        }
+
+        function renderContinuous() {
+            const container = document.getElementById('stageContainer');
+            if (!container) return;
+            let html = '<div class="continuous-wrapper">';
+            for (let i = 1; i <= TOTAL_PAGES; i++) {
+                html += `
+                    <div class="continuous-page" id="contPage${i}" data-page="${i}">
+                        <span class="continuous-page-badge">Page ${i} / ${TOTAL_PAGES}</span>
+                        <img src="docs/report_pages/page_${i}.png" alt="Report Page ${i}" loading="${i <= 3 ? 'eager' : 'lazy'}" />
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+
+            const target = document.getElementById(`contPage${currentPage}`);
+            if (target) {
+                setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+            }
+
+            if (window.IntersectionObserver) {
+                if (continuousObserver) continuousObserver.disconnect();
+                continuousObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
+                            const p = parseInt(entry.target.getAttribute('data-page'), 10);
+                            if (p && p !== currentPage) {
+                                updateHUD(p);
+                            }
+                        }
+                    });
+                }, { threshold: [0.4] });
+
+                document.querySelectorAll('.continuous-page').forEach(el => continuousObserver.observe(el));
+            }
+        }
+
+        function renderThumbnails() {
+            const container = document.getElementById('stageContainer');
+            if (!container) return;
+            let html = '<div class="thumbnails-grid">';
+            for (let i = 1; i <= TOTAL_PAGES; i++) {
+                html += `
+                    <div class="thumbnail-card ${i === currentPage ? 'active' : ''}" onclick="selectThumb(${i})">
+                        <img src="docs/report_pages/page_${i}.png" alt="Thumb ${i}" loading="lazy" />
+                        <div class="thumbnail-footer">
+                            <span>Page ${i}</span>
+                            <span class="thumbnail-badge">${i}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function selectThumb(p) {
+            currentPage = p;
+            setViewMode('single');
+            goToPage(p);
+        }
+
+        function setViewMode(mode) {
+            currentMode = mode;
+            ['single', 'continuous', 'thumbnails'].forEach(m => {
+                const btn = document.getElementById(`mode${m.charAt(0).toUpperCase() + m.slice(1)}Btn`);
+                if (btn) btn.classList.toggle('active', m === mode);
+            });
+
+            const zoomGroup = document.getElementById('zoomGroup');
+            if (zoomGroup) zoomGroup.style.display = (mode === 'single') ? 'inline-flex' : 'none';
+
+            if (mode === 'single') renderSinglePage(currentPage);
+            else if (mode === 'continuous') renderContinuous();
+            else if (mode === 'thumbnails') renderThumbnails();
+
+            updateHUD(currentPage);
+        }
+
+        function goToPage(n) {
+            if (isNaN(n) || n < 1) n = 1;
+            if (n > TOTAL_PAGES) n = TOTAL_PAGES;
+            currentPage = n;
+
+            if (currentMode === 'single') {
+                renderSinglePage(n);
+            } else if (currentMode === 'continuous') {
+                const target = document.getElementById(`contPage${n}`);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else if (currentMode === 'thumbnails') {
+                renderThumbnails();
+            }
+
+            updateHUD(n);
+        }
+
+        function prevPage() {
+            if (currentPage > 1) goToPage(currentPage - 1);
+        }
+
+        function nextPage() {
+            if (currentPage < TOTAL_PAGES) goToPage(currentPage + 1);
+        }
+
+        function changeZoom(delta) {
+            zoom = Math.max(0.65, Math.min(2.0, +(zoom + delta).toFixed(2)));
+            const label = document.getElementById('zoomLabel');
+            if (label) label.textContent = `${Math.round(zoom * 100)}%`;
+            const card = document.querySelector('.single-page-card');
+            if (card) card.style.transform = `scale(${zoom})`;
+        }
+
+        function resetZoom() {
+            zoom = 1.0;
+            const label = document.getElementById('zoomLabel');
+            if (label) label.textContent = '100%';
+            const card = document.querySelector('.single-page-card');
+            if (card) card.style.transform = 'scale(1.0)';
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement && document.activeElement.id === 'pageInput') return;
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+                e.preventDefault();
+                prevPage();
+            }
+        });
+
+        // Initialize on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            initSidebar();
+            goToPage(1);
+        });
+    </script>
+</body>
+</html>
