@@ -2832,7 +2832,7 @@ const PRESENTATION_SLIDES = [
           Presented by: Guru Prasanth S, Leun Hammi D, Jeyaprasanna M
         </div>
         <div style="font-size:13px; color:#526359; font-weight:500; margin-bottom:10px;">
-          Register Number: [9925009028, 99250040308, 99250040310] &nbsp;|&nbsp; Department: [Mech, CSE(Ds)]
+          Department: Mechanical Engineering &amp; CSE (Data Science) &bull; Team 1
         </div>
         <div style="border-top:1px solid #ded9cb; padding-top:10px; font-size:13.5px; color:#244033; font-weight:600;">
           <strong>Supervisor:</strong> Dr. P. Chinnasamy &nbsp;|&nbsp; <strong>Designation:</strong> Associate Professor
@@ -2878,7 +2878,7 @@ const PRESENTATION_SLIDES = [
 
     <div style="background:#1e382c; color:#ffffff; border-radius:12px; padding:12px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:13px; font-weight:600;">
       <div>Farmer &rarr; AgriTrace platform &rarr; Buyer &nbsp;|&nbsp; Price transparency &bull; Digital marketplace &bull; Traceability</div>
-      <a href="https://guru-prasanths.github.io/AgriTrace-/" target="_blank" style="color:#a7f3d0; text-decoration:none; font-family:monospace; font-size:12px; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:6px;">Visit my Web Application : guru-prasanths.github.io/AgriTrace-/ &nearr;</a>
+      <a href="https://guru-prasanths.github.io/AgriTrace-/" target="_blank" rel="noopener noreferrer" style="color:#a7f3d0; text-decoration:none; font-family:monospace; font-size:12px; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:6px;">Visit AgriTrace Web Application &nearr;</a>
     </div>
   </div>
   `,
@@ -2939,7 +2939,7 @@ const PRESENTATION_SLIDES = [
     <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:14px;">
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-1.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-1.png" alt="Authentication module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Authentication</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Farmer and Seller portals &bull; email/password &bull; Google authentication integration &bull; role-based access</p>
@@ -2947,7 +2947,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-2.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-2.png" alt="Crop listing module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Listing</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Crop name &bull; images &bull; quantity and unit &bull; price and location &bull; quality and availability</p>
@@ -2955,7 +2955,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-3.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-3.png" alt="Digital marketplace module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Marketplace</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Browse &bull; compare listings &bull; submit requests or offers &bull; connect with farmers</p>
@@ -2963,7 +2963,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-4.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-4.png" alt="Order management module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Orders</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Track requests &bull; manage status &bull; coordinate interactions &bull; record supported transaction details</p>
@@ -2971,7 +2971,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-5.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-5.png" alt="Price discovery module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Price discovery</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Tamil Nadu datasets and official resources &bull; tomato comparison across Salem, Madurai, Coimbatore, Erode</p>
@@ -2979,7 +2979,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-6.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-6.png" alt="Blockchain traceability module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Traceability</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Produce Batch &rarr; Digital Record &rarr; Blockchain Transaction &rarr; QR Verification &rarr; Traceability Information</p>
@@ -2987,7 +2987,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-7.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-7.png" alt="AgriTrace Points module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">AgriTrace Points</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Eligible activities &bull; completion rewards &bull; configured daily eligibility &bull; balance &bull; transaction history</p>
@@ -2995,7 +2995,7 @@ const PRESENTATION_SLIDES = [
 
       <div style="background:#ffffff; border:1.5px solid #ded9cb; border-radius:12px; padding:12px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <img src="docs/presentation_assets/image-4-8.png" style="width:20px; height:20px; object-fit:contain;">
+          <img src="docs/presentation_assets/image-4-8.png" alt="Accessibility module icon" style="width:20px; height:20px; object-fit:contain;">
           <span style="font-size:13.5px; font-weight:800; color:#1e382c;">Accessibility</span>
         </div>
         <p style="font-size:11px; color:#3b5e4c; line-height:1.4; margin:0;">Simple navigation &bull; responsive interface &bull; readable text &bull; language accessibility &bull; voice assistance</p>

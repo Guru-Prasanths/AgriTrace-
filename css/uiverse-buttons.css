@@ -570,76 +570,78 @@ ul.example-2 {
 
 .example-2 .icon-content a:hover .filled,
 .example-2 .icon-content button:hover .filled,
-.example-2 .icon-content a.active .filled {
+.example-2 .icon-content a.active .filled,
+.example-2 .icon-content button.active .filled {
   height: 100%;
 }
 
-.example-2 .icon-content a.active {
+.example-2 .icon-content a.active,
+.example-2 .icon-content button.active {
   box-shadow: 0 4px 16px rgba(30, 56, 44, 0.22);
   border-color: #1e382c;
 }
 
 /* Category Color Accents */
-.example-2 .icon-content a[data-social="home"] .filled,
-.example-2 .icon-content a[data-social="home"] ~ .tooltip {
+.example-2 .icon-content [data-social="home"] .filled,
+.example-2 .icon-content [data-social="home"] ~ .tooltip {
   background-color: #1e382c;
 }
-.example-2 .icon-content a[data-social="dashboard"] .filled,
-.example-2 .icon-content a[data-social="dashboard"] ~ .tooltip {
+.example-2 .icon-content [data-social="dashboard"] .filled,
+.example-2 .icon-content [data-social="dashboard"] ~ .tooltip {
   background-color: #0284c7;
 }
-.example-2 .icon-content a[data-social="records"] .filled,
-.example-2 .icon-content a[data-social="records"] ~ .tooltip {
+.example-2 .icon-content [data-social="records"] .filled,
+.example-2 .icon-content [data-social="records"] ~ .tooltip {
   background-color: #16a34a;
 }
-.example-2 .icon-content a[data-social="prices"] .filled,
-.example-2 .icon-content a[data-social="prices"] ~ .tooltip {
+.example-2 .icon-content [data-social="prices"] .filled,
+.example-2 .icon-content [data-social="prices"] ~ .tooltip {
   background-color: #d97706;
 }
-.example-2 .icon-content a[data-social="sensors"] .filled,
-.example-2 .icon-content a[data-social="sensors"] ~ .tooltip {
+.example-2 .icon-content [data-social="sensors"] .filled,
+.example-2 .icon-content [data-social="sensors"] ~ .tooltip {
   background-color: #7c3aed;
 }
-.example-2 .icon-content a[data-social="farmer"] .filled,
-.example-2 .icon-content a[data-social="farmer"] ~ .tooltip {
+.example-2 .icon-content [data-social="farmer"] .filled,
+.example-2 .icon-content [data-social="farmer"] ~ .tooltip {
   background-color: #059669;
 }
-.example-2 .icon-content a[data-social="seller"] .filled,
-.example-2 .icon-content a[data-social="seller"] ~ .tooltip {
+.example-2 .icon-content [data-social="seller"] .filled,
+.example-2 .icon-content [data-social="seller"] ~ .tooltip {
   background-color: #ea580c;
 }
-.example-2 .icon-content a[data-social="consumer"] .filled,
-.example-2 .icon-content a[data-social="consumer"] ~ .tooltip {
+.example-2 .icon-content [data-social="consumer"] .filled,
+.example-2 .icon-content [data-social="consumer"] ~ .tooltip {
   background-color: #2563eb;
 }
-.example-2 .icon-content a[data-social="datasets"] .filled,
-.example-2 .icon-content a[data-social="datasets"] ~ .tooltip {
+.example-2 .icon-content [data-social="datasets"] .filled,
+.example-2 .icon-content [data-social="datasets"] ~ .tooltip {
   background-color: #0d9488;
 }
 
 /* Actions */
-.example-2 .icon-content a[data-social="network"] .filled,
-.example-2 .icon-content a[data-social="network"] ~ .tooltip {
+.example-2 .icon-content [data-social="network"] .filled,
+.example-2 .icon-content [data-social="network"] ~ .tooltip {
   background-color: #475569;
 }
-.example-2 .icon-content a[data-social="camera"] .filled,
-.example-2 .icon-content a[data-social="camera"] ~ .tooltip {
+.example-2 .icon-content [data-social="camera"] .filled,
+.example-2 .icon-content [data-social="camera"] ~ .tooltip {
   background-color: #0891b2;
 }
-.example-2 .icon-content a[data-social="qr"] .filled,
-.example-2 .icon-content a[data-social="qr"] ~ .tooltip {
+.example-2 .icon-content [data-social="qr"] .filled,
+.example-2 .icon-content [data-social="qr"] ~ .tooltip {
   background-color: #0284c7;
 }
-.example-2 .icon-content a[data-social="alerts"] .filled,
-.example-2 .icon-content a[data-social="alerts"] ~ .tooltip {
+.example-2 .icon-content [data-social="alerts"] .filled,
+.example-2 .icon-content [data-social="alerts"] ~ .tooltip {
   background-color: #e11d48;
 }
-.example-2 .icon-content a[data-social="wallet"] .filled,
-.example-2 .icon-content a[data-social="wallet"] ~ .tooltip {
+.example-2 .icon-content [data-social="wallet"] .filled,
+.example-2 .icon-content [data-social="wallet"] ~ .tooltip {
   background-color: #1e382c;
 }
-.example-2 .icon-content a[data-social="user"] .filled,
-.example-2 .icon-content a[data-social="user"] ~ .tooltip {
+.example-2 .icon-content [data-social="user"] .filled,
+.example-2 .icon-content [data-social="user"] ~ .tooltip {
   background-color: #059669;
 }
 

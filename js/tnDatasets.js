@@ -3285,12 +3285,48 @@ let currentTnFilter = 'all';
 let currentTnSearch = '';
 let currentTnDistrict = 'all';
 let currentTnSort = 'default';
-let displayedCount = 50;
-const PAGE_SIZE = 50;
+let displayedCount = 24;
+const PAGE_SIZE = 24;
+let tnDatasetsInitialized = false;
 
 function initTnDatasets() {
+  if (tnDatasetsInitialized) return;
+  tnDatasetsInitialized = true;
   renderCategoryBadges();
   renderDatasetGrid();
+}
+
+function scheduleTnDatasetsOnDemand() {
+  const section = document.getElementById('datasets');
+  if (!section) {
+    initTnDatasets();
+    return;
+  }
+
+  // Trigger immediately when user scrolls near #datasets section
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) {
+        initTnDatasets();
+        observer.disconnect();
+      }
+    }, { rootMargin: '350px 0px' });
+    observer.observe(section);
+  }
+
+  // Also trigger immediately on interaction with controls or nav link
+  ['tnSearchInput', 'tnSortSelect', 'nav-datasets'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('focus', initTnDatasets, { once: true });
+    if (el) el.addEventListener('click', initTnDatasets, { once: true });
+  });
+
+  // Idle background fallback so grid is always populated without blocking first paint
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => initTnDatasets(), { timeout: 2500 });
+  } else {
+    setTimeout(initTnDatasets, 1200);
+  }
 }
 
 function renderCategoryBadges() {
@@ -3997,11 +4033,11 @@ async function openDatasetDetailModal(datasetIdOrSlug) {
   modal.classList.add('open');
 }
 
-// Global initialization
+// Global initialization (on-demand near viewport / idle to improve initial load speed)
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initTnDatasets);
+  document.addEventListener('DOMContentLoaded', scheduleTnDatasetsOnDemand);
 } else {
-  initTnDatasets();
+  scheduleTnDatasetsOnDemand();
 }
 
 window.TN_AGRICULTURAL_CATEGORIES = TN_AGRICULTURAL_CATEGORIES;
