@@ -2,8 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const path = require("path");
+const rateLimit = require("express-rate-limit");
 
-const { port, frontendOrigin } = require("./config/env");
+const { port, frontendOrigin, nodeEnv } = require("./config/env");
+const { sanitizeBody, sanitizeQuery, sanitizeParams } = require("./middleware/sanitize");
 
 const recordRoutes = require("./routes/recordRoutes");
 const healthRoutes = require("./routes/healthRoutes");
@@ -25,54 +27,124 @@ const { initRewardScheduler } = require("./services/rewardScheduler");
 const app = express();
 
 /* =========================================================
-   SECURITY
+   SECURITY — Helmet with Content Security Policy
    ========================================================= */
 
 app.use(
   helmet({
-    contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: false
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com", "https://apis.google.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        connectSrc: ["'self'", "https://accounts.google.com", "https://*.infura.io", "https://rpc.sepolia.org", "wss:"],
+        frameSrc: ["https://accounts.google.com"],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"]
+      }
+    },
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
   })
 );
 
 /* =========================================================
-   CORS
-   Allows the AgriTrace frontend to communicate with Express
-   during local development or production.
+   ADDITIONAL SECURITY HEADERS
    ========================================================= */
+
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  next();
+});
+
+/* =========================================================
+   CORS — Whitelist specific origins only
+   ========================================================= */
+
+const allowedOrigins = [
+  frontendOrigin,
+  "http://localhost:5500",
+  "http://localhost:4001",
+  "http://127.0.0.1:5500",
+  "http://127.0.0.1:4001"
+].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow file:// (origin is null or 'null'), localhost, and 127.0.0.1
-      if (!origin || origin === "null" || origin === "file://" || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+      // Allow requests with no origin (mobile apps, curl, Postman, etc.)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin) || /^https:\/\/.*\.github\.io$/.test(origin)) {
         return callback(null, true);
       }
-      callback(null, true);
+      callback(new Error("CORS policy violation: origin not allowed"));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Device-Id"],
-    credentials: false
+    credentials: true,
+    maxAge: 86400
   })
 );
+
+/* =========================================================
+   RATE LIMITING
+   ========================================================= */
+
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests", message: "Please try again later." }
+});
+app.use("/api/", globalLimiter);
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many authentication attempts", message: "Account temporarily locked. Try again in 15 minutes." }
+});
+
+const adminLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many admin requests", message: "Please try again later." }
+});
 
 /* =========================================================
    BODY PARSER
    ========================================================= */
 
-app.use(
-  express.json({
-    limit: "2mb"
-  })
-);
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: false, limit: "1mb" }));
+
+/* =========================================================
+   INPUT SANITIZATION — XSS Prevention
+   ========================================================= */
+
+app.use(sanitizeBody);
+app.use(sanitizeQuery);
+app.use(sanitizeParams);
 
 /* =========================================================
    STATIC FRONTEND HOSTING
-   Allows opening http://localhost:4001 directly in the browser
-   as well as Live Server on port 5500.
    ========================================================= */
 
-app.use(express.static(path.join(__dirname, "../frontend")));
+app.use(express.static(path.join(__dirname, "../frontend"), {
+  dotfiles: "deny",
+  index: ["index.html"]
+}));
 
 /* =========================================================
    ROOT & API INFO
@@ -82,7 +154,6 @@ app.get("/api", (req, res) => {
   res.json({
     name: "AgriTrace API",
     version: "1.0.0",
-    environment: process.env.NODE_ENV || "development",
     endpoints: {
       health: "/api/health",
       records: "/api/records",
@@ -125,25 +196,28 @@ app.get("/api", (req, res) => {
 });
 
 /* =========================================================
-   API ROUTES
+   API ROUTES (with endpoint-specific rate limiting)
    ========================================================= */
 
 app.use("/api/health", healthRoutes);
 app.use("/api/records", recordRoutes);
-app.use("/api/batches", recordRoutes); // Alias for batch endpoint
+app.use("/api/batches", recordRoutes);
 app.use("/api/prices", priceRoutes);
 app.use("/api/environment", sensorRoutes);
-app.use("/api/sensors", sensorRoutes); // Alias for sensors endpoint
+app.use("/api/sensors", sensorRoutes);
 app.use("/api/traceability", traceabilityRoutes);
+app.use("/api/auth/login", authLimiter);
+app.use("/api/auth/register", authLimiter);
+app.use("/api/auth/google", authLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/rewards", rewardRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminLimiter, adminRoutes);
 app.use("/api/tn-crops", tnCropRoutes);
 app.use("/api/tn-market", tnMarketRoutes);
 
 // Initialize background 24h daily reward scheduler
-if (process.env.NODE_ENV !== "test") {
+if (nodeEnv !== "test") {
   initRewardScheduler();
 }
 
@@ -159,11 +233,13 @@ app.use((req, res) => {
 });
 
 /* =========================================================
-   ERROR HANDLER (Graceful DB & Application Failures)
+   ERROR HANDLER (Secure — no stack traces in production)
    ========================================================= */
 
 app.use((error, req, res, next) => {
-  console.error("[api error]", error.message || error);
+  if (nodeEnv === "development") {
+    console.error("[api error]", error.message || error);
+  }
 
   // Check for PostgreSQL connection, auth, or query errors
   if (
@@ -176,15 +252,23 @@ app.use((error, req, res, next) => {
   ) {
     return res.status(503).json({
       error: "Database unavailable",
-      message: "The off-chain PostgreSQL database is currently unreachable or credentials need configuration. Verify DATABASE_URL in .env and ensure PostgreSQL is running.",
-      detail: process.env.NODE_ENV === "development" ? error.message : undefined
+      message: "The database is currently unreachable. Please try again later.",
+      ...(nodeEnv === "development" && { detail: error.message })
+    });
+  }
+
+  // CORS errors
+  if (error.message && error.message.includes("CORS policy violation")) {
+    return res.status(403).json({
+      error: "Forbidden",
+      message: "Cross-origin request blocked."
     });
   }
 
   res.status(500).json({
     error: "Internal server error",
-    message: error.message || "An unexpected error occurred",
-    detail: process.env.NODE_ENV === "development" ? error.stack : undefined
+    message: nodeEnv === "development" ? error.message : "An unexpected error occurred",
+    ...(nodeEnv === "development" && { stack: error.stack })
   });
 });
 
@@ -196,8 +280,11 @@ if (require.main === module) {
   app.listen(port, () => {
     console.log(`========================================`);
     console.log(`AgriTrace API listening on http://localhost:${port}`);
-    console.log(`Frontend CORS origin: ${frontendOrigin}`);
-    console.log(`Database URL: ${process.env.DATABASE_URL ? "configured" : "MISSING"}`);
+    console.log(`Environment: ${nodeEnv}`);
+    console.log(`CORS origins: ${allowedOrigins.join(", ")}`);
+    console.log(`Database: ${process.env.DATABASE_URL ? "configured" : "MISSING"}`);
+    console.log(`JWT Secret: ${process.env.JWT_SECRET ? "configured" : "auto-generated (set JWT_SECRET in .env)"}`);
+    console.log(`Rate limiting: enabled`);
     console.log(`========================================`);
   });
 }

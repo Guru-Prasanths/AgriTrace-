@@ -9,7 +9,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const { jwtSecret } = require("../config/env");
+const { jwtSecret, jwtExpiresIn } = require("../config/env");
 const { normalizeEmail } = require("../utils/emailNormalizer");
 const userModel = require("../models/userModel");
 const { verifyGoogleIdToken, getGoogleClientId } = require("../services/googleAuthService");
@@ -88,7 +88,7 @@ async function register(req, res) {
         is_verified: newUser.is_verified
       },
       jwtSecret,
-      { expiresIn: "7d" }
+      { expiresIn: jwtExpiresIn }
     );
 
     return res.status(201).json({
@@ -184,7 +184,7 @@ async function login(req, res) {
         is_verified: user.is_verified
       },
       jwtSecret,
-      { expiresIn: "7d" }
+      { expiresIn: jwtExpiresIn }
     );
 
     return res.json({
@@ -343,7 +343,7 @@ async function googleAuth(req, res) {
           is_verified: true
         },
         jwtSecret,
-        { expiresIn: "7d" }
+        { expiresIn: jwtExpiresIn }
       );
 
       return res.json({
@@ -387,7 +387,7 @@ async function googleAuth(req, res) {
         is_verified: true
       },
       jwtSecret,
-      { expiresIn: "7d" }
+      { expiresIn: jwtExpiresIn }
     );
 
     return res.status(201).json({

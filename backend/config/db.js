@@ -28,8 +28,8 @@ function ensureStoreDir() {
 }
 
 // Generate deterministic password hashes for seed accounts
-const SEED_PASSWORD_HASH = bcrypt.hashSync("AgriTrace@2026", 10);
-const ADMIN_PASSWORD_HASH = bcrypt.hashSync("Admin@12345", 10);
+const SEED_PASSWORD_HASH = bcrypt.hashSync(process.env.SEED_PASSWORD || "AgriTrace@Seed!2026", 10);
+const ADMIN_PASSWORD_HASH = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "Admin@Secure!2026", 10);
 
 const DEFAULT_SETTINGS = [
   { setting_key: "farmer_daily_points", setting_value: "10", description: "Daily reward points awarded to eligible farmers every 24 hours" },
