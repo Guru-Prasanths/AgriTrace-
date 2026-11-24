@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://guru-prasanths.github.io/AgriTrace-/sitemap.xml

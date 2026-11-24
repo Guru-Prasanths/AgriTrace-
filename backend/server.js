@@ -35,11 +35,35 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com", "https://apis.google.com"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://accounts.google.com",
+          "https://apis.google.com",
+          "https://cdn.jsdelivr.net",
+          "https://translate.google.com",
+          "https://translate.googleapis.com",
+          "https://translate-pa.googleapis.com"
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://www.gstatic.com",
+          "https://translate.googleapis.com"
+        ],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         imgSrc: ["'self'", "data:", "https:", "blob:"],
-        connectSrc: ["'self'", "https://accounts.google.com", "https://*.infura.io", "https://rpc.sepolia.org", "wss:"],
+        connectSrc: [
+          "'self'",
+          "https://accounts.google.com",
+          "https://*.infura.io",
+          "https://rpc.sepolia.org",
+          "https://sepolia.etherscan.io",
+          "https://translate.googleapis.com",
+          "https://translate-pa.googleapis.com",
+          "wss:"
+        ],
         frameSrc: ["https://accounts.google.com"],
         objectSrc: ["'none'"],
         baseUri: ["'self'"],

@@ -1,17 +1,57 @@
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blockchain-Based Farm-To-Market Traceability System - Farm-to-market traceability and transparent price discovery platform engineered and built by GURU PRASANTH">
-    <meta name="author" content="GURU PRASANTH">
-    <meta name="creator" content="GURU PRASANTH">
-    <meta name="developer" content="GURU PRASANTH">
-    <meta name="web-builder" content="GURU PRASANTH">
-    <meta name="theme-color" content="#f5efdf">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Blockchain-Based Farm-To-Market Traceability System</title>
+    <title>AgriTrace – Blockchain Traceability &amp; Tamil Nadu Mandi Prices</title>
+    <meta name="description" content="Track produce from farm to consumer with blockchain, IoT cold-chain monitoring and QR verification. Compare Tamil Nadu APMC mandi prices across 15 crops.">
+    <meta name="keywords" content="blockchain agriculture traceability, farm to market, Tamil Nadu mandi prices, AGMARKNET, APMC price comparison, cold chain IoT, QR produce verification">
+    <meta name="author" content="Guru Prasanth S">
+    <meta name="theme-color" content="#f5efdf">
+    <link rel="canonical" href="https://guru-prasanths.github.io/AgriTrace-/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AgriTrace">
+    <meta property="og:title" content="AgriTrace – Blockchain Farm-to-Market Traceability">
+    <meta property="og:description" content="Blockchain + IoT traceability and transparent price discovery for Tamil Nadu agriculture.">
+    <meta property="og:url" content="https://guru-prasanths.github.io/AgriTrace-/">
+    <meta property="og:image" content="https://guru-prasanths.github.io/AgriTrace-/assets/agritrace-og-preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="AgriTrace blockchain farm-to-market traceability architecture">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AgriTrace – Blockchain Farm-to-Market Traceability">
+    <meta name="twitter:description" content="Verify produce origin, cold-chain data and fair prices with blockchain.">
+    <meta name="twitter:image" content="https://guru-prasanths.github.io/AgriTrace-/assets/agritrace-og-preview.jpg">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AgriTrace",
+      "url": "https://guru-prasanths.github.io/AgriTrace-/",
+      "applicationCategory": "BusinessApplication",
+      "description": "Blockchain-based farm-to-market traceability, IoT cold-chain monitoring and price discovery platform for Tamil Nadu.",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Guru Prasanth S",
+        "url": "https://github.com/guru-prasanths"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    }
+    </script>
 
     <!-- Main stylesheet -->
     <!-- Google Fonts: Inter, Noto Sans Tamil, Noto Sans Devanagari, Mukta Malar, EB Garamond -->
@@ -23,9 +63,9 @@
     <!-- Botanical Design System Theme Override -->
     <link rel="stylesheet" href="css/botanical-theme.css?v=20261107-v3">
     <!-- Animating Visual Algorithm Workflow Reel -->
-    <link rel="stylesheet" href="css/algorithm-reel.css?v=20261107-v3">
+    <link rel="stylesheet" href="css/algorithm-reel.css?v=20261112-seo">
     <!-- Uiverse.io Inspired Button Animations & Ashe-T GitHub Tooltip Component -->
-    <link rel="stylesheet" href="css/uiverse-buttons.css?v=20261107-v3">
+    <link rel="stylesheet" href="css/uiverse-buttons.css?v=20261112-seo">
     <!-- Tamil Nadu Agricultural Dataset Centre Styles -->
     <link rel="stylesheet" href="css/tn-datasets.css?v=20261107-v3">
     <!-- Tamil Nadu Agricultural Market Intelligence & Decision Support -->
@@ -39,11 +79,12 @@
       window.AGRITRACE_GOOGLE_CLIENT_ID = window.AGRITRACE_GOOGLE_CLIENT_ID || "";
     </script>
     <link rel="icon" type="image/svg+xml" href="assets/agritrace-icon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/agritrace-apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Blockchain-Based Farm-To-Market Traceability System">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://accounts.google.com https://*.infura.io https://rpc.sepolia.org wss:; frame-src https://accounts.google.com;">
+    <meta name="apple-mobile-web-app-title" content="AgriTrace">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdn.jsdelivr.net https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://translate.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://accounts.google.com https://*.infura.io https://rpc.sepolia.org https://sepolia.etherscan.io https://translate.googleapis.com https://translate-pa.googleapis.com http://localhost:4001 http://127.0.0.1:4001 http://localhost:8545 http://127.0.0.1:8545 wss:; frame-src https://accounts.google.com;">
 </head>
 
 
@@ -241,56 +282,56 @@
                 <ul class="example-2 floating-nav-faizuddinq-row" role="toolbar" aria-label="Actions and Tools">
                     <!-- Network Status Outlet -->
                     <li class="icon-content">
-                        <a href="javascript:void(0)" id="networkBadge" data-social="network" title="Click to Switch Network / Account" aria-label="Network Status">
+                        <button type="button" id="networkBadge" data-social="network" title="Click to Switch Network / Account" aria-label="Network Status">
                             <div class="filled"></div>
                             <span class="nav-btn-icon">🌐</span>
-                        </a>
+                        </button>
                         <div class="tooltip">Hardhat Local</div>
                     </li>
 
                     <!-- Camera Scan Outlet -->
                     <li class="icon-content">
-                        <a href="javascript:void(0)" id="openCameraBtn" data-social="camera" title="Scan Produce" aria-label="Scan Produce">
+                        <button type="button" id="openCameraBtn" data-social="camera" title="Scan Produce" aria-label="Scan Produce">
                             <div class="filled"></div>
                             <span class="nav-btn-icon">📸</span>
-                        </a>
+                        </button>
                         <div class="tooltip">Scan Produce</div>
                     </li>
 
                     <!-- QR Scanner Outlet -->
                     <li class="icon-content">
-                        <a href="javascript:void(0)" id="openQRScannerBtn" data-social="qr" title="Scan QR Code" aria-label="Scan QR Code">
+                        <button type="button" id="openQRScannerBtn" data-social="qr" title="Scan QR Code" aria-label="Scan QR Code">
                             <div class="filled"></div>
                             <span class="nav-btn-icon">⛶</span>
-                        </a>
+                        </button>
                         <div class="tooltip">QR Scanner</div>
                     </li>
 
                     <!-- Alerts Outlet -->
                     <li class="icon-content">
-                        <a href="javascript:void(0)" id="navAlertsBtn" class="alerts-btn" data-social="alerts" title="Alerts" aria-label="Alerts"
+                        <button type="button" id="navAlertsBtn" class="alerts-btn" data-social="alerts" title="Alerts" aria-label="Alerts"
                             onclick="document.getElementById('alertsPanel').classList.toggle('open')">
                             <div class="filled"></div>
                             <span class="nav-btn-icon">🔔</span>
-                        </a>
+                        </button>
                         <div class="tooltip">Alerts</div>
                     </li>
 
                     <!-- Connect Wallet Outlet -->
                     <li class="icon-content">
-                        <a href="javascript:void(0)" id="connectWalletBtn" data-social="wallet" title="Connect Wallet" aria-label="Connect Wallet">
+                        <button type="button" id="connectWalletBtn" data-social="wallet" title="Connect Wallet" aria-label="Connect Wallet">
                             <div class="filled"></div>
                             <span class="nav-btn-icon">👛</span>
-                        </a>
+                        </button>
                         <div class="tooltip" data-i18n="wallet_connect">Connect Wallet</div>
                     </li>
 
                     <!-- User Role Status Badge (Without Points) -->
                     <li class="icon-content" id="userAuthBadgeLi" style="display:none;">
-                        <a href="javascript:void(0)" id="userAuthBadge" data-social="user" title="User Portal Profile" aria-label="User Profile">
+                        <button type="button" id="userAuthBadge" data-social="user" title="User Portal Profile" aria-label="User Profile">
                             <div class="filled"></div>
                             <span id="userAuthRoleIcon" class="nav-btn-icon">👨‍🌾</span>
-                        </a>
+                        </button>
                         <div id="userAuthName" class="tooltip">Farmer</div>
                     </li>
                 </ul>
@@ -464,18 +505,24 @@
                 <article class="agritrace-algorithm-card" aria-label="AgriTrace Intelligent Algorithm">
                     <!-- 1. Algorithm Visual Poster & Protocol Architecture -->
                     <div class="algorithm-media-wrap">
-                        <img 
-                            src="assets/agritrace-algorithm-poster.png" 
-                            alt="AgriTrace Farm-to-Market Blockchain Traceability Algorithm Visual Architecture" 
-                            class="algorithm-poster-img" 
-                            loading="eager" />
+                        <picture>
+                            <source srcset="assets/agritrace-algorithm-poster.webp" type="image/webp" />
+                            <img 
+                                src="assets/agritrace-algorithm-poster.png" 
+                                alt="AgriTrace Farm-to-Market Blockchain Traceability Algorithm Visual Architecture" 
+                                width="1376"
+                                height="768"
+                                class="algorithm-poster-img" 
+                                loading="eager"
+                                fetchpriority="high" />
+                        </picture>
                         <div class="algorithm-media-overlay" aria-hidden="true">
                             <span class="media-live-badge">⛓ IMMUTABLE PROTOCOL</span>
                         </div>
                     </div>
 
                     <!-- 2. Heading -->
-                    <h3 class="algorithm-heading">AgriTrace Algorithm</h3>
+                    <h2 class="algorithm-heading">AgriTrace Algorithm</h2>
 
                     <!-- 3. Status Label -->
                     <div class="algorithm-status-badge">
@@ -575,7 +622,7 @@
                     </div>
 
                     <strong id="metricOnchain">
-                        CONNECTING...
+                        Sepolia / Hardhat
                     </strong>
 
                     <p>
@@ -602,7 +649,7 @@
                     </div>
 
                     <strong id="metricDatabase">
-                        CONNECTING...
+                        PostgreSQL Ready
                     </strong>
 
                     <p>
@@ -1178,7 +1225,7 @@
 
                 <div id="recordsState" class="records-state">
 
-                    Loading records...
+                    Verified Agricultural Produce Registry &mdash; Blockchain &amp; Off-Chain Traceability Lots
 
                 </div>
 
@@ -1225,7 +1272,33 @@
 
 
                         <tbody id="recordsBody">
-
+                            <tr>
+                                <td><strong>DEMO-AGR-0001</strong></td>
+                                <td>Alphonso Mango</td>
+                                <td>Salem, Tamil Nadu, India</td>
+                                <td>Verified Lot</td>
+                                <td>₹30.00 → ₹52.00</td>
+                                <td><span class="chain pending">Demo Off-Chain</span></td>
+                                <td>Traceable Batch Provenance</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DEMO-AGR-0002</strong></td>
+                                <td>Roma Tomato</td>
+                                <td>Hosur, Tamil Nadu, India</td>
+                                <td>Verified Lot</td>
+                                <td>₹19.00 → ₹36.00</td>
+                                <td><span class="chain pending">Demo Off-Chain</span></td>
+                                <td>Traceable Batch Provenance</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DEMO-AGR-0003</strong></td>
+                                <td>Guntur Chilli</td>
+                                <td>Guntur, Andhra Pradesh, India</td>
+                                <td>Verified Lot</td>
+                                <td>₹28.00 → ₹51.00</td>
+                                <td><span class="chain pending">Demo Off-Chain</span></td>
+                                <td>Traceable Batch Provenance</td>
+                            </tr>
                         </tbody>
 
                     </table>
@@ -1516,6 +1589,7 @@
                     <p>
                         Authoritative AGMARKNET & Regulated Markets (APMC) observation data across Tamil Nadu districts.
                         Compare modal prices with strict common observation dates, project 7-day trends, compute itemized net profit, and inspect live agro-met harvesting advisories.
+                        <a href="mandi-prices.html" style="color:#1e382c;font-weight:700;text-decoration:underline;margin-left:6px;">Open Dedicated Tamil Nadu Mandi Prices &amp; 15-Crop Benchmark Page →</a>
                     </p>
                 </div>
 
@@ -2136,7 +2210,7 @@
                         <option value="date-desc">Recently Updated</option>
                     </select>
                     <div id="tnDatasetCounter" style="font-size:13.5px;color:var(--muted);font-weight:600;margin-left:auto;">
-                        Showing 50 of 200 datasets
+                        Showing 24 of 200 datasets
                     </div>
                 </div>
 
@@ -2410,7 +2484,7 @@
                         </div>
                         <span class="card-status">ACTIVE</span>
                     </div>
-                    <div id="farmerInfo">Loading...</div>
+                    <div id="farmerInfo"><p style="color:var(--muted);font-size:14px;">Sign in to the Farmer Portal to manage crop batches, review verified buyer offers, and track AgriTrace rewards.</p></div>
                     <div style="margin-top:20px;">
                         <div id="farmerEarnings"></div>
                     </div>
@@ -2609,7 +2683,7 @@
                         </div>
                         <h3 class="uiverse-doc-title">Blockchain-Based Farm-to-Market Traceability System</h3>
                         <p class="uiverse-doc-desc">
-                            Complete 62-page Course Level Project Report submitted by Guru Prasanth S (9925009028), Leun Hammi D (99250040308), and Jeyaprasanna M (99250040310) under supervisor Dr. P. Chinnasamy. Features complete problem definition, literature review matrix (12+ research papers), system architecture, Solidity smart contracts, 10 functional modules, real implementation UI screenshots, empirical benchmarks, and IQAC quality certification.
+                            Complete 62-page Course Level Project Report by Guru Prasanth S, Leun Hammi D, and Jeyaprasanna M under supervisor Dr. P. Chinnasamy. Features problem definition, literature review matrix (12+ research papers), system architecture, Solidity smart contracts, 10 functional modules, real implementation UI screenshots, empirical benchmarks, and IQAC quality certification.
                         </p>
                     </div>
                     <div class="uiverse-doc-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -2617,8 +2691,8 @@
                             <span>👁️ View Report (62 Pages)</span>
                             <span>↗</span>
                         </button>
-                        <a href="report.html" target="_blank" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; border-color:#7B9B3A; color:#1e382c;" title="Open dedicated full 62-page reader site in new tab">
-                            <span>📑 Open Reader Site</span>
+                        <a href="report.html" target="_blank" rel="noopener noreferrer" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; border-color:#7B9B3A; color:#1e382c;" title="Read the complete 62-page AgriTrace CSE223 Project Report">
+                            <span>📑 Read Complete 62-Page Project Report</span>
                             <span>↗</span>
                         </a>
                         <a href="docs/AgriTrace_Project_Report.pdf" download="AgriTrace_Project_Report.pdf" onclick="downloadReportPDF(event)" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="display:inline-flex; align-items:center; gap:8px; border-color:#7B9B3A; color:#1e382c;">
@@ -2666,7 +2740,7 @@
             <div class="ppt-hud-top">
                 <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
                     <span style="background:#7B9B3A; color:#0b1e14; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:1px;">🌱 AGRITRACE • FULL SCREEN PRESENTATION</span>
-                    <h3 id="slideDeckModalTitle" style="margin:0; font-size:16px; font-weight:800; color:#ffffff; font-family:var(--font-heading, Georgia, serif);">AgriTrace Master Architecture &amp; Field Deployment</h3>
+                    <h3 id="slideDeckModalTitle" style="margin:0; font-size:16px; font-weight:800; color:#ffffff; font-family:var(--font-heading, Georgia, serif);">Presentation Deck: AgriTrace Master Architecture</h3>
                     <span id="slideIndicator" style="font-size:12.5px; font-weight:700; color:#a7f3d0; background:rgba(30,56,44,0.7); border:1px solid rgba(123,155,58,0.5); padding:3px 12px; border-radius:12px;">Slide 1 of 5</span>
                 </div>
 
@@ -2738,7 +2812,7 @@
             <div class="ppt-hud-top">
                 <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
                     <span style="background:#7B9B3A; color:#0b1e14; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:20px; letter-spacing:1px;">🌱 AGRITRACE • FULL REPORT VIEWER</span>
-                    <h3 id="reportDeckModalTitle" style="margin:0; font-size:16px; font-weight:800; color:#ffffff; font-family:var(--font-heading, Georgia, serif);">Blockchain-Based Farm-to-Market Traceability System</h3>
+                    <h3 id="reportDeckModalTitle" style="margin:0; font-size:16px; font-weight:800; color:#ffffff; font-family:var(--font-heading, Georgia, serif);">Full-Screen Reader: 62-Page Project Report</h3>
                     <span id="reportPageIndicator" style="font-size:12.5px; font-weight:700; color:#a7f3d0; background:rgba(30,56,44,0.7); border:1px solid rgba(123,155,58,0.5); padding:3px 12px; border-radius:12px;">Page 1 of 62</span>
                 </div>
 
@@ -2814,8 +2888,8 @@
 
                 <!-- Action Controls -->
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <a href="report.html" target="_blank" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; text-decoration:none; border-color:rgba(123,155,58,0.5); color:#ffffff; background:rgba(123,155,58,0.15);" title="Open complete 62-page reader site in dedicated tab">
-                        <span>📑 Open Standalone</span>
+                    <a href="report.html" target="_blank" rel="noopener noreferrer" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; text-decoration:none; border-color:rgba(123,155,58,0.5); color:#ffffff; background:rgba(123,155,58,0.15);" title="Open the complete 62-page AgriTrace project report page">
+                        <span>📑 Full 62-Page Report</span>
                         <span>↗</span>
                     </a>
                     <a href="docs/AgriTrace_Project_Report.pdf" download="AgriTrace_Project_Report.pdf" onclick="downloadReportPDF(event)" class="uiverse-doc-btn uiverse-doc-btn-secondary" style="padding:6px 14px; font-size:12.5px; font-weight:700; text-decoration:none; border-color:#7B9B3A; color:#ffffff; background:rgba(123,155,58,0.2);">
@@ -2932,12 +3006,16 @@
                     IoT Monitoring
                 </a>
 
+                <a href="mandi-prices.html">
+                    Tamil Nadu Mandi Prices
+                </a>
+
                 <a href="#datasets">
                     TN Datasets
                 </a>
 
-                <a href="#documentation">
-                    Research & Docs
+                <a href="report.html">
+                    62-Page Project Report
                 </a>
             </div>
 
@@ -3333,20 +3411,6 @@
                     </p>
                 </div>
 
-                <!-- Notice when viewing via direct file:/// protocol -->
-                <div id="fileUrlMetaMaskNotice" style="display:none;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:12px 16px;margin-bottom:16px;">
-                    <strong style="color:#fbbf24;font-size:13px;display:flex;align-items:center;gap:6px;">
-                        <span>💡</span> <span>Why MetaMask says "Not Detected" on this page:</span>
-                    </strong>
-                    <p style="font-size:12px;color:var(--white);margin:6px 0 8px 0;line-height:1.5;">
-                        You are opening the website directly via <code>file:///</code>. Chrome and Chromium browsers disable extensions on <code>file:///</code> URLs by default.
-                    </p>
-                    <div style="font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:5px;line-height:1.4;">
-                        <div>• <strong>Recommended:</strong> Open via local HTTP server: <a href="http://localhost:5500" target="_blank" style="color:var(--accent);text-decoration:underline;font-weight:700;">http://localhost:5500</a> or <a href="http://localhost:4001" target="_blank" style="color:var(--accent);text-decoration:underline;font-weight:700;">http://localhost:4001</a>.</div>
-                        <div>• <strong>Alternative:</strong> In Chrome, go to <code>chrome://extensions/</code> → MetaMask <strong>Details</strong> → toggle ON <strong>"Allow access to file URLs"</strong>.</div>
-                    </div>
-                </div>
-
                 <!-- Network Switching (MetaMask) -->
                 <div class="section-label" style="margin-bottom:10px;">METAMASK NETWORK SELECTOR</div>
                 <div class="network-switch-grid">
@@ -3475,7 +3539,7 @@
                     <div class="builder-avatar" style="width:72px;height:72px;font-size:26px;">GP</div>
                     <div>
                         <div class="builder-label">LEAD DEVELOPER & ARCHITECT</div>
-                        <h2 style="color:#ffffff;font-size:24px;font-weight:800;margin:0 0 4px 0;">GURU PRASANTH</h2>
+                        <h4 style="color:#ffffff;font-size:24px;font-weight:800;margin:0 0 4px 0;">GURU PRASANTH</h4>
                         <span style="display:inline-block;padding:3px 10px;background:rgba(57,255,136,0.15);border:1px solid var(--green);border-radius:999px;color:var(--green);font-size:11px;font-weight:700;">
                             Decentralized Web3 & IoT Architect
                         </span>
@@ -3547,30 +3611,30 @@
          ETHERS
          ===================================================== -->
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js" defer></script>
 
 
     <!-- =====================================================
          AGRITRACE BLOCKCHAIN
          ===================================================== -->
 
-    <script src="js/security.js"></script>
-    <script src="js/i18n.js?v=20261108-v1"></script>
-    <script src="js/blockchain.js?v=20261107-v3"></script>
+    <script src="js/security.js" defer></script>
+    <script src="js/i18n.js?v=20261108-v1" defer></script>
+    <script src="js/blockchain.js?v=20261107-v3" defer></script>
 
 
     <!-- =====================================================
          WALLET
          ===================================================== -->
 
-    <script src="js/wallet.js?v=20261107-v3"></script>
+    <script src="js/wallet.js?v=20261107-v3" defer></script>
 
 
     <!-- =====================================================
          MAIN APPLICATION
          ===================================================== -->
 
-    <script src="js/app.js?v=20261107-v3"></script>
+    <script src="js/app.js?v=20261107-v3" defer></script>
 
 
     <!-- =====================================================
@@ -3578,12 +3642,12 @@
          ===================================================== -->
 
     <!-- Tamil Nadu Agricultural Knowledge Base & Datasets -->
-    <script src="js/tnCropsData.js?v=20261107-v3"></script>
-    <script src="js/tnMarketData.js?v=20261107-v3"></script>
-    <script src="js/tnDatasets.js?v=20261107-v3"></script>
-    <script src="js/tnMarketIntelligence.js?v=20261107-v3"></script>
-    <script src="js/features.js?v=20261112-62p"></script>
-    <script src="js/auth_rewards.js?v=20261107-v3"></script>
+    <script src="js/tnCropsData.js?v=20261107-v3" defer></script>
+    <script src="js/tnMarketData.js?v=20261107-v3" defer></script>
+    <script src="js/tnDatasets.js?v=20261112-seo" defer></script>
+    <script src="js/tnMarketIntelligence.js?v=20261107-v3" defer></script>
+    <script src="js/features.js?v=20261112-seo" defer></script>
+    <script src="js/auth_rewards.js?v=20261107-v3" defer></script>
 
 
     <!-- =====================================================
@@ -3616,7 +3680,7 @@
             }
         }
     </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 
 
 
